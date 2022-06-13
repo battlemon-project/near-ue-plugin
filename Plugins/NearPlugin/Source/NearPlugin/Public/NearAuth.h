@@ -22,7 +22,7 @@ public:
 	~UNearAuth();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static bool RegistrationAccount(FString networkType, bool& bIsValid);
+	static bool RegistrationAccount(FString networkType);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool AuthorizedAccount(FString AccountId, FString networkType);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")

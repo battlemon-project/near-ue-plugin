@@ -13,9 +13,11 @@ UNearAuth::UNearAuth()
 
 UNearAuth::~UNearAuth()
 {
+	if (client != nullptr)
+		delete client;
 }
 
-bool UNearAuth::RegistrationAccount(FString networkType, bool& bIsValid)
+bool UNearAuth::RegistrationAccount(FString networkType)
 {
 	if (client != nullptr)
 		delete client;
