@@ -3,16 +3,67 @@
 #include "NearPlugin.h"
 
 #define LOCTEXT_NAMESPACE "FNearPluginModule"
+#include "Misc/Paths.h"
+
+DEFINE_LOG_CATEGORY(LogNear);
+#define HANDLE_WINDOWS "near_lib.dll"
+#define HANDLE_MAC "near_lib.dylib"
+#define HANDLE_LINUX "near_lib.so"
+
+#ifdef PLATFORM_WINDOWS
+#define HANDLE_PATH "/third_party/bin/" HANDLE_WINDOWS
+#elif PLATFORM_MAC
+#define HANDLE_PATH "/third_party/bin/" HANDLE_MAC
+#elif PLATFORM_LINUX
+#define HANDLE_PATH "/third_party/bin/" HANDLE_LINUX
+#else
+#error "Unknown platform"
+#endif
+
+
+AuthorizedRust FNearPluginModule::_AuthorizedRust = nullptr;
 
 void FNearPluginModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	FString NearAuthPath = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir()) + TEXT(HANDLE_PATH);
+	if (FPaths::FileExists(NearAuthPath))
+	{
+		NearRust = FPlatformProcess::GetDllHandle(*NearAuthPath);
+		if (NearRust != nullptr)
+		{
+			UE_LOG(LogNear, Display, TEXT("%s: Library Rust loaded successfuly!"), ANSI_TO_TCHAR(__FUNCTION__));
+
+			FString procName = "authorized";
+			_AuthorizedRust = (AuthorizedRust)FPlatformProcess::GetDllExport(NearRust, *procName);
+			if (_AuthorizedRust != nullptr)
+			{
+				UE_LOG(LogNear, Display, TEXT("%s: FAuthorized loaded successfuly!"), ANSI_TO_TCHAR(__FUNCTION__));
+			}
+			else
+			{
+				UE_LOG(LogNear, Error, TEXT("%s: Unable to locate handle_set_error_writer entry point!"), ANSI_TO_TCHAR(__FUNCTION__));
+				return;
+			}
+		}
+	}
+	else
+	{
+		UE_LOG(LogNear, Error, TEXT("%s: Unable to locate handle_set_error_writer entry point!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return;
+	}
 }
 
 void FNearPluginModule::ShutdownModule()
 {
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
+	if (NearRust != nullptr)
+	{
+		if (_AuthorizedRust != nullptr)
+		{
+			_AuthorizedRust = nullptr;
+		}
+		FPlatformProcess::FreeDllHandle(NearRust);
+		NearRust = nullptr;
+	}
 }
 
 #undef LOCTEXT_NAMESPACE
