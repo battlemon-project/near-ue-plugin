@@ -16,7 +16,7 @@ public:
 	v_dllHandle NearRust;
 	static AuthorizedRust _AuthorizedRust;
 
-	
+protected:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;

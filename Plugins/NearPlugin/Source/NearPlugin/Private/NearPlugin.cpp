@@ -11,11 +11,11 @@ DEFINE_LOG_CATEGORY(LogNear);
 #define HANDLE_LINUX "near_lib.so"
 
 #ifdef PLATFORM_WINDOWS
-#define HANDLE_PATH "/third_party/bin/" HANDLE_WINDOWS
+#define HANDLE_PATH "third_party/bin/" HANDLE_WINDOWS
 #elif PLATFORM_MAC
-#define HANDLE_PATH "/third_party/bin/" HANDLE_MAC
+#define HANDLE_PATH "third_party/bin/" HANDLE_MAC
 #elif PLATFORM_LINUX
-#define HANDLE_PATH "/third_party/bin/" HANDLE_LINUX
+#define HANDLE_PATH "third_party/bin/" HANDLE_LINUX
 #else
 #error "Unknown platform"
 #endif
@@ -67,5 +67,5 @@ void FNearPluginModule::ShutdownModule()
 }
 
 #undef LOCTEXT_NAMESPACE
-	
-IMPLEMENT_MODULE(FNearPluginModule, NearPlugin)
+
+IMPLEMENT_GAME_MODULE(FNearPluginModule, NearPlugin)
