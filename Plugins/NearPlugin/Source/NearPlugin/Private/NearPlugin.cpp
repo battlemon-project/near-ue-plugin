@@ -25,7 +25,7 @@ AuthorizedRust FNearPluginModule::_AuthorizedRust = nullptr;
 
 void FNearPluginModule::StartupModule()
 {
-	FString NearAuthPath = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir()) + TEXT(HANDLE_PATH);
+	FString NearAuthPath = FPaths::ConvertRelativePathToFull(FPaths::ProjectPluginsDir()) + "NearPlugin" + TEXT(HANDLE_PATH);
 	if (FPaths::FileExists(NearAuthPath))
 	{
 		NearRust = FPlatformProcess::GetDllHandle(*NearAuthPath);

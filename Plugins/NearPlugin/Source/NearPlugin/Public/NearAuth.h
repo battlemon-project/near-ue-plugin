@@ -16,6 +16,7 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	GENERATED_BODY()
 
 	static Client* client; 
+	static void freeClient();
 public:
 
 	UNearAuth();

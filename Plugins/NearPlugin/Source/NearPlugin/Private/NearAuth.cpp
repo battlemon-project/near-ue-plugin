@@ -7,21 +7,19 @@
 #include "NearAuthSaveGame.h"
 
 Client* UNearAuth::client = nullptr;
+
 UNearAuth::UNearAuth()
 {
 }
 
 UNearAuth::~UNearAuth()
 {
-	if (client != nullptr)
-		delete client;
+	freeClient();
 }
 
 bool UNearAuth::RegistrationAccount(FString networkType)
 {
-	if (client != nullptr)
-		delete client;
-
+	freeClient();
 	const char* network = TCHAR_TO_ANSI(*networkType);
 	client = new Client(network);
 	return client->IsValidAccount();
@@ -29,27 +27,13 @@ bool UNearAuth::RegistrationAccount(FString networkType)
 
 bool UNearAuth::AuthorizedAccount(FString AccountID, FString networkType)
 {
-	if (client != nullptr)
-		delete client;
+	freeClient();
 	const char* Account = TCHAR_TO_ANSI(*AccountID);
 	const char* network = TCHAR_TO_ANSI(*networkType);
 
 	client = new Client(Account, network);
 
-	FString rpcURL = "https://rpc." + networkType + ".near.org";
-	const char* rpcURLchr = TCHAR_TO_ANSI(*rpcURL);
-
-	size_t result = FNearPluginModule::_AuthorizedRust(client->GetPublicKey(), client->GetAccount(), rpcURLchr);
-	return result == 10;
-	/*
-	switch (result)
-	{
-	case :
-
-		break;
-	default:
-		break;
-	}*/
+	return client->IsValidAccount();
 }
 
 void UNearAuth::saveAccountId()
@@ -72,4 +56,13 @@ void UNearAuth::loadAccountId(FString& AccountId, FString networkType, bool& bIs
 		return;
 
 	bIsValid = AuthorizedAccount(AccountId, networkType);
+}
+
+void UNearAuth::freeClient()
+{
+	if (client != nullptr)
+	{
+		delete client;
+		client = nullptr;
+	}
 }

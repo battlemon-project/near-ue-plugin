@@ -3,3 +3,12 @@
 ################################################################################
 
 /Plugins/NearPlugin/Resources
+/Plugins/NearPlugin/Intermediate/Build/Win64/UE4Editor
+/Plugins/NearPlugin/Binaries/Win64
+/Intermediate
+/Content/third_party
+/Config
+/Binaries/Win64
+/.vs
+/Saved
+/Source

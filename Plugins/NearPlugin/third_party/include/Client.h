@@ -1,22 +1,21 @@
 #pragma once
-#include "EdKeys.h"
 
 class Client
 {
 	char* accountID;
 	const char* network;
-	EdKeysInterfase keyPair;
+	void* keyPair;
 
 	void RegistrKey();
-
+	bool AuthServiceClient();
 public:
 	Client(const char* accountID, const char* network);
 	Client(const char* network);
 	~Client();
 	Client() = delete;
-	char* GetPublicKey() const;
+	//char* GetPublicKey() const;
 	bool IsValidAccount() { return accountID != nullptr; };
-	bool IsValidKeys() { return keyPair.GetStrPubKey() != nullptr; };
+	bool IsValidKeys();
 	char* GetAccount() { return accountID; };
 };
 

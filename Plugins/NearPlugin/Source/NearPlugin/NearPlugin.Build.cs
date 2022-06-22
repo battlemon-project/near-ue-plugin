@@ -75,28 +75,70 @@ public class NearPlugin : ModuleRules
 
 			string LibrariesPathCryptlib = Path.Combine(ThirdPartyPath, "lib", "win64", "Release", "cryptopp");
 			//Console.WriteLine("... LibrariesPathCryptlib -> " + LibrariesPathCryptlib);
-			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCryptlib, "cryptlib.lib"));
-
 
 			string LibrariesPathCpp = Path.Combine(ThirdPartyPath, "lib", "win64", "Release", "NearCpp");
 			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "NearRPC.lib"));
 
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "libprotobuf.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "address_sorting.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "gpr.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "grpc.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "grpc++.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "upb.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_synchronization.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_graphcycles_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_base.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_civil_time.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_debugging_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_demangle_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_int128.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_log_severity.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_malloc_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_raw_logging_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_spinlock_wait.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_stacktrace.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_strings.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_strings_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_symbolize.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_throw_delegate.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_time.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_time_zone.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_city.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_bad_optional_access.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_bad_variant_access.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "cares.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_cord.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_cord_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_cordz_functions.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_cordz_handle.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_cordz_info.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "crypto.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_exponential_biased.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_hash.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_hashtablez_sampler.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_low_level_hash.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_distributions.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_platform.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_pool_urbg.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_randen.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_randen_hwaes.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_randen_hwaes_impl.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_randen_slow.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_internal_seed_material.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_seed_gen_exception.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_random_seed_sequences.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_raw_hash_set.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "re2.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "ssl.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_status.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_statusor.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_str_format_internal.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "zlibstatic.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "crypt32.lib"));
 
-			//cef
-			//string LibrariesPath = Path.Combine(ThirdPartyPath, "libcef_dll", "lib", "win64", "Release");
-			//PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "libcef.lib"));
-			//PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "libcef_dll_wrapper.lib"));
-			//PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "shared.lib"));
+			//RuntimeDepencies.Add(Path.Combine("$(TargetOutputDir)/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll"));
 
-			//PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "cef_sandbox.lib"));
-
-			//PublicDefinitions.AddRange(new string[]
-			//{
-			//"WIN32", "_WINDOWS", "NDEBUG", "__STDC_CONSTANT_MACROS", "__STDC_FORMAT_MACROS", "_WIN32", "UNICODE", "_KERNEL_MODE",
-			//"_UNICODE", "WINVER = 0x0601", "_WIN32_WINNT = 0x601", "NOMINMAX", "WIN32_LEAN_AND_MEAN", "_HAS_EXCEPTIONS = 0",
-			//"PSAPI_VERSION = 1", "CEF_USE_SANDBOX", "CEF_USE_ATL", "_NDEBUG", "CMAKE_INTDIR = \"Release\""
-			//});
 		}
 
 		if (isLibrarySupported)
