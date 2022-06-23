@@ -34,6 +34,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();
-
-	static bool rewriteKey(const char* pach);
 };

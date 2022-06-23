@@ -1,6 +1,5 @@
 #pragma once
 
-typedef bool(*Rewrite)(const char* path);
 
 class Client
 {
@@ -10,12 +9,12 @@ class Client
 	char* keyPub58;
 	char* error;
 
-	void RegistrKey(Rewrite _Rewrite);
+	void RegistrKey();
 	bool AuthServiceClient();
 public:
 
-	Client(const char* accountID, const char* network, Rewrite _Rewrite);
-	Client(const char* network, Rewrite _Rewrite);
+	Client(const char* accountID, const char* network);
+	Client(const char* network);
 	~Client();
 	Client() = delete;
 

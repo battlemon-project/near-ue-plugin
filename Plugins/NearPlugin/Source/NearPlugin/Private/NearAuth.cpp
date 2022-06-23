@@ -21,7 +21,7 @@ bool UNearAuth::RegistrationAccount(FString networkType)
 {
 	freeClient();
 	const char* network = TCHAR_TO_ANSI(*networkType);
-	client = new Client(network, UNearAuth::rewriteKey);
+	client = new Client(network);
 	return client->IsValidAccount();
 }
 
@@ -31,7 +31,7 @@ bool UNearAuth::AuthorizedAccount(FString AccountID, FString networkType)
 	const char* Account = TCHAR_TO_ANSI(*AccountID);
 	const char* network = TCHAR_TO_ANSI(*networkType);
 
-	client = new Client(Account, network, UNearAuth::rewriteKey);
+	client = new Client(Account, network);
 
 	return client->IsValidAccount();
 }
@@ -60,7 +60,9 @@ void UNearAuth::loadAccountId(FString& AccountId, FString networkType, bool& bIs
 
 void UNearAuth::CheckDLL()
 {
-	size_t res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), "testnet");
+	size_t res = 0;
+	if(client->IsValidAccount())
+		res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), "testnet");
 	if (res == 10)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Success!"));
@@ -74,13 +76,4 @@ void UNearAuth::freeClient()
 		delete client;
 		client = nullptr;
 	}
-}
-
-bool UNearAuth::rewriteKey(const char* pach)
-{
-	if (true)
-	{
-		return true;
-	}
-	return false;
 }
