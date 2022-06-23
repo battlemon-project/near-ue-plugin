@@ -15,9 +15,10 @@ class NEARPLUGIN_API UNearAuth : public UObject
 {
 	GENERATED_BODY()
 
-	static Client* client; 
 	static void freeClient();
 public:
+
+	static Client* client;
 
 	UNearAuth();
 	~UNearAuth();
@@ -30,5 +31,9 @@ public:
 	static void saveAccountId();
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static void loadAccountId(FString& AccountId, FString networkType, bool& bIsValid);
-	
+
+	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
+	static void CheckDLL();
+
+	static bool rewriteKey(const char* pach);
 };

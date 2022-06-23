@@ -1,5 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-using System;
+//using System;
 using System.IO;
 using UnrealBuildTool;
 
@@ -136,7 +136,7 @@ public class NearPlugin : ModuleRules
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "absl_str_format_internal.lib"));
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "zlibstatic.lib"));
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "crypt32.lib"));
-			Console.WriteLine("... near_lib.dll -> " + Path.Combine("$(TargetOutputDir)/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll"));
+			//Console.WriteLine("... near_lib.dll -> " + Path.Combine("$(TargetOutputDir)/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll"));
 
 #if UE_4_20_OR_LATER
 RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll"));
