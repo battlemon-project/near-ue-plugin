@@ -28,11 +28,10 @@ bool UNearAuth::RegistrationAccount(FString networkType, FString& AccountId)
 	return client->IsValidAccount();
 }
 
-bool UNearAuth::AuthorizedAccount(FString AccountID, FString networkType)
+bool UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
 	const char* Account = TCHAR_TO_ANSI(*AccountID);
-	const char* network = TCHAR_TO_ANSI(*networkType);
 
 	client = new Client(Account, true);
 
@@ -46,7 +45,7 @@ void UNearAuth::saveAccountId()
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "NearAuth", 0);
 }
 
-void UNearAuth::loadAccountId(FString& AccountId, FString networkType, bool& bIsValid)
+void UNearAuth::loadAccountId(FString& AccountId, bool& bIsValid)
 {
 	
 	if (!UGameplayStatics::DoesSaveGameExist("NearAuth", 0))
@@ -58,7 +57,7 @@ void UNearAuth::loadAccountId(FString& AccountId, FString networkType, bool& bIs
 	if (AccountId.IsEmpty())
 		return;
 
-	bIsValid = AuthorizedAccount(AccountId, networkType);
+	bIsValid = AuthorizedAccount(AccountId);
 }
 
 void UNearAuth::CheckDLL()

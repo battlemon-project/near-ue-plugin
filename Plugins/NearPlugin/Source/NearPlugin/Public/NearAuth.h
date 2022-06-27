@@ -26,11 +26,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool RegistrationAccount(FString networkType, FString& AccountId);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static bool AuthorizedAccount(FString AccountId, FString networkType);
+	static bool AuthorizedAccount(FString AccountId);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static void saveAccountId();
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static void loadAccountId(FString& AccountId, FString networkType, bool& bIsValid);
+	static void loadAccountId(FString& AccountId, bool& bIsValid);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool ClientIsValid();
 
