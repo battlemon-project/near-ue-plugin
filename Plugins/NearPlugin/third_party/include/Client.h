@@ -1,5 +1,11 @@
 #pragma once
 
+/*enum TypeInp
+{
+	AUTHORIZATION,
+	REGISTRATION,
+};
+*/
 
 class Client
 {
@@ -13,8 +19,7 @@ class Client
 	bool AuthServiceClient();
 public:
 
-	Client(const char* accountID, const char* network);
-	Client(const char* network);
+	Client(const char* inpText, bool type);
 	~Client();
 	Client() = delete;
 

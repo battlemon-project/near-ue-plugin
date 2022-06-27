@@ -21,7 +21,7 @@ bool UNearAuth::RegistrationAccount(FString networkType, FString& AccountId)
 {
 	freeClient();
 	const char* network = TCHAR_TO_ANSI(*networkType);
-	client = new Client(network);
+	client = new Client(network, false);
 	if (client->IsValidAccount())
 		AccountId = FString(client->GetAccount());
 
@@ -34,7 +34,7 @@ bool UNearAuth::AuthorizedAccount(FString AccountID, FString networkType)
 	const char* Account = TCHAR_TO_ANSI(*AccountID);
 	const char* network = TCHAR_TO_ANSI(*networkType);
 
-	client = new Client(Account, network);
+	client = new Client(Account, true);
 
 	return client->IsValidAccount();
 }
