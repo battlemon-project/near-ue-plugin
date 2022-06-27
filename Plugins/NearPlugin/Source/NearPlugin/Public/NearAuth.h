@@ -34,4 +34,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();
+	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
+	static FString GetError();
 };

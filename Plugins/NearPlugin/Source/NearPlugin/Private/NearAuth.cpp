@@ -69,6 +69,14 @@ void UNearAuth::CheckDLL()
 	}
 }
 
+FString UNearAuth::GetError()
+{
+	if(client->GetError() != nullptr)
+		return FString(client->GetError());
+
+	return "OK";
+}
+
 void UNearAuth::freeClient()
 {
 	if (client != nullptr)
