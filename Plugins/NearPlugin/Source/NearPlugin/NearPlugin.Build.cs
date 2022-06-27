@@ -65,45 +65,56 @@ public class NearPlugin : ModuleRules
 
 	public bool LoadCEFLib(ReadOnlyTargetRules Target)
 	{
-		bool isLibrarySupported = false;
-
+		string LibrariesPath = Path.Combine(ThirdPartyPath, "lib");
 		if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
 		{
-			isLibrarySupported = true;
-
-			//string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "x64" : "x86";
-
-			string LibrariesPathCryptlib = Path.Combine(ThirdPartyPath, "lib", "win64", "Release", "cryptopp");
 			//Console.WriteLine("... LibrariesPathCryptlib -> " + LibrariesPathCryptlib);
 
-			string LibrariesPathCpp = Path.Combine(ThirdPartyPath, "lib", "win64", "Release", "NearCpp");
+			string LibrariesPathPlatform = Path.Combine(LibrariesPath, ((Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32"), "Release");
 			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
-			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathCpp, "NearRPC.lib"));
-
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.lib"));
 #if UE_4_20_OR_LATER
 RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll"));
 #else
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll")));
+
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath, "near_lib.dll")));
 #endif
-
 		}
 
-		if (isLibrarySupported)
+		if (UnrealTargetPlatform.Mac)
 		{
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "Mac", "Release", "NearRPC.lib"));
 
-
-			string IncludePathCrypt = Path.Combine(ThirdPartyPath, "include", "cryptopp");
-			//Console.WriteLine("... IncludePathCrypt -> " + IncludePathCrypt);
-			PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
-			string IncludePath = Path.Combine(ThirdPartyPath, "include");
-			//Console.WriteLine("... IncludePath -> " + IncludePath);
-			PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
-			//cef
-			//string str = Path.Combine(ThirdPartyPath, "include");
-			//Console.WriteLine("... ThirdPartyPath -> " + str);
-			//PublicIncludePaths.Add("J:/source/UE4/Test2/third_party/include");
-			//PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
+#if UE_4_20_OR_LATER
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dylib", ThirdPartyPath, "/bin/near_lib.dylib"));
+#else
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dylib", ThirdPartyPath, "/bin/near_lib.dylib")));
+#endif
 		}
+
+
+		if ((Target.Platform == UnrealTargetPlatform.Linux) || (Target.Platform == UnrealTargetPlatform.LinuxAArch64))
+		{
+			//Console.WriteLine("... LibrariesPathCryptlib -> " + LibrariesPathCryptlib);
+
+			string LibrariesPathPlatform = Path.Combine(LibrariesPath, ((Target.Platform == UnrealTargetPlatform.LinuxAArch64) ? "LinuxAArch64" : "Linux"), "Release");
+			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.lib"));
+
+#if UE_4_20_OR_LATER
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so", ThirdPartyPath, "/bin/near_lib.so"));
+#else
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so", ThirdPartyPath, "/bin/near_lib.so")));
+#endif
+		}
+
+		string IncludePathCrypt = Path.Combine(ThirdPartyPath, "include", "cryptopp");
+		//Console.WriteLine("... IncludePathCrypt -> " + IncludePathCrypt);
+		PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
+		string IncludePath = Path.Combine(ThirdPartyPath, "include");
+		//Console.WriteLine("... IncludePath -> " + IncludePath);
+		PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
+		
 
 		return true;
 	}
