@@ -24,13 +24,16 @@ public:
 	~UNearAuth();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static bool RegistrationAccount(FString networkType);
+	static bool RegistrationAccount(FString networkType, FString& AccountId);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool AuthorizedAccount(FString AccountId, FString networkType);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static void saveAccountId();
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static void loadAccountId(FString& AccountId, FString networkType, bool& bIsValid);
+	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	static bool ClientIsValid();
+
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();

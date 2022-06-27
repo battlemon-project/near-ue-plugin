@@ -17,11 +17,14 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
-bool UNearAuth::RegistrationAccount(FString networkType)
+bool UNearAuth::RegistrationAccount(FString networkType, FString& AccountId)
 {
 	freeClient();
 	const char* network = TCHAR_TO_ANSI(*networkType);
 	client = new Client(network);
+	if (client->IsValidAccount())
+		AccountId = FString(client->GetAccount());
+
 	return client->IsValidAccount();
 }
 
@@ -84,4 +87,9 @@ void UNearAuth::freeClient()
 		delete client;
 		client = nullptr;
 	}
+}
+
+bool UNearAuth::ClientIsValid()
+{
+	return client->IsValidAccount();
 }
