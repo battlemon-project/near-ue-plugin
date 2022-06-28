@@ -10,7 +10,8 @@
 class Client
 {
 	char* accountID;
-	const char* network;
+	char* network;
+	char* sing;
 	void* keyPair;
 	char* keyPub58;
 	char* error;
@@ -28,5 +29,6 @@ public:
 	bool IsValidKeys();
 	char* GetAccount() { return accountID; };
 	char* GetError() { return error; };
+	bool VerifySing();
 };
 
