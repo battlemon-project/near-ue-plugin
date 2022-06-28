@@ -33,7 +33,8 @@ public:
 	static void loadAccountId(FString& AccountId, bool& bIsValid);
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool ClientIsValid();
-
+	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	static int VerifySing();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();

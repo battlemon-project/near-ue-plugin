@@ -1,11 +1,11 @@
 #pragma once
 
-/*enum TypeInp
+enum class TypeInp
 {
 	AUTHORIZATION,
 	REGISTRATION,
 };
-*/
+
 
 class Client
 {
@@ -20,7 +20,7 @@ class Client
 	bool AuthServiceClient();
 public:
 
-	Client(const char* inpText, bool type);
+	Client(const char* inpText, TypeInp type);
 	~Client();
 	Client() = delete;
 
@@ -29,6 +29,6 @@ public:
 	bool IsValidKeys();
 	char* GetAccount() { return accountID; };
 	char* GetError() { return error; };
-	bool VerifySing();
+	int VerifySing();
 };
 
