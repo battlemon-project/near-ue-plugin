@@ -98,7 +98,26 @@ bool UNearAuth::ClientIsValid()
 	return client->IsValidAccount();
 }
 
-int UNearAuth::VerifySing()
+FString UNearAuth::VerifySing()
 {
-	return client->VerifySing();
+	if (client != nullptr)
+	switch (client->VerifySing())
+	{
+	case 0:
+		return "OK";
+		break;
+	case 1:
+		return "EXPIRED";
+		break;
+	case 2:
+		return "INVALID_SIGN";
+		break;
+	case 3:
+		return "PK_NOT_FOUND";
+		break;
+	case 4:
+		return "PK_NOT_VERIFIED";
+		break;
+	}
+	return "client == nullptr";
 }

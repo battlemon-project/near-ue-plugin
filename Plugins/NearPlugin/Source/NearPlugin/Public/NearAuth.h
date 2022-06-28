@@ -37,7 +37,7 @@ public:
 	static bool ClientIsValid();
 	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static int VerifySing();
+	static FString VerifySing();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();
