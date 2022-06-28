@@ -16,7 +16,7 @@ class UNearAuthSaveGame : public USaveGame
 public:
 
 	UPROPERTY(VisibleAnywhere, Category = ".NearAuth")
-	FString AccountId;
+	TArray<FString> AccountsIds;
 
 	UNearAuthSaveGame();
 };
