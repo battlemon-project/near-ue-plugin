@@ -16,6 +16,7 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	GENERATED_BODY()
 
 	static void freeClient();
+	static void saveAccountId();
 public:
 
 	static Client* client;
@@ -25,18 +26,19 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool RegistrationAccount(FString networkType, FString& AccountId);
+	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool AuthorizedAccount(FString AccountId);
+	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static void saveAccountId();
-	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static void loadAccountId(FString& AccountId, bool& bIsValid);
+	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
+	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool ClientIsValid();
-
-
+	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();
+	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static FString GetError();
 };

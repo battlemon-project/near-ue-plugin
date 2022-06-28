@@ -23,8 +23,10 @@ bool UNearAuth::RegistrationAccount(FString networkType, FString& AccountId)
 	const char* network = TCHAR_TO_ANSI(*networkType);
 	client = new Client(network, false);
 	if (client->IsValidAccount())
+	{
 		AccountId = FString(client->GetAccount());
-
+		saveAccountId();
+	}
 	return client->IsValidAccount();
 }
 
@@ -34,30 +36,33 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 	const char* Account = TCHAR_TO_ANSI(*AccountID);
 
 	client = new Client(Account, true);
-
+	
+	if (client->IsValidAccount())
+		saveAccountId();
+	
 	return client->IsValidAccount();
 }
 
 void UNearAuth::saveAccountId()
 {
 	UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::CreateSaveGameObject(UNearAuthSaveGame::StaticClass()));
-	SaveGameInstance->AccountId = FString(client->GetAccount());
+	SaveGameInstance->AccountsIds.Insert(FString(client->GetAccount()),0);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "NearAuth", 0);
 }
 
-void UNearAuth::loadAccountId(FString& AccountId, bool& bIsValid)
+void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 {
-	
+	bIsValid = false;
 	if (!UGameplayStatics::DoesSaveGameExist("NearAuth", 0))
 		return;
 
-	UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::LoadGameFromSlot("NearAuth", 0));
-	AccountId = SaveGameInstance->AccountId;
+	const UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::LoadGameFromSlot("NearAuth", 0));
+	AccountsIds = SaveGameInstance->AccountsIds;
 
-	if (AccountId.IsEmpty())
+	if (AccountsIds.Num()<0)
 		return;
 
-	bIsValid = AuthorizedAccount(AccountId);
+	bIsValid = true;
 }
 
 void UNearAuth::CheckDLL()
