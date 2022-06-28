@@ -45,8 +45,15 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 
 void UNearAuth::saveAccountId()
 {
-	UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::CreateSaveGameObject(UNearAuthSaveGame::StaticClass()));
-	SaveGameInstance->AccountsIds.Insert(FString(client->GetAccount()),0);
+	UNearAuthSaveGame* SaveGameInstance;
+	FString AccountId = FString(client->GetAccount());
+	
+	if (!UGameplayStatics::DoesSaveGameExist("NearAuth", 0))
+		SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::CreateSaveGameObject(UNearAuthSaveGame::StaticClass()));
+	else
+		SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::LoadGameFromSlot("NearAuth", 0));
+    SaveGameInstance->AccountsIds.Remove(AccountId);
+	SaveGameInstance->AccountsIds.Insert(AccountId,0);
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "NearAuth", 0);
 }
 
