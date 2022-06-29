@@ -70,7 +70,7 @@ public class NearPlugin : ModuleRules
 		{
 			//Console.WriteLine("... LibrariesPathCryptlib -> " + LibrariesPathCryptlib);
 
-			string LibrariesPathPlatform = Path.Combine(LibrariesPath, ((Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32"), "Release");
+			string LibrariesPathPlatform = Path.Combine(LibrariesPath, ((Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32"));
 			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.lib"));
 #if UE_4_20_OR_LATER
