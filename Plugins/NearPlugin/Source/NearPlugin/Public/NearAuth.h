@@ -10,6 +10,8 @@
 /**
  * 
  */
+DECLARE_LOG_CATEGORY_EXTERN(LogNearAuth, Log, All);
+
 UCLASS()
 class NEARPLUGIN_API UNearAuth : public UObject
 {
@@ -35,6 +37,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
 	static bool ClientIsValid();
+	
+	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	static FString VerifySing();
 	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static void CheckDLL();

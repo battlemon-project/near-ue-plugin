@@ -15,5 +15,11 @@
 			"Name": "NearPlugin",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"AllDesktop",
+		"WindowsNoEditor",
+		"MacNoEditor",
+		"LinuxNoEditor"
 	]
 }
