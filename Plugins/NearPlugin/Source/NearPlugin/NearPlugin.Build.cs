@@ -36,7 +36,7 @@ public class NearPlugin : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
+				"Core", "OpenSSL"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -74,10 +74,10 @@ public class NearPlugin : ModuleRules
 			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.lib"));
 #if UE_4_20_OR_LATER
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath, "/bin/near_lib.dll"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dll"));
 #else
 
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath, "near_lib.dll")));
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dll")));
 #endif
 		}
 		if (Target.Platform == UnrealTargetPlatform.Mac)
@@ -85,9 +85,10 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "Mac", "Release", "NearRPC.lib"));
 
 #if UE_4_20_OR_LATER
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dylib", ThirdPartyPath, "/bin/near_lib.dylib"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dylib"));
 #else
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dylib", ThirdPartyPath, "/bin/near_lib.dylib")));
+
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dylib")));
 #endif
 		}
 
@@ -101,9 +102,9 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.a"));
 
 #if UE_4_20_OR_LATER
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so", ThirdPartyPath, "/bin/near_lib.so"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so",  ThirdPartyPath + "bin\\near_lib.so"));
 #else
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so", ThirdPartyPath, "/bin/near_lib.so")));
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so", ThirdPartyPath + "bin\\near_lib.so")));
 #endif
 		}
 
@@ -113,7 +114,7 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 		string IncludePath = Path.Combine(ThirdPartyPath, "include");
 		//Console.WriteLine("... IncludePath -> " + IncludePath);
 		PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
-		
+		AddEngineThirdPartyPrivateStaticDependencies(Target, "zlib");
 
 		return true;
 	}
