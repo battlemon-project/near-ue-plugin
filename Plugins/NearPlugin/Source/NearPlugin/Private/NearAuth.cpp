@@ -5,9 +5,12 @@
 #include <Kismet/GameplayStatics.h>
 #include "NearPlugin.h"
 #include "NearAuthSaveGame.h"
+
+
+#include <include/Client.h>
 DEFINE_LOG_CATEGORY(LogNearAuth);
 
-Client* UNearAuth::client = nullptr;
+static Client* client = nullptr;
 
 UNearAuth::UNearAuth()
 {

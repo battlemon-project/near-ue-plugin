@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include <include/Client.h>
 
 #include "NearAuth.generated.h"
 /**
@@ -20,8 +19,7 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	static void freeClient();
 	static void saveAccountId();
 public:
-
-	static Client* client;
+	
 
 	UNearAuth();
 	~UNearAuth();
