@@ -22,10 +22,12 @@ DEFINE_LOG_CATEGORY(LogNear);
 
 
 AuthorizedRust FNearPluginModule::_AuthorizedRust = nullptr;
+FString FNearPluginModule::path = "";
 
 void FNearPluginModule::StartupModule()
 {
 	FString NearAuthPath = FPaths::ConvertRelativePathToFull(FPaths::ProjectPluginsDir()) + "NearPlugin" + TEXT(HANDLE_PATH);
+	path = NearAuthPath;
 	if (FPaths::FileExists(NearAuthPath))
 	{
 		NearRust = FPlatformProcess::GetDllHandle(*NearAuthPath);

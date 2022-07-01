@@ -13,6 +13,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogNear, Log, All);
 class FNearPluginModule : public IModuleInterface
 {
 public:
+	static FString path;
 	v_dllHandle NearRust;
 	static AuthorizedRust _AuthorizedRust;
 

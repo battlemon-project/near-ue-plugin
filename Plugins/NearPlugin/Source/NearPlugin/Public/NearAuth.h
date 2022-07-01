@@ -42,7 +42,7 @@ public:
 	static FString VerifySing();
 	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
-	static void CheckDLL();
+	static FString CheckDLL();
 	
 	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
 	static FString GetError();

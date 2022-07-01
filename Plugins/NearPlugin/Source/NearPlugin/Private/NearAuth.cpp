@@ -66,15 +66,26 @@ void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 	bIsValid = true;
 }
 
-void UNearAuth::CheckDLL()
+FString UNearAuth::CheckDLL()
 {
 	size_t res = 0;
-	if(client->IsValidAccount())
-		res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), "testnet");
+	if (client != nullptr)
+	{
+		if (client->IsValidAccount())
+		{
+			if (FNearPluginModule::_AuthorizedRust != nullptr)
+				res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), "testnet");
+			else
+			{
+				return FNearPluginModule::path;
+			}
+		}
+	}
 	if (res == 10)
 	{
-		UE_LOG(LogNearAuth, Display, TEXT("%s: Success!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return "Success" + FNearPluginModule::path;
 	}
+	return FNearPluginModule::path + " error";
 }
 
 FString UNearAuth::GetError()
