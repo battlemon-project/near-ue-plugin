@@ -58,6 +58,8 @@ void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 		return;
 
 	const UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::LoadGameFromSlot("NearAuth", 0));
+	if (!SaveGameInstance->IsValidLowLevel())
+	    return;
 	AccountsIds = SaveGameInstance->AccountsIds;
 
 	if (AccountsIds.Num()<0)
