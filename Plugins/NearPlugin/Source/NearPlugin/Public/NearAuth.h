@@ -5,11 +5,14 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include <include/Client.h>
-
 #include "NearAuth.generated.h"
 /**
  * 
  */
+
+
+static Client* client = nullptr;
+
 DECLARE_LOG_CATEGORY_EXTERN(LogNearAuth, Log, All);
 
 UCLASS()
@@ -20,30 +23,27 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	static void freeClient();
 	static void saveAccountId();
 public:
-
-	static Client* client;
+	
 
 	UNearAuth();
 	~UNearAuth();
 
-	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static bool RegistrationAccount(FString networkType, FString& AccountId);
 	
-	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static bool AuthorizedAccount(FString AccountId);
 	
-	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
 	
-	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
+	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static bool ClientIsValid();
 	
-	UFUNCTION(BlueprintCallable, Category = ".NearAuth")
-	static FString VerifySing();
 	
-	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	static FString CheckDLL();
 	
-	UFUNCTION(BlueprintCallable, Category = ".NearAuthDebug")
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	static FString GetError();
 };

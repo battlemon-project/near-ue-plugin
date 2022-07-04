@@ -12,7 +12,7 @@ public class NearPlugin : ModuleRules
 
 	private string ThirdPartyPath
 	{
-		get { return Path.GetFullPath(Path.Combine(ModulePath, "../../third_party/")); }
+		get { return Path.GetFullPath(Path.Combine(ModulePath, "../../Content/third_party/")); }
 	}
 
 	public NearPlugin(ReadOnlyTargetRules Target) : base(Target)
@@ -36,7 +36,7 @@ public class NearPlugin : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "OpenSSL"
+				"Core", "WebSockets"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -73,7 +73,11 @@ public class NearPlugin : ModuleRules
 			string LibrariesPathPlatform = Path.Combine(LibrariesPath, ((Target.Platform == UnrealTargetPlatform.Win64) ? "Win64" : "Win32"));
 			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.lib"));
+
+			AdditionalCodeGenDirectories.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.lib"));
+
 #if UE_4_20_OR_LATER
+
 RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dll"));
 #else
 
@@ -108,14 +112,10 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 #endif
 		}
 
-		string IncludePathCrypt = Path.Combine(ThirdPartyPath, "include", "cryptopp");
-		//Console.WriteLine("... IncludePathCrypt -> " + IncludePathCrypt);
-		PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
-		string IncludePath = Path.Combine(ThirdPartyPath, "include");
-		//Console.WriteLine("... IncludePath -> " + IncludePath);
-		PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
+		
+		PrivateIncludePaths.Add(Path.Combine(ThirdPartyPath));
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "zlib");
-
+		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL"); 
 		return true;
 	}
 }
