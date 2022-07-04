@@ -9,6 +9,7 @@
 
 DEFINE_LOG_CATEGORY(LogNearAuth);
 
+Client* UNearAuth::client = nullptr;
 
 UNearAuth::UNearAuth()
 {
@@ -19,7 +20,7 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
-bool UNearAuth::RegistrationAccount(FString networkType, FString& AccountId)
+bool UNearAuth::RegistrationAccount(FString& AccountId, FString networkType)
 {
 	freeClient();
 	const char* network = TCHAR_TO_ANSI(*networkType);

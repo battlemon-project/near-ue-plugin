@@ -9,9 +9,13 @@
 /**
  * 
  */
+#ifdef UE_BUILD_DEBUG
+#define WEB_TYPE "testnet"
+#else
+#define WEB_TYPE "mainnet"
+#endif
 
 
-static Client* client = nullptr;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogNearAuth, Log, All);
 
@@ -22,14 +26,15 @@ class NEARPLUGIN_API UNearAuth : public UObject
 
 	static void freeClient();
 	static void saveAccountId();
+
 public:
-	
+	static Client* client;
 
 	UNearAuth();
 	~UNearAuth();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool RegistrationAccount(FString networkType, FString& AccountId);
+	static bool RegistrationAccount(FString& AccountId, FString networkType = "testnet"/*WEB_TYPE*/);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static bool AuthorizedAccount(FString AccountId);
