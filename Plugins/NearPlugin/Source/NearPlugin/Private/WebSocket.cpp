@@ -23,11 +23,14 @@ void UWebSocket::CreateWebSocet(FString Address)
 		if (client != nullptr)
 		{
 			UHeaders.Add("near_id", client->GetAccount());
-			UHeaders.Add("sign", client->GetSing());
+			FString sing = client->GetSing();
+			sing = sing.Replace(*sing, TEXT("\n"));
+			UHeaders.Add("sign", sing);
 		}
 		else
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "client == nullptr");
+			return;
 		}
 		WebSocket = FWebSocketsModule::Get().CreateWebSocket("wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test", "wss", UHeaders);
 
@@ -56,7 +59,3 @@ bool UWebSocket::IsConnected()
 	return WebSocket->IsConnected();
 }
 
-void UWebSocket::VerifySing()
-{
-	CreateWebSocet();
-}

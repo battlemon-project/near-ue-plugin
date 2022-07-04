@@ -7,10 +7,8 @@
 #include "NearAuthSaveGame.h"
 
 
-#include <include/Client.h>
 DEFINE_LOG_CATEGORY(LogNearAuth);
 
-static Client* client = nullptr;
 
 UNearAuth::UNearAuth()
 {
@@ -111,28 +109,4 @@ void UNearAuth::freeClient()
 bool UNearAuth::ClientIsValid()
 {
 	return client->IsValidAccount();
-}
-
-FString UNearAuth::VerifySing()
-{
-		if (client != nullptr)
-		switch (client->VerifySing())
-		{
-	case 0:
-		return "OK";
-			break;
-	case 1:
-		return "EXPIRED";
-			break;
-	case 2:
-		return "INVALID_SIGN";
-			break;
-	case 3:
-		return "PK_NOT_FOUND";
-			break;
-	case 4:
-		return "PK_NOT_VERIFIED";
-			break;
-		}
-		return "client == nullptr";
 }

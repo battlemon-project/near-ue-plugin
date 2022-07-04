@@ -27,13 +27,13 @@ public:
 
 	UWebSocket();
 	~UWebSocket();
+
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Verify")
 	void CreateWebSocet(FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Verify")
 	bool IsConnected();
-
-	UFUNCTION(BlueprintCallable, Category = ".Near | Verify")
-	void VerifySing();
 
 	UPROPERTY(BlueprintAssignable, Category = ".Near | Verify")
 	FWebSocketMessageDelegate OnMessageEvent;
