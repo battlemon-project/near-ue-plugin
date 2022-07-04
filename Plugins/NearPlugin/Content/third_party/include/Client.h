@@ -20,7 +20,7 @@ class Client
 	bool AuthServiceClient();
 public:
 
-	Client(const char* inpText, TypeInp type);
+	Client(const char* dir, const char* inpText, TypeInp type);
 	~Client();
 	Client() = delete;
 
