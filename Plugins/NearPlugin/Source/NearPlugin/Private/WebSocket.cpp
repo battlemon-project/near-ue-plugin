@@ -3,6 +3,8 @@
 #include "WebSocket.h"
 #include "NearAuth.h"
 
+
+
 UWebSocket::UWebSocket()
 {
 
@@ -20,11 +22,23 @@ void UWebSocket::CreateWebSocet(FString Address)
 			FModuleManager::Get().LoadModule("WebSockets");
 		}
 		TMap<FString, FString> UHeaders;
-		if (client != nullptr)
+		if (UNearAuth::client != nullptr)
 		{
-			UHeaders.Add("near_id", client->GetAccount());
-			FString sing = client->GetSing();
-			sing = sing.Replace(*sing, TEXT("\n"));
+			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
+
+			FString buff = UNearAuth::client->GetSing();
+			//FString dsf = "\n";
+			//FString sing = buff.Replace(*buff, *dsf);
+			FString sing;
+			char* chr = (char*)UNearAuth::client->GetSing();
+			while (*chr != '\0')
+			{
+				if (*chr != '\n')
+					sing += *chr;
+				chr++;
+			}
+
+
 			UHeaders.Add("sign", sing);
 		}
 		else
@@ -32,7 +46,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "client == nullptr");
 			return;
 		}
-		WebSocket = FWebSocketsModule::Get().CreateWebSocket("wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test", "wss", UHeaders);
+		WebSocket = FWebSocketsModule::Get().CreateWebSocket(Address, "wss", UHeaders);
 
 		WebSocket->OnMessage().AddLambda([&](FString MessageText)
 			{
