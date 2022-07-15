@@ -120,7 +120,6 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_cordz_functions.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_cordz_handle.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_cordz_info.a");
-			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libcrypto.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_exponential_biased.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_hash.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_hashtablez_sampler.a");
@@ -137,14 +136,12 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_random_seed_sequences.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_raw_hash_set.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libre2.a");
-			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libssl.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_status.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_statusor.a");
 			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libabsl_str_format_internal.a");
-			PublicAdditionalLibraries.Add("/Volumes/Samsung_T5/Projects/near-cpp-jsonrpc-client-master/packages/grpc-master/grpc/cmake/build/MLIbs/lib/libzlibstatic.a");
 
 
-			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "Mac", "Release", "NearRPC.a"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "MacOS", "NearRPC.a"));
 
 #if UE_4_20_OR_LATER
 RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dylib"));
