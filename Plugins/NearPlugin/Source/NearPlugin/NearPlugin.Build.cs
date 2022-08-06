@@ -86,7 +86,7 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 		}
 		if (Target.Platform == UnrealTargetPlatform.Mac)
 		{
-			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "MacOS", "Release", "libNearRPC.a"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "MacOS", "libNearRPC.a"));
 
 #if UE_4_20_OR_LATER
 RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dylib"));
