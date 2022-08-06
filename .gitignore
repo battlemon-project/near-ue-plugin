@@ -75,3 +75,6 @@ DerivedDataCache/*
 /.idea
 /Plugins/Developer
 /Content
+!/Plugins/NearPlugin/Content/third_party/lib/MacOS/libNearRPC.a
+!/Plugins/NearPlugin/Content/third_party/lib/Win32/NearPlugin.lib
+!/Plugins/NearPlugin/Content/third_party/lib/Win64/NearPlugin.lib
