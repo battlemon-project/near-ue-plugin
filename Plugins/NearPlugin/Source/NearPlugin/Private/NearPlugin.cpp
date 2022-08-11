@@ -10,7 +10,7 @@ DEFINE_LOG_CATEGORY(LogNear);
 #define HANDLE_MAC "near_lib.dylib"
 #define HANDLE_LINUX "near_lib.so"
 
-#ifdef PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 #define HANDLE_PATH "/Content/third_party/bin/" HANDLE_WINDOWS
 #elif PLATFORM_MAC
 #define HANDLE_PATH "/Content/third_party/bin/" HANDLE_MAC

@@ -9,14 +9,6 @@
 /**
  * 
  */
-#ifdef UE_BUILD_DEBUG
-#define WEB_TYPE "testnet"
-#else
-#define WEB_TYPE "mainnet"
-#endif
-
-
-
 
 
 UCLASS()

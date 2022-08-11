@@ -3,17 +3,18 @@
 #include "NearAuth.h"
 #include <Kismet/GameplayStatics.h>
 #include "NearPlugin.h"
+#include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
 
-#ifdef PLATFORM_WINDOWS
-#define TCHAR_TO_P TCHAR_TO_ANSI
-#elif PLATFORM_MAC
-#define TCHAR_TO_P (char16_t*)TCHAR_TO_UTF16
-#elif PLATFORM_LINUX
-#define TCHAR_TO_P TCHAR_TO_ANSI
+#if PLATFORM_WINDOWS
+#define WEBTYPE_M "mainnet"
+#define WEBTYPE_T "testnet"
+#define GET_CHARPTR(inp) TCHAR_TO_ANSI(*inp)
 #else
-#error "Unknown platform"
+#define WEBTYPE_M u"mainnet";
+#define WEBTYPE_T u"testnet"
+#define GET_CHARPTR(inp) *inp
 #endif
 
 Client* UNearAuth::client = nullptr;
@@ -31,13 +32,8 @@ bool UNearAuth::RegistrationAccount(FString& AccountId, bool MainNet)
 {
 	freeClient();
 
-	const char* network;
-	if (MainNet)
-		network = "mainnet";
-	else
-		network = "testnet";
+	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNet) ? WEBTYPE_M : WEBTYPE_T, TypeInp::REGISTRATION);
 
-	client = new Client(TCHAR_TO_P(FApp::GetProjectName()), network, TypeInp::REGISTRATION);
 	if (client->IsValidAccount())
 	{
 		AccountId = FString(client->GetAccount());
@@ -49,9 +45,8 @@ bool UNearAuth::RegistrationAccount(FString& AccountId, bool MainNet)
 bool UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
-	const char* Account = TCHAR_TO_P(*AccountID);
 
-	client = new Client(TCHAR_TO_P(FApp::GetProjectName()), Account, TypeInp::AUTHORIZATION);
+	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
 
 	if (client->IsValidAccount())
 		saveAccountId();
@@ -96,7 +91,7 @@ FString UNearAuth::CheckDLL()
 			}
 		}
 	}
-	if (res == 10)
+ 	if (res == 10)
 	{
 		return "Success" + FNearPluginModule::path;
 	}

@@ -1,9 +1,23 @@
 #pragma once
-#define DEBUG
 
-#ifdef __APPLE__
+#if PLATFORM_WINDOWS
+#define __APPLE__ 0
+#define _WIN32 1
+#define __linux__ 0
+#elif PLATFORM_MAC
+#define __APPLE__ 1
+#define _WIN32 0
+#define __linux__ 0
+#elif PLATFORM_LINUX
+#define __APPLE__ 0
+#define _WIN32 0
+#define __linux__ 1
+#endif
+
+
+#if __APPLE__
 #define TYPE_CHAR char16_t*
-#else
+#else _WIN32
 #define TYPE_CHAR char*
 #endif
 
@@ -16,9 +30,6 @@ enum class TypeInp
 
 class Client
 {
-#ifdef DEBUG
-	const TYPE_CHAR NameProgect;
-#endif
 	char* accountID;
 	char* network;
 	char* sing;
@@ -30,7 +41,7 @@ class Client
 	bool AuthServiceClient();
 public:
 
-	Client(const TYPE_CHAR NameProgect, const char* inpText, TypeInp type);
+	Client(const TYPE_CHAR dir, const TYPE_CHAR inpText, TypeInp type);
 
 	~Client();
 	Client() = delete;

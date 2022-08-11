@@ -25,24 +25,13 @@ void UWebSocket::CreateWebSocet(FString Address)
 		if (UNearAuth::client != nullptr)
 		{
 			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
-
-			FString buff = UNearAuth::client->GetSing();
-			//FString dsf = "\n";
-			//FString sing = buff.Replace(*buff, *dsf);
-			FString sing;
-			char* chr = (char*)UNearAuth::client->GetSing();
-			while (*chr != '\0')
-			{
-				if (*chr != '\n')
-					sing += *chr;
-				chr++;
-			}
-
-
+			FString sing = UNearAuth::client->GetSing();
 			UHeaders.Add("sign", sing);
 		}
 		else
 		{
+
+			OnErrorEvent.Broadcast("client == nullptr");
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "client == nullptr");
 			return;
 		}
