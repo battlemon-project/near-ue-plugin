@@ -7,8 +7,8 @@
 
 DEFINE_LOG_CATEGORY(LogNear);
 #define HANDLE_WINDOWS "near_lib.dll"
-#define HANDLE_MAC "near_lib.dylib"
-#define HANDLE_LINUX "near_lib.so"
+#define HANDLE_MAC "libnear_lib.dylib"
+#define HANDLE_LINUX "libnear_lib.so"
 
 #if PLATFORM_WINDOWS
 #define HANDLE_PATH "/Content/third_party/bin/" HANDLE_WINDOWS
