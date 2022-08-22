@@ -89,10 +89,10 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "MacOS", "libNearRPC.a"));
 
 #if UE_4_20_OR_LATER
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dylib"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\libnear_lib.dylib"));
 #else
 
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dylib")));
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_lib.dylib", ThirdPartyPath + "bin\\libnear_lib.dylib")));
 #endif
 		}
 
