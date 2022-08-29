@@ -3,7 +3,7 @@
 #include "WebSocket.h"
 #include "NearAuth.h"
 
-
+DEFINE_LOG_CATEGORY(WebSocketLog);
 
 UWebSocket::UWebSocket()
 {
@@ -25,43 +25,33 @@ void UWebSocket::CreateWebSocet(FString Address)
 		if (UNearAuth::client != nullptr)
 		{
 			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
-
-			FString buff = UNearAuth::client->GetSing();
-			//FString dsf = "\n";
-			//FString sing = buff.Replace(*buff, *dsf);
-			FString sing;
-			char* chr = (char*)UNearAuth::client->GetSing();
-			while (*chr != '\0')
-			{
-				if (*chr != '\n')
-					sing += *chr;
-				chr++;
-			}
-
-
+			FString sing = UNearAuth::client->GetSing();
 			UHeaders.Add("sign", sing);
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "client == nullptr");
+
+			OnErrorEvent.Broadcast("client == nullptr");
+			UE_LOG(WebSocketLog, Display, TEXT("client == nullptr"));
 			return;
 		}
 		WebSocket = FWebSocketsModule::Get().CreateWebSocket(Address, "wss", UHeaders);
 
 		WebSocket->OnMessage().AddLambda([&](FString MessageText)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, "Received message: " + MessageText);
+				UE_LOG(WebSocketLog, All, TEXT("Received message: %s"), *MessageText);
 				OnMessageEvent.Broadcast(MessageText);
 			});
 
 		WebSocket->OnConnected().AddLambda([&]()
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Successfully connected");
+			UE_LOG(WebSocketLog, All, TEXT("Successfully connected"));
+				
 				OnConnectedEvent.Broadcast();
 			});
 		WebSocket->OnConnectionError().AddLambda([&](FString error)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, error);
+				UE_LOG(WebSocketLog, All, TEXT("Received message: %s"), *error);
 				OnErrorEvent.Broadcast(error);
 			});
 	}

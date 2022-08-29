@@ -12,6 +12,8 @@
 /**
  * 
  */
+DECLARE_LOG_CATEGORY_EXTERN(WebSocketLog, Error, All);
+ 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWebSocketMessageDelegate, const FString&, MessageString);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWebSocketConnectedDelegate);
 
