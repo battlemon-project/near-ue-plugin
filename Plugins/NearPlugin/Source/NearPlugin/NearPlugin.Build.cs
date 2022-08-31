@@ -1,5 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-//using System;
+using System;
 using System.IO;
 using UnrealBuildTool;
 
@@ -78,10 +78,10 @@ public class NearPlugin : ModuleRules
 
 #if UE_4_20_OR_LATER
 
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dll"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_Rust.dll", ThirdPartyPath + "bin\\near_Rust.dll"));
 #else
 
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\near_lib.dll")));
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_Rust.dll", ThirdPartyPath + "bin\\near_Rust.dll")));
 #endif
 		}
 		if (Target.Platform == UnrealTargetPlatform.Mac)
@@ -89,11 +89,10 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, "MacOS", "libNearRPC.a"));
 
 #if UE_4_20_OR_LATER
-
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.dll", ThirdPartyPath + "bin\\libnear_lib.dylib"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_Rust.dylib", ThirdPartyPath + "bin\\libnear_Rust.dylib"));
 #else
 
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_lib.dylib", ThirdPartyPath + "bin\\libnear_lib.dylib")));
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_Rust.dylib", ThirdPartyPath + "bin\\libnear_Rust.dylib")));
 #endif
 		}
 
@@ -103,13 +102,14 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_li
 			//Console.WriteLine("... LibrariesPathCryptlib -> " + LibrariesPathCryptlib);
 
 			string LibrariesPathPlatform = Path.Combine(LibrariesPath, ((Target.Platform == UnrealTargetPlatform.LinuxAArch64) ? "LinuxAArch64" : "Linux"), "Release");
-			//Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPathCpp);
+			Console.WriteLine("... LibrariesPathCpp -> " + LibrariesPath);
 			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "NearRPC.a"));
 
+			Console.WriteLine("... TargetOutputDir -> " + Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_Rust.so", ThirdPartyPath + "bin\\libnear_Rust.so"));
 #if UE_4_20_OR_LATER
-RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so",  ThirdPartyPath + "bin\\near_lib.so"));
+RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_Rust.so",  ThirdPartyPath + "bin\\libnear_Rust.so"));
 #else
-			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/near_lib.so", ThirdPartyPath + "bin\\near_lib.so")));
+			RuntimeDependencies.Add(new RuntimeDependency(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_Rust.so", ThirdPartyPath + "bin\\libnear_Rust.so")));
 #endif
 		}
 

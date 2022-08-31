@@ -10,10 +10,12 @@
 #if PLATFORM_WINDOWS
 #define WEBTYPE_M "mainnet"
 #define WEBTYPE_T "testnet"
+#define RPC_RUST "testnet"
 #define GET_CHARPTR(inp) TCHAR_TO_ANSI(*inp)
 #else
-#define WEBTYPE_M u"mainnet";
+#define WEBTYPE_M u"mainnet"
 #define WEBTYPE_T u"testnet"
+#define RPC_RUST "https://rpc.testnet.near.org"
 #define GET_CHARPTR(inp) *inp
 #endif
 
@@ -84,7 +86,7 @@ FString UNearAuth::CheckDLL()
 		if (client->IsValidAccount())
 		{
 			if (FNearPluginModule::_AuthorizedRust != nullptr)
-				res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), "testnet");
+				res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), RPC_RUST);
 			else
 			{
 				return FNearPluginModule::path;
