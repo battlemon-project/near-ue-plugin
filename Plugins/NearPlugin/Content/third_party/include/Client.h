@@ -1,5 +1,4 @@
 #pragma once
-
 #if PLATFORM_WINDOWS
 #define __APPLE__ 0
 #define _WIN32 1
@@ -11,15 +10,89 @@
 #elif PLATFORM_LINUX
 #define __APPLE__ 0
 #define _WIN32 0
-#define __linux__ 1
+#define __linux__ 1=
 #endif
 
+#if __linux__
+#define _GLIBCXX_USE_CXX11_ABI 0
+#endif
 
 #if __APPLE__
 #define TYPE_CHAR char16_t*
-#else _WIN32
+#else
 #define TYPE_CHAR char*
 #endif
+
+
+namespace ModelItems
+{
+	enum OutfitKind
+	{
+		CAP = 0,
+		CLOTH = 1,
+		FIRE_ARM = 2,
+		COLD_ARM = 3,
+		BACK = 4,
+		DEFAULT = 5
+	};
+
+	struct OutfitModel
+	{
+		char* flavour = nullptr;
+		char* token_id = nullptr;
+		OutfitKind kind;
+		~OutfitModel();
+	};
+
+	struct LemonModel
+	{
+		OutfitModel cap;
+		OutfitModel cloth;
+		char* exo = nullptr;
+		char* eyes = nullptr;
+		char* head = nullptr;
+		char* teeth = nullptr;
+		char* face = nullptr;
+		OutfitModel fire_arm;
+		OutfitModel cold_arm;
+		OutfitModel back;
+		~LemonModel();
+	};
+
+	struct Item
+	{
+		char* token_id = nullptr;
+		char* media = nullptr;
+		char* owner_id = nullptr;
+		LemonModel lemon;
+		OutfitModel outfit;
+		~Item();
+	};
+
+}
+
+class ItemsList
+{
+	ModelItems::Item* items;
+public:
+
+	const int size;
+	ItemsList(ModelItems::Item* &items, int size);
+	ItemsList() = delete;
+	~ItemsList();
+
+	ModelItems::Item& getItem(int id);
+};
+
+// повторяет структуру message PlayerItems
+struct PlayerItemsClient
+{
+	char** near_id = nullptr;
+	char*** items = nullptr;
+	int players_items_size;
+	int nft_ids_size;
+	~PlayerItemsClient();
+};
 
 enum class TypeInp
 {
@@ -32,7 +105,7 @@ class Client
 {
 	char* accountID;
 	char* network;
-	char* sing;
+	char* sign;
 	void* keyPair;
 	char* keyPub58;
 	char* error;
@@ -51,6 +124,10 @@ public:
 	bool IsValidKeys();
 	char* GetAccount() { return accountID; };
 	char* GetError() { return error; };
-	const char* GetSing(){ return sing; };
+	const char* GetSing(){ return sign; };
+
+	PlayerItemsClient gRPC_getPlayerItems(const TYPE_CHAR room_id, int number_of_near_ids, const TYPE_CHAR* near_ids);
+	void gRPC_SetMyItems(const TYPE_CHAR room_id, int number_of_nft_ids, const TYPE_CHAR* nft_ids);
+	ItemsList gRPC_GetItems();
 };
 
