@@ -126,7 +126,7 @@ public:
 	char* GetError() { return error; };
 	const char* GetSing(){ return sign; };
 
-	PlayerItemsClient gRPC_getPlayerItems(const TYPE_CHAR room_id, int number_of_near_ids, const TYPE_CHAR* near_ids);
+	void gRPC_getPlayerItems(const TYPE_CHAR room_id, int number_of_near_ids, const TYPE_CHAR* near_ids, PlayerItemsClient& playerItemsClient);
 	void gRPC_SetMyItems(const TYPE_CHAR room_id, int number_of_nft_ids, const TYPE_CHAR* nft_ids);
 	ItemsList gRPC_GetItems();
 };

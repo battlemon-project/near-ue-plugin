@@ -25,11 +25,11 @@ USTRUCT(BlueprintType)
 struct FUOutfitModel
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString flavour;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString token_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitKind kind;
 };
 
@@ -37,25 +37,25 @@ USTRUCT(BlueprintType)
 struct FULemonModel
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel cap;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel cloth;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString exo;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString eyes;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString head;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString teeth;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString face;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel fire_arm;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel cold_arm;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel back;
 };
 
@@ -64,15 +64,15 @@ USTRUCT(BlueprintType)
 struct FUItem
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString token_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString media;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString owner_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FULemonModel lemon;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel outfit;
 };
 
@@ -81,11 +81,11 @@ struct FUPlayerItemsClient
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString near_id;				//	PlayerItems
 	//UPROPERTY(BlueprintReadWrite)
 	//TMap<FString, TArray<FString>> nft_ids; //	PlayerItems = <near_id, repeated string nft_ids> 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	TArray<FString> nft_idsArr;
 };
 

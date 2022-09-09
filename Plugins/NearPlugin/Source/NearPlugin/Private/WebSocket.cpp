@@ -25,8 +25,8 @@ void UWebSocket::CreateWebSocet(FString Address)
 		if (UNearAuth::client != nullptr)
 		{
 			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
-			FString sing = UNearAuth::client->GetSing();
-			UHeaders.Add("sign", sing);
+			FString sign = UNearAuth::client->GetSing();
+			UHeaders.Add("sign", sign);
 		}
 		else
 		{
