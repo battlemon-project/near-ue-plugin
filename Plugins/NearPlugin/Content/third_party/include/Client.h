@@ -67,7 +67,7 @@ class Client
 	char* error;
 
 	void RegistrKey();
-	bool AuthServiceClient();
+	bool AuthServiceClient(TypeInp type);
 public:
 
 	Client(const TYPE_CHAR* dir, const TYPE_CHAR* inpText, TypeInp type);
