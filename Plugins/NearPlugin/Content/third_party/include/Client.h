@@ -1,4 +1,5 @@
 #pragma once
+#include "include/ModelItem.h"
 #if PLATFORM_WINDOWS
 #define __APPLE__ 0
 #define _WIN32 1
@@ -18,58 +19,12 @@
 #endif
 
 #if __APPLE__
-#define TYPE_CHAR char16_t*
+#define TYPE_CHAR char16_t
 #else
-#define TYPE_CHAR char*
+#define TYPE_CHAR char
 #endif
 
 
-namespace ModelItems
-{
-	enum OutfitKind
-	{
-		CAP = 0,
-		CLOTH = 1,
-		FIRE_ARM = 2,
-		COLD_ARM = 3,
-		BACK = 4,
-		DEFAULT = 5
-	};
-
-	struct OutfitModel
-	{
-		char* flavour = nullptr;
-		char* token_id = nullptr;
-		OutfitKind kind;
-		~OutfitModel();
-	};
-
-	struct LemonModel
-	{
-		OutfitModel cap;
-		OutfitModel cloth;
-		char* exo = nullptr;
-		char* eyes = nullptr;
-		char* head = nullptr;
-		char* teeth = nullptr;
-		char* face = nullptr;
-		OutfitModel fire_arm;
-		OutfitModel cold_arm;
-		OutfitModel back;
-		~LemonModel();
-	};
-
-	struct Item
-	{
-		char* token_id = nullptr;
-		char* media = nullptr;
-		char* owner_id = nullptr;
-		LemonModel lemon;
-		OutfitModel outfit;
-		~Item();
-	};
-
-}
 
 class ItemsList
 {
@@ -78,6 +33,7 @@ public:
 
 	const int size;
 	ItemsList(ModelItems::Item* &items, int size);
+	ItemsList(const ItemsList& itemsList);
 	ItemsList() = delete;
 	~ItemsList();
 
@@ -114,7 +70,7 @@ class Client
 	bool AuthServiceClient();
 public:
 
-	Client(const TYPE_CHAR dir, const TYPE_CHAR inpText, TypeInp type);
+	Client(const TYPE_CHAR* dir, const TYPE_CHAR* inpText, TypeInp type);
 
 	~Client();
 	Client() = delete;
@@ -126,8 +82,8 @@ public:
 	char* GetError() { return error; };
 	const char* GetSing(){ return sign; };
 
-	void gRPC_getPlayerItems(const TYPE_CHAR room_id, int number_of_near_ids, const TYPE_CHAR* near_ids, PlayerItemsClient& playerItemsClient);
-	void gRPC_SetMyItems(const TYPE_CHAR room_id, int number_of_nft_ids, const TYPE_CHAR* nft_ids);
+	void gRPC_getPlayerItems(const TYPE_CHAR* room_id, int number_of_near_ids, const TYPE_CHAR** near_ids, PlayerItemsClient& playerItemsClient);
+	void gRPC_SetMyItems(const TYPE_CHAR* room_id, int number_of_nft_ids, const TYPE_CHAR** nft_ids);
 	ItemsList gRPC_GetItems();
 };
 
