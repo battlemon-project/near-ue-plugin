@@ -11,17 +11,17 @@
 #elif PLATFORM_LINUX
 #define __APPLE__ 0
 #define _WIN32 0
-#define __linux__ 1=
+#define __linux__ 1
 #endif
 
 #if __linux__
 #define _GLIBCXX_USE_CXX11_ABI 0
 #endif
 
-#if __APPLE__
-#define TYPE_CHAR char16_t
-#else
+#if _WIN32
 #define TYPE_CHAR char
+#else
+#define TYPE_CHAR char16_t
 #endif
 
 
@@ -66,8 +66,6 @@ class Client
 	char* keyPub58;
 	char* error;
 
-	void RegistrKey();
-	bool AuthServiceClient(TypeInp type);
 public:
 
 	Client(const TYPE_CHAR* dir, const TYPE_CHAR* inpText, TypeInp type);
@@ -85,5 +83,8 @@ public:
 	void gRPC_getPlayerItems(const TYPE_CHAR* room_id, int number_of_near_ids, const TYPE_CHAR** near_ids, PlayerItemsClient& playerItemsClient);
 	void gRPC_SetMyItems(const TYPE_CHAR* room_id, int number_of_nft_ids, const TYPE_CHAR** nft_ids);
 	ItemsList gRPC_GetItems();
+
+	bool AuthServiceClient();
+	void saveKey(const TYPE_CHAR* dir);
 };
 

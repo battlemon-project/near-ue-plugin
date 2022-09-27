@@ -3,9 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "Engine/GameInstance.h"
+#include "Http.h"
 #include <include/Client.h>
 #include "NearAuth.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FResultNearAuth_Delegate, FString, AccountID, bool, status);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearRegist_Delegate, bool, status);
+
+#if PLATFORM_WINDOWS
+#define WEBTYPE_M "mainnet"
+#define WEBTYPE_T "testnet"
+#define RPC_RUST "testnet"
+#define GET_CHARPTR(inp) TCHAR_TO_ANSI(*inp)
+#else
+#define WEBTYPE_M u"mainnet"
+#define WEBTYPE_T u"testnet"
+#define RPC_RUST "https://rpc.testnet.near.org"
+#define GET_CHARPTR(inp) *inp
+#endif
 /**
  * 
  */
@@ -89,26 +105,50 @@ struct FUPlayerItemsClient
 	TArray<FString> nft_idsArr;
 };
 
+
 UCLASS()
-class NEARPLUGIN_API UNearAuth : public UObject
+class NEARPLUGIN_API UNearAuth : public	UGameInstance
 {
 	GENERATED_BODY()
 
-	static void freeClient();
-	static void saveAccountId();
+	FString AccountID;
+	FString top_contract_id;
+	FString nft_contract_id;
+	FString market_contract_id;
+
+	void freeClient();
+	void saveAccountId();
+	FTimerHandle TriggerTimerHandle;
+
+	void TriggerDestroyAuth();
+	void TriggerDestroyRegist();
+
+	void OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
+	void OnResponseReceived();
+	bool CheckAccountKey(FString AccountName);
 
 public:
+
 	static Client* client;
 
 	UNearAuth();
 	~UNearAuth();
 
 
+	UPROPERTY(BlueprintAssignable)
+	FResultNearAuth_Delegate ResultNearAuth_Delegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FResultNearRegist_Delegate ResultNearRegist_Delegate;
+
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool RegistrationAccount(FString& AccountId, bool MainNet = false);
-	
+	void RegistrationAccount(FString AccountName, float setTimer = 1.0f, bool MainNet = false);
+
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool AuthorizedAccount(FString AccountId);
+	void ContractSaveKey();
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
+	void AuthorizedAccount(FString AccountName, float setTimer = 1.0f);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
@@ -124,9 +164,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | ItemsProto")
 	static TArray<FUItem> getItems();
-	
-	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	static FString CheckDLL();
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	static FString GetError();

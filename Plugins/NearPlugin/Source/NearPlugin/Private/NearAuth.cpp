@@ -7,17 +7,8 @@
 #include "NearAuthSaveGame.h"
 
 
-#if PLATFORM_WINDOWS
-#define WEBTYPE_M "mainnet"
-#define WEBTYPE_T "testnet"
-#define RPC_RUST "testnet"
-#define GET_CHARPTR(inp) TCHAR_TO_ANSI(*inp)
-#else
-#define WEBTYPE_M u"mainnet"
-#define WEBTYPE_T u"testnet"
-#define RPC_RUST "https://rpc.testnet.near.org"
-#define GET_CHARPTR(inp) *inp
-#endif
+#define REDIRECT "https://game.battlemon.com/near"
+//#define REDIRECT ""
 
 Client* UNearAuth::client = nullptr;
 
@@ -30,30 +21,80 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
-bool UNearAuth::RegistrationAccount(FString& AccountId, bool MainNet)
+void UNearAuth::TriggerDestroyAuth()
 {
-	freeClient();
-
-	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNet) ? WEBTYPE_M : WEBTYPE_T, TypeInp::REGISTRATION);
-
-	if (client->IsValidAccount())
+	if (client->AuthServiceClient())
 	{
-		AccountId = FString(client->GetAccount());
-		saveAccountId();
+		GetWorld()->GetTimerManager().ClearTimer(TriggerTimerHandle);
+		ResultNearAuth_Delegate.Broadcast(FString(client->GetAccount()), true);
 	}
-	return client->IsValidAccount();
+	ResultNearAuth_Delegate.Broadcast("NULL", false);
 }
 
-bool UNearAuth::AuthorizedAccount(FString AccountID)
+void UNearAuth::TriggerDestroyRegist()
 {
-	freeClient();
+	if (CheckAccountKey(this->AccountID))
+	{
+		client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 
+		if (client->IsValidAccount())
+			saveAccountId();
+
+		ContractSaveKey();
+
+		GetWorld()->GetTimerManager().ClearTimer(TriggerTimerHandle);
+		ResultNearRegist_Delegate.Broadcast(true);
+	}
+	ResultNearRegist_Delegate.Broadcast(false);
+}
+
+void UNearAuth::OnResponseReceived()
+{
+	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
+	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnGetRequest);
+	Request->SetURL("https://api.battlemon.com/rest/contracts");
+	Request->SetVerb("GET");
+	Request->ProcessRequest();
+}
+
+void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
+{
+	TSharedPtr<FJsonObject> ResponseObj;
+	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+	FJsonSerializer::Deserialize(Reader, ResponseObj);
+
+	UE_LOG(LogTemp, Display, TEXT("Response %s"), *Response->GetContentAsString());
+	UE_LOG(LogTemp, Display, TEXT("top_contract_id: %s"), *ResponseObj->GetStringField("top_contract_id"));
+	UE_LOG(LogTemp, Display, TEXT("nft_contract_id: %s"), *ResponseObj->GetStringField("nft_contract_id"));
+	UE_LOG(LogTemp, Display, TEXT("market_contract_id: %s"), *ResponseObj->GetStringField("market_contract_id"));
+
+	top_contract_id = ResponseObj->GetStringField("top_contract_id");
+	nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
+	market_contract_id = ResponseObj->GetStringField("market_contract_id");
+}
+
+void UNearAuth::RegistrationAccount(FString AccountName, float setTimer, bool MainNet)
+{
+	this->AccountID = AccountName;
+	freeClient();
+	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), WEBTYPE_T, TypeInp::REGISTRATION);
+	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(MainNet ? WEBTYPE_M : WEBTYPE_T) + ".near.org/login?title=rndname&success_url=" + REDIRECT + "&public_key=" + FString(client->GetPublicKey())));
+
+	GetWorld()->GetTimerManager().SetTimer(TriggerTimerHandle, this, &UNearAuth::TriggerDestroyRegist, setTimer, true);
+}
+
+void UNearAuth::ContractSaveKey()
+{
+
+}
+
+void UNearAuth::AuthorizedAccount(FString AccountName, float setTimer)
+{
+	this->AccountID = AccountName;
+	freeClient();
 	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
 
-	if (client->IsValidAccount())
-		saveAccountId();
-
-	return client->IsValidAccount();
+	GetWorld()->GetTimerManager().SetTimer(TriggerTimerHandle, this, &UNearAuth::TriggerDestroyAuth, setTimer, true);
 }
 
 void UNearAuth::saveAccountId()
@@ -78,26 +119,11 @@ void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 	bIsValid = true;
 }
 
-FString UNearAuth::CheckDLL()
+bool UNearAuth::CheckAccountKey(FString AccountName)
 {
 	size_t res = 0;
-	if (client != nullptr)
-	{
-		if (client->IsValidAccount())
-		{
-			if (FNearPluginModule::_AuthorizedRust != nullptr)
-				res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), RPC_RUST);
-			else
-			{
-				return FNearPluginModule::path;
-			}
-		}
-	}
- 	if (res == 10)
-	{
-		return "Success" + FNearPluginModule::path;
-	}
-	return FNearPluginModule::path + " error";
+	res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), GET_CHARPTR(AccountName), RPC_RUST);
+	return res == 10;
 }
 
 TArray<FUPlayerItemsClient> Trash0(FString room_id, TArray<FString> near_ids, Client* client)
@@ -106,8 +132,8 @@ TArray<FUPlayerItemsClient> Trash0(FString room_id, TArray<FString> near_ids, Cl
 	TYPE_CHAR** chr_near_ids = new TYPE_CHAR*[near_ids.Num()];
 	for (int i = 0; i < near_ids.Num();)
 	{
-		chr_near_ids[i] = new char[near_ids[i].Len() + 1];
-		TYPE_CHAR* chr = GET_CHARPTR(near_ids[i]);
+		chr_near_ids[i] = new TYPE_CHAR[near_ids[i].Len() + 1];
+		const TYPE_CHAR* chr = GET_CHARPTR(near_ids[i]);
 		for (int j = 0; j <= near_ids[i].Len(); j++)
 		{
 			chr_near_ids[i][j] = chr[j];
@@ -184,8 +210,8 @@ void Trash1(FString room_id, TArray<FString> nft_ids, Client *client)
 	TYPE_CHAR** chr_nft_ids = new TYPE_CHAR*[nft_ids.Num()];
 	for (int i = 0; i < nft_ids.Num();)
 	{
-		chr_nft_ids[i] = new char[nft_ids[i].Len() + 1];
-		TYPE_CHAR* chr = GET_CHARPTR(nft_ids[i]);
+		chr_nft_ids[i] = new TYPE_CHAR[nft_ids[i].Len() + 1];
+		const TYPE_CHAR* chr = GET_CHARPTR(nft_ids[i]);
 		for (int j = 0; j <= nft_ids[i].Len(); j++)
 		{
 			chr_nft_ids[i][j] = chr[j];
@@ -314,6 +340,8 @@ void UNearAuth::freeClient()
 {
 	if (client != nullptr)
 	{
+		if(TriggerTimerHandle.IsValid())
+			GetWorld()->GetTimerManager().ClearTimer(TriggerTimerHandle);
 		delete client;
 		client = nullptr;
 	}
