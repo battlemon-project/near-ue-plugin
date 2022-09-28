@@ -10,6 +10,9 @@
 #define REDIRECT "https://game.battlemon.com/near"
 //#define REDIRECT ""
 
+#define NEAR_MAINNET_RPC_URL "https://rpc.mainnet.near.org"
+#define NEAR_TESTNET_RPC_URL "https://rpc.testnet.near.org"
+
 Client* UNearAuth::client = nullptr;
 
 UNearAuth::UNearAuth()
@@ -33,6 +36,11 @@ void UNearAuth::TriggerDestroyAuth()
 
 void UNearAuth::TriggerDestroyRegist()
 {
+	if (nft_contract_id != "")
+	{
+		UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + nft_contract_id + "&public_key=" + FString(client->GetPublicKey())));
+		nft_contract_id = "";
+	}
 	if (CheckAccountKey(this->AccountID))
 	{
 		client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
@@ -73,12 +81,55 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	market_contract_id = ResponseObj->GetStringField("market_contract_id");
 }
 
+
+void UNearAuth::PostResponseReceived()
+{
+	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
+
+	TSharedRef<FJsonObject> RequestObj = MakeShared<FJsonObject>();
+	Request->SetContentAsString(//"{\"jsonrpc\": \"2.0\",\"id\" : \"dontcare\",\"method\" : \"query\",\"params\" : {\"request_type\": \"view_access_key\",\"finality\" : \"final\",\"account_id\" : \"" + AccountID + "\",\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU" + "\"}}");
+		FString("{") +
+			"\"jsonrpc\": \"2.0\"," +
+			"\"id\" : \"dontcare\"," +
+			"\"method\" : \"query\"," +
+			"\"params\" : {" +
+				"\"request_type\": \"view_access_key\"," +
+				"\"finality\" : \"final\"," +
+				"\"account_id\" : \"" + "dsbgfnghcjhgds.testnet" /*AccountID */ + "\"," +
+				"\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU\"" /*client->GetPublicKey() + "\""*/ +
+			"}" +
+		"}"
+	); 
+	FString RequestBody;
+	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&RequestBody);
+	FJsonSerializer::Serialize(RequestObj, Writer);
+	Request->SetContentAsString(FString());
+	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnPOSTRequest);
+	Request->SetURL(NEAR_TESTNET_RPC_URL);
+	Request->SetVerb("POST");
+	Request->SetHeader("Content-Type", "application/json");
+	Request->SetContentAsString(RequestBody);
+	Request->ProcessRequest();
+}
+
+void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
+{
+	TSharedPtr<FJsonObject> ResponseObj;
+	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+	FJsonSerializer::Deserialize(Reader, ResponseObj);
+
+	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());
+}
+
 void UNearAuth::RegistrationAccount(FString AccountName, float setTimer, bool MainNet)
 {
+	top_contract_id = "";
+	nft_contract_id = "";
+	market_contract_id = "";
+	OnResponseReceived();
 	this->AccountID = AccountName;
 	freeClient();
 	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), WEBTYPE_T, TypeInp::REGISTRATION);
-	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(MainNet ? WEBTYPE_M : WEBTYPE_T) + ".near.org/login?title=rndname&success_url=" + REDIRECT + "&public_key=" + FString(client->GetPublicKey())));
 
 	GetWorld()->GetTimerManager().SetTimer(TriggerTimerHandle, this, &UNearAuth::TriggerDestroyRegist, setTimer, true);
 }

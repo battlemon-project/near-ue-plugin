@@ -124,6 +124,7 @@ class NEARPLUGIN_API UNearAuth : public	UGameInstance
 	void TriggerDestroyRegist();
 
 	void OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
+	void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
 
@@ -143,6 +144,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void RegistrationAccount(FString AccountName, float setTimer = 1.0f, bool MainNet = false);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
+	void PostResponseReceived();														//не работает
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void ContractSaveKey();
