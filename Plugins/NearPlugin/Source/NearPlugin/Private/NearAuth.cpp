@@ -3,12 +3,12 @@
 #include "NearAuth.h"
 #include <Kismet/GameplayStatics.h>
 #include "NearPlugin.h"
+#include "Json.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 #include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
-
-#define REDIRECT "https://game.battlemon.com/near"
-//#define REDIRECT ""
 
 #define NEAR_MAINNET_RPC_URL "https://rpc.mainnet.near.org"
 #define NEAR_TESTNET_RPC_URL "https://rpc.testnet.near.org"
@@ -68,13 +68,8 @@ void UNearAuth::OnResponseReceived()
 void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
 {
 	TSharedPtr<FJsonObject> ResponseObj;
-	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
-
-	UE_LOG(LogTemp, Display, TEXT("Response %s"), *Response->GetContentAsString());
-	UE_LOG(LogTemp, Display, TEXT("top_contract_id: %s"), *ResponseObj->GetStringField("top_contract_id"));
-	UE_LOG(LogTemp, Display, TEXT("nft_contract_id: %s"), *ResponseObj->GetStringField("nft_contract_id"));
-	UE_LOG(LogTemp, Display, TEXT("market_contract_id: %s"), *ResponseObj->GetStringField("market_contract_id"));
 
 	top_contract_id = ResponseObj->GetStringField("top_contract_id");
 	nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
@@ -101,7 +96,7 @@ void UNearAuth::PostResponseReceived()
 		"}"
 	); 
 	FString RequestBody;
-	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&RequestBody);
+	TSharedRef<TJsonWriter<TCHAR>> Writer = TJsonWriterFactory<TCHAR>::Create(&RequestBody);
 	FJsonSerializer::Serialize(RequestObj, Writer);
 	Request->SetContentAsString(FString());
 	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnPOSTRequest);
@@ -115,7 +110,7 @@ void UNearAuth::PostResponseReceived()
 void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
 {
 	TSharedPtr<FJsonObject> ResponseObj;
-	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
 	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());

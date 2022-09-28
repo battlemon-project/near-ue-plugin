@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Engine/EngineTypes.h"
 #include "Http.h"
 #include <include/Client.h>
 #include "NearAuth.generated.h"

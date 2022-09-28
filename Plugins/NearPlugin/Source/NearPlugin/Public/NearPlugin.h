@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <include/Client.h>
 #include "Modules/ModuleManager.h"
 
 
 typedef void* v_dllHandle;
-typedef size_t(*AuthorizedRust)(const char* pub_key_cpp, const char* account_id, const char* networkType);
+typedef size_t(*AuthorizedRust)(const char* pub_key_cpp, const TYPE_CHAR* account_id, const char* networkType);
 DECLARE_LOG_CATEGORY_EXTERN(LogNear, Log, All);
 
 class FNearPluginModule : public IModuleInterface
