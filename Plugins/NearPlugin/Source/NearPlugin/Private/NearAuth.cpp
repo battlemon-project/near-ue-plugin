@@ -36,12 +36,7 @@ void UNearAuth::TriggerDestroyAuth()
 
 void UNearAuth::TriggerDestroyRegist()
 {
-	if (nft_contract_id != "")
-	{
-		UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + nft_contract_id + "&public_key=" + FString(client->GetPublicKey())));
-		nft_contract_id = "";
-	}
-	if (CheckAccountKey(this->AccountID))
+	if (client->AuthServiceClient())
 	{
 		client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 
@@ -71,9 +66,10 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
-	top_contract_id = ResponseObj->GetStringField("top_contract_id");
-	nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
-	market_contract_id = ResponseObj->GetStringField("market_contract_id");
+	//top_contract_id = ResponseObj->GetStringField("top_contract_id");
+	//nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
+	//market_contract_id = ResponseObj->GetStringField("market_contract_id");
+	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&public_key=" + FString(client->GetPublicKey())));
 }
 
 
@@ -116,15 +112,11 @@ void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response
 	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());
 }
 
-void UNearAuth::RegistrationAccount(FString AccountName, float setTimer, bool MainNet)
+void UNearAuth::RegistrationAccount(float setTimer, bool MainNet)
 {
-	top_contract_id = "";
-	nft_contract_id = "";
-	market_contract_id = "";
-	OnResponseReceived();
-	this->AccountID = AccountName;
-	freeClient();
 	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), WEBTYPE_T, TypeInp::REGISTRATION);
+	OnResponseReceived();
+	freeClient();
 
 	GetWorld()->GetTimerManager().SetTimer(TriggerTimerHandle, this, &UNearAuth::TriggerDestroyRegist, setTimer, true);
 }
@@ -134,9 +126,8 @@ void UNearAuth::ContractSaveKey()
 
 }
 
-void UNearAuth::AuthorizedAccount(FString AccountName, float setTimer)
+void UNearAuth::AuthorizedAccount(FString AccountID, float setTimer)
 {
-	this->AccountID = AccountName;
 	freeClient();
 	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
 
@@ -168,7 +159,7 @@ void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 bool UNearAuth::CheckAccountKey(FString AccountName)
 {
 	size_t res = 0;
-	res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), GET_CHARPTR(AccountName), RPC_RUST);
+	res = FNearPluginModule::_AuthorizedRust((const char*)client->GetPublicKey(), client->GetAccount(), RPC_RUST);
 	return res == 10;
 }
 

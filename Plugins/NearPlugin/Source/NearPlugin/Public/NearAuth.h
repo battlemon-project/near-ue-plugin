@@ -112,10 +112,6 @@ class NEARPLUGIN_API UNearAuth : public	UGameInstance
 {
 	GENERATED_BODY()
 
-	FString AccountID;
-	FString top_contract_id;
-	FString nft_contract_id;
-	FString market_contract_id;
 
 	void freeClient();
 	void saveAccountId();
@@ -144,7 +140,7 @@ public:
 	FResultNearRegist_Delegate ResultNearRegist_Delegate;
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void RegistrationAccount(FString AccountName, float setTimer = 1.0f, bool MainNet = false);
+	void RegistrationAccount(float setTimer = 1.0f, bool MainNet = false);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void PostResponseReceived();														//не работает
@@ -153,7 +149,7 @@ public:
 	void ContractSaveKey();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void AuthorizedAccount(FString AccountName, float setTimer = 1.0f);
+	void AuthorizedAccount(FString AccountID, float setTimer = 1.0f);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
