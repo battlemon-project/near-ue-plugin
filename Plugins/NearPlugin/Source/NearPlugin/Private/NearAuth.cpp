@@ -4,8 +4,6 @@
 #include <Kismet/GameplayStatics.h>
 #include "NearPlugin.h"
 #include "Json.h"
-#include "Engine/World.h"
-#include "TimerManager.h"
 #include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
@@ -24,17 +22,8 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
-void UNearAuth::TriggerDestroyAuth()
-{
-	if (client->AuthServiceClient())
-	{
-		GetWorld()->GetTimerManager().ClearTimer(TriggerTimerHandle);
-		ResultNearAuth_Delegate.Broadcast(FString(client->GetAccount()), true);
-	}
-	ResultNearAuth_Delegate.Broadcast("NULL", false);
-}
 
-void UNearAuth::TriggerDestroyRegist()
+void UNearAuth::TimerAuthRegist()
 {
 	if (client->AuthServiceClient())
 	{
@@ -43,12 +32,9 @@ void UNearAuth::TriggerDestroyRegist()
 		if (client->IsValidAccount())
 			saveAccountId();
 
-		ContractSaveKey();
-
-		GetWorld()->GetTimerManager().ClearTimer(TriggerTimerHandle);
-		ResultNearRegist_Delegate.Broadcast(true);
+		ResultNearRegist_Delegate.Broadcast(FString(client->GetAccount()), true);
 	}
-	ResultNearRegist_Delegate.Broadcast(false);
+	ResultNearRegist_Delegate.Broadcast("NULL", false);
 }
 
 void UNearAuth::OnResponseReceived()
@@ -66,9 +52,6 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
-	//top_contract_id = ResponseObj->GetStringField("top_contract_id");
-	//nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
-	//market_contract_id = ResponseObj->GetStringField("market_contract_id");
 	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&public_key=" + FString(client->GetPublicKey())));
 }
 
@@ -112,26 +95,19 @@ void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response
 	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());
 }
 
-void UNearAuth::RegistrationAccount(float setTimer, bool MainNet)
+void UNearAuth::RegistrationAccount(bool MainNet)
 {
-	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), WEBTYPE_T, TypeInp::REGISTRATION);
-	OnResponseReceived();
 	freeClient();
-
-	GetWorld()->GetTimerManager().SetTimer(TriggerTimerHandle, this, &UNearAuth::TriggerDestroyRegist, setTimer, true);
+	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNet ? WEBTYPE_M : WEBTYPE_T), TypeInp::REGISTRATION);
+	OnResponseReceived();
 }
 
-void UNearAuth::ContractSaveKey()
-{
 
-}
-
-void UNearAuth::AuthorizedAccount(FString AccountID, float setTimer)
+bool UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
 	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
-
-	GetWorld()->GetTimerManager().SetTimer(TriggerTimerHandle, this, &UNearAuth::TriggerDestroyAuth, setTimer, true);
+	return client->AuthServiceClient();
 }
 
 void UNearAuth::saveAccountId()
@@ -377,8 +353,6 @@ void UNearAuth::freeClient()
 {
 	if (client != nullptr)
 	{
-		if(TriggerTimerHandle.IsValid())
-			GetWorld()->GetTimerManager().ClearTimer(TriggerTimerHandle);
 		delete client;
 		client = nullptr;
 	}

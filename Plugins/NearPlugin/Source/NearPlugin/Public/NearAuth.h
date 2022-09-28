@@ -4,13 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "Engine/EngineTypes.h"
 #include "Http.h"
 #include <include/Client.h>
 #include "NearAuth.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FResultNearAuth_Delegate, FString, AccountID, bool, status);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearRegist_Delegate, bool, status);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FResultNearReg_Delegate, FString, AccountID, bool, status);
 
 #if PLATFORM_WINDOWS
 #define WEBTYPE_M "mainnet"
@@ -115,10 +113,7 @@ class NEARPLUGIN_API UNearAuth : public	UGameInstance
 
 	void freeClient();
 	void saveAccountId();
-	FTimerHandle TriggerTimerHandle;
 
-	void TriggerDestroyAuth();
-	void TriggerDestroyRegist();
 
 	void OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
@@ -132,24 +127,20 @@ public:
 	UNearAuth();
 	~UNearAuth();
 
+	UPROPERTY(BlueprintAssignable, Category = ".Near | Registration")
+	FResultNearReg_Delegate ResultNearRegist_Delegate;
 
-	UPROPERTY(BlueprintAssignable)
-	FResultNearAuth_Delegate ResultNearAuth_Delegate;
+	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
+	void TimerAuthRegist();
 
-	UPROPERTY(BlueprintAssignable)
-	FResultNearRegist_Delegate ResultNearRegist_Delegate;
-
-	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void RegistrationAccount(float setTimer = 1.0f, bool MainNet = false);
+	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
+	void RegistrationAccount(bool MainNet = false);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void PostResponseReceived();														//не работает
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void ContractSaveKey();
-
-	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void AuthorizedAccount(FString AccountID, float setTimer = 1.0f);
+	bool AuthorizedAccount(FString AccountID);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
