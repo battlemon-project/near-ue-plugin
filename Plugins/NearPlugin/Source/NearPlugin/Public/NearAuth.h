@@ -105,7 +105,7 @@ struct FUPlayerItemsClient
 };
 
 
-UCLASS()
+UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearAuth : public	UObject
 {
 	GENERATED_BODY()
@@ -158,5 +158,5 @@ public:
 	FString GetError();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	void PostResponseReceived();														//не работает
+	void PostResponseReceived();														//пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 };
