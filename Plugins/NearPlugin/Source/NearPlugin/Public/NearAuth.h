@@ -8,7 +8,7 @@
 #include <include/Client.h>
 #include "NearAuth.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FResultNearReg_Delegate, FString, AccountID, bool, status);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FResultNearReg_Delegate);
 
 #if PLATFORM_WINDOWS
 #define WEBTYPE_M "mainnet"
@@ -119,6 +119,8 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 	void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
+	FTimerHandle TimerHandle;
+	void TimerAuthRegist();
 
 public:
 
@@ -127,11 +129,13 @@ public:
 	UNearAuth();
 	~UNearAuth();
 
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Client")
+	FString getAccountID();
+
 	UPROPERTY(BlueprintAssignable, Category = ".Near | Registration")
 	FResultNearReg_Delegate ResultNearRegist_Delegate;
 
-	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
-	void TimerAuthRegist();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
 	void RegistrationAccount(bool MainNet = false);
@@ -158,5 +162,5 @@ public:
 	FString GetError();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	void PostResponseReceived();														//пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	void PostResponseReceived();														//не работает
 };

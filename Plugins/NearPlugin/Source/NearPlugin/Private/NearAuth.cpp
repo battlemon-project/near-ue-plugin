@@ -27,17 +27,20 @@ UNearAuth::~UNearAuth()
 
 void UNearAuth::TimerAuthRegist()
 {
-	if (client->AuthServiceClient())
+	client->AuthServiceClient();
+	if (client->IsValidAccount())
 	{
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+
 		client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 		saveAccountId();
-
-		ResultNearRegist_Delegate.Broadcast(FString(client->GetAccount()), true);
-		return;
+		ResultNearRegist_Delegate.Broadcast();
 	}
-	ResultNearRegist_Delegate.Broadcast("NULL", false);
 }
-
+FString UNearAuth::getAccountID()
+{
+	return FString((const TYPE_CHAR*)client->GetAccount());
+}
 void UNearAuth::OnResponseReceived()
 {
 	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
@@ -54,6 +57,7 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
 	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + REDIRECT + "&public_key=" + FString(client->GetPublicKey())));
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
 }
 
 
