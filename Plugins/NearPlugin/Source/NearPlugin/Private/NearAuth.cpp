@@ -65,8 +65,8 @@ void UNearAuth::RegistrationAccount(UNearAuth* selfObj, bool MainNet)
 bool UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
-
-	client = new Client("", GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
+	TYPE_CHAR chr = '\0';
+	client = new Client(&chr, GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
 
 	if (client->IsValidAccount())
 		saveAccountId();
@@ -124,7 +124,7 @@ TArray<FUPlayerItemsClient> Trash0(FString room_id, TArray<FString> near_ids, Cl
 	TYPE_CHAR** chr_near_ids = new TYPE_CHAR*[near_ids.Num()];
 	for (int i = 0; i < near_ids.Num();)
 	{
-		chr_near_ids[i] = new char[near_ids[i].Len() + 1];
+		chr_near_ids[i] = new TYPE_CHAR[near_ids[i].Len() + 1];
 		TYPE_CHAR* chr = GET_CHARPTR(near_ids[i]);
 		for (int j = 0; j <= near_ids[i].Len(); j++)
 		{
@@ -202,7 +202,7 @@ void Trash1(FString room_id, TArray<FString> nft_ids, Client *client)
 	TYPE_CHAR** chr_nft_ids = new TYPE_CHAR*[nft_ids.Num()];
 	for (int i = 0; i < nft_ids.Num();)
 	{
-		chr_nft_ids[i] = new char[nft_ids[i].Len() + 1];
+		chr_nft_ids[i] = new TYPE_CHAR[nft_ids[i].Len() + 1];
 		TYPE_CHAR* chr = GET_CHARPTR(nft_ids[i]);
 		for (int j = 0; j <= nft_ids[i].Len(); j++)
 		{
