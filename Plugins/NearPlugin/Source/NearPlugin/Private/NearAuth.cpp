@@ -40,6 +40,10 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 
 	nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
 	client = new Client(GET_CHARPTR(nft_contract_id), GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNetL) ? WEBTYPE_M : WEBTYPE_T, TypeInp::REGISTRATION);
+	if (client->IsValidAccount())
+	{
+		saveAccountId();
+	}
 }
 
 UNearAuth::UNearAuth()
@@ -51,18 +55,11 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
-bool UNearAuth::RegistrationAccount(UNearAuth* selfObj, FString& AccountId, bool MainNet)
+void UNearAuth::RegistrationAccount(UNearAuth* selfObj, bool MainNet)
 {
 	freeClient();
 	MainNetL = MainNet;
 	OnResponseReceived(selfObj);
-
-	if (client->IsValidAccount())
-	{
-		AccountId = FString(client->GetAccount());
-		saveAccountId();
-	}
-	return client->IsValidAccount();
 }
 
 bool UNearAuth::AuthorizedAccount(FString AccountID)
@@ -340,7 +337,12 @@ void UNearAuth::freeClient()
 	}
 }
 
-bool UNearAuth::ClientIsValid()
+bool UNearAuth::ClientIsValid(FString& AccountId)
 {
-	return client->IsValidAccount();
+	if (client != nullptr)
+	{
+		AccountId = FString(client->GetAccount());
+		return client->IsValidAccount();
+	}
+	return false;
 }

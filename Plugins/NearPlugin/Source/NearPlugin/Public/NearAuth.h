@@ -91,7 +91,7 @@ struct FUPlayerItemsClient
 	TArray<FString> nft_idsArr;
 };
 
-UCLASS()
+UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearAuth : public UObject
 {
 	GENERATED_BODY()
@@ -110,7 +110,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool RegistrationAccount(UNearAuth* selfObj, FString& AccountId, bool MainNet = false);
+	static void RegistrationAccount(UNearAuth* selfObj,  bool MainNet = false);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static bool AuthorizedAccount(FString AccountId);
@@ -119,7 +119,7 @@ public:
 	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool ClientIsValid();
+	static bool ClientIsValid(FString& AccountId);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | ItemsProto")
 	static TArray<FUPlayerItemsClient> getPlayerItems(FString room_id, TArray<FString> near_ids);
