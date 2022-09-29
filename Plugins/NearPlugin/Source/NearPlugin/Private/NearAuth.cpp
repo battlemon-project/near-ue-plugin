@@ -7,6 +7,7 @@
 #include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
+#define REDIRECT "https://game.battlemon.com/near"
 
 #define NEAR_MAINNET_RPC_URL "https://rpc.mainnet.near.org"
 #define NEAR_TESTNET_RPC_URL "https://rpc.testnet.near.org"
@@ -28,11 +29,10 @@ void UNearAuth::TimerAuthRegist()
 	if (client->AuthServiceClient())
 	{
 		client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
-
-		if (client->IsValidAccount())
-			saveAccountId();
+		saveAccountId();
 
 		ResultNearRegist_Delegate.Broadcast(FString(client->GetAccount()), true);
+		return;
 	}
 	ResultNearRegist_Delegate.Broadcast("NULL", false);
 }
@@ -52,7 +52,7 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
-	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&public_key=" + FString(client->GetPublicKey())));
+	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + REDIRECT + "&public_key=" + FString(client->GetPublicKey())));
 }
 
 

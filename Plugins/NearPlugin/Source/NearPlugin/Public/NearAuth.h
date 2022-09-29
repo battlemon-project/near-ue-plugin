@@ -136,8 +136,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
 	void RegistrationAccount(bool MainNet = false);
 
-	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void PostResponseReceived();														//не работает
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	bool AuthorizedAccount(FString AccountID);
@@ -159,4 +157,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	static FString GetError();
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
+	void PostResponseReceived();														//не работает
 };
