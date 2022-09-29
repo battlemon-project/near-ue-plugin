@@ -59,6 +59,7 @@ enum class TypeInp
 
 class Client
 {
+	void* grpcClient;
 	char* accountID;
 	char* network;
 	char* sign;
