@@ -16,6 +16,7 @@ Client* UNearAuth::client = nullptr;
 
 UNearAuth::UNearAuth()
 {
+	freeClient();
 }
 
 UNearAuth::~UNearAuth()

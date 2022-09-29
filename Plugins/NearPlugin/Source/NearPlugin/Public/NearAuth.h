@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/GameInstance.h"
+#include "UObject/Object.h"
 #include "Http.h"
 #include <include/Client.h>
 #include "NearAuth.generated.h"
@@ -106,12 +106,12 @@ struct FUPlayerItemsClient
 
 
 UCLASS()
-class NEARPLUGIN_API UNearAuth : public	UGameInstance
+class NEARPLUGIN_API UNearAuth : public	UObject
 {
 	GENERATED_BODY()
 
 
-	void freeClient();
+	static void freeClient();
 	void saveAccountId();
 
 
@@ -136,27 +136,26 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
 	void RegistrationAccount(bool MainNet = false);
 
-
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	bool AuthorizedAccount(FString AccountID);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
+	void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool ClientIsValid();
+	bool ClientIsValid();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | ItemsProto")
-	static TArray<FUPlayerItemsClient> getPlayerItems(FString room_id, TArray<FString> near_ids);
+	TArray<FUPlayerItemsClient> getPlayerItems(FString room_id, TArray<FString> near_ids);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | ItemsProto")
-	static void setMyItems(FString room_id, TArray<FString> nft_ids);
+	void setMyItems(FString room_id, TArray<FString> nft_ids);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | ItemsProto")
-	static TArray<FUItem> getItems();
+	TArray<FUItem> getItems();
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	static FString GetError();
+	FString GetError();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	void PostResponseReceived();														//не работает
