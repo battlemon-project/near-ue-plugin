@@ -65,12 +65,13 @@ class Client
 	void* keyPair;
 	char* keyPub58;
 	char* error;
+	char* nid;
 
 	void RegistrKey();
 	bool AuthServiceClient(TypeInp type);
 public:
 
-	Client(const TYPE_CHAR* dir, const TYPE_CHAR* inpText, TypeInp type);
+	Client(const TYPE_CHAR* nid, const TYPE_CHAR* dir, const TYPE_CHAR* inpText, TypeInp type);
 
 	~Client();
 	Client() = delete;

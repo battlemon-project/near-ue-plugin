@@ -36,7 +36,7 @@ public class NearPlugin : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "WebSockets"
+				"Core", "WebSockets", "HTTP", "Json"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

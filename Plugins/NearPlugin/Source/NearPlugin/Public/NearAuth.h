@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include <include/Client.h>
+#include "Json.h"
+#include "Http.h"
 #include "NearAuth.generated.h"
 /**
  * 
@@ -93,9 +95,12 @@ UCLASS()
 class NEARPLUGIN_API UNearAuth : public UObject
 {
 	GENERATED_BODY()
-
+	static FString nft_contract_id;
+	static bool MainNetL;
 	static void freeClient();
 	static void saveAccountId();
+	static void OnResponseReceived(UNearAuth* selfObj);
+	void OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 
 public:
 	static Client* client;
@@ -105,7 +110,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	static bool RegistrationAccount(FString& AccountId, bool MainNet = false);
+	static bool RegistrationAccount(UNearAuth* selfObj, FString& AccountId, bool MainNet = false);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	static bool AuthorizedAccount(FString AccountId);

@@ -20,6 +20,27 @@
 #endif
 
 Client* UNearAuth::client = nullptr;
+FString UNearAuth::nft_contract_id = "";
+bool UNearAuth::MainNetL = false;
+
+void UNearAuth::OnResponseReceived(UNearAuth* selfObj)
+{
+	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
+	Request->OnProcessRequestComplete().BindUObject(selfObj, &UNearAuth::OnGetRequest);
+	Request->SetURL("https://api.battlemon.com/rest/contracts");
+	Request->SetVerb("GET");
+	Request->ProcessRequest();
+}
+
+void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
+{
+	TSharedPtr<FJsonObject> ResponseObj;
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
+	FJsonSerializer::Deserialize(Reader, ResponseObj);
+
+	nft_contract_id = ResponseObj->GetStringField("nft_contract_id");
+	client = new Client(GET_CHARPTR(nft_contract_id), GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNetL) ? WEBTYPE_M : WEBTYPE_T, TypeInp::REGISTRATION);
+}
 
 UNearAuth::UNearAuth()
 {
@@ -30,11 +51,11 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
-bool UNearAuth::RegistrationAccount(FString& AccountId, bool MainNet)
+bool UNearAuth::RegistrationAccount(UNearAuth* selfObj, FString& AccountId, bool MainNet)
 {
 	freeClient();
-
-	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNet) ? WEBTYPE_M : WEBTYPE_T, TypeInp::REGISTRATION);
+	MainNetL = MainNet;
+	OnResponseReceived(selfObj);
 
 	if (client->IsValidAccount())
 	{
@@ -48,7 +69,7 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
 
-	client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
+	client = new Client("", GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), TypeInp::AUTHORIZATION);
 
 	if (client->IsValidAccount())
 		saveAccountId();
