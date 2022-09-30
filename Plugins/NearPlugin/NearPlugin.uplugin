@@ -20,7 +20,9 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
-				"Win64"
+				"Win64",
+				"Liniux",
+				"Mac"
 			]
 		}
 	],
