@@ -176,7 +176,9 @@ UNearItems::UNearItems()
 {
 }
 
-
+UNearItems::~UNearItems()
+{
+}
 
 
 ///items.proto
@@ -339,6 +341,11 @@ void UNearMM::freegRPC_MM()
 
 UNearMM::UNearMM():gRPC_MM(nullptr)
 {
+}
+
+UNearMM::~UNearMM()
+{
+	freegRPC_MM();
 }
 
 FUSearchGameResponse UNearMM::SearchGame(FUSearchGameRequest Request)
