@@ -22,10 +22,10 @@ void UWebSocket::CreateWebSocet(FString Address)
 			FModuleManager::Get().LoadModule("WebSockets");
 		}
 		TMap<FString, FString> UHeaders;
-		if (UNearAuth::client != nullptr)
+		if (MainClient::client != nullptr)
 		{
-			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
-			FString sign = UNearAuth::client->GetSing();
+			UHeaders.Add("near_id", MainClient::client->GetAccount());
+			FString sign = MainClient::client->GetSing();
 			UHeaders.Add("sign", sign);
 		}
 		else
