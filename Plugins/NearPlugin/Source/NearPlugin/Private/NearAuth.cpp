@@ -396,7 +396,7 @@ FUSearchGameResponse UNearMM::SearchGame(FUSearchGameRequest Request)
 
 ModelMM::AcceptGameRequest& operator<<(ModelMM::AcceptGameRequest& Request, const FUAcceptGameRequest& RequestUE)
 {
-	Request.lemon_id = GET_CHARPTR(RequestUE.lemon_id);
+	Request.lemon_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.lemon_id);
 	return Request;
 }
 

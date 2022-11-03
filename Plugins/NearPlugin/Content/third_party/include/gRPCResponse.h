@@ -26,7 +26,7 @@ public:
 	gRPC_Response(Client** client, Type_Call_gRPC type_gRPC) :client((const Client**)client), type_gRPC(type_gRPC), error(nullptr), gRPC_read(nullptr){};
 	gRPC_Response() = delete;
 
-	~gRPC_Response() {}
+	virtual ~gRPC_Response() {}
 };
 
 

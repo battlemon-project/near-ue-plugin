@@ -126,7 +126,7 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 	void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
-	FTimerHandle TimerHandle;
+	//FTimerHandle TimerHandle;
 	void TimerAuthRegist();
 
 public:

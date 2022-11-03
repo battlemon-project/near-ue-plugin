@@ -170,20 +170,15 @@ namespace ModelItems
 		bool copy;
 
 	public:
-		TYPE_CHAR* flavour = nullptr;
-		TYPE_CHAR* token_id = nullptr;
+		TYPE_CHAR* flavour;
+		TYPE_CHAR* token_id;
 		OutfitKind kind;
 
 
 		ModelItems::OutfitModel& operator=(const ModelItems::OutfitModel& from);
 
-		OutfitModel(bool copy) :copy(copy) {};
-		OutfitModel(const OutfitModel& copy)
-		{
-			flavour = copy.flavour;
-			token_id = copy.token_id;
-			kind = copy.kind;
-		}
+		OutfitModel(bool copy);
+		OutfitModel(const OutfitModel& copy);
 		~OutfitModel();
 	};
 
@@ -220,10 +215,10 @@ namespace ModelItems
 
 		ModelItems::WeaponBundleItem& operator=(const ModelItems::WeaponBundleItem& from);
 
-		WeaponBundleItem() :item_type(WeaponBundleItemType::NONE), skin(nullptr), slot_type(WeaponBundleSlotType::NONE) {};
-		WeaponBundleItem(WeaponBundleItemType item_type, WeaponBundleSlotType slot_type, TYPE_CHAR* skin) : item_type(item_type), slot_type(slot_type), skin(skin){};
+		WeaponBundleItem();
+		WeaponBundleItem(WeaponBundleItemType item_type, WeaponBundleSlotType slot_type, TYPE_CHAR* skin);
 		WeaponBundleItem(const WeaponBundleItem& copy);
-		~WeaponBundleItem() {};
+		~WeaponBundleItem();
 	};
 
 	struct WeaponBundle
@@ -236,13 +231,10 @@ namespace ModelItems
 
 		ModelItems::WeaponBundle& operator=(const ModelItems::WeaponBundle& from);
 
-		WeaponBundle() :bundle_num(-1), title(nullptr), level(-1), WeaponList(ObjectList<WeaponBundleItem>(-1)){};
-		WeaponBundle(int size_WeaponList) : bundle_num(-1), title(nullptr), level(-1), WeaponList(size_WeaponList) {};
+		WeaponBundle();
+		WeaponBundle(int size_WeaponList);
 		WeaponBundle(const WeaponBundle& copy);
-		~WeaponBundle()
-		{
-			WeaponList.~ObjectList();
-		};
+		~WeaponBundle();
 
 	};
 
@@ -253,11 +245,11 @@ namespace ModelItems
 	public:
 		OutfitModel cap;
 		OutfitModel cloth;
-		TYPE_CHAR* exo = nullptr;
-		TYPE_CHAR* eyes = nullptr;
-		TYPE_CHAR* head = nullptr;
-		TYPE_CHAR* teeth = nullptr;
-		TYPE_CHAR* face = nullptr;
+		TYPE_CHAR* exo;
+		TYPE_CHAR* eyes;
+		TYPE_CHAR* head;
+		TYPE_CHAR* teeth;
+		TYPE_CHAR* face;
 		OutfitModel fire_arm;
 		OutfitModel cold_arm;
 		OutfitModel back;
@@ -266,33 +258,24 @@ namespace ModelItems
 
 		ModelItems::LemonModel& operator=(const ModelItems::LemonModel& from);
 
-		LemonModel(bool copy) :copy(copy), cap(copy), cloth(copy), fire_arm(copy), cold_arm(copy), back(copy) {};
-		LemonModel(int size_attached_bundles, int size_items[], bool copy) :attached_bundles(size_attached_bundles), copy(copy), cap(copy), cloth(copy), fire_arm(copy), cold_arm(copy), back(copy)
-		{
-			if (size_attached_bundles != -1)
-			{
-				for (int i = 0; i < size_attached_bundles; i++)
-				{
-					attached_bundles.setObject(WeaponBundle(size_items[i]), i);
-				}
-			}
-		};
-		LemonModel(const LemonModel& from);
+		LemonModel(bool copy);
+		LemonModel(int size_attached_bundles, int size_items[], bool copy);
+		LemonModel(const LemonModel& copy);
 		~LemonModel();
 	};
 
 	struct Item
 	{
-		TYPE_CHAR* token_id = nullptr;
-		TYPE_CHAR* media = nullptr;
-		TYPE_CHAR* owner_id = nullptr;
+		TYPE_CHAR* token_id;
+		TYPE_CHAR* media;
+		TYPE_CHAR* owner_id;
 		bool in_fight;
 		LemonModel lemon;
 		OutfitModel outfit;
 
 		ModelItems::Item& operator=(const ModelItems::Item& from);
 
-		Item() :copy(true), lemon(true), outfit(true) {};
+		Item();
 		Item(void* item, int index, bool copy);
 		Item(const Item& from);
 
@@ -308,11 +291,11 @@ namespace ModelItems
 		const TYPE_CHAR* title;
 
 	public:
-		EditBundleRequest(int bundle_num, TYPE_CHAR* title, WeaponBundleItem* items, int size) :bundle_num(bundle_num), items(items, size), title(title) {};
+		EditBundleRequest(int bundle_num, TYPE_CHAR* title, WeaponBundleItem* items, int size);
 
-		const int& getBundle_num() const { return bundle_num; };
-		ModelItems::WeaponBundleItem* getItems() { return items.getObjectPtr(); };
-		const TYPE_CHAR* getTitle() const { return title; };
+		const int& getBundle_num() const;
+		ModelItems::WeaponBundleItem* getItems();
+		const TYPE_CHAR* getTitle() const;
 	};
 
 	class AttachBundleRequest
@@ -321,15 +304,15 @@ namespace ModelItems
 		const TYPE_CHAR* lemon_id;
 
 	public:
-		AttachBundleRequest(const int& bundle_num, const TYPE_CHAR*& lemon_id) :bundle_num(bundle_num), lemon_id(lemon_id) {};
-		const int& get_bundle_num() const { return bundle_num; };
-		const TYPE_CHAR* get_lemon_id() const { return lemon_id; };
+		AttachBundleRequest(const int& bundle_num, const TYPE_CHAR*& lemon_id);
+		const int& get_bundle_num() const;
+		const TYPE_CHAR* get_lemon_id() const;
 	};
 
 	class DetachBundleRequest :public AttachBundleRequest
 	{
 	public:
-		DetachBundleRequest(const int& bundle_num, const TYPE_CHAR*& lemon_id) : AttachBundleRequest(bundle_num, lemon_id) {};
+		DetachBundleRequest(const int& bundle_num, const TYPE_CHAR*& lemon_id);
 	};
 }
 
