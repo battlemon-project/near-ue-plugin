@@ -23,6 +23,8 @@ public:
 		return gRPC_read != nullptr;
 	};
 
+	Type_Call_gRPC GetCall_gRPC() const { return type_gRPC; };
+
 	gRPC_Response(Client** client, Type_Call_gRPC type_gRPC) :client((const Client**)client), type_gRPC(type_gRPC), error(nullptr), gRPC_read(nullptr){};
 	gRPC_Response() = delete;
 
@@ -38,14 +40,18 @@ class gRPC_ResponseItem : public gRPC_Response<Type_Call_gRPC::Type_gRPCItem>
 	void CallRPC_GetItems();																										//return ItemsResponse
 	void CallRPC_GetBundles();																										//return GetBundlesResponse
 	void CallRPC_EditBundle(ModelItems::EditBundleRequest& request);		//return WeaponBundle
-	bool CallRPC_AttachBundle(ModelItems::AttachBundleRequest& request);												//return common.Empty
-	bool CallRPC_DetachBundle(ModelItems::DetachBundleRequest& request);												//return common.Empty
+	void CallRPC_AttachBundle(ModelItems::AttachBundleRequest& request);												//return common.Empty
+	void CallRPC_DetachBundle(ModelItems::DetachBundleRequest& request);												//return common.Empty
 
 public:
 
 	gRPC_ResponseItem(Client** client, void* inRequest, Type_Call_gRPC::Type_gRPCItem type_gRPC = Type_Call_gRPC::Type_gRPCItem::NONE);
 	gRPC_ResponseItem() = delete;
 	~gRPC_ResponseItem();
+
+	ModelItems::WeaponBundle gRPC_EditBundle();
+	bool gRPC_AttachBundle();
+	bool gRPC_DetachBundle();
 
 	ModelItems::Item gRPC_GetItem(int index);
 	ObjectList<ModelItems::Item> gRPC_GetItemsArray();

@@ -37,7 +37,7 @@ public:
 			list = nullptr;
 	};
 	ObjectList(TargetClassList* list, int size) : list(list), size(size) {};
-	ObjectList(const ObjectList& objectList) : size(objectList.size), list(nullptr)
+	ObjectList(const ObjectList& objectList) :list(nullptr), size(objectList.size)
 	{
 		//owner++;
 		if (size != -1)
@@ -74,8 +74,8 @@ public:
 	};
 
 	int getSize() const { return size; };
-	TargetClassList* getObjectPtr() { return list; };
-	TargetClassList& getObject(int id)
+	TargetClassList* getObjectPtr() const { return list; };
+	TargetClassList& getObject(int id) const
 	{
 		return list[id];
 	};

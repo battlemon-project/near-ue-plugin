@@ -172,6 +172,15 @@ bool UNearAuth::ClientIsValid()
 	return MainClient::client->IsValidAccount();
 }
 
+void UNearItems::freegRPC_Item()
+{
+	if (gRPC_Item != nullptr)
+	{
+		delete gRPC_Item;
+		gRPC_Item = nullptr;
+	}
+}
+
 UNearItems::UNearItems()
 {
 }
@@ -181,7 +190,291 @@ UNearItems::~UNearItems()
 }
 
 
+
 ///items.proto
+
+void UNearItems::GetBundles()
+{
+	if (MainClient::client != nullptr)
+	{
+		if(gRPC_Item == nullptr)
+			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+		else
+		{
+			if (gRPC_Item->GetCall_gRPC() != Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES)
+			{
+				freegRPC_Item();
+				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+			}
+		}
+	}
+}
+
+void UNearItems::GetItems()
+{
+	if (MainClient::client != nullptr)
+	{
+		if (gRPC_Item == nullptr)
+			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+		else
+		{
+			if (gRPC_Item->GetCall_gRPC() != Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES)
+			{
+				freegRPC_Item();
+				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+			}
+		}
+	}
+}
+
+TArray<FUWeaponBundleItem>& operator<<(TArray<FUWeaponBundleItem>& WeaponBundleIUE, const ObjectList<ModelItems::WeaponBundleItem>& WeaponBundleIResponse)
+{
+
+	for (int i = 0; i < WeaponBundleIResponse.getSize(); i++)
+	{
+		FUWeaponBundleItem FUEWBI;
+		switch (WeaponBundleIResponse.getObject(i).item_type)
+		{
+		case ModelItems::WeaponBundleItemType::NONE:
+			FUEWBI.item_type = FUWeaponBundleItemType::NONE;
+			break;
+		case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_PRIMARY:
+			FUEWBI.item_type = FUWeaponBundleItemType::BUNDLE_ITEM_PRIMARY;
+			break;
+		case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_SECONDARY:
+			FUEWBI.item_type = FUWeaponBundleItemType::BUNDLE_ITEM_SECONDARY;
+			break;
+		case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_MELEE:
+			FUEWBI.item_type = FUWeaponBundleItemType::BUNDLE_ITEM_MELEE;
+			break;
+		case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_TACTICAL:
+			FUEWBI.item_type = FUWeaponBundleItemType::BUNDLE_ITEM_TACTICAL;
+			break;
+		case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_MILITARY:
+			FUEWBI.item_type = FUWeaponBundleItemType::BUNDLE_ITEM_MILITARY;
+			break;
+		case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_PERK:
+			FUEWBI.item_type = FUWeaponBundleItemType::BUNDLE_ITEM_PERK;
+			break;
+		default:
+			FUEWBI.item_type = FUWeaponBundleItemType::Default;
+			break;
+		}
+
+		switch (WeaponBundleIResponse.getObject(i).slot_type)
+		{
+		case ModelItems::WeaponBundleSlotType::NONE:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::NONE;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PRIMARY:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_PRIMARY;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_SECONDARY:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_SECONDARY;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MELEE:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_MELEE;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_ONE:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_ONE;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_TWO:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_TWO;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MILITARY_ONE:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_MILITARY_ONE;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MILITARY_TWO:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_MILITARY_TWO;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PERK_ONE:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_PERK_ONE;
+			break;
+		case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PERK_TWO:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_PERK_TWO;
+			break;
+		default:
+			FUEWBI.slot_type = FUWeaponBundleSlotType::Default;
+			break;
+		}
+
+		FUEWBI.skin = FString(WeaponBundleIResponse.getObject(i).skin);
+		WeaponBundleIUE.Add(FUEWBI);
+	}
+
+	return WeaponBundleIUE;
+}
+
+TArray<FUWeaponBundle>& operator<<(TArray<FUWeaponBundle>& WeaponBundleUE, const ObjectList<ModelItems::WeaponBundle>& WeaponBundleResponse)
+{
+
+	for (int i = 0; i < WeaponBundleResponse.getSize(); i++)
+	{
+		FUWeaponBundle FUEWB;
+		FUEWB.bundle_num = WeaponBundleResponse.getObject(i).bundle_num;
+		FUEWB.level = WeaponBundleResponse.getObject(i).level;
+		FUEWB.title = FString(WeaponBundleResponse.getObject(i).title);
+		FUEWB.items << WeaponBundleResponse.getObject(i).WeaponList;
+		WeaponBundleUE.Add(FUEWB);
+	}
+
+	return WeaponBundleUE;
+}
+
+TArray<FUWeaponBundle> UNearItems::GetBundlesArray()
+{
+	TArray<FUWeaponBundle> WeaponBundles;
+	GetBundles();
+	if (gRPC_Item != nullptr)
+	{
+		WeaponBundles << gRPC_Item->gRPC_GetBundlesArray();
+	}
+	return WeaponBundles;
+}
+
+FUWeaponBundle& operator<<(FUWeaponBundle& WeaponBundleUE, const ModelItems::WeaponBundle& WeaponBundleResponse)
+{
+	WeaponBundleUE.bundle_num = WeaponBundleResponse.bundle_num;
+	WeaponBundleUE.level = WeaponBundleResponse.level;
+	WeaponBundleUE.title = FString(WeaponBundleResponse.title);
+	WeaponBundleUE.items << WeaponBundleResponse.WeaponList;
+	return WeaponBundleUE;
+}
+
+FUWeaponBundle UNearItems::GetBundle(int index)
+{
+	FUWeaponBundle WeaponBundles;
+	GetBundles();
+	if (gRPC_Item != nullptr)
+	{
+		WeaponBundles << gRPC_Item->gRPC_GetBundle(index);
+	}
+
+	return WeaponBundles;
+
+}
+
+FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
+{
+	FUWeaponBundle WB;
+	if (MainClient::client != nullptr)
+	{
+		freegRPC_Item();
+		ModelItems::WeaponBundleItem* itm = new ModelItems::WeaponBundleItem[request.items.Num()];
+
+		for (int i = 0; i < request.items.Num(); i++)
+		{
+			switch (request.items[i].item_type)
+			{
+			case FUWeaponBundleItemType::NONE:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::NONE;
+				break;
+			case FUWeaponBundleItemType::BUNDLE_ITEM_PRIMARY:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::BUNDLE_ITEM_PRIMARY;
+				break;
+			case FUWeaponBundleItemType::BUNDLE_ITEM_SECONDARY:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::BUNDLE_ITEM_SECONDARY;
+				break;
+			case FUWeaponBundleItemType::BUNDLE_ITEM_MELEE:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::BUNDLE_ITEM_MELEE;
+				break;
+			case FUWeaponBundleItemType::BUNDLE_ITEM_TACTICAL:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::BUNDLE_ITEM_TACTICAL;
+				break;
+			case FUWeaponBundleItemType::BUNDLE_ITEM_MILITARY:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::BUNDLE_ITEM_MILITARY;
+				break;
+			case FUWeaponBundleItemType::BUNDLE_ITEM_PERK:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::BUNDLE_ITEM_PERK;
+				break;
+			default:
+				itm[i].item_type = ModelItems::WeaponBundleItemType::NONE;
+				break;
+			}
+
+			switch (request.items[i].slot_type)
+			{
+			case FUWeaponBundleSlotType::NONE:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::NONE;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_PRIMARY:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PRIMARY;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_SECONDARY:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_SECONDARY;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_MELEE:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MELEE;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_ONE:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_ONE;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_TWO:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_TWO;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_MILITARY_ONE:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MILITARY_ONE;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_MILITARY_TWO:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MILITARY_TWO;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_PERK_ONE:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PERK_ONE;
+				break;
+			case FUWeaponBundleSlotType::BUNDLE_SLOT_PERK_TWO:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PERK_TWO;
+				break;
+			default:
+				itm[i].slot_type = ModelItems::WeaponBundleSlotType::NONE;
+				break;
+			}
+			itm[i].skin = (TYPE_CHAR*)GET_CHARPTR(request.items[i].skin);
+		}
+
+		ModelItems::EditBundleRequest EBR(request.bundle_num, (TYPE_CHAR*)GET_CHARPTR(request.title), itm, request.items.Num());
+		gRPC_Item = new gRPC_ResponseItem(&MainClient::client, &EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
+		delete[] itm;
+		itm = nullptr;
+
+		WB << gRPC_Item->gRPC_EditBundle();
+	}
+
+	return WB;
+}
+
+bool UNearItems::GetAttachBundle()
+{
+	if (MainClient::client != nullptr)
+	{
+		freegRPC_Item();
+		gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
+		return gRPC_Item->gRPC_AttachBundle();
+	}
+	return false;
+}
+
+bool UNearItems::GetDetachBundle()
+{
+	if (MainClient::client != nullptr)
+	{
+		freegRPC_Item();
+		gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::DETACH_BUNDLE);
+		return gRPC_Item->gRPC_DetachBundle();
+	}
+	return false;
+}
+
+TArray<FUWeaponBundle> UNearItems::GetCopyBundlesArray()
+{
+	TArray<FUWeaponBundle> FUWB;
+	GetBundles();
+	if (gRPC_Item != nullptr)
+	{
+		FUWB << gRPC_Item->gRPC_CopyDataBundles();
+	}
+
+	return FUWB;
+}
 
 FUOutfitKind& operator<<(FUOutfitKind& OutfitKindUE, const ModelItems::OutfitKind& OutfitKindResponse)
 {
@@ -243,55 +536,58 @@ FUItem& operator<<(FUItem& itemsUE, const ModelItems::Item& itemResponse)
 	return itemsUE;
 }
 
-TArray<FUItem> UNearItems::getCopyItems()
+TArray<FUItem>& operator<<(TArray<FUItem>& itemsAUE, const ObjectList<ModelItems::Item>& itemAResponse)
 {
-	//TArray<FUItem> FUItemList;
-	//if (MainClient::client != nullptr)
-	//{
-	//	ItemsList ItemList(MainClient::client->gRPC_CopyItems());
-	//	FUItem uItem;
-	//	for (size_t i = 0; i < ItemList.size; i++)
-	//	{
-	//		uItem << ItemList.getItem(i);
-	//		FUItemList.Add(uItem);
-	//	}
-	//
-	//	return FUItemList;
-	//}
-	return TArray<FUItem>();
+	for (int i = 0; i < itemAResponse.getSize(); i++)
+	{
+		FUItem FUI;
+		FUI.in_fight = itemAResponse.getObject(i).in_fight;
+		FUI.lemon << itemAResponse.getObject(i).lemon;
+
+		FUI.media = FString(itemAResponse.getObject(i).media);
+		FUI.outfit << itemAResponse.getObject(i).outfit;
+		FUI.owner_id = FString(itemAResponse.getObject(i).owner_id);
+		FUI.token_id = FString(itemAResponse.getObject(i).token_id);
+		itemsAUE.Add(FUI);
+	}
+
+	return itemsAUE;
 }
 
-TArray<FUItem> UNearItems::getItemsPtr()
+TArray<FUItem> UNearItems::GetItemsArry()
 {
-	//TArray<FUItem> FUItemList;
-	//if (MainClient::client != nullptr)
-	//{
-	//	ItemsList ItemList(MainClient::client->gRPC_GetItems());
-	//	FUItem uItem;
-	//	for (size_t i = 0; i < ItemList.size; i++)
-	//	{
-	//		uItem << ItemList.getItem(i);
-	//		FUItemList.Add(uItem);
-	//	}
-	//
-	//	return FUItemList;
-	//}
-	return TArray<FUItem>();
+	TArray<FUItem> FUItemList;
+	GetItems();
+	if (gRPC_Item != nullptr)
+	{
+		FUItemList << gRPC_Item->gRPC_GetItemsArray();
+	}
+	return FUItemList;
 }
 
-FUItem UNearItems::getItem(int index)
+TArray<FUItem> UNearItems::GetCopyDataItems()
+{
+	TArray<FUItem> uItemA;
+	GetItems();
+	if (gRPC_Item != nullptr)
+	{
+		uItemA << gRPC_Item->gRPC_CopyDataItems();
+	}
+
+	return uItemA;
+}
+
+FUItem UNearItems::GetItem(int index)
 {
 	FUItem uItem;
-	//if (MainClient::client != nullptr)
-	//{
-	//	uItem << MainClient::client->gRPC_GetItem(index);
-	//}
+	GetItems();
+	if (gRPC_Item != nullptr)
+	{
+		uItem << gRPC_Item->gRPC_GetItem(index);
+	}
 
 	return uItem;
 }
-
-
-
 
 ModelMM::SearchGameRequest& operator<<(ModelMM::SearchGameRequest& Request, const FUSearchGameRequest& RequestUE)
 {

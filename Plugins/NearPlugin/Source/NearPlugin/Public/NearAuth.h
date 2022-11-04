@@ -31,73 +31,6 @@ namespace MainClient
 	Client* client = nullptr;
 }
 
-UENUM(BlueprintType)
-enum class FUOutfitKind : uint8
-{
-	Cap UMETA( DisplayName = "CAP"),
-	Cloth UMETA(DisplayName = "CLOTH"),
-	Fire_ARM UMETA( DisplayName = "FIRE_ARM"),
-	Cold_ARM UMETA( DisplayName = "COLD_ARM"),
-	Back UMETA( DisplayName = "BACK"),
-	Default UMETA( DisplayName = "DEFAULT")
-};
-
-
-USTRUCT(BlueprintType)
-struct FUOutfitModel
-{
-	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString flavour;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString token_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitKind kind;
-};
-
-USTRUCT(BlueprintType)
-struct FULemonModel
-{
-	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitModel cap;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitModel cloth;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString exo;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString eyes;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString head;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString teeth;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString face;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitModel fire_arm;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitModel cold_arm;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitModel back;
-};
-
-
-USTRUCT(BlueprintType)
-struct FUItem
-{
-	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString token_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString media;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString owner_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FULemonModel lemon;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FUOutfitModel outfit;
-};
-
 USTRUCT(BlueprintType)
 struct FUPlayerItemsClient
 {
@@ -169,7 +102,182 @@ public:
 
 ///items.proto
 
+UENUM(BlueprintType)
+enum class FUOutfitKind : uint8
+{
+	Cap UMETA(DisplayName = "CAP"),
+	Cloth UMETA(DisplayName = "CLOTH"),
+	Fire_ARM UMETA(DisplayName = "FIRE_ARM"),
+	Cold_ARM UMETA(DisplayName = "COLD_ARM"),
+	Back UMETA(DisplayName = "BACK"),
+	Default UMETA(DisplayName = "DEFAULT")
+};
 
+
+UENUM(BlueprintType)
+enum class FUWeaponBundleItemType : uint8
+{
+	NONE UMETA(DisplayName = "NONE"),
+	BUNDLE_ITEM_PRIMARY UMETA(DisplayName = "BUNDLE_ITEM_PRIMARY"),
+	BUNDLE_ITEM_SECONDARY UMETA(DisplayName = "BUNDLE_ITEM_SECONDARY"),
+	BUNDLE_ITEM_MELEE UMETA(DisplayName = "BUNDLE_ITEM_MELEE"),
+	BUNDLE_ITEM_TACTICAL UMETA(DisplayName = "BUNDLE_ITEM_TACTICAL"),
+	BUNDLE_ITEM_MILITARY UMETA(DisplayName = "BUNDLE_ITEM_MILITARY"),
+	BUNDLE_ITEM_PERK UMETA(DisplayName = "BUNDLE_ITEM_PERK"),
+	Default UMETA(DisplayName = "DEFAULT")
+};
+
+UENUM(BlueprintType)
+enum class FUWeaponBundleSlotType : uint8
+{
+	NONE UMETA(DisplayName = "NONE"),
+	BUNDLE_SLOT_PRIMARY UMETA(DisplayName = "BUNDLE_SLOT_PRIMARY"),
+	BUNDLE_SLOT_SECONDARY UMETA(DisplayName = "BUNDLE_SLOT_SECONDARY"),
+	BUNDLE_SLOT_MELEE UMETA(DisplayName = "BUNDLE_SLOT_MELEE"),
+	BUNDLE_SLOT_TACTICAL_ONE UMETA(DisplayName = "BUNDLE_SLOT_TACTICAL_ONE"),
+	BUNDLE_SLOT_TACTICAL_TWO UMETA(DisplayName = "BUNDLE_SLOT_TACTICAL_TWO"),
+	BUNDLE_SLOT_MILITARY_ONE UMETA(DisplayName = "BUNDLE_SLOT_MILITARY_ONE"),
+	BUNDLE_SLOT_MILITARY_TWO UMETA(DisplayName = "BUNDLE_SLOT_MILITARY_TWO"),
+	BUNDLE_SLOT_PERK_ONE UMETA(DisplayName = "BUNDLE_SLOT_PERK_ONE"),
+	BUNDLE_SLOT_PERK_TWO UMETA(DisplayName = "BUNDLE_SLOT_PERK_TWO"),
+	Default UMETA(DisplayName = "DEFAULT")
+};
+
+USTRUCT(BlueprintType)
+struct FUWeaponBundleItem
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUWeaponBundleItemType item_type;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString skin;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUWeaponBundleSlotType slot_type;
+};
+
+USTRUCT(BlueprintType)
+struct FUWeaponBundle
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	int32 bundle_num;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	TArray<FUWeaponBundleItem> items;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString title;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	int32 level;
+};
+
+USTRUCT(BlueprintType)
+struct FUOutfitModel
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString flavour;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString token_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitKind kind;
+};
+
+
+USTRUCT(BlueprintType)
+struct FULemonModel
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitModel cap;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitModel cloth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString exo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString eyes;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString head;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString teeth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString face;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitModel fire_arm;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitModel cold_arm;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitModel back;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	TArray<FUWeaponBundle> attached_bundles;
+};
+
+
+
+USTRUCT(BlueprintType)
+struct FUItem
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString token_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString media;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString owner_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	bool in_fight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FULemonModel lemon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FUOutfitModel outfit;
+};
+
+USTRUCT(BlueprintType)
+struct FUItemsResponse
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	TArray<FUItem> items;
+};
+
+USTRUCT(BlueprintType)
+struct FUGetBundlesResponse
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	TArray<FUWeaponBundle> bundles;
+};
+
+USTRUCT(BlueprintType)
+struct FUEditBundleRequest
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	int32 bundle_num;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	TArray<FUWeaponBundleItem> items;// changes only
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString title;
+};
+
+USTRUCT(BlueprintType)
+struct FUAttachBundleRequest
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	int32 bundle_num;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString lemon_id;
+};
+
+USTRUCT(BlueprintType)
+struct FUDetachBundleRequest
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	int32 bundle_num;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
+	FString lemon_id;
+};
 
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearItems : public UObject
@@ -177,33 +285,42 @@ class NEARPLUGIN_API UNearItems : public UObject
 	GENERATED_BODY()
 	gRPC_ResponseItem* gRPC_Item;
 	TArray<FUItem> ItemsPtr;
-	bool setItemsPtr();
+	void freegRPC_Item();
+	void GetBundles();
+	void GetItems();
 
 public:
 	UNearItems();
 	~UNearItems();
 
-	//UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	//ModelItems::WeaponBundle gRPC_GetBundle(int index);
-	//
-	//UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	//ObjectList<ModelItems::WeaponBundle> gRPC_GetBundlesArray();
-	//
-	//UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	//ObjectList<ModelItems::WeaponBundle> gRPC_CopyDataBundles();
+	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
+	TArray<FUWeaponBundle> GetBundlesArray();
 
+	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
+	FUWeaponBundle GetBundle(int index);
 
+	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
+	TArray<FUWeaponBundle> GetCopyBundlesArray();
+	
+	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
+	FUWeaponBundle GetEditBundle(FUEditBundleRequest request);
+
+	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
+	bool GetAttachBundle();
+
+	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
+	bool GetDetachBundle();
 
 
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	TArray<FUItem> getCopyItems();
+	TArray<FUItem> GetItemsArry();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	TArray<FUItem> getItemsPtr();
+	TArray<FUItem> GetCopyDataItems();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	FUItem getItem(int index);
+	FUItem GetItem(int index);
 };
 
 
