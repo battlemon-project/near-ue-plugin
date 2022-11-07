@@ -27,6 +27,5 @@ public:
 	//mm.proto
 
 	void saveKey(const TYPE_CHAR* dir);
-private:
 	bool AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth type);
 };
