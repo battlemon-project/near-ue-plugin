@@ -61,6 +61,9 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 
 	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + REDIRECT + "&public_key=" + FString(MainClient::client->GetPublicKey())));
 	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
+	
+	if (MainClient::client->AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION))
+		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 }
 
 
@@ -116,8 +119,8 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 	freeClient();
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
 	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
-	//return MainClient::client->AuthServiceClient();
-	return MainClient::client->IsValidAccount();
+	return MainClient::client->AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
+	//return MainClient::client->IsValidAccount();
 }
 
 void UNearAuth::saveAccountId()
@@ -560,7 +563,13 @@ TArray<FUItem> UNearItems::GetItemsArry()
 	GetItems();
 	if (gRPC_Item != nullptr)
 	{
-		FUItemList << gRPC_Item->gRPC_GetItemsArray();
+		ObjectList<ModelItems::Item> IA = gRPC_Item->gRPC_GetItemsArray();
+		for (size_t i = 0; i < IA.getSize(); i++)
+		{
+			FUItem uItem;
+			uItem << IA.getObject(i);
+			FUItemList.Add(uItem);
+		}
 	}
 	return FUItemList;
 }
