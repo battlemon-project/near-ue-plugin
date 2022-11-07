@@ -218,13 +218,13 @@ void UNearItems::GetItems()
 	if (MainClient::client != nullptr)
 	{
 		if (gRPC_Item == nullptr)
-			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
 		else
 		{
-			if (gRPC_Item->GetCall_gRPC() != Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES)
+			if (gRPC_Item->GetCall_gRPC() != Type_Call_gRPC::Type_gRPCItem::GET_ITEMS)
 			{
 				freegRPC_Item();
-				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
 			}
 		}
 	}
