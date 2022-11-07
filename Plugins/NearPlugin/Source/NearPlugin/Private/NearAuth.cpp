@@ -507,8 +507,8 @@ FUOutfitKind& operator<<(FUOutfitKind& OutfitKindUE, const ModelItems::OutfitKin
 
 FUOutfitModel& operator<<(FUOutfitModel& OutfitModellUE, const ModelItems::OutfitModel& OutfitModelResponse)
 {
-	OutfitModellUE.flavour = OutfitModelResponse.flavour;
-	OutfitModellUE.token_id = OutfitModelResponse.token_id;
+	OutfitModellUE.flavour = FString((const TYPE_CHAR*)OutfitModelResponse.flavour);
+	OutfitModellUE.token_id = FString((const TYPE_CHAR*)OutfitModelResponse.token_id);
 	OutfitModellUE.kind << OutfitModelResponse.kind;
 	return OutfitModellUE;
 }
@@ -516,11 +516,11 @@ FUOutfitModel& operator<<(FUOutfitModel& OutfitModellUE, const ModelItems::Outfi
 FULemonModel& operator<<(FULemonModel& LemonModelUE, const ModelItems::LemonModel& LemonModelResponse)
 {
 
-	LemonModelUE.exo = LemonModelResponse.exo;
-	LemonModelUE.eyes = LemonModelResponse.eyes;
-	LemonModelUE.head = LemonModelResponse.head;
-	LemonModelUE.teeth = LemonModelResponse.teeth;
-	LemonModelUE.face = LemonModelResponse.face;
+	LemonModelUE.exo = FString((const TYPE_CHAR*)LemonModelResponse.exo);
+	LemonModelUE.eyes = FString((const TYPE_CHAR*)LemonModelResponse.eyes);
+	LemonModelUE.head = FString((const TYPE_CHAR*)LemonModelResponse.head);
+	LemonModelUE.teeth = FString((const TYPE_CHAR*)LemonModelResponse.teeth);
+	LemonModelUE.face = FString((const TYPE_CHAR*)LemonModelResponse.face);
 	LemonModelUE.cap << LemonModelResponse.cap;
 	LemonModelUE.cloth << LemonModelResponse.cloth;
 	LemonModelUE.fire_arm << LemonModelResponse.fire_arm;
@@ -531,9 +531,9 @@ FULemonModel& operator<<(FULemonModel& LemonModelUE, const ModelItems::LemonMode
 
 FUItem& operator<<(FUItem& itemsUE, const ModelItems::Item& itemResponse)
 {
-	itemsUE.token_id = itemResponse.token_id;
-	itemsUE.media = itemResponse.media;
-	itemsUE.owner_id = itemResponse.owner_id;
+	itemsUE.token_id = FString((const TYPE_CHAR*)itemResponse.token_id);
+	itemsUE.media = FString((const TYPE_CHAR*)itemResponse.media);
+	itemsUE.owner_id = FString((const TYPE_CHAR*)itemResponse.owner_id);
 	itemsUE.lemon << itemResponse.lemon;
 	itemsUE.outfit << itemResponse.outfit;
 	return itemsUE;
