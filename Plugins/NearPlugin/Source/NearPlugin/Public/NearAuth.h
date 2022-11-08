@@ -286,8 +286,7 @@ class NEARPLUGIN_API UNearItems : public UObject
 	gRPC_ResponseItem* gRPC_Item;
 	TArray<FUItem> ItemsPtr;
 	void freegRPC_Item();
-	void GetBundles();
-	void GetItems();
+	void Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPCItem Type_gRPC);
 
 public:
 	UNearItems();

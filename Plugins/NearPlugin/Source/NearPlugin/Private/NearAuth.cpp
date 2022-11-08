@@ -196,35 +196,18 @@ UNearItems::~UNearItems()
 
 ///items.proto
 
-void UNearItems::GetBundles()
-{
-	if (MainClient::client != nullptr)
-	{
-		if(gRPC_Item == nullptr)
-			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
-		else
-		{
-			if (gRPC_Item->GetCall_gRPC() != Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES)
-			{
-				freegRPC_Item();
-				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
-			}
-		}
-	}
-}
-
-void UNearItems::GetItems()
+void  UNearItems::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPCItem Type_gRPC)
 {
 	if (MainClient::client != nullptr)
 	{
 		if (gRPC_Item == nullptr)
-			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
+			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, Type_gRPC);
 		else
 		{
-			if (gRPC_Item->GetCall_gRPC() != Type_Call_gRPC::Type_gRPCItem::GET_ITEMS)
+			if (gRPC_Item->GetCall_gRPC() != Type_gRPC)
 			{
 				freegRPC_Item();
-				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
+				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, Type_gRPC);
 			}
 		}
 	}
@@ -327,11 +310,8 @@ TArray<FUWeaponBundle>& operator<<(TArray<FUWeaponBundle>& WeaponBundleUE, const
 TArray<FUWeaponBundle> UNearItems::GetBundlesArray()
 {
 	TArray<FUWeaponBundle> WeaponBundles;
-	GetBundles();
-	if (gRPC_Item != nullptr)
-	{
-		WeaponBundles << gRPC_Item->gRPC_GetBundlesArray();
-	}
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+	WeaponBundles << gRPC_Item->gRPC_GetBundlesArray();
 	return WeaponBundles;
 }
 
@@ -347,11 +327,8 @@ FUWeaponBundle& operator<<(FUWeaponBundle& WeaponBundleUE, const ModelItems::Wea
 FUWeaponBundle UNearItems::GetBundle(int index)
 {
 	FUWeaponBundle WeaponBundles;
-	GetBundles();
-	if (gRPC_Item != nullptr)
-	{
-		WeaponBundles << gRPC_Item->gRPC_GetBundle(index);
-	}
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
+	WeaponBundles << gRPC_Item->gRPC_GetBundle(index);
 
 	return WeaponBundles;
 
@@ -435,22 +412,22 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 		}
 
 		ModelItems::EditBundleRequest EBR(request.bundle_num, (TYPE_CHAR*)GET_CHARPTR(request.title), itm, request.items.Num());
-		gRPC_Item = new gRPC_ResponseItem(&MainClient::client, &EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
+
+		Call_gRPC(&EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
 		delete[] itm;
 		itm = nullptr;
 
 		WB << gRPC_Item->gRPC_EditBundle();
 	}
-
 	return WB;
 }
 
 bool UNearItems::GetAttachBundle()
 {
-	if (MainClient::client != nullptr)
+
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
+	if (gRPC_Item != nullptr)
 	{
-		freegRPC_Item();
-		gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
 		return gRPC_Item->gRPC_AttachBundle();
 	}
 	return false;
@@ -458,10 +435,9 @@ bool UNearItems::GetAttachBundle()
 
 bool UNearItems::GetDetachBundle()
 {
-	if (MainClient::client != nullptr)
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
+	if (gRPC_Item != nullptr)
 	{
-		freegRPC_Item();
-		gRPC_Item = new gRPC_ResponseItem(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPCItem::DETACH_BUNDLE);
 		return gRPC_Item->gRPC_DetachBundle();
 	}
 	return false;
@@ -470,11 +446,9 @@ bool UNearItems::GetDetachBundle()
 TArray<FUWeaponBundle> UNearItems::GetCopyBundlesArray()
 {
 	TArray<FUWeaponBundle> FUWB;
-	GetBundles();
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
 	if (gRPC_Item != nullptr)
-	{
 		FUWB << gRPC_Item->gRPC_CopyDataBundles();
-	}
 
 	return FUWB;
 }
@@ -560,16 +534,13 @@ TArray<FUItem>& operator<<(TArray<FUItem>& itemsAUE, const ObjectList<ModelItems
 TArray<FUItem> UNearItems::GetItemsArry()
 {
 	TArray<FUItem> FUItemList;
-	GetItems();
-	if (gRPC_Item != nullptr)
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
+	ObjectList<ModelItems::Item> IA = gRPC_Item->gRPC_GetItemsArray();
+	for (size_t i = 0; i < IA.getSize(); i++)
 	{
-		ObjectList<ModelItems::Item> IA = gRPC_Item->gRPC_GetItemsArray();
-		for (size_t i = 0; i < IA.getSize(); i++)
-		{
-			FUItem uItem;
-			uItem << IA.getObject(i);
-			FUItemList.Add(uItem);
-		}
+		FUItem uItem;
+		uItem << IA.getObject(i);
+		FUItemList.Add(uItem);
 	}
 	return FUItemList;
 }
@@ -577,11 +548,8 @@ TArray<FUItem> UNearItems::GetItemsArry()
 TArray<FUItem> UNearItems::GetCopyDataItems()
 {
 	TArray<FUItem> uItemA;
-	GetItems();
-	if (gRPC_Item != nullptr)
-	{
-		uItemA << gRPC_Item->gRPC_CopyDataItems();
-	}
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
+	uItemA << gRPC_Item->gRPC_CopyDataItems();
 
 	return uItemA;
 }
@@ -589,11 +557,8 @@ TArray<FUItem> UNearItems::GetCopyDataItems()
 FUItem UNearItems::GetItem(int index)
 {
 	FUItem uItem;
-	GetItems();
-	if (gRPC_Item != nullptr)
-	{
-		uItem << gRPC_Item->gRPC_GetItem(index);
-	}
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
+	uItem << gRPC_Item->gRPC_GetItem(index);
 
 	return uItem;
 }
