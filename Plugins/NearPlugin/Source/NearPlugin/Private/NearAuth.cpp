@@ -435,7 +435,7 @@ bool UNearItems::GetAttachBundle()
 
 bool UNearItems::GetDetachBundle()
 {
-	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
+	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::DETACH_BUNDLE);
 	if (gRPC_Item != nullptr)
 	{
 		return gRPC_Item->gRPC_DetachBundle();
