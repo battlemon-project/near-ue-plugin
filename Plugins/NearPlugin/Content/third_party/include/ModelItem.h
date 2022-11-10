@@ -62,7 +62,7 @@ public:
 	{
 		size = copyObjectList.getSize();
 		//owner++;
-		if (size != -1)
+		if (size > 0)
 		{
 			list = new TargetClassList[size];
 			for (int i = 0; i < size; i++)
@@ -281,7 +281,7 @@ namespace ModelItems
 
 		~Item();
 
-		const bool copy;
+		const bool copy = false;
 	};
 
 	class EditBundleRequest
