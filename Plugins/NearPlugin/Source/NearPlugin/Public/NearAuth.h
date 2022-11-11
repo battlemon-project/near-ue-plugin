@@ -211,12 +211,19 @@ struct FULemonModel
 	TArray<FUWeaponBundle> attached_bundles;
 };
 
+enum class FUModel : uint8
+{
+	LEMON UMETA(DisplayName = "LEMON"),
+	OUTFIT_MODEL UMETA(DisplayName = "OUTFIT_MODEL"),
+	DEFAULT UMETA(DisplayName = "DEFAULT")
+};
 
 
 USTRUCT(BlueprintType)
 struct FUItem
 {
 	GENERATED_BODY()
+	FUModel model;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FString token_id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
@@ -305,10 +312,10 @@ public:
 	FUWeaponBundle GetEditBundle(FUEditBundleRequest request);
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	bool GetAttachBundle();
+	bool GetAttachBundle(FUAttachBundleRequest Request);
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	bool GetDetachBundle();
+	bool GetDetachBundle(FUDetachBundleRequest Request);
 
 
 
@@ -419,4 +426,109 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | MMProto")
 	bool CancelSearch();
+};
+
+
+///InternalMM.proto
+
+USTRUCT(BlueprintType)
+struct FUInternalUserLeftBattleRequest
+{
+	GENERATED_BODY()
+
+	FString near_id;
+	FString room_id;
+};
+
+USTRUCT(BlueprintType)
+struct FUInternalPlayerResult
+{
+	GENERATED_BODY()
+
+	FString near_id;
+	int place;
+};
+
+USTRUCT(BlueprintType)
+struct FUSaveBattleResultRequest
+{
+	GENERATED_BODY()
+
+	FString room_id;
+	TArray<FUInternalPlayerResult> results;
+};
+
+
+USTRUCT(BlueprintType)
+struct FURoomInfoRequest
+{
+	GENERATED_BODY()
+
+	FString room_id;
+};
+
+USTRUCT(BlueprintType)
+struct FURoomPlayerInfo
+{
+	GENERATED_BODY()
+
+	FString near_id;
+	FUItem lemon;
+};
+
+USTRUCT(BlueprintType)
+struct FURoomInfoResponse
+{
+	GENERATED_BODY()
+
+	FString room_id;
+	FUGameMode mode;
+	TArray<FURoomPlayerInfo> players;
+};
+
+
+USTRUCT(BlueprintType)
+struct FUCreateRoomRequest
+{
+	GENERATED_BODY()
+
+	FUGameMode mode;
+	TArray<FString> near_ids;
+};
+
+USTRUCT(BlueprintType)
+struct FUDedicatedServerIsReadyRequest
+{
+	GENERATED_BODY()
+
+	FString room_id;
+};
+
+UCLASS(Blueprintable)
+class NEARPLUGIN_API UNearInternalMM : public	UObject
+{
+	GENERATED_BODY()
+	gRPC_ResponseInternalMM* gRPC_InternalMM;
+
+	void freegRPC_InternalMM();
+	bool Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_InternalMM Type_gRPC);
+
+public:
+	UNearInternalMM();
+	~UNearInternalMM();
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	bool UserLeftBattle(FUInternalUserLeftBattleRequest Request);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	bool SaveBattleResult(FUSaveBattleResultRequest Request);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	FURoomInfoResponse GetRoomInfo(FURoomInfoRequest Request);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	FURoomInfoResponse CreateRoomWithPlayers(FUCreateRoomRequest Request);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	bool DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Request);
 };

@@ -70,8 +70,8 @@ class gRPC_ResponseMM : public gRPC_Response<Type_Call_gRPC::Type_gRPC_MM>
 
 	//call server			
 	void CallRPC_SearchGame(ModelMM::SearchGameRequest& inRequest);	//SearchGameResponse
-	bool CallRPC_AcceptGame(ModelMM::AcceptGameRequest& inRequest);													//common.Empty
-	bool CallRPC_CancelSearch();																		//common.Empty
+	void CallRPC_AcceptGame(ModelMM::AcceptGameRequest& inRequest);													//common.Empty
+	void CallRPC_CancelSearch();																		//common.Empty
 
 public:
 
@@ -82,5 +82,31 @@ public:
 	gRPC_ResponseMM(Client** client, void* inRequest, Type_Call_gRPC::Type_gRPC_MM type_gRPC = Type_Call_gRPC::Type_gRPC_MM::NONE);
 	gRPC_ResponseMM() = delete;
 	~gRPC_ResponseMM();
+
+};
+
+class gRPC_ResponseInternalMM : public gRPC_Response<Type_Call_gRPC::Type_gRPC_InternalMM>
+{
+
+	void free_gRPC() override;
+
+	//call server			
+	void CallRPC_UserLeftBattle(ModelInternalMM::InternalUserLeftBattleRequest& inRequest);
+	void CallRPC_SaveBattleResult(ModelInternalMM::SaveBattleResultRequest& inRequest);	
+	void CallRPC_GetRoomInfo(ModelInternalMM::RoomInfoRequest& inRequest);
+	void CallRPC_CreateRoomWithPlayers(ModelInternalMM::CreateRoomRequest& inRequest);
+	void CallRPC_DedicatedServerIsReady(ModelInternalMM::DedicatedServerIsReadyRequest& inRequest);
+public:
+
+	bool getResponse_UserLeftBattle();
+	bool getResponse_SaveBattleResult();
+	ModelInternalMM::RoomInfoResponse getResponse_GetRoomInfo();
+	ModelInternalMM::RoomInfoResponse getResponse_CreateRoomWithPlayers();
+	bool getResponse_DedicatedServerIsReady();
+
+
+	gRPC_ResponseInternalMM(Client** client, void* inRequest, Type_Call_gRPC::Type_gRPC_InternalMM type_gRPC = Type_Call_gRPC::Type_gRPC_InternalMM::NONE);
+	gRPC_ResponseInternalMM() = delete;
+	~gRPC_ResponseInternalMM();
 
 };

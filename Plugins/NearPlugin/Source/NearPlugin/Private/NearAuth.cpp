@@ -184,7 +184,7 @@ void UNearItems::freegRPC_Item()
 	}
 }
 
-UNearItems::UNearItems()
+UNearItems::UNearItems():gRPC_Item(nullptr)
 {
 }
 
@@ -411,7 +411,8 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 			itm[i].skin = (TYPE_CHAR*)GET_CHARPTR(request.items[i].skin);
 		}
 
-		ModelItems::EditBundleRequest EBR(request.bundle_num, (TYPE_CHAR*)GET_CHARPTR(request.title), itm, request.items.Num());
+		ObjectList<ModelItems::WeaponBundleItem> items(itm, request.items.Num());
+		ModelItems::EditBundleRequest EBR(request.bundle_num, GET_CHARPTR(request.title), &items);
 
 		Call_gRPC(&EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
 		delete[] itm;
@@ -422,10 +423,10 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 	return WB;
 }
 
-bool UNearItems::GetAttachBundle()
+bool UNearItems::GetAttachBundle(FUAttachBundleRequest Request)
 {
-
-	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
+	ModelItems::AttachBundleRequest messeng(Request.bundle_num, GET_CHARPTR(Request.lemon_id));
+	Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPCItem::ATTACH_BUNDLE);
 	if (gRPC_Item != nullptr)
 	{
 		return gRPC_Item->gRPC_AttachBundle();
@@ -433,9 +434,10 @@ bool UNearItems::GetAttachBundle()
 	return false;
 }
 
-bool UNearItems::GetDetachBundle()
+bool UNearItems::GetDetachBundle(FUDetachBundleRequest Request)
 {
-	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::DETACH_BUNDLE);
+	ModelItems::DetachBundleRequest messeng(Request.bundle_num, GET_CHARPTR(Request.lemon_id));
+	Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPCItem::DETACH_BUNDLE);
 	if (gRPC_Item != nullptr)
 	{
 		return gRPC_Item->gRPC_DetachBundle();
@@ -508,8 +510,23 @@ FUItem& operator<<(FUItem& itemsUE, const ModelItems::Item& itemResponse)
 	itemsUE.token_id = FString((const TYPE_CHAR*)itemResponse.token_id);
 	itemsUE.media = FString((const TYPE_CHAR*)itemResponse.media);
 	itemsUE.owner_id = FString((const TYPE_CHAR*)itemResponse.owner_id);
-	itemsUE.lemon << itemResponse.lemon;
-	itemsUE.outfit << itemResponse.outfit;
+
+	switch (itemResponse.model)
+	{
+	case ModelItems::Model::LEMON:
+		itemsUE.lemon << itemResponse.lemon;
+		itemsUE.model = FUModel::LEMON;
+		break;
+	case ModelItems::Model::OUTFIT_MODEL:
+		itemsUE.outfit << itemResponse.outfit;
+		itemsUE.model = FUModel::OUTFIT_MODEL;
+		break;
+	case ModelItems::Model::DEFAULT:
+	default:
+		itemsUE.model = FUModel::DEFAULT;
+		break;
+	}
+
 	return itemsUE;
 }
 
@@ -563,37 +580,37 @@ FUItem UNearItems::GetItem(int index)
 	return uItem;
 }
 
-ModelMM::SearchGameRequest& operator<<(ModelMM::SearchGameRequest& Request, const FUSearchGameRequest& RequestUE)
+ModelMM::GameMode& operator<<(ModelMM::GameMode& Request, const FUGameMode& RequestUE)
 {
 
-	switch (RequestUE.game_mode.match_mode)
+	switch (RequestUE.match_mode)
 	{
 	case FUMatchMode::NONE:
-		Request.game_mode.match_mode = ModelMM::MatchMode::NONE;
+		Request.match_mode = ModelMM::MatchMode::NONE;
 		break;
 	case FUMatchMode::EQUIPMENT:
-		Request.game_mode.match_mode = ModelMM::MatchMode::EQUIPMENT;
+		Request.match_mode = ModelMM::MatchMode::EQUIPMENT;
 		break; 
 	case FUMatchMode::REALISM:
-		Request.game_mode.match_mode = ModelMM::MatchMode::REALISM;
+		Request.match_mode = ModelMM::MatchMode::REALISM;
 			break;
 	case FUMatchMode::Default:
 	default:
-		Request.game_mode.match_mode = ModelMM::MatchMode::DEFAULT;
+		Request.match_mode = ModelMM::MatchMode::DEFAULT;
 		break;
 	}
 
-	switch (RequestUE.game_mode.match_type)
+	switch (RequestUE.match_type)
 	{
 	case FUMatchType::DEATH_MATCH:
-		Request.game_mode.match_type = ModelMM::MatchType::DEATH_MATCH;
+		Request.match_type = ModelMM::MatchType::DEATH_MATCH;
 		break;
 	case FUMatchType::CATCH_THE_FLAG:
-		Request.game_mode.match_type = ModelMM::MatchType::CATCH_THE_FLAG;
+		Request.match_type = ModelMM::MatchType::CATCH_THE_FLAG;
 		break;
 	case FUMatchType::Default:
 	default:
-		Request.game_mode.match_type = ModelMM::MatchType::DEFAULT;
+		Request.match_type = ModelMM::MatchType::DEFAULT;
 		break;
 	}
 	//Request.game_mode.match_mode
@@ -625,8 +642,9 @@ FUSearchGameResponse UNearMM::SearchGame(FUSearchGameRequest Request)
 
 	if (MainClient::client != nullptr)
 	{
-		ModelMM::SearchGameRequest SearchGameRequest;
-		SearchGameRequest << Request;
+		ModelMM::GameMode game_mode;
+		game_mode << Request.game_mode;
+		ModelMM::SearchGameRequest SearchGameRequest(&game_mode);
 
 		freegRPC_MM();
 		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &SearchGameRequest, Type_Call_gRPC::Type_gRPC_MM::SEARCH_GAME);
@@ -664,11 +682,6 @@ FUSearchGameResponse UNearMM::SearchGame(FUSearchGameRequest Request)
 	return USearchGameResponse;
 }
 
-ModelMM::AcceptGameRequest& operator<<(ModelMM::AcceptGameRequest& Request, const FUAcceptGameRequest& RequestUE)
-{
-	Request.lemon_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.lemon_id);
-	return Request;
-}
 
 bool UNearMM::AcceptGame(FUAcceptGameRequest Request)
 {
@@ -676,8 +689,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request)
 	{
 		freegRPC_MM();
 
-		ModelMM::AcceptGameRequest inRequest;
-		inRequest << Request;
+		ModelMM::AcceptGameRequest inRequest(GET_CHARPTR(Request.lemon_id));
 		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &inRequest, Type_Call_gRPC::Type_gRPC_MM::ACCEPT_GAME);
 
 
@@ -696,5 +708,179 @@ bool UNearMM::CancelSearch()
 
 		return gRPC_MM->getResponse_CancelSearch();
 	}
+	return false;
+}
+
+///InternalMM.proto
+
+void UNearInternalMM::freegRPC_InternalMM()
+{
+	if (gRPC_InternalMM != nullptr)
+	{
+		delete gRPC_InternalMM;
+		gRPC_InternalMM = nullptr;
+	}
+}
+
+bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_InternalMM Type_gRPC)
+{
+	if (MainClient::client != nullptr)
+	{
+		if (gRPC_InternalMM == nullptr)
+		{
+			gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, Type_gRPC);
+		}
+		else
+		{
+			if (gRPC_InternalMM->GetCall_gRPC() != Type_gRPC)
+			{
+				freegRPC_InternalMM();
+				gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, Type_gRPC);
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+UNearInternalMM::UNearInternalMM(): gRPC_InternalMM(nullptr)
+{
+}
+
+UNearInternalMM::~UNearInternalMM()
+{
+	freegRPC_InternalMM();
+}
+
+bool UNearInternalMM::UserLeftBattle(FUInternalUserLeftBattleRequest Request)
+{
+	ModelInternalMM::InternalUserLeftBattleRequest messeng(GET_CHARPTR(Request.near_id), GET_CHARPTR(Request.room_id));
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::USER_LEFT_BATTLE))
+		return gRPC_InternalMM->getResponse_UserLeftBattle();
+
+	return false;
+}
+
+ObjectList<ModelInternalMM::InternalPlayerResult>& operator<<(ObjectList<ModelInternalMM::InternalPlayerResult>& Request, const TArray<FUInternalPlayerResult>& RequestUE)
+{
+	for (size_t i = 0; i < RequestUE.Num(); i++)
+	{
+		Request[i].near_id = GET_CHARPTR(RequestUE[i].near_id);
+		Request[i].place = &RequestUE[i].place;
+	}
+	return Request;
+}
+
+bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
+{
+	ObjectList<ModelInternalMM::InternalPlayerResult> results;
+	results << Request.results;
+
+	ModelInternalMM::SaveBattleResultRequest messeng(GET_CHARPTR(Request.room_id), &results);
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::USER_LEFT_BATTLE))
+		return gRPC_InternalMM->getResponse_SaveBattleResult();
+
+	return false;
+}
+
+FUGameMode& operator<<(FUGameMode& toUE, const ModelMM::GameMode& from)
+{
+
+	switch (from.match_mode)
+	{
+	case ModelMM::MatchMode::NONE:
+		toUE.match_mode = FUMatchMode::NONE;
+		break;
+	case ModelMM::MatchMode::EQUIPMENT:
+		toUE.match_mode = FUMatchMode::EQUIPMENT;
+		break;
+	case ModelMM::MatchMode::REALISM:
+		toUE.match_mode = FUMatchMode::REALISM;
+		break;
+	case ModelMM::MatchMode::DEFAULT:
+	default:
+		toUE.match_mode = FUMatchMode::Default;
+		break;
+	}
+
+	switch (from.match_type)
+	{
+	case ModelMM::MatchType::DEATH_MATCH:
+		toUE.match_type = FUMatchType::DEATH_MATCH;
+		break;
+	case ModelMM::MatchType::CATCH_THE_FLAG:
+		toUE.match_type = FUMatchType::CATCH_THE_FLAG;
+		break;
+	case ModelMM::MatchType::DEFAULT:
+	default:
+		toUE.match_type = FUMatchType::Default;
+		break;
+	}
+	return toUE;
+}
+
+
+TArray<FURoomPlayerInfo>& operator<<(TArray<FURoomPlayerInfo>& toUE, const ObjectList<ModelInternalMM::RoomPlayerInfo>& from)
+{
+	ModelInternalMM::RoomPlayerInfo * roomPlayerInfoPtr = from.getObjectPtr();
+	for (int i = 0; i < from.getSize(); i++)
+	{
+		FURoomPlayerInfo roomPlayerInfo;
+		roomPlayerInfo.lemon << roomPlayerInfoPtr[i].lemon;
+		roomPlayerInfo.near_id = FString(roomPlayerInfoPtr[i].near_id);
+		toUE.Add(roomPlayerInfo);
+	}
+	return toUE;
+}
+
+FURoomInfoResponse& operator<<(FURoomInfoResponse& toUE, const ModelInternalMM::RoomInfoResponse& from)
+{
+	toUE.room_id = FString(from.room_id);
+	toUE.mode << from.mode;
+	toUE.players << from.players;
+	return toUE;
+}
+
+FURoomInfoResponse UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request)
+{
+	//RoomInfoResponse
+	ModelInternalMM::RoomInfoRequest messeng(GET_CHARPTR(Request.room_id));
+	FURoomInfoResponse Response;
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::GET_ROOM_INFO))
+	{
+		Response << gRPC_InternalMM->getResponse_GetRoomInfo();
+		return Response;
+	}
+	return Response;
+}
+
+FURoomInfoResponse UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request)
+{
+	FURoomInfoResponse Response;
+
+	ModelMM::GameMode mode;
+	mode << Request.mode;
+
+	ObjectList<const TYPE_CHAR*> near_ids(Request.near_ids.Num());
+	for (int i = 0; i < Request.near_ids.Num(); i++)
+	{
+		near_ids[i] = GET_CHARPTR(Request.near_ids[i]);
+	}
+
+	ModelInternalMM::CreateRoomRequest messeng(&mode, &near_ids);
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::GET_ROOM_INFO))
+	{
+		Response << gRPC_InternalMM->getResponse_CreateRoomWithPlayers();
+		return Response;
+	}
+	return Response;
+}
+
+bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Request)
+{
+	ModelInternalMM::DedicatedServerIsReadyRequest messeng(GET_CHARPTR(Request.room_id));
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::DEDICATED_SERVER_IS_READY))
+		return gRPC_InternalMM->getResponse_DedicatedServerIsReady();
+
 	return false;
 }
