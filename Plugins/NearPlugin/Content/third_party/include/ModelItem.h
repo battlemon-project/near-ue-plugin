@@ -72,8 +72,11 @@ public:
 		}
 		return *this;
 	};
-
-	int getSize() const { return size; };
+	TargetClassList& operator[](const int& index)
+	{
+		return list[index];
+	};
+	const int& getSize() const { return size; };
 	TargetClassList* getObjectPtr() const { return list; };
 	TargetClassList& getObject(int id) const
 	{
@@ -123,7 +126,8 @@ namespace ModelMM
 
 	struct SearchGameRequest
 	{
-		GameMode game_mode;
+		const GameMode* const game_mode;
+		SearchGameRequest(const GameMode* game_mode);
 	};
 
 	enum class SearchGameResponseStatus
@@ -145,7 +149,8 @@ namespace ModelMM
 
 	struct AcceptGameRequest
 	{
-		TYPE_CHAR* lemon_id;
+		const TYPE_CHAR* const lemon_id;
+		AcceptGameRequest(const TYPE_CHAR* lemon_id);
 	};
 
 	class CancelSearchRequest
@@ -163,6 +168,13 @@ namespace ModelItems
 		COLD_ARM = 3,
 		BACK = 4,
 		DEFAULT = 5
+	};
+
+	enum class Model
+	{
+		LEMON,
+		OUTFIT_MODEL,
+		DEFAULT
 	};
 
 	class OutfitModel
@@ -266,6 +278,7 @@ namespace ModelItems
 
 	struct Item
 	{
+		Model model;
 		TYPE_CHAR* token_id;
 		TYPE_CHAR* media;
 		TYPE_CHAR* owner_id;
@@ -273,46 +286,39 @@ namespace ModelItems
 		LemonModel lemon;
 		OutfitModel outfit;
 
+		Item();
+		Item(void* item, bool copy);
+		Item(const ModelItems::Item& copyItem);
 		ModelItems::Item& operator=(const ModelItems::Item& from);
 
-		Item();
-		Item(void* item, int index, bool copy);
-		Item(const Item& from);
-
 		~Item();
-
-		const bool copy = false;
+	private:
+		bool copy;
 	};
 
 	class EditBundleRequest
 	{
-		const int bundle_num;
-		ObjectList<ModelItems::WeaponBundleItem> items;
-		const TYPE_CHAR* title;
-
 	public:
-		EditBundleRequest(int bundle_num, TYPE_CHAR* title, WeaponBundleItem* items, int size);
+		const int* const bundle_num;
+		const ObjectList<ModelItems::WeaponBundleItem>* const items;
+		const TYPE_CHAR* const title;
 
-		const int& getBundle_num() const;
-		ObjectList<ModelItems::WeaponBundleItem>& getItems();
-		const TYPE_CHAR* getTitle() const;
+		EditBundleRequest(const int& bundle_num, const TYPE_CHAR* const title, ObjectList<ModelItems::WeaponBundleItem>* const items);
 	};
 
 	class AttachBundleRequest
 	{
-		const int bundle_num;
-		const TYPE_CHAR* lemon_id;
-
 	public:
-		AttachBundleRequest(const int& bundle_num, const TYPE_CHAR*& lemon_id);
-		const int& get_bundle_num() const;
-		const TYPE_CHAR* get_lemon_id() const;
+		const signed int* const bundle_num;
+		const TYPE_CHAR* const lemon_id;
+
+		AttachBundleRequest(const signed int& bundle_num, const TYPE_CHAR* lemon_id);
 	};
 
 	class DetachBundleRequest :public AttachBundleRequest
 	{
 	public:
-		DetachBundleRequest(const int& bundle_num, const TYPE_CHAR*& lemon_id);
+		DetachBundleRequest(const signed int& bundle_num, const TYPE_CHAR* lemon_id);
 	};
 }
 
@@ -320,45 +326,113 @@ namespace ModelInternalMM
 {
 	struct InternalUserLeftBattleRequest
 	{
-		TYPE_CHAR* near_id;
-		TYPE_CHAR* room_id;
+		const TYPE_CHAR* const near_id;
+		const TYPE_CHAR* const room_id;
+		InternalUserLeftBattleRequest(const TYPE_CHAR* const near_id, const TYPE_CHAR* const room_id);
 	};
 
 	struct InternalPlayerResult
 	{
-		TYPE_CHAR* near_id;
-		int place;
+		const TYPE_CHAR* near_id;
+		const int* place;
 	};
 
 	struct SaveBattleResultRequest
 	{
-		TYPE_CHAR* room_id;
-		ObjectList<ModelInternalMM::InternalPlayerResult> results;
+		const TYPE_CHAR* const room_id;
+		const ObjectList<ModelInternalMM::InternalPlayerResult>* const results;
+		SaveBattleResultRequest(const TYPE_CHAR* const room_id, const ObjectList<ModelInternalMM::InternalPlayerResult>* const results);
 	};
 
 	struct RoomInfoRequest
 	{
-		TYPE_CHAR* room_id;
+		const TYPE_CHAR* const room_id;
+		RoomInfoRequest(const TYPE_CHAR* const room_id);
 	};
+
 	struct RoomPlayerInfo
+	{
+		bool copy;
+		TYPE_CHAR* near_id;
+		ModelItems::Item lemon;
+		RoomPlayerInfo();
+		RoomPlayerInfo(const ModelInternalMM::RoomPlayerInfo& copy);
+		~RoomPlayerInfo();
+	};
+
+	struct RoomInfoResponse
+	{
+		bool copy;
+		TYPE_CHAR* room_id;
+		ModelMM::GameMode mode;
+		ObjectList<ModelInternalMM::RoomPlayerInfo> players;
+
+		RoomInfoResponse(void* readRoomInfoResponsePtr, bool copy);
+		RoomInfoResponse(const ModelInternalMM::RoomInfoResponse& copy);
+		RoomInfoResponse();
+		~RoomInfoResponse();
+	};
+
+	struct CreateRoomRequest
+	{
+		const ModelMM::GameMode *const mode;
+		const ObjectList<const TYPE_CHAR*>* const near_ids;
+		CreateRoomRequest(const ModelMM::GameMode* mode, const ObjectList<const TYPE_CHAR*>* const near_ids);
+	};
+
+	struct DedicatedServerIsReadyRequest
+	{
+		const TYPE_CHAR* const room_id;
+		DedicatedServerIsReadyRequest(const TYPE_CHAR* const room_id);
+	};
+}
+
+namespace ModelUpdates
+{
+	struct Update
+	{
+		TYPE_CHAR* id; // update id
+		long long timestamp; // millisec
+		TYPE_CHAR* message; //UpdateMessage's bytes in base64
+	};
+
+	struct RoomPlayer
 	{
 		TYPE_CHAR* near_id;
 		ModelItems::Item lemon;
 	};
 
-	struct RoomInfoResponse
+	struct RoomNeedAccept
 	{
-		TYPE_CHAR* room_id;
-		ModelMM::GameMode mode;
-		ObjectList<ModelInternalMM::RoomPlayerInfo> players;
+		bool manual_accept;
+		int time_to_accept;
 	};
 
-	struct CreateRoomRequest
+	struct RoomInfo
 	{
-		ModelMM::GameMode mode;
-		ObjectList<TYPE_CHAR*> near_ids;
+		TYPE_CHAR* room_id;
+		TYPE_CHAR* server_ip;
+		ObjectList<ModelUpdates::RoomPlayer> players;
+	};
+
+	enum class UpdateCase
+	{
+		LEMON,
+		OUTFIT_MODEL,
+		DEFAULT
+	};
+
+	struct UpdateMessage
+	{
+		UpdateCase update;
+		RoomNeedAccept room_need_accept;
+		bool room_accepting_canceled;
+		RoomInfo room_found;
+		RoomInfo room_teammates;
+		RoomInfo room_ready;
 	};
 }
+
 
 
 namespace Type_Call_gRPC
@@ -389,4 +463,15 @@ namespace Type_Call_gRPC
 		ACCEPT_GAME,						//return common.Empty
 		CANCEL_SEARCH						//return common.Empty
 	};
+
+	enum class Type_gRPC_InternalMM
+	{
+		NONE,
+		USER_LEFT_BATTLE,					//returns(common.Empty);
+		SAVE_BATTLE_RESULT,					//returns(common.Empty);
+		GET_ROOM_INFO,						//returns(RoomInfoResponse);
+		CREATE_ROOM_WITH_PLAYERS,			//returns(RoomInfoResponse);
+		DEDICATED_SERVER_IS_READY			//common.Empty
+	};
+	
 }
