@@ -777,7 +777,7 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
 	results << Request.results;
 
 	ModelInternalMM::SaveBattleResultRequest messeng(GET_CHARPTR(Request.room_id), &results);
-	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::USER_LEFT_BATTLE))
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::SAVE_BATTLE_RESULT))
 		return gRPC_InternalMM->getResponse_SaveBattleResult();
 
 	return false;
@@ -868,7 +868,7 @@ FURoomInfoResponse UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Re
 	}
 
 	ModelInternalMM::CreateRoomRequest messeng(&mode, &near_ids);
-	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::GET_ROOM_INFO))
+	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::CREATE_ROOM_WITH_PLAYERS))
 	{
 		Response << gRPC_InternalMM->getResponse_CreateRoomWithPlayers();
 		return Response;
