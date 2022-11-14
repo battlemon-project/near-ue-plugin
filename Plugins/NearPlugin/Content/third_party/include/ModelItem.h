@@ -28,7 +28,7 @@ class ObjectList
 	//static int owner;
 public:
 
-	ObjectList(int size) : size(size), list(nullptr)
+	ObjectList(int size) :list(nullptr), size(size)
 	{
 		//owner++;
 		if (size > 0)
