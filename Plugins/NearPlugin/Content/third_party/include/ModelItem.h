@@ -389,6 +389,12 @@ namespace ModelInternalMM
 
 namespace ModelUpdates
 {
+	struct MessageData
+	{
+		void* Data;
+		unsigned long ByteSize;
+	};
+
 	struct Update
 	{
 		TYPE_CHAR* id; // update id
@@ -412,13 +418,16 @@ namespace ModelUpdates
 	{
 		TYPE_CHAR* room_id;
 		TYPE_CHAR* server_ip;
-		ObjectList<ModelUpdates::RoomPlayer> players;
+		ObjectList<ModelUpdates::RoomPlayer>* players;
 	};
 
 	enum class UpdateCase
 	{
-		LEMON,
-		OUTFIT_MODEL,
+		ROOM_NEED_ACCEPT,
+		ROOM_ACCEPTING_CANCELED,
+		ROOM_FOUND,
+		ROOM_TEAMMATES,
+		ROOM_READY,
 		DEFAULT
 	};
 
@@ -438,7 +447,7 @@ namespace ModelUpdates
 namespace Type_Call_gRPC
 {
 	//items.proto
-	enum class Type_gRPCItem
+	enum class Type_gRPCItem : char
 	{
 		NONE,
 
@@ -450,21 +459,22 @@ namespace Type_Call_gRPC
 		DETACH_BUNDLE						//return common.Empty
 	};
 
-	enum class Type_gRPC_Auth
+	enum class Type_gRPC_Auth : char
 	{
 		AUTHORIZATION,
 		REGISTRATION
 	};
 
-	enum class Type_gRPC_MM
+	enum class Type_gRPC_MM : char
 	{
 		NONE,
 		SEARCH_GAME,						//return SearchGameResponse
 		ACCEPT_GAME,						//return common.Empty
-		CANCEL_SEARCH						//return common.Empty
+		CANCEL_SEARCH,						//return common.Empty
+
 	};
 
-	enum class Type_gRPC_InternalMM
+	enum class Type_gRPC_InternalMM : char
 	{
 		NONE,
 		USER_LEFT_BATTLE,					//returns(common.Empty);
