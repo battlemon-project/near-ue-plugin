@@ -63,7 +63,10 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
 	
 	if (MainClient::client->AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION))
+	{
 		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
+		saveAccountId();
+	}
 }
 
 
