@@ -110,3 +110,17 @@ public:
 	~gRPC_ResponseInternalMM();
 
 };
+
+class gRPC_ResponseUptate
+{
+	void* messageData;
+public:
+	gRPC_ResponseUptate();
+	~gRPC_ResponseUptate();
+
+	const ModelUpdates::MessageData& writeUpdate(const ModelUpdates::Update& Request);
+	const ModelUpdates::MessageData& writeUpdateMessage(const ModelUpdates::UpdateMessage& Request);
+	const ModelUpdates::MessageData& writeRoomNeedAccept(const ModelUpdates::RoomNeedAccept& Request);
+	const ModelUpdates::MessageData& writeRoomInfo(const ModelUpdates::RoomInfo& Request);
+	const ModelUpdates::MessageData& writeRoomPlayer(const ModelUpdates::RoomPlayer& Request);
+};

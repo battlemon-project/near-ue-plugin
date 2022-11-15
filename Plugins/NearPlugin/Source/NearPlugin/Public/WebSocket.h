@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include <WebSockets/Public/IWebSocket.h>
 #include <WebSockets/Public/WebSocketsModule.h>
+#include "NearAuth.h"
+#include <include/gRPCResponse.h>
 
 #include "WebSocket.generated.h"
 
@@ -16,7 +18,7 @@ DECLARE_LOG_CATEGORY_EXTERN(WebSocketLog, Error, All);
  
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWebSocketMessageDelegate, const FString&, MessageString);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWebSocketConnectedDelegate);
-/*
+
 USTRUCT(BlueprintType)
 struct FUUpdate 
 {
@@ -36,6 +38,18 @@ struct FURoomNeedAccept
     int time_to_accept;
 };
 
+UENUM(BlueprintType)
+enum class FUUpdateCase : uint8
+{
+    NONE UMETA(DisplayName = "NONE"),
+    ROOM_NEED_ACCEPT UMETA(DisplayName = "ROOM_NEED_ACCEPT"),
+    ROOM_ACCEPTING_CANCELED UMETA(DisplayName = "ROOM_ACCEPTING_CANCELED"),
+    ROOM_FOUND UMETA(DisplayName = "ROOM_FOUND"),
+    ROOM_TEAMMATES UMETA(DisplayName = "ROOM_TEAMMATES"),
+    ROOM_READY UMETA(DisplayName = "ROOM_READY"),
+    BUNDLE_ITEM_PERK UMETA(DisplayName = "BUNDLE_ITEM_PERK"),
+    DEFAULT UMETA(DisplayName = "DEFAULT")
+};
 
 USTRUCT(BlueprintType)
 struct FURoomPlayer
@@ -61,13 +75,14 @@ struct FUUpdateMessage
 {
     GENERATED_BODY()
 
+    FUUpdateCase update;
     FURoomNeedAccept room_need_accept;
-    //common.Empty room_accepting_canceled = 2;
+    //common.Empty room_accepting_canceled;
     FURoomInfo room_found;
     FURoomInfo room_teammates;
     FURoomInfo room_ready;
 };
-*/
+
 
 
 
@@ -84,16 +99,34 @@ public:
 	~UWebSocket();
 
 
-	UFUNCTION(BlueprintCallable, Category = ".Near | Verify")
+	UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Verify")
 	void CreateWebSocet(FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
 
-	UFUNCTION(BlueprintCallable, Category = ".Near | Verify")
+	UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Verify")
 	bool IsConnected();
 
-	UPROPERTY(BlueprintAssignable, Category = ".Near | Verify")
+    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Verify")
+    void CloseConnection();
+
+	UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
 	FWebSocketMessageDelegate OnMessageEvent;
-	UPROPERTY(BlueprintAssignable, Category = ".Near | Verify")
+	UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
 	FWebSocketConnectedDelegate OnConnectedEvent;
-	UPROPERTY(BlueprintAssignable, Category = ".Near | Verify")
+	UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
 	FWebSocketMessageDelegate OnErrorEvent;
+
+    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
+    void WriteUpdate(FUUpdate message,FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
+
+    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
+    void WriteUpdateMessage(FUUpdateMessage message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
+
+    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
+    void WriteRoomNeedAccept(FURoomNeedAccept message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
+
+    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
+    void WriteRoomInfo(FURoomInfo message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
+
+    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
+    void WriteRoomPlayer(FURoomPlayer message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
 };
