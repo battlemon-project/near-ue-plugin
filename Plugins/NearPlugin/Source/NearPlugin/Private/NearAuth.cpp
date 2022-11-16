@@ -418,8 +418,6 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 		ModelItems::EditBundleRequest EBR(request.bundle_num, GET_CHARPTR(request.title), &items);
 
 		Call_gRPC(&EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
-		delete[] itm;
-		itm = nullptr;
 
 		WB << gRPC_Item->gRPC_EditBundle();
 	}
