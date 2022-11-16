@@ -25,10 +25,10 @@ class ObjectList
 {
 	TargetClassList* list;
 	int size;
-	//static int owner;
+	bool owner;
 public:
 
-	ObjectList(int size) :list(nullptr), size(size)
+	ObjectList(int size) :list(nullptr), size(size), owner(true)
 	{
 		//owner++;
 		if (size > 0)
@@ -36,10 +36,9 @@ public:
 		else
 			list = nullptr;
 	};
-	ObjectList(TargetClassList* list, int size) : list(list), size(size) {};
-	ObjectList(const ObjectList& objectList) :list(nullptr), size(objectList.size)
+	ObjectList(TargetClassList* list, int size) : list(list), size(size), owner(true){};
+	ObjectList(ObjectList& objectList) :list(nullptr), size(objectList.size), owner(true)
 	{
-		//owner++;
 		if (size > 0)
 		{
 			list = new TargetClassList[size];
@@ -49,11 +48,10 @@ public:
 			}
 		}
 	}
-	ObjectList() : list(nullptr), size(-1) {};
+	ObjectList() : list(nullptr), size(-1), owner(true) {};
 	~ObjectList()
 	{
-		//owner--;
-		if (list != nullptr /*&& owner == 0*/)
+		if (list != nullptr && owner)
 			delete[]list;
 		list = nullptr;
 	}
@@ -61,7 +59,7 @@ public:
 	ObjectList& operator=(const ObjectList& copyObjectList)
 	{
 		size = copyObjectList.getSize();
-		//owner++;
+		owner = true;
 		if (size > 0)
 		{
 			list = new TargetClassList[size];
@@ -96,7 +94,30 @@ public:
 				list[index] = TargetClass;
 			}
 		}
+		//else
+		//{
+		//	TargetClassList* buff = list;
+		//	list = new TargetClassList[++index];
+		//	for (size_t i = 0; i < size; i++)
+		//	{
+		//		list[i] = buff[i];
+		//	}
+		//	list[index] = buff[index];
+		//	size = index;
+		//}
 	}
+	bool setObjectList(TargetClassList* TargetClass, int size)
+	{
+		if (list == nullptr)
+		{
+			this->size = size;
+			owner = true;
+			list = TargetClass;
+			return true;
+		}
+		return false;
+	}
+	TargetClassList* release() { owner = false; return list; };
 };
 
 

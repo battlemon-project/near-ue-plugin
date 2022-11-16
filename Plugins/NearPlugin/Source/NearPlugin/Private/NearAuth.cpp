@@ -27,18 +27,18 @@ UNearAuth::~UNearAuth()
 
 void UNearAuth::TimerAuthRegist()
 {
-//	MainClient::client->AuthServiceClient();
-//	if (MainClient::client->IsValidAccount())
-//	{
-//		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
-//
-//		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
-//		saveAccountId();
-//		if(ResultNearRegist_Delegate.IsBound())
-//			ResultNearRegist_Delegate.Broadcast(true);
-//	}
-//	if (ResultNearRegist_Delegate.IsBound())
-//		ResultNearRegist_Delegate.Broadcast(false);
+	MainClient::client->AuthServiceClient();
+	if (MainClient::client->IsValidAccount())
+	{
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+
+		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
+		saveAccountId();
+		if(ResultNearRegist_Delegate.IsBound())
+			ResultNearRegist_Delegate.Broadcast(true);
+	}
+	if (ResultNearRegist_Delegate.IsBound())
+		ResultNearRegist_Delegate.Broadcast(false);
 }
 FString UNearAuth::getAccountID()
 {
@@ -60,54 +60,54 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
 	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + REDIRECT + "&public_key=" + FString(MainClient::client->GetPublicKey())));
-	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
 	
-	if (MainClient::client->AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION))
-	{
-		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
-		saveAccountId();
-	}
+	//if (MainClient::client->AuthServiceClient())
+	//{
+	//	MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
+	//	saveAccountId();
+	//}
 }
 
 
-void UNearAuth::PostResponseReceived()
-{
-	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
+//void UNearAuth::PostResponseReceived()
+//{
+//	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
+//
+//	TSharedRef<FJsonObject> RequestObj = MakeShared<FJsonObject>();
+//	Request->SetContentAsString(//"{\"jsonrpc\": \"2.0\",\"id\" : \"dontcare\",\"method\" : \"query\",\"params\" : {\"request_type\": \"view_access_key\",\"finality\" : \"final\",\"account_id\" : \"" + AccountID + "\",\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU" + "\"}}");
+//		FString("{") +
+//			"\"jsonrpc\": \"2.0\"," +
+//			"\"id\" : \"dontcare\"," +
+//			"\"method\" : \"query\"," +
+//			"\"params\" : {" +
+//				"\"request_type\": \"view_access_key\"," +
+//				"\"finality\" : \"final\"," +
+//				"\"account_id\" : \"" + "dsbgfnghcjhgds.testnet" /*AccountID */ + "\"," +
+//				"\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU\"" /*MainClient::client->GetPublicKey() + "\""*/ +
+//			"}" +
+//		"}"
+//	); 
+//	FString RequestBody;
+//	TSharedRef<TJsonWriter<TCHAR>> Writer = TJsonWriterFactory<TCHAR>::Create(&RequestBody);
+//	FJsonSerializer::Serialize(RequestObj, Writer);
+//	Request->SetContentAsString(FString());
+//	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnPOSTRequest);
+//	Request->SetURL(NEAR_TESTNET_RPC_URL);
+//	Request->SetVerb("POST");
+//	Request->SetHeader("Content-Type", "application/json");
+//	Request->SetContentAsString(RequestBody);
+//	Request->ProcessRequest();
+//}
 
-	TSharedRef<FJsonObject> RequestObj = MakeShared<FJsonObject>();
-	Request->SetContentAsString(//"{\"jsonrpc\": \"2.0\",\"id\" : \"dontcare\",\"method\" : \"query\",\"params\" : {\"request_type\": \"view_access_key\",\"finality\" : \"final\",\"account_id\" : \"" + AccountID + "\",\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU" + "\"}}");
-		FString("{") +
-			"\"jsonrpc\": \"2.0\"," +
-			"\"id\" : \"dontcare\"," +
-			"\"method\" : \"query\"," +
-			"\"params\" : {" +
-				"\"request_type\": \"view_access_key\"," +
-				"\"finality\" : \"final\"," +
-				"\"account_id\" : \"" + "dsbgfnghcjhgds.testnet" /*AccountID */ + "\"," +
-				"\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU\"" /*MainClient::client->GetPublicKey() + "\""*/ +
-			"}" +
-		"}"
-	); 
-	FString RequestBody;
-	TSharedRef<TJsonWriter<TCHAR>> Writer = TJsonWriterFactory<TCHAR>::Create(&RequestBody);
-	FJsonSerializer::Serialize(RequestObj, Writer);
-	Request->SetContentAsString(FString());
-	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnPOSTRequest);
-	Request->SetURL(NEAR_TESTNET_RPC_URL);
-	Request->SetVerb("POST");
-	Request->SetHeader("Content-Type", "application/json");
-	Request->SetContentAsString(RequestBody);
-	Request->ProcessRequest();
-}
-
-void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
-{
-	TSharedPtr<FJsonObject> ResponseObj;
-	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
-	FJsonSerializer::Deserialize(Reader, ResponseObj);
-
-	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());
-}
+//void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
+//{
+//	TSharedPtr<FJsonObject> ResponseObj;
+//	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
+//	FJsonSerializer::Deserialize(Reader, ResponseObj);
+//
+//	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());
+//}
 
 void UNearAuth::RegistrationAccount(bool MainNet)
 {
@@ -122,7 +122,7 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 	freeClient();
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
 	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
-	return MainClient::client->AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
+	return MainClient::client->AuthServiceClient();
 	//return MainClient::client->IsValidAccount();
 }
 
@@ -583,6 +583,13 @@ FUItem UNearItems::GetItem(int index)
 	return uItem;
 }
 
+FString UNearItems::GetError()
+{
+	if (gRPC_Item->GetError() != nullptr)
+		return FString(gRPC_Item->GetError());
+	return FString("error == NULL");
+}
+
 ModelMM::GameMode& operator<<(ModelMM::GameMode& Request, const FUGameMode& RequestUE)
 {
 
@@ -619,6 +626,8 @@ ModelMM::GameMode& operator<<(ModelMM::GameMode& Request, const FUGameMode& Requ
 	//Request.game_mode.match_mode
 	return Request;
 }
+
+//mm.proto
 
 void UNearMM::freegRPC_MM()
 {
@@ -712,6 +721,13 @@ bool UNearMM::CancelSearch()
 		return gRPC_MM->getResponse_CancelSearch();
 	}
 	return false;
+}
+
+FString UNearMM::GetError()
+{
+	if (gRPC_MM->GetError() != nullptr)
+		return FString(gRPC_MM->GetError());
+	return FString("error == NULL");
 }
 
 ///InternalMM.proto
@@ -886,4 +902,11 @@ bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Req
 		return gRPC_InternalMM->getResponse_DedicatedServerIsReady();
 
 	return false;
+}
+
+FString UNearInternalMM::GetError()
+{
+	if (gRPC_InternalMM->GetError() != nullptr)
+		return FString(gRPC_InternalMM->GetError());
+	return FString("error == NULL");
 }

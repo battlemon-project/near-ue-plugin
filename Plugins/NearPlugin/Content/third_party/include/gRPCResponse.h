@@ -24,6 +24,7 @@ public:
 	};
 
 	Type_Call_gRPC GetCall_gRPC() const { return type_gRPC; };
+	char* GetError() const { return error; };
 
 	gRPC_Response(Client** client, Type_Call_gRPC type_gRPC) :client((const Client**)client), type_gRPC(type_gRPC), error(nullptr), gRPC_read(nullptr){};
 	gRPC_Response() = delete;

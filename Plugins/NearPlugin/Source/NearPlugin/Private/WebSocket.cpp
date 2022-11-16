@@ -46,6 +46,15 @@ void UWebSocket::CreateWebSocet(FString Address)
 				OnMessageEvent.Broadcast(MessageText);
 			});
 
+		WebSocket->OnRawMessage().AddLambda([&](const void* Data, SIZE_T Size, SIZE_T BytesRemaining) 
+			{
+				ModelUpdates::MessageData MessageData;
+				MessageData.Data = (void*)Data;
+				MessageData.ByteSize = Size;
+
+
+			});
+
 		WebSocket->OnConnected().AddLambda([&]()
 			{
 			UE_LOG(WebSocketLog, All, TEXT("Successfully connected"));

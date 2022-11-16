@@ -9,7 +9,7 @@
 #include <include/gRPCResponse.h>
 #include "NearAuth.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, bool, Result);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, const bool&, Result);
 
 #if PLATFORM_WINDOWS
 #define WEBTYPE_M "mainnet"
@@ -31,20 +31,6 @@ namespace MainClient
 	Client* client = nullptr;
 }
 
-USTRUCT(BlueprintType)
-struct FUPlayerItemsClient
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	FString near_id;				//	PlayerItems
-	//UPROPERTY(BlueprintReadWrite)
-	//TMap<FString, TArray<FString>> nft_ids; //	PlayerItems = <near_id, repeated string nft_ids> 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
-	TArray<FString> nft_idsArr;
-};
-
-
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearAuth : public	UObject
 {
@@ -56,10 +42,10 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 
 
 	void OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
-	void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
+	//void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
-	//FTimerHandle TimerHandle;
+	FTimerHandle TimerHandle;
 	void TimerAuthRegist();
 
 public:
@@ -73,7 +59,7 @@ public:
 	FString getAccountID();
 
 	//UPROPERTY(BlueprintAssignable, Category = ".Near | Registration")
-	//FResultNearAuth_Delegate ResultNearRegist_Delegate;
+	FResultNearAuth_Delegate ResultNearRegist_Delegate;
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
 	void RegistrationAccount(bool MainNet = false);
@@ -94,8 +80,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	FString GetError();
 
-	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	void PostResponseReceived();														//не работает
+	//UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
+	//void PostResponseReceived();														//не работает
 };
 
 
@@ -327,6 +313,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
 	FUItem GetItem(int index);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
+	FString GetError();
 };
 
 
@@ -426,6 +415,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | MMProto")
 	bool CancelSearch();
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
+	FString GetError();
 };
 
 
@@ -531,4 +523,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
 	bool DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Request);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
+	FString GetError();
 };

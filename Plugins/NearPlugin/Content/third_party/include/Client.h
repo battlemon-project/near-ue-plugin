@@ -23,9 +23,6 @@ public:
 	char* GetError() const { return error; };
 	const char* GetSing() const { return sign; };
 
-
-	//mm.proto
-
 	void saveKey(const TYPE_CHAR* dir);
-	bool AuthServiceClient(Type_Call_gRPC::Type_gRPC_Auth type);
+	bool AuthServiceClient();
 };
