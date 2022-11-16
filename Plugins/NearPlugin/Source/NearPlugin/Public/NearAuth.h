@@ -9,7 +9,7 @@
 #include <include/gRPCResponse.h>
 #include "NearAuth.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, const bool&, Result);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, const FString&, Result);
 
 #if PLATFORM_WINDOWS
 #define WEBTYPE_M "mainnet"

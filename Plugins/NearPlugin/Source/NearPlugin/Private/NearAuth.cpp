@@ -35,10 +35,10 @@ void UNearAuth::TimerAuthRegist()
 		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 		saveAccountId();
 		if(ResultNearRegist_Delegate.IsBound())
-			ResultNearRegist_Delegate.Broadcast(true);
+			ResultNearRegist_Delegate.Broadcast("SUCCESS");
 	}
 	if (ResultNearRegist_Delegate.IsBound())
-		ResultNearRegist_Delegate.Broadcast(false);
+		ResultNearRegist_Delegate.Broadcast("FALSE");
 }
 FString UNearAuth::getAccountID()
 {
@@ -535,16 +535,17 @@ FUItem& operator<<(FUItem& itemsUE, const ModelItems::Item& itemResponse)
 
 TArray<FUItem>& operator<<(TArray<FUItem>& itemsAUE, const ObjectList<ModelItems::Item>& itemAResponse)
 {
+	ModelItems::Item* itemPtr = itemAResponse.getObjectPtr();
 	for (int i = 0; i < itemAResponse.getSize(); i++)
 	{
 		FUItem FUI;
-		FUI.in_fight = itemAResponse.getObject(i).in_fight;
-		FUI.lemon << itemAResponse.getObject(i).lemon;
+		FUI.in_fight = itemPtr[i].in_fight;
+		FUI.lemon << itemPtr[i].lemon;
 
-		FUI.media = FString(itemAResponse.getObject(i).media);
-		FUI.outfit << itemAResponse.getObject(i).outfit;
-		FUI.owner_id = FString(itemAResponse.getObject(i).owner_id);
-		FUI.token_id = FString(itemAResponse.getObject(i).token_id);
+		FUI.media = FString(itemPtr[i].media);
+		FUI.outfit << itemPtr[i].outfit;
+		FUI.owner_id = FString(itemPtr[i].owner_id);
+		FUI.token_id = FString(itemPtr[i].token_id);
 		itemsAUE.Add(FUI);
 	}
 
@@ -555,7 +556,8 @@ TArray<FUItem> UNearItems::GetItemsArry()
 {
 	TArray<FUItem> FUItemList;
 	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
-	ObjectList<ModelItems::Item> IA = gRPC_Item->gRPC_GetItemsArray();
+	ObjectList<ModelItems::Item> IA;
+	IA = gRPC_Item->gRPC_GetItemsArray();
 	for (size_t i = 0; i < IA.getSize(); i++)
 	{
 		FUItem uItem;
