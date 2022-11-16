@@ -242,6 +242,7 @@ namespace ModelItems
 
 	struct WeaponBundleItem
 	{
+		bool copy;
 		WeaponBundleItemType item_type;
 		TYPE_CHAR* skin;
 		WeaponBundleSlotType slot_type;
@@ -249,6 +250,7 @@ namespace ModelItems
 		ModelItems::WeaponBundleItem& operator=(const ModelItems::WeaponBundleItem& from);
 
 		WeaponBundleItem();
+		WeaponBundleItem(bool copy);
 		WeaponBundleItem(WeaponBundleItemType item_type, WeaponBundleSlotType slot_type, TYPE_CHAR* skin);
 		WeaponBundleItem(const WeaponBundleItem& copy);
 		~WeaponBundleItem();
@@ -256,6 +258,7 @@ namespace ModelItems
 
 	struct WeaponBundle
 	{
+		bool copy;
 		int bundle_num;
 		ObjectList<WeaponBundleItem> WeaponList;
 
@@ -265,7 +268,8 @@ namespace ModelItems
 		ModelItems::WeaponBundle& operator=(const ModelItems::WeaponBundle& from);
 
 		WeaponBundle();
-		WeaponBundle(int size_WeaponList);
+		WeaponBundle(int size_WeaponList, bool copy);
+		WeaponBundle(WeaponBundleItem* WeaponList, int size_WeaponList, bool copy);
 		WeaponBundle(const WeaponBundle& copy);
 		~WeaponBundle();
 
