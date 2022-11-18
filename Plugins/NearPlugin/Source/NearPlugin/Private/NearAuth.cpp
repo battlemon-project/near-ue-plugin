@@ -342,7 +342,6 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 	FUWeaponBundle WB;
 	if (MainClient::client != nullptr)
 	{
-		freegRPC_Item();
 		ModelItems::WeaponBundleItem* itm = new ModelItems::WeaponBundleItem[request.items.Num()];
 
 		for (int i = 0; i < request.items.Num(); i++)
@@ -417,7 +416,7 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 		ObjectList<ModelItems::WeaponBundleItem> items(itm, request.items.Num());
 		ModelItems::EditBundleRequest EBR(request.bundle_num, GET_CHARPTR(request.title), &items);
 
-		Call_gRPC(&EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
+		Call_gRPC((void*)&EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
 
 		WB << gRPC_Item->gRPC_EditBundle();
 	}
