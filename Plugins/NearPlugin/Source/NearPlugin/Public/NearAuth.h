@@ -48,8 +48,12 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 	FTimerHandle TimerHandle;
 	void TimerAuthRegist();
 
+	
+
 public:
 
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	FString URL;
 
 	UNearAuth();
 	~UNearAuth();
@@ -74,8 +78,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	bool ClientIsValid();
-
-
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	FString GetError();
@@ -281,7 +283,13 @@ class NEARPLUGIN_API UNearItems : public UObject
 	void freegRPC_Item();
 	void Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPCItem Type_gRPC);
 
+	
+
 public:
+
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	FString URL;
+
 	UNearItems();
 	~UNearItems();
 
@@ -403,7 +411,13 @@ class NEARPLUGIN_API UNearMM : public	UObject
 
 	void freegRPC_MM();
 
+	
+
 public:
+
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	FString URL;
+
 	UNearMM();
 	~UNearMM();
 
@@ -520,7 +534,13 @@ class NEARPLUGIN_API UNearInternalMM : public	UObject
 	void freegRPC_InternalMM();
 	bool Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_InternalMM Type_gRPC);
 
+	
+
 public:
+
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	FString URL;
+
 	UNearInternalMM();
 	~UNearInternalMM();
 

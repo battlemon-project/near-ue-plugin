@@ -27,7 +27,7 @@ UNearAuth::~UNearAuth()
 
 void UNearAuth::TimerAuthRegist()
 {
-	MainClient::client->AuthServiceClient();
+	MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
 	if (MainClient::client->IsValidAccount())
 	{
 		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
@@ -122,7 +122,7 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 	freeClient();
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
 	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
-	return MainClient::client->AuthServiceClient();
+	return MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
 	//return MainClient::client->IsValidAccount();
 }
 
@@ -178,6 +178,7 @@ bool UNearAuth::ClientIsValid()
 	return MainClient::client->IsValidAccount();
 }
 
+
 void UNearItems::freegRPC_Item()
 {
 	if (gRPC_Item != nullptr)
@@ -204,13 +205,13 @@ void  UNearItems::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPCItem Type_gR
 	if (MainClient::client != nullptr)
 	{
 		if (gRPC_Item == nullptr)
-			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, Type_gRPC);
+			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
 		else
 		{
 			if (gRPC_Item->GetCall_gRPC() != Type_gRPC)
 			{
 				freegRPC_Item();
-				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, Type_gRPC);
+				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
 			}
 		}
 	}
@@ -654,7 +655,7 @@ FUSearchGameResponse UNearMM::SearchGame(FUSearchGameRequest Request)
 		ModelMM::SearchGameRequest SearchGameRequest(&game_mode);
 
 		freegRPC_MM();
-		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &SearchGameRequest, Type_Call_gRPC::Type_gRPC_MM::SEARCH_GAME);
+		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &SearchGameRequest, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::SEARCH_GAME);
 
 
 		switch (gRPC_MM->getResponse_SearchGame().status)
@@ -697,7 +698,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request)
 		freegRPC_MM();
 
 		ModelMM::AcceptGameRequest inRequest(GET_CHARPTR(Request.lemon_id));
-		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &inRequest, Type_Call_gRPC::Type_gRPC_MM::ACCEPT_GAME);
+		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &inRequest, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::ACCEPT_GAME);
 
 
 		return gRPC_MM->getResponse_AcceptGame();
@@ -711,7 +712,7 @@ bool UNearMM::CancelSearch()
 	{
 		freegRPC_MM();
 
-		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, nullptr, Type_Call_gRPC::Type_gRPC_MM::CANCEL_SEARCH);
+		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, nullptr, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::CANCEL_SEARCH);
 
 		return gRPC_MM->getResponse_CancelSearch();
 	}
@@ -742,14 +743,14 @@ bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_Interna
 	{
 		if (gRPC_InternalMM == nullptr)
 		{
-			gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, Type_gRPC);
+			gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
 		}
 		else
 		{
 			if (gRPC_InternalMM->GetCall_gRPC() != Type_gRPC)
 			{
 				freegRPC_InternalMM();
-				gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, Type_gRPC);
+				gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
 			}
 		}
 		return true;
@@ -757,7 +758,7 @@ bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_Interna
 	return false;
 }
 
-UNearInternalMM::UNearInternalMM(): gRPC_InternalMM(nullptr)
+UNearInternalMM::UNearInternalMM():gRPC_InternalMM(nullptr)
 {
 }
 

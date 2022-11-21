@@ -38,15 +38,15 @@ class gRPC_ResponseItem : public gRPC_Response<Type_Call_gRPC::Type_gRPCItem>
 	void free_gRPC() override;
 
 	//call server																													
-	void CallRPC_GetItems();																										//return ItemsResponse
-	void CallRPC_GetBundles();																										//return GetBundlesResponse
-	void CallRPC_EditBundle(ModelItems::EditBundleRequest& request);		//return WeaponBundle
-	void CallRPC_AttachBundle(ModelItems::AttachBundleRequest& request);												//return common.Empty
-	void CallRPC_DetachBundle(ModelItems::DetachBundleRequest& request);												//return common.Empty
+	void CallRPC_GetItems(const TYPE_CHAR* url);																										//return ItemsResponse
+	void CallRPC_GetBundles(const TYPE_CHAR* url);																										//return GetBundlesResponse
+	void CallRPC_EditBundle(const TYPE_CHAR* url, ModelItems::EditBundleRequest& request);		//return WeaponBundle
+	void CallRPC_AttachBundle(const TYPE_CHAR* url, ModelItems::AttachBundleRequest& request);												//return common.Empty
+	void CallRPC_DetachBundle(const TYPE_CHAR* url, ModelItems::DetachBundleRequest& request);												//return common.Empty
 
 public:
 
-	gRPC_ResponseItem(Client** client, void* inRequest, Type_Call_gRPC::Type_gRPCItem type_gRPC = Type_Call_gRPC::Type_gRPCItem::NONE);
+	gRPC_ResponseItem(Client** client, void* inRequest, const TYPE_CHAR* url, Type_Call_gRPC::Type_gRPCItem type_gRPC = Type_Call_gRPC::Type_gRPCItem::NONE);
 	gRPC_ResponseItem() = delete;
 	~gRPC_ResponseItem();
 
@@ -70,9 +70,9 @@ class gRPC_ResponseMM : public gRPC_Response<Type_Call_gRPC::Type_gRPC_MM>
 	void free_gRPC() override;
 
 	//call server			
-	void CallRPC_SearchGame(ModelMM::SearchGameRequest& inRequest);	//SearchGameResponse
-	void CallRPC_AcceptGame(ModelMM::AcceptGameRequest& inRequest);													//common.Empty
-	void CallRPC_CancelSearch();																		//common.Empty
+	void CallRPC_SearchGame(const TYPE_CHAR* url, ModelMM::SearchGameRequest& inRequest);	//SearchGameResponse
+	void CallRPC_AcceptGame(const TYPE_CHAR* url, ModelMM::AcceptGameRequest& inRequest);													//common.Empty
+	void CallRPC_CancelSearch(const TYPE_CHAR* url);																		//common.Empty
 
 public:
 
@@ -80,7 +80,7 @@ public:
 	bool getResponse_AcceptGame();
 	bool getResponse_CancelSearch();
 
-	gRPC_ResponseMM(Client** client, void* inRequest, Type_Call_gRPC::Type_gRPC_MM type_gRPC = Type_Call_gRPC::Type_gRPC_MM::NONE);
+	gRPC_ResponseMM(Client** client, void* inRequest, const TYPE_CHAR* url, Type_Call_gRPC::Type_gRPC_MM type_gRPC = Type_Call_gRPC::Type_gRPC_MM::NONE);
 	gRPC_ResponseMM() = delete;
 	~gRPC_ResponseMM();
 
@@ -92,11 +92,11 @@ class gRPC_ResponseInternalMM : public gRPC_Response<Type_Call_gRPC::Type_gRPC_I
 	void free_gRPC() override;
 
 	//call server			
-	void CallRPC_UserLeftBattle(ModelInternalMM::InternalUserLeftBattleRequest& inRequest);
-	void CallRPC_SaveBattleResult(ModelInternalMM::SaveBattleResultRequest& inRequest);	
-	void CallRPC_GetRoomInfo(ModelInternalMM::RoomInfoRequest& inRequest);
-	void CallRPC_CreateRoomWithPlayers(ModelInternalMM::CreateRoomRequest& inRequest);
-	void CallRPC_DedicatedServerIsReady(ModelInternalMM::DedicatedServerIsReadyRequest& inRequest);
+	void CallRPC_UserLeftBattle(const TYPE_CHAR* url, ModelInternalMM::InternalUserLeftBattleRequest& inRequest);
+	void CallRPC_SaveBattleResult(const TYPE_CHAR* url, ModelInternalMM::SaveBattleResultRequest& inRequest);
+	void CallRPC_GetRoomInfo(const TYPE_CHAR* url, ModelInternalMM::RoomInfoRequest& inRequest);
+	void CallRPC_CreateRoomWithPlayers(const TYPE_CHAR* url, ModelInternalMM::CreateRoomRequest& inRequest);
+	void CallRPC_DedicatedServerIsReady(const TYPE_CHAR* url, ModelInternalMM::DedicatedServerIsReadyRequest& inRequest);
 public:
 
 	bool getResponse_UserLeftBattle();
@@ -106,7 +106,7 @@ public:
 	bool getResponse_DedicatedServerIsReady();
 
 
-	gRPC_ResponseInternalMM(Client** client, void* inRequest, Type_Call_gRPC::Type_gRPC_InternalMM type_gRPC = Type_Call_gRPC::Type_gRPC_InternalMM::NONE);
+	gRPC_ResponseInternalMM(Client** client, void* inRequest, const TYPE_CHAR* url, Type_Call_gRPC::Type_gRPC_InternalMM type_gRPC = Type_Call_gRPC::Type_gRPC_InternalMM::NONE);
 	gRPC_ResponseInternalMM() = delete;
 	~gRPC_ResponseInternalMM();
 

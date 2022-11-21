@@ -24,5 +24,5 @@ public:
 	const char* GetSing() const { return sign; };
 
 	void saveKey(const TYPE_CHAR* dir);
-	bool AuthServiceClient();
+	bool AuthServiceClient(const TYPE_CHAR* url);
 };
