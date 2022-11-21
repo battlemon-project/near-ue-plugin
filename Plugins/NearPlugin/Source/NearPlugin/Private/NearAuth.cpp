@@ -294,16 +294,23 @@ TArray<FUWeaponBundleItem>& operator<<(TArray<FUWeaponBundleItem>& WeaponBundleI
 	return WeaponBundleIUE;
 }
 
+FUWeaponBundle& operator<<(FUWeaponBundle& WeaponBundleUE, const ModelItems::WeaponBundle& WeaponBundleResponse)
+{
+	WeaponBundleUE.bundle_num = WeaponBundleResponse.bundle_num;
+	WeaponBundleUE.level = WeaponBundleResponse.level;
+	WeaponBundleUE.title = FString(WeaponBundleResponse.title);
+	WeaponBundleUE.items << WeaponBundleResponse.WeaponList;
+	return WeaponBundleUE;
+}
+
 TArray<FUWeaponBundle>& operator<<(TArray<FUWeaponBundle>& WeaponBundleUE, const ObjectList<ModelItems::WeaponBundle>& WeaponBundleResponse)
 {
 
+	ModelItems::WeaponBundle* ptr = WeaponBundleResponse.getObjectPtr();
 	for (int i = 0; i < WeaponBundleResponse.getSize(); i++)
 	{
 		FUWeaponBundle FUEWB;
-		FUEWB.bundle_num = WeaponBundleResponse.getObject(i).bundle_num;
-		FUEWB.level = WeaponBundleResponse.getObject(i).level;
-		FUEWB.title = FString(WeaponBundleResponse.getObject(i).title);
-		FUEWB.items << WeaponBundleResponse.getObject(i).WeaponList;
+		FUEWB << ptr[i];
 		WeaponBundleUE.Add(FUEWB);
 	}
 
@@ -318,14 +325,7 @@ TArray<FUWeaponBundle> UNearItems::GetBundlesArray()
 	return WeaponBundles;
 }
 
-FUWeaponBundle& operator<<(FUWeaponBundle& WeaponBundleUE, const ModelItems::WeaponBundle& WeaponBundleResponse)
-{
-	WeaponBundleUE.bundle_num = WeaponBundleResponse.bundle_num;
-	WeaponBundleUE.level = WeaponBundleResponse.level;
-	WeaponBundleUE.title = FString(WeaponBundleResponse.title);
-	WeaponBundleUE.items << WeaponBundleResponse.WeaponList;
-	return WeaponBundleUE;
-}
+
 
 FUWeaponBundle UNearItems::GetBundle(int index)
 {

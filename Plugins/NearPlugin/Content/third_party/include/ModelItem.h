@@ -200,9 +200,9 @@ namespace ModelItems
 
 	class OutfitModel
 	{
-		bool copy;
 
 	public:
+		bool copy;
 		TYPE_CHAR* flavour;
 		TYPE_CHAR* token_id;
 		OutfitKind kind;
@@ -277,9 +277,9 @@ namespace ModelItems
 
 	class LemonModel
 	{
-		bool copy;
 
 	public:
+		bool copy;
 		OutfitModel cap;
 		OutfitModel cloth;
 		TYPE_CHAR* exo;
