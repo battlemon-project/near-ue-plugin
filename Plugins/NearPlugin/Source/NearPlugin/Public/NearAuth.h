@@ -428,7 +428,9 @@ struct FUInternalUserLeftBattleRequest
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString near_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString room_id;
 };
 
@@ -437,7 +439,9 @@ struct FUInternalPlayerResult
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString near_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	int place;
 };
 
@@ -446,7 +450,9 @@ struct FUSaveBattleResultRequest
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString room_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	TArray<FUInternalPlayerResult> results;
 };
 
@@ -456,6 +462,7 @@ struct FURoomInfoRequest
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString room_id;
 };
 
@@ -464,7 +471,9 @@ struct FURoomPlayerInfo
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString near_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FUItem lemon;
 };
 
@@ -473,8 +482,11 @@ struct FURoomInfoResponse
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString room_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FUGameMode mode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	TArray<FURoomPlayerInfo> players;
 };
 
@@ -484,7 +496,9 @@ struct FUCreateRoomRequest
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FUGameMode mode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	TArray<FString> near_ids;
 };
 
@@ -493,6 +507,7 @@ struct FUDedicatedServerIsReadyRequest
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	FString room_id;
 };
 
