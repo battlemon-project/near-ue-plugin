@@ -497,6 +497,7 @@ FULemonModel& operator<<(FULemonModel& LemonModelUE, const ModelItems::LemonMode
 	LemonModelUE.head = FString((const TYPE_CHAR*)LemonModelResponse.head);
 	LemonModelUE.teeth = FString((const TYPE_CHAR*)LemonModelResponse.teeth);
 	LemonModelUE.face = FString((const TYPE_CHAR*)LemonModelResponse.face);
+	LemonModelUE.attached_bundles << LemonModelResponse.attached_bundles;
 	LemonModelUE.cap << LemonModelResponse.cap;
 	LemonModelUE.cloth << LemonModelResponse.cloth;
 	LemonModelUE.fire_arm << LemonModelResponse.fire_arm;
@@ -510,6 +511,7 @@ FUItem& operator<<(FUItem& itemsUE, const ModelItems::Item& itemResponse)
 	itemsUE.token_id = FString((const TYPE_CHAR*)itemResponse.token_id);
 	itemsUE.media = FString((const TYPE_CHAR*)itemResponse.media);
 	itemsUE.owner_id = FString((const TYPE_CHAR*)itemResponse.owner_id);
+	itemsUE.in_fight = itemResponse.in_fight;
 
 	switch (itemResponse.model)
 	{
@@ -536,13 +538,7 @@ TArray<FUItem>& operator<<(TArray<FUItem>& itemsAUE, const ObjectList<ModelItems
 	for (int i = 0; i < itemAResponse.getSize(); i++)
 	{
 		FUItem FUI;
-		FUI.in_fight = itemPtr[i].in_fight;
-		FUI.lemon << itemPtr[i].lemon;
-
-		FUI.media = FString(itemPtr[i].media);
-		FUI.outfit << itemPtr[i].outfit;
-		FUI.owner_id = FString(itemPtr[i].owner_id);
-		FUI.token_id = FString(itemPtr[i].token_id);
+		FUI << itemPtr[i];
 		itemsAUE.Add(FUI);
 	}
 
