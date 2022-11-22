@@ -350,6 +350,7 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 		ModelItems::WeaponBundleItem* itm = new ModelItems::WeaponBundleItem[request.items.Num()];
 		for (int i = 0; i < request.items.Num(); i++)
 		{
+			itm[i].copy = false;
 			switch (request.items[i].item_type)
 			{
 			case FUWeaponBundleItemType::NONE:
@@ -424,8 +425,7 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 
 		WB << gRPC_Item->gRPC_EditBundle();
 	}
-	FUWeaponBundle wb2 = WB;
-	return wb2;
+	return WB;
 }
 
 bool UNearItems::GetAttachBundle(FUAttachBundleRequest Request)

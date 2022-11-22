@@ -54,6 +54,7 @@ public:
 		if (list != nullptr && owner)
 			delete[]list;
 		list = nullptr;
+		size = -1;
 	}
 
 	ObjectList& operator=(const ObjectList& copyObjectList)
