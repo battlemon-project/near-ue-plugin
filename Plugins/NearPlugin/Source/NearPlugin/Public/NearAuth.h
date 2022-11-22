@@ -55,7 +55,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
-	bool ssl;
+	bool ssl = true;
 
 	UNearAuth();
 	~UNearAuth();
@@ -292,7 +292,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
-	bool ssl;
+	bool ssl = true;
 
 	UNearItems();
 	~UNearItems();
@@ -422,7 +422,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
-	bool ssl;
+	bool ssl = true;
 
 	UNearMM();
 	~UNearMM();
@@ -547,7 +547,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
-	bool ssl;
+	bool ssl = true;
 
 	UNearInternalMM();
 	~UNearInternalMM();
