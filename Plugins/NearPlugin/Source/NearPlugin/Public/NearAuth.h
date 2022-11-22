@@ -553,6 +553,9 @@ public:
 	~UNearInternalMM();
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	FString GetEnvironmentVariable(FString VarName);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
 	bool UserLeftBattle(FUInternalUserLeftBattleRequest Request);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
