@@ -7,6 +7,10 @@
 #include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
+#if PLATFORM_UNIX
+#include "Unix/UnixPlatformMisc.h"
+#endif
+
 #define REDIRECT "https://game.battlemon.com/near"
 
 #define NEAR_MAINNET_RPC_URL "https://rpc.mainnet.near.org"
@@ -854,6 +858,16 @@ FURoomInfoResponse& operator<<(FURoomInfoResponse& toUE, const ModelInternalMM::
 	toUE.mode << from.mode;
 	toUE.players << from.players;
 	return toUE;
+}
+
+FString UNearInternalMM::GetEnvironmentVariable(FString VarName)
+{
+#if PLATFORM_UNIX
+	return FUnixPlatformMisc::GetEnvironmentVariable(*VarName);
+#elif PLATFORM_WINDOWS
+	return FWindowsPlatformMisc::GetEnvironmentVariable(*VarName);
+#endif
+	return FGenericPlatformMisc::GetEnvironmentVariable(*VarName);
 }
 
 FURoomInfoResponse UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request)

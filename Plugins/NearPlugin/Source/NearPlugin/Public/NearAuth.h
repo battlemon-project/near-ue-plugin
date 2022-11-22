@@ -83,7 +83,7 @@ public:
 	FString GetError();
 
 	//UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	//void PostResponseReceived();														//не работает
+	//void PostResponseReceived();														//пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 };
 
 
@@ -543,6 +543,9 @@ public:
 
 	UNearInternalMM();
 	~UNearInternalMM();
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	FString GetEnvironmentVariable(FString VarName);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
 	bool UserLeftBattle(FUInternalUserLeftBattleRequest Request);
