@@ -45,7 +45,7 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 	//void OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
-	FTimerHandle TimerHandle;
+	FTimerHandle NearAuthTimer;
 	void TimerAuthRegist();
 
 	
@@ -54,6 +54,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	bool ssl;
 
 	UNearAuth();
 	~UNearAuth();
@@ -83,7 +85,7 @@ public:
 	FString GetError();
 
 	//UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	//void PostResponseReceived();														//пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//void PostResponseReceived();														//не работает
 };
 
 
@@ -289,6 +291,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	bool ssl;
 
 	UNearItems();
 	~UNearItems();
@@ -417,6 +421,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	bool ssl;
 
 	UNearMM();
 	~UNearMM();
@@ -540,12 +546,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
+	bool ssl;
 
 	UNearInternalMM();
 	~UNearInternalMM();
-
-	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
-	FString GetEnvironmentVariable(FString VarName);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
 	bool UserLeftBattle(FUInternalUserLeftBattleRequest Request);

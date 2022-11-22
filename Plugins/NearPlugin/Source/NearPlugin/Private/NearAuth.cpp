@@ -7,10 +7,6 @@
 #include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
-#if PLATFORM_UNIX
-#include "Unix/UnixPlatformMisc.h"
-#endif
-
 #define REDIRECT "https://game.battlemon.com/near"
 
 #define NEAR_MAINNET_RPC_URL "https://rpc.mainnet.near.org"
@@ -64,7 +60,7 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
 	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + REDIRECT + "&public_key=" + FString(MainClient::client->GetPublicKey())));
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
+	GetWorld()->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
 	
 	//if (MainClient::client->AuthServiceClient())
 	//{
@@ -125,7 +121,7 @@ bool UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
-	//GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
+	//GetWorld()->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
 	return MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
 	//return MainClient::client->IsValidAccount();
 }
@@ -209,13 +205,13 @@ void  UNearItems::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPCItem Type_gR
 	if (MainClient::client != nullptr)
 	{
 		if (gRPC_Item == nullptr)
-			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
+			gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
 		else
 		{
 			if (gRPC_Item->GetCall_gRPC() != Type_gRPC)
 			{
 				freegRPC_Item();
-				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
+				gRPC_Item = new gRPC_ResponseItem(&MainClient::client, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
 			}
 		}
 	}
@@ -348,7 +344,6 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 	if (MainClient::client != nullptr)
 	{
 		ModelItems::WeaponBundleItem* itm = new ModelItems::WeaponBundleItem[request.items.Num()];
-
 		for (int i = 0; i < request.items.Num(); i++)
 		{
 			switch (request.items[i].item_type)
@@ -425,7 +420,8 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 
 		WB << gRPC_Item->gRPC_EditBundle();
 	}
-	return WB;
+	FUWeaponBundle wb2 = WB;
+	return wb2;
 }
 
 bool UNearItems::GetAttachBundle(FUAttachBundleRequest Request)
@@ -659,7 +655,7 @@ FUSearchGameResponse UNearMM::SearchGame(FUSearchGameRequest Request)
 		ModelMM::SearchGameRequest SearchGameRequest(&game_mode);
 
 		freegRPC_MM();
-		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &SearchGameRequest, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::SEARCH_GAME);
+		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &SearchGameRequest, ssl, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::SEARCH_GAME);
 
 
 		switch (gRPC_MM->getResponse_SearchGame().status)
@@ -702,7 +698,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request)
 		freegRPC_MM();
 
 		ModelMM::AcceptGameRequest inRequest(GET_CHARPTR(Request.lemon_id));
-		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &inRequest, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::ACCEPT_GAME);
+		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, &inRequest, ssl, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::ACCEPT_GAME);
 
 
 		return gRPC_MM->getResponse_AcceptGame();
@@ -716,7 +712,7 @@ bool UNearMM::CancelSearch()
 	{
 		freegRPC_MM();
 
-		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, nullptr, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::CANCEL_SEARCH);
+		gRPC_MM = new gRPC_ResponseMM(&MainClient::client, nullptr, ssl, GET_CHARPTR(URL), Type_Call_gRPC::Type_gRPC_MM::CANCEL_SEARCH);
 
 		return gRPC_MM->getResponse_CancelSearch();
 	}
@@ -747,14 +743,14 @@ bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_Interna
 	{
 		if (gRPC_InternalMM == nullptr)
 		{
-			gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
+			gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
 		}
 		else
 		{
 			if (gRPC_InternalMM->GetCall_gRPC() != Type_gRPC)
 			{
 				freegRPC_InternalMM();
-				gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, GET_CHARPTR(URL), Type_gRPC);
+				gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
 			}
 		}
 		return true;
@@ -858,16 +854,6 @@ FURoomInfoResponse& operator<<(FURoomInfoResponse& toUE, const ModelInternalMM::
 	toUE.mode << from.mode;
 	toUE.players << from.players;
 	return toUE;
-}
-
-FString UNearInternalMM::GetEnvironmentVariable(FString VarName)
-{
-#if PLATFORM_UNIX
-	return FUnixPlatformMisc::GetEnvironmentVariable(*VarName);
-#elif PLATFORM_WINDOWS
-	return FWindowsPlatformMisc::GetEnvironmentVariable(*VarName);
-#endif
-	return FGenericPlatformMisc::GetEnvironmentVariable(*VarName);
 }
 
 FURoomInfoResponse UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request)
