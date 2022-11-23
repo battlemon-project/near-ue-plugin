@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Object.h"
+#include "UObject/NoExportTypes.h"
+#include "Engine/World.h"
 #include "Http.h"
+#include "Engine/EngineTypes.h"
 #include <include/Client.h>
 #include <include/gRPCResponse.h>
 #include "NearAuth.generated.h"
@@ -36,6 +38,7 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 {
 	GENERATED_BODY()
 
+	virtual UWorld* GetWorld() const override;
 
 	static void freeClient();
 	void saveAccountId();
@@ -60,11 +63,10 @@ public:
 	UNearAuth();
 	~UNearAuth();
 
-
 	UFUNCTION(BlueprintCallable, Category = ".Near | Client")
 	FString getAccountID();
 
-	//UPROPERTY(BlueprintAssignable, Category = ".Near | Registration")
+	UPROPERTY(BlueprintAssignable, Category = ".Near | Registration")
 	FResultNearAuth_Delegate ResultNearRegist_Delegate;
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Registration")
@@ -73,7 +75,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	bool AuthorizedAccount(FString AccountID);
+	void AuthorizedAccount(FString AccountID);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
@@ -85,7 +87,7 @@ public:
 	FString GetError();
 
 	//UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
-	//void PostResponseReceived();														//не работает
+	//void PostResponseReceived();														//пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 };
 
 

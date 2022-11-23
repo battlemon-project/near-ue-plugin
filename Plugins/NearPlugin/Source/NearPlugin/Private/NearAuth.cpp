@@ -3,7 +3,12 @@
 #include "NearAuth.h"
 #include <Kismet/GameplayStatics.h>
 #include "NearPlugin.h"
-#include "Json.h"
+#include "TimerManager.h"
+
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonSerializer.h"
+
 #include "Misc/Paths.h"
 #include "NearAuthSaveGame.h"
 
@@ -28,22 +33,33 @@ UNearAuth::~UNearAuth()
 	freeClient();
 }
 
+UWorld* UNearAuth::GetWorld() const
+{
+	if (GetOuter()) return GetOuter()->GetWorld();
+	else return nullptr;
+}
 
 void UNearAuth::TimerAuthRegist()
 {
 	MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
+	
 	if (MainClient::client->IsValidAccount())
 	{
-		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			World->GetTimerManager().ClearAllTimersForObject(this);
+		}
+		else
+			UE_LOG(LogTemp, Error, TEXT("Clear timer World not exist!"));
 
 		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 		saveAccountId();
 		if(ResultNearRegist_Delegate.IsBound())
-			ResultNearRegist_Delegate.Broadcast("SUCCESS");
+			ResultNearRegist_Delegate.Broadcast(FString((const TYPE_CHAR*)MainClient::client->GetAccount()));
 	}
-	if (ResultNearRegist_Delegate.IsBound())
-		ResultNearRegist_Delegate.Broadcast("FALSE");
 }
+
 FString UNearAuth::getAccountID()
 {
 	return FString((const TYPE_CHAR*)MainClient::client->GetAccount());
@@ -64,8 +80,14 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	FJsonSerializer::Deserialize(Reader, ResponseObj);
 
 	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + REDIRECT + "&public_key=" + FString(MainClient::client->GetPublicKey())));
-	GetWorld()->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
 	
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 	//if (MainClient::client->AuthServiceClient())
 	//{
 	//	MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
@@ -121,13 +143,17 @@ void UNearAuth::RegistrationAccount(bool MainNet)
 }
 
 
-bool UNearAuth::AuthorizedAccount(FString AccountID)
+void UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
-	//GetWorld()->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
-	return MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
-	//return MainClient::client->IsValidAccount();
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::TimerAuthRegist, 1.0f, true, 1.0f);
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 }
 
 void UNearAuth::saveAccountId()
