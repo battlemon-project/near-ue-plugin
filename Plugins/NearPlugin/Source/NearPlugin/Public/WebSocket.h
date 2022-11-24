@@ -25,8 +25,11 @@ struct FUUpdate
 {
     GENERATED_BODY()
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FString id; // update id
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     int64 timestamp; // millisec
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FString message; //UpdateMessage's bytes in base64
 
     FUUpdate& operator=(const ModelUpdates::Update& update);
@@ -37,7 +40,9 @@ struct FURoomNeedAccept
 {
     GENERATED_BODY()
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     bool manual_accept;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     int time_to_accept;
 
     FURoomNeedAccept& operator=(const ModelUpdates::RoomNeedAccept& RNA);
@@ -61,7 +66,9 @@ struct FURoomPlayer
 {
     GENERATED_BODY()
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FString near_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FUItem lemon;
 
     FURoomPlayer& operator=(const ModelUpdates::RoomPlayer& RP);
@@ -71,9 +78,12 @@ USTRUCT(BlueprintType)
 struct FURoomInfo
 {
     GENERATED_BODY()
-
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FString room_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FString server_ip;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     TArray<FURoomPlayer> players;
 
     FURoomInfo& operator=(const ModelUpdates::RoomInfo& RI);
@@ -83,9 +93,12 @@ USTRUCT(BlueprintType)
 struct FUUpdateMessage 
 {
     GENERATED_BODY()
-
+        
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FUUpdateCase update;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FURoomNeedAccept room_need_accept;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     //common.Empty room_accepting_canceled;
     FURoomInfo roomInfo;
 

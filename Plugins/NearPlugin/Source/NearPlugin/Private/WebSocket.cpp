@@ -369,7 +369,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 			UE_LOG(WebSocketLog, Display, TEXT("client == nullptr"));
 			return;
 		}
-
+		TMessage = TypeMessage::SIGN;
 		TArray<FString> Protocols;
 		Protocols.Add("wss");
 		WebSocket = FWebSocketsModule::Get().CreateWebSocket(Address, Protocols, UHeaders);
