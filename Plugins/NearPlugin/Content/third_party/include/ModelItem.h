@@ -28,7 +28,7 @@ class ObjectList
 	bool owner;
 public:
 
-	ObjectList(int size) :list(nullptr), size(size), owner(true)
+	ObjectList(int inp_size) :list(nullptr), size(inp_size), owner(true)
 	{
 		//owner++;
 		if (size > 0)
@@ -36,7 +36,7 @@ public:
 		else
 			list = nullptr;
 	};
-	ObjectList(TargetClassList* list, int size) : list(list), size(size), owner(true){};
+	ObjectList(TargetClassList* inp_list, int& inp_size) : list(inp_list), size(inp_size), owner(true){};
 	ObjectList(ObjectList& objectList) :list(nullptr), size(objectList.size), owner(true)
 	{
 		if (size > 0)
@@ -77,11 +77,11 @@ public:
 	};
 	const int& getSize() const { return size; };
 	TargetClassList* getObjectPtr() const { return list; };
-	TargetClassList& getObject(int id) const
+	TargetClassList& getObject(const int& id) const
 	{
 		return list[id];
 	};
-	void setObject(TargetClassList TargetClass, int index)
+	void setObject(TargetClassList TargetClass, const int& index)
 	{
 		if (index < size)
 		{
@@ -107,11 +107,11 @@ public:
 		//	size = index;
 		//}
 	}
-	bool setObjectList(TargetClassList* TargetClass, int size)
+	bool setObjectList(TargetClassList* TargetClass, const int& inp_size)
 	{
 		if (list == nullptr)
 		{
-			this->size = size;
+			this->size = inp_size;
 			owner = true;
 			list = TargetClass;
 			return true;
@@ -252,7 +252,7 @@ namespace ModelItems
 
 		WeaponBundleItem();
 		WeaponBundleItem(bool copy);
-		WeaponBundleItem(WeaponBundleItemType item_type, WeaponBundleSlotType slot_type, TYPE_CHAR* skin);
+		WeaponBundleItem(WeaponBundleItemType& item_type, WeaponBundleSlotType& slot_type, TYPE_CHAR* skin);
 		WeaponBundleItem(const WeaponBundleItem& copy);
 		~WeaponBundleItem();
 	};
@@ -270,7 +270,7 @@ namespace ModelItems
 
 		WeaponBundle();
 		WeaponBundle(int size_WeaponList, bool copy);
-		WeaponBundle(WeaponBundleItem* WeaponList, int size_WeaponList, bool copy);
+		WeaponBundle(WeaponBundleItem* WeaponList, int& size_WeaponList, bool copy);
 		WeaponBundle(const WeaponBundle& copy);
 		~WeaponBundle();
 
@@ -297,7 +297,7 @@ namespace ModelItems
 		ModelItems::LemonModel& operator=(const ModelItems::LemonModel& from);
 
 		LemonModel(bool copy);
-		LemonModel(int size_attached_bundles, int size_items[], bool copy);
+		LemonModel(int& size_attached_bundles, int size_items[], bool& copy);
 		LemonModel(const LemonModel& copy);
 		~LemonModel();
 	};
@@ -415,36 +415,37 @@ namespace ModelInternalMM
 
 namespace ModelUpdates
 {
-	struct MessageData
-	{
-		void* Data;
-		unsigned long ByteSize;
-	};
-
 	struct Update
 	{
 		TYPE_CHAR* id; // update id
 		long long timestamp; // millisec
 		TYPE_CHAR* message; //UpdateMessage's bytes in base64
+		Update();
 	};
 
 	struct RoomPlayer
 	{
 		TYPE_CHAR* near_id;
-		ModelItems::Item lemon;
+		ModelItems::Item* lemon;
+		RoomPlayer();
+		~RoomPlayer();
 	};
 
 	struct RoomNeedAccept
 	{
 		bool manual_accept;
 		int time_to_accept;
+		RoomNeedAccept();
 	};
 
 	struct RoomInfo
 	{
 		TYPE_CHAR* room_id;
 		TYPE_CHAR* server_ip;
-		ObjectList<ModelUpdates::RoomPlayer>* players;
+		ObjectList<ModelUpdates::RoomPlayer> players;
+		RoomInfo(int size);
+		RoomInfo();
+		~RoomInfo();
 	};
 
 	enum class UpdateCase
@@ -459,12 +460,45 @@ namespace ModelUpdates
 
 	struct UpdateMessage
 	{
+	private:
+		RoomNeedAccept* room_need_accept;
+		RoomInfo* roomInfo;
 		UpdateCase update;
-		RoomNeedAccept room_need_accept;
-		bool room_accepting_canceled;
-		RoomInfo room_found;
-		RoomInfo room_teammates;
-		RoomInfo room_ready;
+
+	public:
+		UpdateMessage(ModelUpdates::UpdateCase& update);
+		UpdateMessage();
+		~UpdateMessage();
+		bool CreateOneof(RoomNeedAccept*& roomNeedAccept);
+		bool CreateOneof(RoomInfo*& roomInfo, int size);
+		void set_update(ModelUpdates::UpdateCase update);
+
+		RoomInfo& get_RoomInfo() const;
+		const UpdateCase& get_update() const;
+		RoomNeedAccept& getRoomNeedAccept() const;
+
+
+	};
+
+	class MessageData
+	{
+	public:
+		void* Data;
+		unsigned long ByteSize;
+		MessageData();
+		MessageData(void* Data, const unsigned long &ByteSize);
+	};
+
+	enum class Type_Updates_Message : char
+	{
+		NONE,
+		UPDATE,
+		UPDATE_MESSAGE,
+		ROOM_NEED_ACCEPT,
+		ROOM_INFO,
+		ROOM_PLAYER,
+		WRITE,
+		READ
 	};
 }
 
@@ -509,5 +543,6 @@ namespace Type_Call_gRPC
 		CREATE_ROOM_WITH_PLAYERS,			//returns(RoomInfoResponse);
 		DEDICATED_SERVER_IS_READY			//common.Empty
 	};
+
 	
 }

@@ -145,6 +145,8 @@ struct FUWeaponBundleItem
 	FString skin;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUWeaponBundleSlotType slot_type;
+
+	FUWeaponBundleItem& operator=(const ModelItems::WeaponBundleItem& weaponBundleItem);
 };
 
 USTRUCT(BlueprintType)
@@ -159,6 +161,8 @@ struct FUWeaponBundle
 	FString title;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	int32 level;
+
+	FUWeaponBundle& operator=(const ModelItems::WeaponBundle& weaponBundle);
 };
 
 USTRUCT(BlueprintType)
@@ -172,6 +176,8 @@ struct FUOutfitModel
 	FString token_id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitKind kind;
+
+	FUOutfitModel& operator=(const ModelItems::OutfitModel& outfitModel);
 };
 
 
@@ -201,6 +207,8 @@ struct FULemonModel
 	FUOutfitModel back;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	TArray<FUWeaponBundle> attached_bundles;
+
+	FULemonModel& operator=(const ModelItems::LemonModel& LemonM);
 };
 
 enum class FUModel : uint8
@@ -228,6 +236,8 @@ struct FUItem
 	FULemonModel lemon;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | ItemsProto")
 	FUOutfitModel outfit;
+
+	FUItem& operator=(const ModelItems::Item& item);
 };
 
 USTRUCT(BlueprintType)
@@ -376,6 +386,7 @@ struct FUGameMode
 	FUMatchType match_type;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | MMProto")
 	FUMatchMode match_mode;
+
 };
 
 
@@ -386,6 +397,7 @@ struct FUSearchGameRequest
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | MMProto | Request")
 	FUGameMode game_mode;
+
 };
 
 USTRUCT(BlueprintType)

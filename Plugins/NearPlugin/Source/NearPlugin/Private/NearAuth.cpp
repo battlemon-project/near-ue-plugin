@@ -325,13 +325,31 @@ TArray<FUWeaponBundleItem>& operator<<(TArray<FUWeaponBundleItem>& WeaponBundleI
 	return WeaponBundleIUE;
 }
 
-FUWeaponBundle& operator<<(FUWeaponBundle& WeaponBundleUE, const ModelItems::WeaponBundle& WeaponBundleResponse)
+FUItem& FUItem::operator=(const ModelItems::Item& item)
 {
-	WeaponBundleUE.bundle_num = WeaponBundleResponse.bundle_num;
-	WeaponBundleUE.level = WeaponBundleResponse.level;
-	WeaponBundleUE.title = FString(WeaponBundleResponse.title);
-	WeaponBundleUE.items << WeaponBundleResponse.WeaponList;
-	return WeaponBundleUE;
+	this->token_id = FString((const TYPE_CHAR*)item.token_id);
+	this->media = FString((const TYPE_CHAR*)item.media);
+	this->owner_id = FString((const TYPE_CHAR*)item.owner_id);
+	this->in_fight = item.in_fight;
+	this->in_fight = item.in_fight;
+
+	switch (item.model)
+	{
+	case ModelItems::Model::LEMON:
+		this->lemon = item.lemon;
+		this->model = FUModel::LEMON;
+		break;
+	case ModelItems::Model::OUTFIT_MODEL:
+		this->outfit = item.outfit;
+		this->model = FUModel::OUTFIT_MODEL;
+		break;
+	case ModelItems::Model::DEFAULT:
+	default:
+		this->model = FUModel::DEFAULT;
+		break;
+	}
+
+	return *this;
 }
 
 TArray<FUWeaponBundle>& operator<<(TArray<FUWeaponBundle>& WeaponBundleUE, const ObjectList<ModelItems::WeaponBundle>& WeaponBundleResponse)
@@ -341,12 +359,144 @@ TArray<FUWeaponBundle>& operator<<(TArray<FUWeaponBundle>& WeaponBundleUE, const
 	for (int i = 0; i < WeaponBundleResponse.getSize(); i++)
 	{
 		FUWeaponBundle FUEWB;
-		FUEWB << ptr[i];
+		FUEWB = ptr[i];
 		WeaponBundleUE.Add(FUEWB);
 	}
 
 	return WeaponBundleUE;
 }
+
+FUOutfitKind& operator<<(FUOutfitKind& OutfitKindUE, const ModelItems::OutfitKind& OutfitKindResponse)
+{
+	switch (OutfitKindResponse)
+	{
+	case ModelItems::OutfitKind::CAP:
+		OutfitKindUE = FUOutfitKind::Cap;
+		break;
+	case ModelItems::OutfitKind::CLOTH:
+		OutfitKindUE = FUOutfitKind::Cloth;
+		break;
+	case ModelItems::OutfitKind::FIRE_ARM:
+		OutfitKindUE = FUOutfitKind::Fire_ARM;
+		break;
+	case ModelItems::OutfitKind::COLD_ARM:
+		OutfitKindUE = FUOutfitKind::Cold_ARM;
+		break;
+	case ModelItems::OutfitKind::BACK:
+		OutfitKindUE = FUOutfitKind::Back;
+		break;
+	default:
+		OutfitKindUE = FUOutfitKind::Default;
+		break;
+	}
+	return OutfitKindUE;
+}
+
+
+FULemonModel& FULemonModel::operator=(const ModelItems::LemonModel& LemonM)
+{
+	this->exo = FString((const TYPE_CHAR*)LemonM.exo);
+	this->eyes = FString((const TYPE_CHAR*)LemonM.eyes);
+	this->head = FString((const TYPE_CHAR*)LemonM.head);
+	this->teeth = FString((const TYPE_CHAR*)LemonM.teeth);
+	this->face = FString((const TYPE_CHAR*)LemonM.face);
+	this->attached_bundles << LemonM.attached_bundles;
+	this->cap = LemonM.cap;
+	this->cloth = LemonM.cloth;
+	this->fire_arm = LemonM.fire_arm;
+	this->cold_arm = LemonM.cold_arm;
+	this->back = LemonM.back;
+	return *this;
+}
+
+FUOutfitModel& FUOutfitModel::operator=(const ModelItems::OutfitModel& outfitModel)
+{
+	this->flavour = FString((const TYPE_CHAR*)outfitModel.flavour);
+	this->token_id = FString((const TYPE_CHAR*)outfitModel.token_id);
+	this->kind << outfitModel.kind;
+	return *this;
+
+}
+
+FUWeaponBundle& FUWeaponBundle::operator=(const ModelItems::WeaponBundle& weaponBundle)
+{
+	this->bundle_num = weaponBundle.bundle_num;
+	this->level = weaponBundle.level;
+	this->title = FString(weaponBundle.title);
+	this->items << weaponBundle.WeaponList;
+	return *this;
+}
+
+FUWeaponBundleItem& FUWeaponBundleItem::operator=(const ModelItems::WeaponBundleItem& weaponBundleItem)
+{
+	switch (weaponBundleItem.item_type)
+	{
+	case ModelItems::WeaponBundleItemType::NONE:
+		this->item_type = FUWeaponBundleItemType::NONE;
+		break;
+	case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_PRIMARY:
+		this->item_type = FUWeaponBundleItemType::BUNDLE_ITEM_PRIMARY;
+		break;
+	case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_SECONDARY:
+		this->item_type = FUWeaponBundleItemType::BUNDLE_ITEM_SECONDARY;
+		break;
+	case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_MELEE:
+		this->item_type = FUWeaponBundleItemType::BUNDLE_ITEM_MELEE;
+		break;
+	case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_TACTICAL:
+		this->item_type = FUWeaponBundleItemType::BUNDLE_ITEM_TACTICAL;
+		break;
+	case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_MILITARY:
+		this->item_type = FUWeaponBundleItemType::BUNDLE_ITEM_MILITARY;
+		break;
+	case ModelItems::WeaponBundleItemType::BUNDLE_ITEM_PERK:
+		this->item_type = FUWeaponBundleItemType::BUNDLE_ITEM_PERK;
+		break;
+	default:
+		this->item_type = FUWeaponBundleItemType::Default;
+		break;
+	}
+
+	switch (weaponBundleItem.slot_type)
+	{
+	case ModelItems::WeaponBundleSlotType::NONE:
+		this->slot_type = FUWeaponBundleSlotType::NONE;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PRIMARY:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_PRIMARY;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_SECONDARY:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_SECONDARY;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MELEE:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_MELEE;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_ONE:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_ONE;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_TWO:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_TACTICAL_TWO;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MILITARY_ONE:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_MILITARY_ONE;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_MILITARY_TWO:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_MILITARY_TWO;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PERK_ONE:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_PERK_ONE;
+		break;
+	case ModelItems::WeaponBundleSlotType::BUNDLE_SLOT_PERK_TWO:
+		this->slot_type = FUWeaponBundleSlotType::BUNDLE_SLOT_PERK_TWO;
+		break;
+	default:
+		break;
+	}
+	this->skin = FString(weaponBundleItem.skin);
+
+	return *this;
+}
+
 
 TArray<FUWeaponBundle> UNearItems::GetBundlesArray()
 {
@@ -362,7 +512,7 @@ FUWeaponBundle UNearItems::GetBundle(int index)
 {
 	FUWeaponBundle WeaponBundles;
 	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_BUNDLES);
-	WeaponBundles << gRPC_Item->gRPC_GetBundle(index);
+	WeaponBundles = gRPC_Item->gRPC_GetBundle(index);
 
 	return WeaponBundles;
 
@@ -373,8 +523,9 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 	FUWeaponBundle WB;
 	if (MainClient::client != nullptr)
 	{
-		ModelItems::WeaponBundleItem* itm = new ModelItems::WeaponBundleItem[request.items.Num()];
-		for (int i = 0; i < request.items.Num(); i++)
+		int size = request.items.Num();
+		ModelItems::WeaponBundleItem* itm = new ModelItems::WeaponBundleItem[size];
+		for (int i = 0; i < size; i++)
 		{
 			itm[i].copy = false;
 			switch (request.items[i].item_type)
@@ -444,12 +595,12 @@ FUWeaponBundle UNearItems::GetEditBundle(FUEditBundleRequest request)
 			itm[i].skin = (TYPE_CHAR*)GET_CHARPTR(request.items[i].skin);
 		}
 
-		ObjectList<ModelItems::WeaponBundleItem> items(itm, request.items.Num());
+		ObjectList<ModelItems::WeaponBundleItem> items(itm, size);
 		ModelItems::EditBundleRequest EBR(request.bundle_num, GET_CHARPTR(request.title), &items);
 
 		Call_gRPC((void*)&EBR, Type_Call_gRPC::Type_gRPCItem::EDIT_BUNDLE);
 
-		WB << gRPC_Item->gRPC_EditBundle();
+		WB = gRPC_Item->gRPC_EditBundle();
 	}
 	return WB;
 }
@@ -486,90 +637,13 @@ TArray<FUWeaponBundle> UNearItems::GetCopyBundlesArray()
 	return FUWB;
 }
 
-FUOutfitKind& operator<<(FUOutfitKind& OutfitKindUE, const ModelItems::OutfitKind& OutfitKindResponse)
-{
-	switch (OutfitKindResponse)
-	{
-	case ModelItems::OutfitKind::CAP:
-		OutfitKindUE = FUOutfitKind::Cap;
-		break;
-	case ModelItems::OutfitKind::CLOTH:
-		OutfitKindUE = FUOutfitKind::Cloth;
-		break;
-	case ModelItems::OutfitKind::FIRE_ARM:
-		OutfitKindUE = FUOutfitKind::Fire_ARM;
-		break;
-	case ModelItems::OutfitKind::COLD_ARM:
-		OutfitKindUE = FUOutfitKind::Cold_ARM;
-		break;
-	case ModelItems::OutfitKind::BACK:
-		OutfitKindUE = FUOutfitKind::Back;
-		break;
-	default:
-		OutfitKindUE = FUOutfitKind::Default;
-		break;
-	}
-	return OutfitKindUE;
-}
-
-FUOutfitModel& operator<<(FUOutfitModel& OutfitModellUE, const ModelItems::OutfitModel& OutfitModelResponse)
-{
-	OutfitModellUE.flavour = FString((const TYPE_CHAR*)OutfitModelResponse.flavour);
-	OutfitModellUE.token_id = FString((const TYPE_CHAR*)OutfitModelResponse.token_id);
-	OutfitModellUE.kind << OutfitModelResponse.kind;
-	return OutfitModellUE;
-}
-
-FULemonModel& operator<<(FULemonModel& LemonModelUE, const ModelItems::LemonModel& LemonModelResponse)
-{
-
-	LemonModelUE.exo = FString((const TYPE_CHAR*)LemonModelResponse.exo);
-	LemonModelUE.eyes = FString((const TYPE_CHAR*)LemonModelResponse.eyes);
-	LemonModelUE.head = FString((const TYPE_CHAR*)LemonModelResponse.head);
-	LemonModelUE.teeth = FString((const TYPE_CHAR*)LemonModelResponse.teeth);
-	LemonModelUE.face = FString((const TYPE_CHAR*)LemonModelResponse.face);
-	LemonModelUE.attached_bundles << LemonModelResponse.attached_bundles;
-	LemonModelUE.cap << LemonModelResponse.cap;
-	LemonModelUE.cloth << LemonModelResponse.cloth;
-	LemonModelUE.fire_arm << LemonModelResponse.fire_arm;
-	LemonModelUE.cold_arm << LemonModelResponse.cold_arm;
-	LemonModelUE.back << LemonModelResponse.back;
-	return LemonModelUE;
-}
-
-FUItem& operator<<(FUItem& itemsUE, const ModelItems::Item& itemResponse)
-{
-	itemsUE.token_id = FString((const TYPE_CHAR*)itemResponse.token_id);
-	itemsUE.media = FString((const TYPE_CHAR*)itemResponse.media);
-	itemsUE.owner_id = FString((const TYPE_CHAR*)itemResponse.owner_id);
-	itemsUE.in_fight = itemResponse.in_fight;
-
-	switch (itemResponse.model)
-	{
-	case ModelItems::Model::LEMON:
-		itemsUE.lemon << itemResponse.lemon;
-		itemsUE.model = FUModel::LEMON;
-		break;
-	case ModelItems::Model::OUTFIT_MODEL:
-		itemsUE.outfit << itemResponse.outfit;
-		itemsUE.model = FUModel::OUTFIT_MODEL;
-		break;
-	case ModelItems::Model::DEFAULT:
-	default:
-		itemsUE.model = FUModel::DEFAULT;
-		break;
-	}
-
-	return itemsUE;
-}
-
 TArray<FUItem>& operator<<(TArray<FUItem>& itemsAUE, const ObjectList<ModelItems::Item>& itemAResponse)
 {
 	ModelItems::Item* itemPtr = itemAResponse.getObjectPtr();
 	for (int i = 0; i < itemAResponse.getSize(); i++)
 	{
 		FUItem FUI;
-		FUI << itemPtr[i];
+		FUI = itemPtr[i];
 		itemsAUE.Add(FUI);
 	}
 
@@ -585,7 +659,7 @@ TArray<FUItem> UNearItems::GetItemsArry()
 	for (size_t i = 0; i < IA.getSize(); i++)
 	{
 		FUItem uItem;
-		uItem << IA.getObject(i);
+		uItem = IA.getObject(i);
 		FUItemList.Add(uItem);
 	}
 	return FUItemList;
@@ -604,7 +678,7 @@ FUItem UNearItems::GetItem(int index)
 {
 	FUItem uItem;
 	Call_gRPC(nullptr, Type_Call_gRPC::Type_gRPCItem::GET_ITEMS);
-	uItem << gRPC_Item->gRPC_GetItem(index);
+	uItem = gRPC_Item->gRPC_GetItem(index);
 
 	return uItem;
 }
@@ -871,7 +945,7 @@ TArray<FURoomPlayerInfo>& operator<<(TArray<FURoomPlayerInfo>& toUE, const Objec
 	for (int i = 0; i < from.getSize(); i++)
 	{
 		FURoomPlayerInfo roomPlayerInfo;
-		roomPlayerInfo.lemon << roomPlayerInfoPtr[i].lemon;
+		roomPlayerInfo.lemon = roomPlayerInfoPtr[i].lemon;
 		roomPlayerInfo.near_id = FString(roomPlayerInfoPtr[i].near_id);
 		toUE.Add(roomPlayerInfo);
 	}

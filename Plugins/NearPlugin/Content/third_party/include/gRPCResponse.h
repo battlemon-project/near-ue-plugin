@@ -112,16 +112,24 @@ public:
 
 };
 
-class gRPC_ResponseUptate
+class gRPC_ResponseUptate : public gRPC_Response<ModelUpdates::Type_Updates_Message>
 {
-	void* messageData;
+	ModelUpdates::MessageData message;
+	void free_gRPC() override;
 public:
-	gRPC_ResponseUptate();
+	gRPC_ResponseUptate(Client** client, ModelUpdates::MessageData& message, ModelUpdates::Type_Updates_Message type = ModelUpdates::Type_Updates_Message::NONE);	//read message
+	gRPC_ResponseUptate(Client** client, ModelUpdates::Type_Updates_Message type = ModelUpdates::Type_Updates_Message::NONE);										//write message
 	~gRPC_ResponseUptate();
-
 	const ModelUpdates::MessageData& writeUpdate(const ModelUpdates::Update& Request);
 	const ModelUpdates::MessageData& writeUpdateMessage(const ModelUpdates::UpdateMessage& Request);
 	const ModelUpdates::MessageData& writeRoomNeedAccept(const ModelUpdates::RoomNeedAccept& Request);
 	const ModelUpdates::MessageData& writeRoomInfo(const ModelUpdates::RoomInfo& Request);
 	const ModelUpdates::MessageData& writeRoomPlayer(const ModelUpdates::RoomPlayer& Request);
+
+	void readUpdate(ModelUpdates::Update& out);
+	void readUpdateMessage(ModelUpdates::UpdateMessage& out);
+	void readRoomNeedAccept(ModelUpdates::RoomNeedAccept& out);
+	void readRoomInfo(ModelUpdates::RoomInfo& out);
+	void readRoomPlayer(ModelUpdates::RoomPlayer& out);
+
 };

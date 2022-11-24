@@ -7,6 +7,7 @@
 #include <WebSockets/Public/IWebSocket.h>
 #include <WebSockets/Public/WebSocketsModule.h>
 #include "NearAuth.h"
+#include "Misc/Base64.h"
 #include <include/gRPCResponse.h>
 
 #include "WebSocket.generated.h"
@@ -27,6 +28,8 @@ struct FUUpdate
     FString id; // update id
     int64 timestamp; // millisec
     FString message; //UpdateMessage's bytes in base64
+
+    FUUpdate& operator=(const ModelUpdates::Update& update);
 };
 
 USTRUCT(BlueprintType)
@@ -36,6 +39,8 @@ struct FURoomNeedAccept
 
     bool manual_accept;
     int time_to_accept;
+
+    FURoomNeedAccept& operator=(const ModelUpdates::RoomNeedAccept& RNA);
 };
 
 UENUM(BlueprintType)
@@ -58,6 +63,8 @@ struct FURoomPlayer
 
     FString near_id;
     FUItem lemon;
+
+    FURoomPlayer& operator=(const ModelUpdates::RoomPlayer& RP);
 };
 
 USTRUCT(BlueprintType)
@@ -68,6 +75,8 @@ struct FURoomInfo
     FString room_id;
     FString server_ip;
     TArray<FURoomPlayer> players;
+
+    FURoomInfo& operator=(const ModelUpdates::RoomInfo& RI);
 };
 
 USTRUCT(BlueprintType)
@@ -78,13 +87,26 @@ struct FUUpdateMessage
     FUUpdateCase update;
     FURoomNeedAccept room_need_accept;
     //common.Empty room_accepting_canceled;
-    FURoomInfo room_found;
-    FURoomInfo room_teammates;
-    FURoomInfo room_ready;
+    FURoomInfo roomInfo;
+
+    FUUpdateMessage& operator=(const ModelUpdates::UpdateMessage& UM);
 };
 
+enum class TypeMessage
+{
+    SIGN,
+    UPDATE,
+    UPDATEMESSAGE,
+    ROOMNEEDACCEPT,
+    ROOMINFO,
+    ROOMPLAYER
+};
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRoomInfoDelegate, const FURoomInfo&, Room_Info);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRoomNeedAcceptDelegate, const FURoomNeedAccept&, Room_Need_Accept);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FURoomPlayerDelegate, const FURoomPlayer&, Room_Player);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUUpdateMessageDelegate, const FUUpdateMessage&, Update_Message);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUUpdateDelegate, const FUUpdate&, Update);
 
 UCLASS(BlueprintType)
 class NEARPLUGIN_API UWebSocket : public UObject
@@ -92,6 +114,13 @@ class NEARPLUGIN_API UWebSocket : public UObject
 
 	GENERATED_BODY()
 	TSharedPtr<IWebSocket> WebSocket;
+    ModelUpdates::MessageData Base64Decode(const FString& Source, TArray<uint8> &Dest);
+    TypeMessage TMessage;
+    FUUpdate update;
+    FUUpdateMessage updateMessage;
+    FURoomNeedAccept roomNeedAccept;
+    FURoomInfo roomInfo;
+    FURoomPlayer roomPlayer;
 
 public:
 
@@ -114,6 +143,17 @@ public:
 	FWebSocketConnectedDelegate OnConnectedEvent;
 	UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
 	FWebSocketMessageDelegate OnErrorEvent;
+
+    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
+    FRoomInfoDelegate OnRoomInfoEvent;
+    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
+    FRoomNeedAcceptDelegate OnRoomNeedAcceptEvent;
+    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
+    FURoomPlayerDelegate OnRoomPlayerEvent;
+    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
+    FUUpdateMessageDelegate OnUpdateMessageEvent;
+    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
+    FUUpdateDelegate OnUpdateEvent;
 
     UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
     void WriteUpdate(FUUpdate message,FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
