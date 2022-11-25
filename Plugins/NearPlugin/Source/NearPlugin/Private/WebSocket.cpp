@@ -364,11 +364,14 @@ void UWebSocket::CreateWebSocet(FString Address)
 
 bool UWebSocket::IsConnected()
 {
-	return WebSocket->IsConnected();
+	if(WebSocket.IsValid())
+		return WebSocket->IsConnected();
+	else
+		return false;
 }
 
 void UWebSocket::CloseConnection()
 {
-	if(WebSocket->IsConnected())
+	if(WebSocket.IsValid() && WebSocket->IsConnected())
 		WebSocket->Close();
 }
