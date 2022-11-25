@@ -4,7 +4,6 @@
 class Client
 {
 	char* accountID;
-	char* sign;
 	void* keyPair;
 	char* keyPub58;
 	char* error;
@@ -21,8 +20,9 @@ public:
 	bool IsValidKeys();
 	char* GetAccount() const { return accountID; };
 	char* GetError() const { return error; };
-	const char* GetSing() const { return sign; };
+	const char* GetSing() const;
 
 	void saveKey(const TYPE_CHAR* dir);
+	void saveSign(const TYPE_CHAR* dir);
 	bool AuthServiceClient(const TYPE_CHAR* url);
 };

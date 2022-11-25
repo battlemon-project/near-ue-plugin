@@ -273,15 +273,15 @@ FUUpdateMessage& FUUpdateMessage::operator=(const ModelUpdates::UpdateMessage& U
 
 void UWebSocket::Base64Decode(const FString& Source, TArray<uint8>& Dest)
 {
+	FUUpdateMessage _updateMessage;
+	updateMessage = _updateMessage;
 	FBase64::Decode(Source, Dest);
 
-	TCheckedPointerIterator<uint8, int32>iterator(Dest.begin());
-	ModelUpdates::MessageData message_data((void*)&(*iterator), Dest.Num());
+	ModelUpdates::MessageData message_data((void*)&(*Dest.begin()), Dest.Num());
 
 	gRPC_ResponseUptate ResponseUptate(message_data);
 	ModelUpdates::UpdateMessage read;
 	ResponseUptate.readUpdateMessage(read);
-
 	updateMessage = read;
 	OnUpdateMessageEvent.Broadcast(updateMessage);
 }
