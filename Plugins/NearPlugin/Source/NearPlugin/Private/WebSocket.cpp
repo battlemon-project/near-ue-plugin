@@ -317,7 +317,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 			UE_LOG(WebSocketLog, Display, TEXT("client == nullptr"));
 			return;
 		}
-		TMessage = false;
+
 		TArray<FString> Protocols;
 		Protocols.Add("wss");
 		WebSocket = FWebSocketsModule::Get().CreateWebSocket(Address, Protocols, UHeaders);
@@ -325,19 +325,15 @@ void UWebSocket::CreateWebSocet(FString Address)
 		WebSocket->OnMessage().AddLambda([&](FString MessageText)
 			{
 				FString MessageRead;
-				if (TMessage)
+				TArray<uint8> Dest;
+				TSharedPtr<FJsonObject> JsonObject;
+				TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(MessageText);
+				if (FJsonSerializer::Deserialize(Reader, JsonObject))
 				{
-					TArray<uint8> Dest;
-					TSharedPtr<FJsonObject> JsonObject;
-					TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(MessageText);
-					if (FJsonSerializer::Deserialize(Reader, JsonObject))
-					{
-						FString Response = JsonObject->GetStringField("message");
-						Base64Decode(Response, Dest);
-						//You can then use general JSON methods
-					}
+					FString Response = JsonObject->GetStringField("message");
+					Base64Decode(Response, Dest);
 				}
-				TMessage = true;
+
 				OnMessageEvent.Broadcast(MessageText);
 			});
 

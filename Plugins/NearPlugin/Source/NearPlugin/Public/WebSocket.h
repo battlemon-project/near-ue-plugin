@@ -115,7 +115,6 @@ class NEARPLUGIN_API UWebSocket : public UObject
 	GENERATED_BODY()
 	TSharedPtr<IWebSocket> WebSocket;
     void Base64Decode(const FString& Source, TArray<uint8> &Dest);
-    bool TMessage;
     FUUpdateMessage updateMessage;
 
 public:
