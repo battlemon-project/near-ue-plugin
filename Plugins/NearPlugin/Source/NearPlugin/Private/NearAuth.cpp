@@ -977,7 +977,11 @@ FURoomInfoResponse UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request)
 	FURoomInfoResponse Response;
 	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::GET_ROOM_INFO))
 	{
-		Response << gRPC_InternalMM->getResponse_GetRoomInfo();
+		ModelInternalMM::RoomInfoResponse mRoomInfoResponse = gRPC_InternalMM->getResponse_GetRoomInfo();
+		//Response << gRPC_InternalMM->getResponse_GetRoomInfo();
+		Response.mode << mRoomInfoResponse.mode;
+		Response.players << mRoomInfoResponse.players;
+		Response.room_id = FString(&mRoomInfoResponse.room_id[0]);
 		return Response;
 	}
 	return Response;

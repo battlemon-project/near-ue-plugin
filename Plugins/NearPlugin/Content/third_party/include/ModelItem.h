@@ -28,7 +28,7 @@ class ObjectList
 	bool owner;
 public:
 
-	ObjectList(int inp_size) :list(nullptr), size(inp_size), owner(true)
+	ObjectList(int inp_size) :size(inp_size), owner(true)
 	{
 		//owner++;
 		if (size > 0)

@@ -105,21 +105,8 @@ struct FUUpdateMessage
     FUUpdateMessage& operator=(const ModelUpdates::UpdateMessage& UM);
 };
 
-enum class TypeMessage
-{
-    SIGN,
-    UPDATE,
-    UPDATEMESSAGE,
-    ROOMNEEDACCEPT,
-    ROOMINFO,
-    ROOMPLAYER
-};
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRoomInfoDelegate, const FURoomInfo&, Room_Info);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRoomNeedAcceptDelegate, const FURoomNeedAccept&, Room_Need_Accept);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FURoomPlayerDelegate, const FURoomPlayer&, Room_Player);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUUpdateMessageDelegate, const FUUpdateMessage&, Update_Message);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUUpdateDelegate, const FUUpdate&, Update);
 
 UCLASS(BlueprintType)
 class NEARPLUGIN_API UWebSocket : public UObject
@@ -127,13 +114,9 @@ class NEARPLUGIN_API UWebSocket : public UObject
 
 	GENERATED_BODY()
 	TSharedPtr<IWebSocket> WebSocket;
-    ModelUpdates::MessageData Base64Decode(const FString& Source, TArray<uint8> &Dest);
-    TypeMessage TMessage;
-    FUUpdate update;
+    void Base64Decode(const FString& Source, TArray<uint8> &Dest);
+    bool TMessage;
     FUUpdateMessage updateMessage;
-    FURoomNeedAccept roomNeedAccept;
-    FURoomInfo roomInfo;
-    FURoomPlayer roomPlayer;
 
 public:
 
@@ -158,28 +141,5 @@ public:
 	FWebSocketMessageDelegate OnErrorEvent;
 
     UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
-    FRoomInfoDelegate OnRoomInfoEvent;
-    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
-    FRoomNeedAcceptDelegate OnRoomNeedAcceptEvent;
-    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
-    FURoomPlayerDelegate OnRoomPlayerEvent;
-    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
     FUUpdateMessageDelegate OnUpdateMessageEvent;
-    UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
-    FUUpdateDelegate OnUpdateEvent;
-
-    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
-    void WriteUpdate(FUUpdate message,FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
-
-    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
-    void WriteUpdateMessage(FUUpdateMessage message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
-
-    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
-    void WriteRoomNeedAccept(FURoomNeedAccept message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
-
-    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
-    void WriteRoomInfo(FURoomInfo message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
-
-    UFUNCTION(BlueprintCallable, Category = ".Near | WebSocet | Proto | Update")
-    void WriteRoomPlayer(FURoomPlayer message, FString Address = "wss://0n64i8m4o8.execute-api.us-east-1.amazonaws.com/test");
 };

@@ -271,77 +271,25 @@ FUUpdateMessage& FUUpdateMessage::operator=(const ModelUpdates::UpdateMessage& U
 }
 
 
-ModelUpdates::MessageData UWebSocket::Base64Decode(const FString& Source, TArray<uint8>& Dest)
+void UWebSocket::Base64Decode(const FString& Source, TArray<uint8>& Dest)
 {
 	FBase64::Decode(Source, Dest);
 
 	TCheckedPointerIterator<uint8, int32>iterator(Dest.begin());
 	ModelUpdates::MessageData message_data((void*)&(*iterator), Dest.Num());
 
-	switch (TMessage)
+	if (OnUpdateMessageEvent.IsBound())
 	{
-	case TypeMessage::SIGN:
-		break;
-	case TypeMessage::UPDATE:
-		if (OnUpdateEvent.IsBound())
-		{
-			gRPC_ResponseUptate ResponseUptate(&MainClient::client, message_data, ModelUpdates::Type_Updates_Message::UPDATE);
-			ModelUpdates::Update read;
-			ResponseUptate.readUpdate(read);
-			update = read;
-			OnUpdateEvent.Broadcast(update);
-		}
-		break;
-	case TypeMessage::UPDATEMESSAGE:
-		if (OnUpdateMessageEvent.IsBound())
-		{
-			gRPC_ResponseUptate ResponseUptate(&MainClient::client, message_data, ModelUpdates::Type_Updates_Message::UPDATE_MESSAGE);
-			ModelUpdates::UpdateMessage read;
-			ResponseUptate.readUpdateMessage(read);
-			updateMessage = read;
-			OnUpdateMessageEvent.Broadcast(updateMessage);
-		}
-		break;
-	case TypeMessage::ROOMNEEDACCEPT:
-		if (OnRoomNeedAcceptEvent.IsBound())
-		{
-			gRPC_ResponseUptate ResponseUptate(&MainClient::client, message_data, ModelUpdates::Type_Updates_Message::ROOM_NEED_ACCEPT);
-			ModelUpdates::RoomNeedAccept read;
-			ResponseUptate.readRoomNeedAccept(read);
-			roomNeedAccept = read;
-			OnRoomNeedAcceptEvent.Broadcast(roomNeedAccept);
-		}
-		break;
-	case TypeMessage::ROOMINFO:
-		if (OnRoomInfoEvent.IsBound())
-		{
-			gRPC_ResponseUptate ResponseUptate(&MainClient::client, message_data, ModelUpdates::Type_Updates_Message::ROOM_INFO);
-			ModelUpdates::RoomInfo read;
-			ResponseUptate.readRoomInfo(read);
-			roomInfo = read;
-			OnRoomInfoEvent.Broadcast(roomInfo);
-		}
-		break;
-	case TypeMessage::ROOMPLAYER:
-		if (OnRoomPlayerEvent.IsBound())
-		{
-			gRPC_ResponseUptate ResponseUptate(&MainClient::client, message_data, ModelUpdates::Type_Updates_Message::ROOM_PLAYER);
-			ModelUpdates::RoomPlayer read;
-			ResponseUptate.readRoomPlayer(read);
-			roomPlayer = read;
-			OnRoomPlayerEvent.Broadcast(roomPlayer);
-		}
-		
-		break;
-	default:
-		break;
+		gRPC_ResponseUptate ResponseUptate(message_data);
+		ModelUpdates::UpdateMessage read;
+		ResponseUptate.readUpdateMessage(read);
+		updateMessage = read;
+		OnUpdateMessageEvent.Broadcast(updateMessage);
 	}
-	return message_data;
 }
 
 UWebSocket::UWebSocket()
 {
-
 }
 UWebSocket::~UWebSocket()
 {
@@ -369,7 +317,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 			UE_LOG(WebSocketLog, Display, TEXT("client == nullptr"));
 			return;
 		}
-		TMessage = TypeMessage::SIGN;
+		TMessage = false;
 		TArray<FString> Protocols;
 		Protocols.Add("wss");
 		WebSocket = FWebSocketsModule::Get().CreateWebSocket(Address, Protocols, UHeaders);
@@ -377,35 +325,20 @@ void UWebSocket::CreateWebSocet(FString Address)
 		WebSocket->OnMessage().AddLambda([&](FString MessageText)
 			{
 				FString MessageRead;
-				TArray<uint8> Dest;
-
-				TSharedPtr<FJsonObject> JsonObject;
-				TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(MessageText);
-				if (FJsonSerializer::Deserialize(Reader, JsonObject))
+				if (TMessage)
 				{
-
-					switch (TMessage)
+					TArray<uint8> Dest;
+					TSharedPtr<FJsonObject> JsonObject;
+					TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(MessageText);
+					if (FJsonSerializer::Deserialize(Reader, JsonObject))
 					{
-					case TypeMessage::SIGN:
-						UE_LOG(WebSocketLog, All, TEXT("Received message: %s"), *MessageText);
-						MessageRead = MessageText;
-						break;
-					case TypeMessage::UPDATE:
-					case TypeMessage::UPDATEMESSAGE:
-					case TypeMessage::ROOMNEEDACCEPT:
-					case TypeMessage::ROOMINFO:
-					case TypeMessage::ROOMPLAYER:
-					default:
 						FString Response = JsonObject->GetStringField("message");
 						Base64Decode(MessageText, Dest);
-						break;
+						//You can then use general JSON methods
 					}
-					//You can then use general JSON methods
 				}
-
-				
-
-				OnMessageEvent.Broadcast(MessageRead);
+				TMessage = true;
+				OnMessageEvent.Broadcast(MessageText);
 			});
 
 		WebSocket->OnRawMessage().AddLambda([&](const void* Data, SIZE_T Size, SIZE_T BytesRemaining) 
@@ -442,73 +375,3 @@ void UWebSocket::CloseConnection()
 	if(WebSocket->IsConnected())
 		WebSocket->Close();
 }
-
-void UWebSocket::WriteUpdate(FUUpdate message, FString Address)
-{
-	if (WebSocket->IsConnected())
-	{
-		gRPC_ResponseUptate uptate(&MainClient::client, ModelUpdates::Type_Updates_Message::UPDATE);
-		ModelUpdates::Update Request;
-		Request << message;
-		const ModelUpdates::MessageData mdata = uptate.writeUpdate(Request);
-		TMessage = TypeMessage::UPDATE;
-		WebSocket->Send(mdata.Data, mdata.ByteSize, true);
-	}
-}
-
-void UWebSocket::WriteUpdateMessage(FUUpdateMessage message, FString Address)
-{
-
-	if (WebSocket->IsConnected())
-	{
-		gRPC_ResponseUptate uptate(&MainClient::client, ModelUpdates::Type_Updates_Message::UPDATE_MESSAGE);
-		ModelUpdates::UpdateCase updateCase;
-		updateCase << message.update;
-		ModelUpdates::UpdateMessage Request(updateCase);
-		Request << message;
-		const ModelUpdates::MessageData mdata = uptate.writeUpdateMessage(Request);
-		TMessage = TypeMessage::UPDATEMESSAGE;
-		WebSocket->Send(mdata.Data, mdata.ByteSize, true);
-	}
-}
-
-void UWebSocket::WriteRoomNeedAccept(FURoomNeedAccept message, FString Address)
-{
-	if (WebSocket->IsConnected())
-	{
-		ModelUpdates::RoomNeedAccept Request;
-		Request << message;
-		gRPC_ResponseUptate uptate(&MainClient::client, ModelUpdates::Type_Updates_Message::ROOM_NEED_ACCEPT);
-		const ModelUpdates::MessageData mdata = uptate.writeRoomNeedAccept(Request);
-		TMessage = TypeMessage::ROOMNEEDACCEPT;
-		WebSocket->Send(mdata.Data, mdata.ByteSize, true);
-	}
-}
-
-void UWebSocket::WriteRoomInfo(FURoomInfo message, FString Address)
-{
-	if (WebSocket->IsConnected())
-	{
-		ModelUpdates::RoomInfo Request(message.players.Num());
-		Request << message;
-
-		gRPC_ResponseUptate uptate(&MainClient::client, ModelUpdates::Type_Updates_Message::ROOM_INFO);
-		const ModelUpdates::MessageData mdata = uptate.writeRoomInfo(Request);
-		TMessage = TypeMessage::ROOMINFO;
-		WebSocket->Send(mdata.Data, mdata.ByteSize, true);
-	}
-}
-
-void UWebSocket::WriteRoomPlayer(FURoomPlayer message, FString Address)
-{
-	if (WebSocket->IsConnected())
-	{
-		ModelUpdates::RoomPlayer Request;
-		Request << message;
-		gRPC_ResponseUptate uptate(&MainClient::client, ModelUpdates::Type_Updates_Message::ROOM_PLAYER);
-		const ModelUpdates::MessageData mdata = uptate.writeRoomPlayer(Request);
-		TMessage = TypeMessage::ROOMPLAYER;
-		WebSocket->Send(mdata.Data, mdata.ByteSize, true);
-	}
-}
-
