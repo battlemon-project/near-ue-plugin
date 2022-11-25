@@ -278,14 +278,12 @@ void UWebSocket::Base64Decode(const FString& Source, TArray<uint8>& Dest)
 	TCheckedPointerIterator<uint8, int32>iterator(Dest.begin());
 	ModelUpdates::MessageData message_data((void*)&(*iterator), Dest.Num());
 
-	if (OnUpdateMessageEvent.IsBound())
-	{
-		gRPC_ResponseUptate ResponseUptate(message_data);
-		ModelUpdates::UpdateMessage read;
-		ResponseUptate.readUpdateMessage(read);
-		updateMessage = read;
-		OnUpdateMessageEvent.Broadcast(updateMessage);
-	}
+	gRPC_ResponseUptate ResponseUptate(message_data);
+	ModelUpdates::UpdateMessage read;
+	ResponseUptate.readUpdateMessage(read);
+
+	updateMessage = read;
+	OnUpdateMessageEvent.Broadcast(updateMessage);
 }
 
 UWebSocket::UWebSocket()
@@ -324,14 +322,17 @@ void UWebSocket::CreateWebSocet(FString Address)
 
 		WebSocket->OnMessage().AddLambda([&](FString MessageText)
 			{
-				FString MessageRead;
-				TArray<uint8> Dest;
-				TSharedPtr<FJsonObject> JsonObject;
-				TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(MessageText);
-				if (FJsonSerializer::Deserialize(Reader, JsonObject))
+				if (OnUpdateMessageEvent.IsBound())
 				{
-					FString Response = JsonObject->GetStringField("message");
-					Base64Decode(Response, Dest);
+					FString MessageRead;
+					TArray<uint8> Dest;
+					TSharedPtr<FJsonObject> JsonObject;
+					TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(MessageText);
+					if (FJsonSerializer::Deserialize(Reader, JsonObject))
+					{
+						FString Response = JsonObject->GetStringField("message");
+						Base64Decode(Response, Dest);
+					}
 				}
 
 				OnMessageEvent.Broadcast(MessageText);

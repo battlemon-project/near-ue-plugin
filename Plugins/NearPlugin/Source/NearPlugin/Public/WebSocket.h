@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Containers/Array.h"
 #include <WebSockets/Public/IWebSocket.h>
 #include <WebSockets/Public/WebSocketsModule.h>
 #include "NearAuth.h"
