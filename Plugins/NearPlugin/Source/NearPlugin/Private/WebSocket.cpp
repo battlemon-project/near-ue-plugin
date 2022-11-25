@@ -333,7 +333,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 					if (FJsonSerializer::Deserialize(Reader, JsonObject))
 					{
 						FString Response = JsonObject->GetStringField("message");
-						Base64Decode(MessageText, Dest);
+						Base64Decode(Response, Dest);
 						//You can then use general JSON methods
 					}
 				}
