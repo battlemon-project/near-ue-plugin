@@ -892,7 +892,7 @@ ObjectList<ModelInternalMM::InternalPlayerResult>& operator<<(ObjectList<ModelIn
 
 bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
 {
-	ObjectList<ModelInternalMM::InternalPlayerResult> results;
+	ObjectList<ModelInternalMM::InternalPlayerResult> results(Request.results.Num());
 	results << Request.results;
 
 	ModelInternalMM::SaveBattleResultRequest messeng(GET_CHARPTR(Request.room_id), &results);
