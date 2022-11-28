@@ -41,6 +41,7 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 
 	virtual UWorld* GetWorld() const override;
 
+	Type_Call_gRPC::Type_gRPC_Auth Type_Auth;
 	static void freeClient();
 	void saveAccountId();
 
@@ -51,7 +52,7 @@ class NEARPLUGIN_API UNearAuth : public	UObject
 	bool CheckAccountKey(FString AccountName);
 	FTimerHandle NearAuthTimer;
 	void TimerAuthRegist();
-
+	void ClearTimer();
 	
 
 public:

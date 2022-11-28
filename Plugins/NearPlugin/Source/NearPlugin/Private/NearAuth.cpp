@@ -41,19 +41,31 @@ UWorld* UNearAuth::GetWorld() const
 	else return nullptr;
 }
 
+void UNearAuth::ClearTimer()
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->GetTimerManager().ClearAllTimersForObject(this);
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("Clear timer World not exist!"));
+}
+
 void UNearAuth::TimerAuthRegist()
 {
 	MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
+	if (FString(MainClient::client->GetError()) == FString("public key not found") && Type_Auth == Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION)
+	{
+		ClearTimer();
+		Type_Auth = Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION;
+		OnResponseReceived();
+		return;
+	}
 	
 	if (MainClient::client->IsValidAccount())
 	{
-		UWorld* World = GetWorld();
-		if (World)
-		{
-			World->GetTimerManager().ClearAllTimersForObject(this);
-		}
-		else
-			UE_LOG(LogTemp, Error, TEXT("Clear timer World not exist!"));
+		ClearTimer();
 
 		MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
 		saveAccountId();
@@ -90,11 +102,6 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	}
 	else
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
-	//if (MainClient::client->AuthServiceClient())
-	//{
-	//	MainClient::client->saveKey(GET_CHARPTR(FPaths::ProjectSavedDir()));
-	//	saveAccountId();
-	//}
 }
 
 
@@ -140,6 +147,7 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 void UNearAuth::RegistrationAccount(bool MainNet)
 {
 	freeClient();
+	Type_Auth = Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION;
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), (MainNet ? WEBTYPE_M : WEBTYPE_T), Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION);
 	OnResponseReceived();
 }
@@ -148,6 +156,7 @@ void UNearAuth::RegistrationAccount(bool MainNet)
 void UNearAuth::AuthorizedAccount(FString AccountID)
 {
 	freeClient();
+	Type_Auth = Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION;
 	MainClient::client = new Client(GET_CHARPTR(FPaths::ProjectSavedDir()), GET_CHARPTR(AccountID), Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION);
 	UWorld* World = GetWorld();
 	if (World)
