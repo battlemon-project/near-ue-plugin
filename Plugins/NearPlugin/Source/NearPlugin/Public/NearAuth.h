@@ -28,10 +28,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, const FStr
  * 
  */
 
-namespace MainClient
+class MainClient
 {
-	Client* client = nullptr;
-}
+public:
+	static Client* client;
+};
 
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearAuth : public	UObject

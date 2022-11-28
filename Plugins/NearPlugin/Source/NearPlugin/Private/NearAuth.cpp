@@ -22,6 +22,8 @@
 #define NEAR_TESTNET_RPC_URL "https://rpc.testnet.near.org"
 
 
+Client* MainClient::client = nullptr;
+
 
 UNearAuth::UNearAuth()
 {
@@ -687,7 +689,7 @@ FString UNearItems::GetError()
 {
 	if (gRPC_Item->GetError() != nullptr)
 		return FString(gRPC_Item->GetError());
-	return FString("error == NULL");
+	return FString("OK");
 }
 
 ModelMM::GameMode& operator<<(ModelMM::GameMode& Request, const FUGameMode& RequestUE)
@@ -827,7 +829,7 @@ FString UNearMM::GetError()
 {
 	if (gRPC_MM->GetError() != nullptr)
 		return FString(gRPC_MM->GetError());
-	return FString("error == NULL");
+	return FString("OK");
 }
 
 ///InternalMM.proto
@@ -843,23 +845,19 @@ void UNearInternalMM::freegRPC_InternalMM()
 
 bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_InternalMM Type_gRPC)
 {
-	if (MainClient::client != nullptr)
+	if (gRPC_InternalMM == nullptr)
 	{
-		if (gRPC_InternalMM == nullptr)
-		{
-			gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
-		}
-		else
-		{
-			if (gRPC_InternalMM->GetCall_gRPC() != Type_gRPC)
-			{
-				freegRPC_InternalMM();
-				gRPC_InternalMM = new gRPC_ResponseInternalMM(&MainClient::client, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
-			}
-		}
-		return true;
+		gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
 	}
-	return false;
+	else
+	{
+		if (gRPC_InternalMM->GetCall_gRPC() != Type_gRPC)
+		{
+			freegRPC_InternalMM();
+			gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
+		}
+	}
+	return true;
 }
 
 UNearInternalMM::UNearInternalMM():gRPC_InternalMM(nullptr)
@@ -1021,6 +1019,6 @@ bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Req
 FString UNearInternalMM::GetError()
 {
 	if (gRPC_InternalMM->GetError() != nullptr)
-		return FString(gRPC_InternalMM->GetError());
-	return FString("error == NULL");
+		return FString((const TYPE_CHAR*)gRPC_InternalMM->GetError());
+	return FString("OK");
 }
