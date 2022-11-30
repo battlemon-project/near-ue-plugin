@@ -55,7 +55,7 @@ void UNearAuth::ClearTimer()
 void UNearAuth::TimerAuthRegist()
 {
 	MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
-	if (*MainClient::client->GetError() == 'p' && Type_Auth == Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION)
+	if (FString(MainClient::client->GetError()) == FString("public key not found") && Type_Auth == Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION)
 	{
 		ClearTimer();
 		Type_Auth = Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION;
