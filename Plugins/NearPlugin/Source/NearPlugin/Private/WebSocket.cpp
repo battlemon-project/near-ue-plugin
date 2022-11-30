@@ -346,8 +346,8 @@ void UWebSocket::CreateWebSocet(FString Address)
 						Base64Decode(Response, Dest);
 					}
 				}
-
-				OnMessageEvent.Broadcast(MessageText);
+				if(OnMessageEvent.IsBound())
+					OnMessageEvent.Broadcast(MessageText);
 			});
 
 		WebSocket->OnRawMessage().AddLambda([&](const void* Data, SIZE_T Size, SIZE_T BytesRemaining) 

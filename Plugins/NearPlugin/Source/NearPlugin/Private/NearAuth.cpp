@@ -814,16 +814,17 @@ void UNearInternalMM::freegRPC_InternalMM()
 
 bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_InternalMM Type_gRPC)
 {
+	const char* url = GET_CHARPTR(URL);
 	if (gRPC_InternalMM == nullptr)
 	{
-		gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
+		gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, url, Type_gRPC);
 	}
 	else
 	{
 		if (gRPC_InternalMM->GetCall_gRPC() != Type_gRPC)
 		{
 			freegRPC_InternalMM();
-			gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, GET_CHARPTR(URL), Type_gRPC);
+			gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, url, Type_gRPC);
 		}
 	}
 	return true;
@@ -860,7 +861,13 @@ ObjectList<ModelInternalMM::InternalPlayerResult>& operator<<(ObjectList<ModelIn
 bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
 {
 	ObjectList<ModelInternalMM::InternalPlayerResult> results(Request.results.Num());
-	results << Request.results;
+
+	for (size_t i = 0; i < Request.results.Num(); i++)
+	{
+		results[i].near_id = GET_CHARPTR(Request.results[i].near_id);
+		results[i].place = &Request.results[i].place;
+	}
+	//results << Request.results;
 
 	ModelInternalMM::SaveBattleResultRequest messeng(GET_CHARPTR(Request.room_id), &results);
 	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::SAVE_BATTLE_RESULT))
