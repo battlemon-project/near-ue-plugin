@@ -814,7 +814,7 @@ void UNearInternalMM::freegRPC_InternalMM()
 
 bool UNearInternalMM::Call_gRPC(void* messeng, Type_Call_gRPC::Type_gRPC_InternalMM Type_gRPC)
 {
-	const char* url = GET_CHARPTR(URL);
+	const TYPE_CHAR* url = GET_CHARPTR(URL);
 	if (gRPC_InternalMM == nullptr)
 	{
 		gRPC_InternalMM = new gRPC_ResponseInternalMM(nullptr, messeng, ssl, url, Type_gRPC);
