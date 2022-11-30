@@ -55,7 +55,7 @@ void UNearAuth::ClearTimer()
 void UNearAuth::TimerAuthRegist()
 {
 	MainClient::client->AuthServiceClient(GET_CHARPTR(URL));
-	if (FString(MainClient::client->GetError()) == FString("public key not found") && Type_Auth == Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION)
+	if (*MainClient::client->GetError() == 'p' && Type_Auth == Type_Call_gRPC::Type_gRPC_Auth::AUTHORIZATION)
 	{
 		ClearTimer();
 		Type_Auth = Type_Call_gRPC::Type_gRPC_Auth::REGISTRATION;
@@ -103,46 +103,6 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 	else
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 }
-
-
-//void UNearAuth::PostResponseReceived()
-//{
-//	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
-//
-//	TSharedRef<FJsonObject> RequestObj = MakeShared<FJsonObject>();
-//	Request->SetContentAsString(//"{\"jsonrpc\": \"2.0\",\"id\" : \"dontcare\",\"method\" : \"query\",\"params\" : {\"request_type\": \"view_access_key\",\"finality\" : \"final\",\"account_id\" : \"" + AccountID + "\",\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU" + "\"}}");
-//		FString("{") +
-//			"\"jsonrpc\": \"2.0\"," +
-//			"\"id\" : \"dontcare\"," +
-//			"\"method\" : \"query\"," +
-//			"\"params\" : {" +
-//				"\"request_type\": \"view_access_key\"," +
-//				"\"finality\" : \"final\"," +
-//				"\"account_id\" : \"" + "dsbgfnghcjhgds.testnet" /*AccountID */ + "\"," +
-//				"\"public_key\" : \"" + "ed25519:8EzUSbgEYKkMwvTgPZ6fcpE6keY85YPdbAjjzuU4dcuU\"" /*MainClient::client->GetPublicKey() + "\""*/ +
-//			"}" +
-//		"}"
-//	); 
-//	FString RequestBody;
-//	TSharedRef<TJsonWriter<TCHAR>> Writer = TJsonWriterFactory<TCHAR>::Create(&RequestBody);
-//	FJsonSerializer::Serialize(RequestObj, Writer);
-//	Request->SetContentAsString(FString());
-//	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnPOSTRequest);
-//	Request->SetURL(NEAR_TESTNET_RPC_URL);
-//	Request->SetVerb("POST");
-//	Request->SetHeader("Content-Type", "application/json");
-//	Request->SetContentAsString(RequestBody);
-//	Request->ProcessRequest();
-//}
-
-//void UNearAuth::OnPOSTRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
-//{
-//	TSharedPtr<FJsonObject> ResponseObj;
-//	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
-//	FJsonSerializer::Deserialize(Reader, ResponseObj);
-//
-//	UE_LOG(LogTemp, Display, TEXT("Response: %s"), *Response->GetContentAsString());
-//}
 
 void UNearAuth::RegistrationAccount(bool MainNet)
 {
@@ -1006,8 +966,7 @@ FURoomInfoResponse UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Re
 	{
 		near_ids[i] = GET_CHARPTR(Request.near_ids[i]);
 	}
-
-	ModelInternalMM::CreateRoomRequest messeng(&mode, &near_ids);
+	ModelInternalMM::CreateRoomRequest messeng(&mode, &near_ids, GET_CHARPTR(Request.prev_room_id));
 	if (Call_gRPC(&messeng, Type_Call_gRPC::Type_gRPC_InternalMM::CREATE_ROOM_WITH_PLAYERS))
 	{
 		Response << gRPC_InternalMM->getResponse_CreateRoomWithPlayers();

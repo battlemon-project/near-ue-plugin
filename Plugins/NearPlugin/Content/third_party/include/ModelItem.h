@@ -403,7 +403,8 @@ namespace ModelInternalMM
 	{
 		const ModelMM::GameMode *const mode;
 		const ObjectList<const TYPE_CHAR*>* const near_ids;
-		CreateRoomRequest(const ModelMM::GameMode* mode, const ObjectList<const TYPE_CHAR*>* const near_ids);
+		const TYPE_CHAR* const prev_room_id;
+		CreateRoomRequest(const ModelMM::GameMode* mode, const ObjectList<const TYPE_CHAR*>* const near_ids, const TYPE_CHAR* prev_room_id);
 	};
 
 	struct DedicatedServerIsReadyRequest
@@ -455,6 +456,9 @@ namespace ModelUpdates
 		ROOM_FOUND,
 		ROOM_TEAMMATES,
 		ROOM_READY,
+		user_is_already_in_line,
+		user_is_already_in_battle,
+		user_out_of_line,
 		DEFAULT
 	};
 

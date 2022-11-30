@@ -536,6 +536,8 @@ struct FUCreateRoomRequest
 	FUGameMode mode;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
 	TArray<FString> near_ids;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto | Request")
+	FString prev_room_id;
 };
 
 USTRUCT(BlueprintType)

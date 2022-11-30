@@ -261,6 +261,18 @@ FUUpdateMessage& FUUpdateMessage::operator=(const ModelUpdates::UpdateMessage& U
 		this->update = FUUpdateCase::ROOM_READY;
 		this->roomInfo = UM.get_RoomInfo();
 		break;
+
+	case ModelUpdates::UpdateCase::user_is_already_in_battle:
+		this->update = FUUpdateCase::ROOM_READY;
+		this->roomInfo = UM.get_RoomInfo();
+		break;
+	case ModelUpdates::UpdateCase::user_is_already_in_line:
+		this->update = FUUpdateCase::USER_IS_ALREADY_IN_LINE;
+		break;
+	case ModelUpdates::UpdateCase::user_out_of_line:
+		this->update = FUUpdateCase::USER_OUT_OF_LINE;
+		break;
+
 	case ModelUpdates::UpdateCase::DEFAULT:
 		this->update = FUUpdateCase::DEFAULT;
 		break;

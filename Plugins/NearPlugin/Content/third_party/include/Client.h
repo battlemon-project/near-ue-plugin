@@ -25,4 +25,5 @@ public:
 	void saveKey(const TYPE_CHAR* dir);
 	void saveSign(const TYPE_CHAR* dir);
 	bool AuthServiceClient(const TYPE_CHAR* url);
+	void CreateNewSign(const TYPE_CHAR* url);
 };
