@@ -1,282 +1,86 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "WebSocket.h"
-
+#include "NearAuth.h"
 
 DEFINE_LOG_CATEGORY(WebSocketLog);
 
-ModelUpdates::Update& operator<<(ModelUpdates::Update& Request, const FUUpdate& RequestUE)
+FUUpdate& FUUpdate::operator=(const game::battlemon::updates::Update& update)
 {
-	Request.id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.id);
-	Request.message = (TYPE_CHAR*)GET_CHARPTR(RequestUE.message);
-	Request.timestamp = RequestUE.timestamp;
-	return Request;
-}
-
-ModelUpdates::UpdateCase& operator<<(ModelUpdates::UpdateCase& Request, const FUUpdateCase& RequestUE)
-{
-	switch (RequestUE)
-	{
-	case FUUpdateCase::ROOM_NEED_ACCEPT:
-		Request = ModelUpdates::UpdateCase::ROOM_NEED_ACCEPT;
-		break;
-	case FUUpdateCase::ROOM_ACCEPTING_CANCELED:
-		Request = ModelUpdates::UpdateCase::ROOM_ACCEPTING_CANCELED;
-		break;
-	case FUUpdateCase::ROOM_FOUND:
-		Request = ModelUpdates::UpdateCase::ROOM_FOUND;
-		break;
-	case FUUpdateCase::ROOM_TEAMMATES:
-		Request = ModelUpdates::UpdateCase::ROOM_TEAMMATES;
-		break;
-	case FUUpdateCase::ROOM_READY:
-		Request = ModelUpdates::UpdateCase::ROOM_READY;
-		break;
-	default:
-		Request = ModelUpdates::UpdateCase::DEFAULT;
-		break;
-	}
-	return Request;
-}
-
-ModelUpdates::RoomNeedAccept& operator<<(ModelUpdates::RoomNeedAccept& Request, const FURoomNeedAccept& RequestUE)
-{
-	Request.manual_accept = RequestUE.manual_accept;
-	Request.time_to_accept = RequestUE.time_to_accept;
-	return Request;
-}
-
-ModelItems::OutfitKind& operator<<(ModelItems::OutfitKind& Request, const FUOutfitKind& RequestUE)
-{
-	switch (RequestUE)
-	{
-	case FUOutfitKind::Cap:
-		Request = ModelItems::OutfitKind::CAP;
-		break;
-	case FUOutfitKind::Cloth:
-		Request = ModelItems::OutfitKind::CLOTH;
-		break;
-	case FUOutfitKind::Fire_ARM:
-		Request = ModelItems::OutfitKind::FIRE_ARM;
-		break;
-	case FUOutfitKind::Cold_ARM:
-		Request = ModelItems::OutfitKind::COLD_ARM;
-		break;
-	case FUOutfitKind::Back:
-		Request = ModelItems::OutfitKind::BACK;
-		break;
-	default:
-		Request = ModelItems::OutfitKind::DEFAULT;
-		break;
-	}
-	return Request;
-}
-
-ModelItems::OutfitModel& operator<<(ModelItems::OutfitModel& Request, const FUOutfitModel& RequestUE)
-{
-	Request.flavour = (TYPE_CHAR*)GET_CHARPTR(RequestUE.flavour);
-	Request.token_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.token_id);
-	Request.kind << RequestUE.kind;
-	return Request;
-}
-
-ModelItems::LemonModel& operator<<(ModelItems::LemonModel& Request, const FULemonModel& RequestUE)
-{
-
-	Request.exo = (TYPE_CHAR*)GET_CHARPTR(RequestUE.exo);
-	Request.eyes = (TYPE_CHAR*)GET_CHARPTR(RequestUE.eyes);
-	Request.head = (TYPE_CHAR*)GET_CHARPTR(RequestUE.head);
-	Request.teeth = (TYPE_CHAR*)GET_CHARPTR(RequestUE.teeth);
-	Request.face = (TYPE_CHAR*)GET_CHARPTR(RequestUE.face);
-	Request.cap << RequestUE.cap;
-	Request.cloth << RequestUE.cloth;
-	Request.fire_arm << RequestUE.fire_arm;
-	Request.cold_arm << RequestUE.cold_arm;
-	Request.back << RequestUE.back;
-	return Request;
-}
-
-ModelItems::Item& operator<<(ModelItems::Item& Request, const FUItem& RequestUE)
-{
-	Request.token_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.token_id);
-	Request.media = (TYPE_CHAR*)GET_CHARPTR(RequestUE.media);
-	Request.owner_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.owner_id);
-
-	switch (RequestUE.model)
-	{
-	case FUModel::LEMON:
-		Request.lemon << RequestUE.lemon;
-		Request.model = ModelItems::Model::LEMON;
-		break;
-	case FUModel::OUTFIT_MODEL:
-		Request.outfit << RequestUE.outfit;
-		Request.model = ModelItems::Model::OUTFIT_MODEL;
-		break;
-	case FUModel::DEFAULT:
-	default:
-		Request.model = ModelItems::Model::DEFAULT;
-		break;
-	}
-
-	return Request;
-}
-
-ModelUpdates::RoomInfo& operator<<(ModelUpdates::RoomInfo& Request, const FURoomInfo& RequestUE)
-{
-	Request.room_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.room_id);
-	Request.server_ip = (TYPE_CHAR*)GET_CHARPTR(RequestUE.server_ip);
-	int size = RequestUE.players.Num();
-	ModelUpdates::RoomPlayer* players = Request.players.getObjectPtr();
-
-	for (int i = 0; i < size; i++)
-	{
-		players[i].near_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.players[i].near_id);
-		players[i].lemon = new ModelItems::Item();
-		*players[i].lemon << RequestUE.players[i].lemon;
-	}
-
-	return Request;
-}
-
-ModelUpdates::UpdateMessage& operator<<(ModelUpdates::UpdateMessage& Request, const FUUpdateMessage& RequestUE)
-{
-	switch (RequestUE.update)
-	{
-	case FUUpdateCase::NONE:
-		break;
-	case FUUpdateCase::ROOM_NEED_ACCEPT:
-	{
-		ModelUpdates::RoomNeedAccept* room_need_accept;
-		Request.CreateOneof(room_need_accept);
-		*room_need_accept << RequestUE.room_need_accept;
-	}
-	break;
-	case FUUpdateCase::ROOM_ACCEPTING_CANCELED:
-		break;
-	case FUUpdateCase::ROOM_FOUND:
-	{
-		ModelUpdates::RoomInfo* roomInfo;
-		Request.CreateOneof(roomInfo, RequestUE.roomInfo.players.Num());
-		*roomInfo << RequestUE.roomInfo;
-	}
-	break;
-	case FUUpdateCase::ROOM_TEAMMATES:
-	{
-		ModelUpdates::RoomInfo* roomInfo;
-		Request.CreateOneof(roomInfo, RequestUE.roomInfo.players.Num());
-		*roomInfo << RequestUE.roomInfo;
-	}
-	break;
-	case FUUpdateCase::ROOM_READY:
-	{
-		ModelUpdates::RoomInfo* roomInfo;
-		Request.CreateOneof(roomInfo, RequestUE.roomInfo.players.Num());
-		*roomInfo << RequestUE.roomInfo;
-	}
-	break;
-	case FUUpdateCase::BUNDLE_ITEM_PERK:
-		break;
-	case FUUpdateCase::DEFAULT:
-		break;
-	default:
-		break;
-	}
-	//Request.room_accepting_canceled = RequestUE.room_accepting_canceled;
-	return Request;
-}
-
-ModelUpdates::RoomPlayer& operator<<(ModelUpdates::RoomPlayer& Request, const FURoomPlayer& RequestUE)
-{
-	Request.lemon = new ModelItems::Item();
-	*Request.lemon << RequestUE.lemon;
-	Request.near_id = (TYPE_CHAR*)GET_CHARPTR(RequestUE.near_id);
-	return Request;
-}
-
-FUUpdate& FUUpdate::operator=(const ModelUpdates::Update& update)
-{
-	this->id = FString(update.id);
-	this->message = FString(update.message);
-	this->timestamp = update.timestamp;
+	this->id = CONV_CHAR_TO_FSTRING(update.id().c_str());
+	this->message = CONV_CHAR_TO_FSTRING(update.message().c_str());
+	this->timestamp = update.timestamp();
 
 	return *this;
 }
 
-FURoomNeedAccept& FURoomNeedAccept::operator=(const ModelUpdates::RoomNeedAccept& RNA)
+FURoomNeedAccept& FURoomNeedAccept::operator=(const game::battlemon::updates::RoomNeedAccept& RNA)
 {
-	this->manual_accept = RNA.manual_accept;
-	this->time_to_accept = RNA.time_to_accept;
+	this->manual_accept = RNA.manual_accept();
+	this->time_to_accept = RNA.time_to_accept();
 
 	return *this;
 }
 
-FURoomPlayer& FURoomPlayer::operator=(const ModelUpdates::RoomPlayer& RP)
+FURoomPlayer& FURoomPlayer::operator=(const game::battlemon::updates::RoomPlayer& RP)
 {
-	this->lemon = *RP.lemon;
-	this->near_id = FString(RP.near_id);
+	this->lemon = RP.lemon();
+	this->near_id = CONV_CHAR_TO_FSTRING(RP.near_id().c_str());
 
 	return *this;
 }
 
-FURoomInfo& FURoomInfo::operator=(const ModelUpdates::RoomInfo& RI)
+FURoomInfo& FURoomInfo::operator=(const game::battlemon::updates::RoomInfo& RI)
 {
-	this->room_id = FString(RI.room_id);
-	this->server_ip = FString(RI.server_ip);
-	ModelUpdates::RoomPlayer* ptr = RI.players.getObjectPtr();
-	for (size_t i = 0; i < RI.players.getSize(); i++)
-	{
-		FURoomPlayer player;
-		player = ptr[i];
+	this->room_id = CONV_CHAR_TO_FSTRING(RI.room_id().c_str());
+	this->server_ip = CONV_CHAR_TO_FSTRING(RI.server_ip().c_str());
 
-		this->players.Add(player);
-	}
+	int size = RI.players().size();
+	players.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+			players[Idx] = RI.players().Get(Idx);
+		});
 
 	return *this;
 }
 
-FUUpdateMessage& FUUpdateMessage::operator=(const ModelUpdates::UpdateMessage& UM)
+FUUpdateMessage& FUUpdateMessage::operator=(const game::battlemon::updates::UpdateMessage& UM)
 {
-	switch (UM.get_update())
+	switch (UM.update_case())
 	{
-	case ModelUpdates::UpdateCase::ROOM_NEED_ACCEPT:
-	{
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kRoomNeedAccept:
 		this->update = FUUpdateCase::ROOM_NEED_ACCEPT;
-		ModelUpdates::RoomNeedAccept RNA = UM.getRoomNeedAccept();
-		this->room_need_accept.manual_accept = RNA.manual_accept;
-		this->room_need_accept.time_to_accept = RNA.time_to_accept;
-	}
+		this->room_need_accept = UM.room_need_accept();
 		break;
-	case ModelUpdates::UpdateCase::ROOM_ACCEPTING_CANCELED:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kRoomAcceptingCanceled:
 		this->update = FUUpdateCase::ROOM_ACCEPTING_CANCELED;
 		break;
-	case ModelUpdates::UpdateCase::ROOM_FOUND:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kRoomFound:
 		this->update = FUUpdateCase::ROOM_FOUND;
-		this->roomInfo = UM.get_RoomInfo();
+		this->roomInfo = UM.room_found();
 		break;
-	case ModelUpdates::UpdateCase::ROOM_TEAMMATES:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kRoomTeammates:
 		this->update = FUUpdateCase::ROOM_TEAMMATES;
-		this->roomInfo = UM.get_RoomInfo();
+		this->roomInfo = UM.room_teammates();
 		break;
-	case ModelUpdates::UpdateCase::ROOM_READY:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kRoomReady:
 		this->update = FUUpdateCase::ROOM_READY;
-		this->roomInfo = UM.get_RoomInfo();
+		this->roomInfo = UM.room_ready();
 		break;
-
-	case ModelUpdates::UpdateCase::user_is_already_in_battle:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kUserIsAlreadyInLine:
 		this->update = FUUpdateCase::ROOM_READY;
-		this->roomInfo = UM.get_RoomInfo();
+		this->roomInfo = UM.user_is_already_in_battle();
 		break;
-	case ModelUpdates::UpdateCase::user_is_already_in_line:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kUserIsAlreadyInBattle:
 		this->update = FUUpdateCase::USER_IS_ALREADY_IN_LINE;
 		break;
-	case ModelUpdates::UpdateCase::user_out_of_line:
+	case game::battlemon::updates::UpdateMessage::UpdateCase::kUserOutOfLine:
 		this->update = FUUpdateCase::USER_OUT_OF_LINE;
 		break;
-
-	case ModelUpdates::UpdateCase::DEFAULT:
-		this->update = FUUpdateCase::DEFAULT;
-		break;
+	case game::battlemon::updates::UpdateMessage::UpdateCase::UPDATE_NOT_SET:
 	default:
+		this->update = FUUpdateCase::DEFAULT;
 		break;
 	}
 	return *this;
@@ -285,16 +89,11 @@ FUUpdateMessage& FUUpdateMessage::operator=(const ModelUpdates::UpdateMessage& U
 
 void UWebSocket::Base64Decode(const FString& Source, TArray<uint8>& Dest)
 {
-	FUUpdateMessage _updateMessage;
-	updateMessage = _updateMessage;
 	FBase64::Decode(Source, Dest);
-
-	ModelUpdates::MessageData message_data((void*)&(*Dest.begin()), Dest.Num());
-
-	gRPC_ResponseUptate ResponseUptate(message_data);
-	ModelUpdates::UpdateMessage read;
-	ResponseUptate.readUpdateMessage(read);
-	updateMessage = read;
+	
+	game::battlemon::updates::UpdateMessage um;
+	um.ParsePartialFromArray((void*)Dest.GetData(), Dest.Num());
+	updateMessage = um;
 	OnUpdateMessageEvent.Broadcast(updateMessage);
 }
 
@@ -314,10 +113,10 @@ void UWebSocket::CreateWebSocet(FString Address)
 			FModuleManager::Get().LoadModule("WebSockets");
 		}
 		TMap<FString, FString> UHeaders;
-		if (MainClient::client != nullptr)
+		if (UNearAuth::client != nullptr)
 		{
-			UHeaders.Add("near_id", MainClient::client->GetAccount());
-			FString sign = MainClient::client->GetSing();
+			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
+			FString sign = UNearAuth::client->GetSing();
 			UHeaders.Add("sign", sign);
 		}
 		else
@@ -348,15 +147,6 @@ void UWebSocket::CreateWebSocet(FString Address)
 				}
 				if(OnMessageEvent.IsBound())
 					OnMessageEvent.Broadcast(MessageText);
-			});
-
-		WebSocket->OnRawMessage().AddLambda([&](const void* Data, SIZE_T Size, SIZE_T BytesRemaining) 
-			{
-				ModelUpdates::MessageData MessageData;
-				MessageData.Data = (void*)Data;
-				MessageData.ByteSize = Size;
-
-
 			});
 
 		WebSocket->OnConnected().AddLambda([&]()

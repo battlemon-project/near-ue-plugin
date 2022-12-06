@@ -7,9 +7,13 @@
 #include "Containers/Array.h"
 #include <WebSockets/Public/IWebSocket.h>
 #include <WebSockets/Public/WebSocketsModule.h>
-#include "NearAuth.h"
+#include "RPC_MProto.h"
 #include "Misc/Base64.h"
-#include <include/gRPCResponse.h>
+
+
+#include "GrpcBegin.h"
+#include "protocol/updates.grpc.pb.h"
+#include "GrpcEnd.h"
 
 #include "WebSocket.generated.h"
 
@@ -33,7 +37,7 @@ struct FUUpdate
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FString message; //UpdateMessage's bytes in base64
 
-    FUUpdate& operator=(const ModelUpdates::Update& update);
+    FUUpdate& operator=(const game::battlemon::updates::Update& update);
 };
 
 USTRUCT(BlueprintType)
@@ -44,9 +48,9 @@ struct FURoomNeedAccept
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     bool manual_accept;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    int time_to_accept;
+    int32 time_to_accept;
 
-    FURoomNeedAccept& operator=(const ModelUpdates::RoomNeedAccept& RNA);
+    FURoomNeedAccept& operator=(const game::battlemon::updates::RoomNeedAccept& RNA);
 };
 
 UENUM(BlueprintType)
@@ -77,7 +81,7 @@ struct FURoomPlayer
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     FUItem lemon;
 
-    FURoomPlayer& operator=(const ModelUpdates::RoomPlayer& RP);
+    FURoomPlayer& operator=(const game::battlemon::updates::RoomPlayer& RP);
 };
 
 USTRUCT(BlueprintType)
@@ -92,7 +96,7 @@ struct FURoomInfo
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
     TArray<FURoomPlayer> players;
 
-    FURoomInfo& operator=(const ModelUpdates::RoomInfo& RI);
+    FURoomInfo& operator=(const game::battlemon::updates::RoomInfo& RI);
 };
 
 USTRUCT(BlueprintType)
@@ -108,7 +112,7 @@ struct FUUpdateMessage
     //common.Empty room_accepting_canceled;
     FURoomInfo roomInfo;
 
-    FUUpdateMessage& operator=(const ModelUpdates::UpdateMessage& UM);
+    FUUpdateMessage& operator=(const game::battlemon::updates::UpdateMessage& UM);
 };
 
 
