@@ -212,17 +212,20 @@ void UNearAuth::TimerAuth()
 			SetAccount(_accountID);
 		}
 
-		if (!save)
-		{
-			client->SaveSign(*FPaths::ProjectSavedDir(), sign);
-			client->SaveKey(*FPaths::ProjectSavedDir());
-			ClearTimer();
-
-			saveAccountId();
-		}
 
 		if (ResultNearRegist_Delegate.IsBound() && client->IsValidAccount())
+		{
+			if (!save && !accountID.IsEmpty())
+			{
+				client->SaveSign(*FPaths::ProjectSavedDir(), sign);
+				client->SaveKey(*FPaths::ProjectSavedDir());
+				ClearTimer();
+
+				saveAccountId();
+			}
+
 			ResultNearRegist_Delegate.Broadcast(this->accountID);
+		}
 	}
 }
 
