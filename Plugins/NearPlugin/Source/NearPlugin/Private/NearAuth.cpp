@@ -99,11 +99,19 @@ void UNearAuth::saveAccountId()
 
 void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
 {
-	TSharedPtr<FJsonObject> ResponseObj;
-	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
-	FJsonSerializer::Deserialize(Reader, ResponseObj);
-
-	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + URL_Redirect + "&public_key=" + FString(client->GetPublicKey())));
+	FString fullURL = FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname";
+	if (!URLContract.IsEmpty())
+	{
+		TSharedPtr<FJsonObject> ResponseObj;
+		TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
+		FJsonSerializer::Deserialize(Reader, ResponseObj);
+		fullURL += "&contract_id=" + ResponseObj->GetStringField("nft_contract_id");
+	}
+	if (!URL_Redirect.IsEmpty())
+	{
+		fullURL += "&success_url=" + URL_Redirect;
+	}
+	UKismetSystemLibrary::LaunchURL(fullURL + "&public_key=" + FString(client->GetPublicKey()));
 
 	UWorld* World = GetWorld();
 	if (World)
