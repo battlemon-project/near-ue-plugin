@@ -557,6 +557,7 @@ game::battlemon::mm::SearchGameResponseStatus& operator<<(game::battlemon::mm::S
 
 FUSearchGameResponseStatus& operator<<(FUSearchGameResponseStatus& FU, const game::battlemon::mm::SearchGameResponseStatus& searchGameResponseStatus)
 {
+    FU = FUSearchGameResponseStatus::DEFAULT;
     switch (searchGameResponseStatus)
     {
     case game::battlemon::mm::SearchGameResponseStatus::OK:
