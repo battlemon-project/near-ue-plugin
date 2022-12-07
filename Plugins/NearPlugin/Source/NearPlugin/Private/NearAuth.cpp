@@ -217,7 +217,7 @@ void UNearAuth::TimerAuth()
 			SetAccount(_accountID, signatureMessage);
 		}
 
-		if (ResultNearRegist_Delegate.IsBound())
+		if (ResultNearRegist_Delegate.IsBound() && client->IsValidAccount())
 			ResultNearRegist_Delegate.Broadcast(this->accountID);
 	}
 }
