@@ -146,7 +146,7 @@ game::battlemon::auth::VerifyCodeResponse UNearAuth::CVerifyCode(gRPC_ClientAuth
 	game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
 	FString pubKey = client->GetPublicKey();
 	VerifyCodeRequest.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
-	VerifyCodeRequest.set_sign((const char*)(client->GetSing()));
+	VerifyCodeRequest.set_sign(client->GetSing());
 	return grpcClient.CallRPCVerifyCode(VerifyCodeRequest);
 }
 
@@ -180,7 +180,7 @@ void UNearAuth::TimerAuth()
 		game::battlemon::auth::VerifyCodeResponse _accountID;
 
 		FString signatureMessage;
-		const TYPE_CHAR* sign = client->GetSing();
+		const char* sign = client->GetSing();
 
 		if (*sign != '\0')
 		{

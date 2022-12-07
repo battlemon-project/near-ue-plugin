@@ -9,7 +9,7 @@
 
 FUItemsResponse& FUItemsResponse::operator=(const game::battlemon::items::ItemsResponse& itemR)
 {
-	int size = itemR.items_size();
+	int size = itemR.items().size();
 	items.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
@@ -55,7 +55,7 @@ FULemonModel& FULemonModel::operator=(const game::battlemon::items::LemonModel& 
 	cold_arm = lemonModel.cold_arm();
 	back = lemonModel.back();
 
-	int size = lemonModel.attached_bundles_size();
+	int size = lemonModel.attached_bundles().size();
 	attached_bundles.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
@@ -81,7 +81,7 @@ FUWeaponBundle& FUWeaponBundle::operator=(const game::battlemon::items::WeaponBu
 	title = CONV_CHAR_TO_FSTRING(weaponBundle.title().c_str());
 	level = weaponBundle.level();
 
-	int size = weaponBundle.items_size();
+	int size = weaponBundle.items().size();
 	items.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
@@ -101,7 +101,7 @@ FUWeaponBundleItem& FUWeaponBundleItem::operator=(const game::battlemon::items::
 
 FUGetBundlesResponse& FUGetBundlesResponse::operator=(const game::battlemon::items::GetBundlesResponse& weaponBundleResponse)
 {
-	int size = weaponBundleResponse.bundles_size();
+	int size = weaponBundleResponse.bundles().size();
 	bundles.SetNum(size);
 
 	ParallelFor(size, [&](int32 Idx)
@@ -115,7 +115,7 @@ FUGetBundlesResponse& FUGetBundlesResponse::operator=(const game::battlemon::ite
 FUEditBundleRequest& FUEditBundleRequest::operator=(const game::battlemon::items::EditBundleRequest& editBundleRequest)
 {
 	bundle_num = editBundleRequest.bundle_num();
-	int size = editBundleRequest.items_size();
+	int size = editBundleRequest.items().size();
 	items.SetNum(size);
 
 	ParallelFor(size, [&](int32 Idx)
@@ -198,7 +198,7 @@ FUSaveBattleResultRequest& FUSaveBattleResultRequest::operator=(const game::batt
 	
 	room_id = CONV_CHAR_TO_FSTRING(saveBattleResultRequest.room_id().c_str());
 
-	int size = saveBattleResultRequest.results_size();
+	int size = saveBattleResultRequest.results().size();
 	results.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
@@ -231,7 +231,7 @@ FURoomInfoResponse& FURoomInfoResponse::operator=(const game::battlemon::mm::int
     room_id = CONV_CHAR_TO_FSTRING(roomInfoResponse.room_id().c_str());
 	mode = roomInfoResponse.mode();
 
-	int size = roomInfoResponse.players_size();
+	int size = roomInfoResponse.players().size();
 	players.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
@@ -245,7 +245,7 @@ FUCreateRoomRequest& FUCreateRoomRequest::operator=(const game::battlemon::mm::i
 {
 	mode = createRoomRequest.mode();
 
-	int size = createRoomRequest.near_ids_size();
+	int size = createRoomRequest.near_ids().size();
 	near_ids.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
