@@ -215,7 +215,7 @@ void UNearAuth::TimerAuth()
 
 		if (ResultNearRegist_Delegate.IsBound() && client->IsValidAccount())
 		{
-			if (!save && !accountID.IsEmpty())
+			if (!save)
 			{
 				client->SaveSign(*FPaths::ProjectSavedDir(), sign);
 				client->SaveKey(*FPaths::ProjectSavedDir());
