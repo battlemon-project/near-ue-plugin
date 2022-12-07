@@ -76,9 +76,4 @@ DerivedDataCache/*
 /Plugins/Developer
 /Plugins/NearPlugin/Binaries
 /Content
-!/Plugins/NearPlugin/Content/third_party/bin/libnear_Rust.dylib
-!/Plugins/NearPlugin/Content/third_party/bin/libnear_Rust.so
-!/Plugins/NearPlugin/Content/third_party/bin/near_Rust.dll
-!/Plugins/NearPlugin/Content/third_party/lib/MacOS/libNearRPC.a
-!/Plugins/NearPlugin/Content/third_party/lib/Win32/NearRPC.lib
-!/Plugins/NearPlugin/Content/third_party/lib/Win64/NearRPC.lib
+!/Plugins/NearPlugin/Content/third_party/
