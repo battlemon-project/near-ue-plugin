@@ -164,17 +164,21 @@ const char* UNearAuth::CSignMessage(gRPC_ClientAuth& grpcClient)
 	return client->CreateMessageNewSign(CodeResponse.code().c_str());
 }
 
+void UNearAuth::BadKey()
+{
+	ClearTimer();
+	typeClient = TypeClient::NEW;
+	freeClient();
+	client = new Client(nullptr, nullptr, typeClient);
+	OnResponseReceived();
+}
+
 void UNearAuth::TimerAuth()
 {
 
 	if (FString(client->GetError()) == FString("public key not found") && typeClient == TypeClient::OLD)
 	{
-		ClearTimer();
-		typeClient = TypeClient::NEW;
-		freeClient();
-		FString Paths = FPaths::ProjectSavedDir();
-		client = new Client(nullptr, nullptr, typeClient);
-		OnResponseReceived();
+		BadKey();
 		return;
 	}
 	else
@@ -205,6 +209,11 @@ void UNearAuth::TimerAuth()
 			if (_accountID.near_account_id() != "")
 			{
 				SetAccount(_accountID);
+			}
+			else
+			{
+				BadKey();
+				return;
 			}
 		}
 		else

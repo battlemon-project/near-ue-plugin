@@ -49,6 +49,7 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	void SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID);
 	game::battlemon::auth::VerifyCodeResponse CVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
 	const char* CSignMessage(gRPC_ClientAuth& grpcClient);
+	void BadKey();
 	static FString accountID;
 
 public:
