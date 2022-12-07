@@ -20,7 +20,7 @@ game::battlemon::items::ItemsResponse gRPC_ClientItems::CallRPC_GetItems()
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -39,7 +39,7 @@ game::battlemon::items::GetBundlesResponse gRPC_ClientItems::CallRPC_GetBundles(
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -57,7 +57,7 @@ game::battlemon::items::WeaponBundle gRPC_ClientItems::CallRPC_EditBundle(game::
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
         CallRPC<game::battlemon::items::ItemsService::Stub, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle>(stub.get(), context, request, &read, this->error, &game::battlemon::items::ItemsService::Stub::EditBundle);
@@ -73,7 +73,7 @@ bool gRPC_ClientItems::CallRPC_AttachBundle(game::battlemon::items::AttachBundle
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -93,7 +93,7 @@ bool gRPC_ClientItems::CallRPC_DetachBundle(game::battlemon::items::DetachBundle
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -120,7 +120,7 @@ game::battlemon::mm::SearchGameResponse gRPC_ClientMM::CallRPC_SearchGame(game::
     {
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -137,7 +137,7 @@ bool gRPC_ClientMM::CallRPC_AcceptGame(game::battlemon::mm::AcceptGameRequest& R
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -158,7 +158,7 @@ bool gRPC_ClientMM::CallRPC_CancelSearch()
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , (char*)UNearAuth::client->GetSing() };
+        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
@@ -492,4 +492,14 @@ FString UNearInternalMM::GetError()
     if (gRPC_InternalMM != nullptr)
         return gRPC_InternalMM->GetError();
     return FString();
+}
+
+FString UNearInternalMM::GetEnvironmentVariable(FString VarName)
+{
+#if PLATFORM_UNIX
+    return FUnixPlatformMisc::GetEnvironmentVariable(*VarName);
+#elif PLATFORM_WINDOWS
+    return FWindowsPlatformMisc::GetEnvironmentVariable(*VarName);
+#endif
+    return FGenericPlatformMisc::GetEnvironmentVariable(*VarName);
 }

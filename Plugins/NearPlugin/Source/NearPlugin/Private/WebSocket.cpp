@@ -116,7 +116,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 		if (UNearAuth::client != nullptr)
 		{
 			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
-			FString sign = UNearAuth::client->GetSing();
+			FString sign = CONV_CHAR_TO_FSTRING(UNearAuth::client->GetSing());
 			UHeaders.Add("sign", sign);
 		}
 		else

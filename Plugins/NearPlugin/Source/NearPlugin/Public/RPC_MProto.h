@@ -131,6 +131,9 @@ class NEARPLUGIN_API UNearInternalMM : public UObject
 
 public:
 
+	UFUNCTION(BlueprintCallable, Category = ".Near | InternalMMProto")
+	FString GetEnvironmentVariable(FString VarName);
+
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))

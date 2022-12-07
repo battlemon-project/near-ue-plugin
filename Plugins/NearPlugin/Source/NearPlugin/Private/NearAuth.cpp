@@ -99,11 +99,19 @@ void UNearAuth::saveAccountId()
 
 void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
 {
-	TSharedPtr<FJsonObject> ResponseObj;
-	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
-	FJsonSerializer::Deserialize(Reader, ResponseObj);
-
-	UKismetSystemLibrary::LaunchURL(FString(FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname&contract_id=" + ResponseObj->GetStringField("nft_contract_id") + "&success_url=" + URL_Redirect + "&public_key=" + FString(client->GetPublicKey())));
+	FString fullURL = FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname";
+	if (!URLContract.IsEmpty())
+	{
+		TSharedPtr<FJsonObject> ResponseObj;
+		TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
+		FJsonSerializer::Deserialize(Reader, ResponseObj);
+		fullURL += "&contract_id=" + ResponseObj->GetStringField("nft_contract_id");
+	}
+	if (!URL_Redirect.IsEmpty())
+	{
+		fullURL += "&success_url=" + URL_Redirect;
+	}
+	UKismetSystemLibrary::LaunchURL(fullURL + "&public_key=" + FString(client->GetPublicKey()));
 
 	UWorld* World = GetWorld();
 	if (World)
@@ -130,27 +138,23 @@ bool UNearAuth::CheckAccountKey(FString AccountName)
 	//res = FNearPluginModule::_AuthorizedRust(client->GetPublicKey(), client->GetAccount(), RPC_RUST);
 	return false; //res == 10;
 }
-void UNearAuth::SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID, FString& signatureMessage)
+void UNearAuth::SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID)
 {
 	this->accountID = CONV_CHAR_TO_FSTRING(_accountID.near_account_id().c_str());
 	client->SetAccount(*(this->accountID));
-	client->SaveSign(*FPaths::ProjectSavedDir(), *signatureMessage);
-	client->SaveKey(*FPaths::ProjectSavedDir());
-	ClearTimer();
-
-	saveAccountId();
+	
 }
 
-game::battlemon::auth::VerifyCodeResponse UNearAuth::CVerifyCode(gRPC_ClientAuth& grpcClient)
+game::battlemon::auth::VerifyCodeResponse UNearAuth::CVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign)
 {
 	game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
 	FString pubKey = client->GetPublicKey();
 	VerifyCodeRequest.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
-	VerifyCodeRequest.set_sign((const char*)(client->GetSing()));
+	VerifyCodeRequest.set_sign(sign);
 	return grpcClient.CallRPCVerifyCode(VerifyCodeRequest);
 }
 
-FString UNearAuth::CSignMessage(gRPC_ClientAuth& grpcClient)
+const char* UNearAuth::CSignMessage(gRPC_ClientAuth& grpcClient)
 {
 	game::battlemon::auth::SendCodeResponse CodeResponse;
 	game::battlemon::auth::SendCodeRequest Request;
@@ -179,37 +183,45 @@ void UNearAuth::TimerAuth()
 		game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
 		game::battlemon::auth::VerifyCodeResponse _accountID;
 
-		FString signatureMessage;
-		const TYPE_CHAR* sign = client->GetSing();
-
+		const char* sign = client->GetSing();
+		bool save = true;
 		if (*sign != '\0')
 		{
-			signatureMessage = CSignMessage(grpcClient);
+			sign = CSignMessage(grpcClient);
+			save = false;
 		}
-		else
-			signatureMessage = sign;
 
-		_accountID = CVerifyCode(grpcClient);
+		_accountID = CVerifyCode(grpcClient, sign);
 
 		if (_accountID.near_account_id() == "")
 		{
+			save = false;
 			_accountID.Clear();
 			VerifyCodeRequest.Clear();
 
-			signatureMessage = CSignMessage(grpcClient);
-			_accountID = CVerifyCode(grpcClient);
+			sign = CSignMessage(grpcClient);
+			_accountID = CVerifyCode(grpcClient, sign);
 
 			if (_accountID.near_account_id() != "")
 			{
-				SetAccount(_accountID, signatureMessage);
+				SetAccount(_accountID);
 			}
 		}
 		else
 		{
-			SetAccount(_accountID, signatureMessage);
+			SetAccount(_accountID);
 		}
 
-		if (ResultNearRegist_Delegate.IsBound())
+		if (!save)
+		{
+			client->SaveSign(*FPaths::ProjectSavedDir(), sign);
+			client->SaveKey(*FPaths::ProjectSavedDir());
+			ClearTimer();
+
+			saveAccountId();
+		}
+
+		if (ResultNearRegist_Delegate.IsBound() && client->IsValidAccount())
 			ResultNearRegist_Delegate.Broadcast(this->accountID);
 	}
 }

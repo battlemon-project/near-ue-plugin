@@ -46,9 +46,9 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	FTimerHandle NearAuthTimer;
 	void TimerAuth();
 	void ClearTimer();
-	void SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID, FString& signatureMessage);
-	game::battlemon::auth::VerifyCodeResponse CVerifyCode(gRPC_ClientAuth& grpcClient);
-	FString CSignMessage(gRPC_ClientAuth& grpcClient);
+	void SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID);
+	game::battlemon::auth::VerifyCodeResponse CVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
+	const char* CSignMessage(gRPC_ClientAuth& grpcClient);
 	static FString accountID;
 
 public:

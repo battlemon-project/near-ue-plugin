@@ -58,10 +58,11 @@ static inline FString StringtoU16(const std::string& str)
 	int32 size = str.size();
 	std::u16string wstr = u"";
 	wstr.resize(size);
+
 	char16_t c16str[3] = u"\0";
 	mbstate_t mbs;
-
 	const char* chr = str.c_str();
+
 	ParallelFor(size + 1, [&](int32 Idx)
 		{
 			memset(&mbs, 0, sizeof(mbs));
@@ -69,6 +70,7 @@ static inline FString StringtoU16(const std::string& str)
 			mbrtoc16(c16str, &chr[Idx], 3, &mbs);
 			wstr[Idx] = *std::u16string(c16str).c_str();
 		});
+
 	FString strUe(wstr.c_str());
 	return strUe;
 }
