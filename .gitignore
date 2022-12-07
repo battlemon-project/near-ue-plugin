@@ -20,10 +20,10 @@
 *.mod
 
 # Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+#*.lai
+#*.la
+#*.a
+#*.lib
 
 # Executables
 *.exe
@@ -77,3 +77,5 @@ DerivedDataCache/*
 /Plugins/NearPlugin/Binaries
 /Content
 !/Plugins/NearPlugin/Content/third_party/
+/Config/SteamVRBindings
+/Config/steamvr_ue_editor_app.json
