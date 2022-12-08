@@ -463,10 +463,10 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
     mt << Request.mode.match_type;
     mm << Request.mode.match_mode;
 
-    gm-Þset_match_mode(mm);
-    gm-Þset_match_type(mt);
+    gm->set_match_mode(mm);
+    gm->set_match_type(mt);
 
-    g_request.set_allocated_mode(&gm);
+    g_request.set_allocated_mode(gm);
 
     int size = Request.near_ids.Num();
     for (size_t Idx = 0; Idx < size; Idx++)
