@@ -20,7 +20,10 @@ game::battlemon::items::ItemsResponse gRPC_ClientItems::CallRPC_GetItems()
 
         std::string meta[] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
+        std::string str = CONV_FSTRING_TO_CHAR(nearid);
+        std::string sig =UNearAuth::client->GetSing();
+        int size = sig.size();
+        std::string value[] = { str , sig };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 

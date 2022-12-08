@@ -50,6 +50,8 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	game::battlemon::auth::VerifyCodeResponse CVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
 	const char* CSignMessage(gRPC_ClientAuth& grpcClient);
 	void BadKey();
+    bool bad;
+    bool webT;
 	static FString accountID;
 
 public:
@@ -74,7 +76,7 @@ public:
 	void RegistrationAccount(FString URL_Success, FString URL_Contract, bool MainNet = false);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void AuthorizedAccount(FString AccountID);
+    void AuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet = false);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);

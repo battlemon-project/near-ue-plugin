@@ -86,7 +86,7 @@ RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/near_Ru
 		{
 			LibrariesPathPlatform = Path.Combine(LibrariesPath, "MacOS");
 			extension = "*.a";
-			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "libresolv.9.tdb"));
+			PublicAdditionalLibraries.Add(Path.Combine(LibrariesPathPlatform, "libresolv.9.tbd"));
 
 #if UE_4_20_OR_LATER
 RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)/third_party/bin/libnear_Rust.dylib", ThirdPartyPath + "bin\\libnear_Rust.dylib")); 

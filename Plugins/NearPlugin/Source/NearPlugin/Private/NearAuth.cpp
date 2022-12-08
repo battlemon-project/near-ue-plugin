@@ -18,7 +18,7 @@
 Client* UNearAuth::client = nullptr;
 FString UNearAuth::accountID = "";
 
-UNearAuth::UNearAuth()
+UNearAuth::UNearAuth():bad(true)
 {
 }
 
@@ -35,6 +35,7 @@ void UNearAuth::RegistrationAccount(FString URL_Success, FString URL_Contract, b
 {
 	URLContract = URL_Contract;
 	URL_Redirect = URL_Success;
+    webT= MainNet;
 	freeClient();
 	typeClient = TypeClient::NEW;
 	client = new Client(nullptr, nullptr, typeClient);
@@ -42,9 +43,12 @@ void UNearAuth::RegistrationAccount(FString URL_Success, FString URL_Contract, b
 	OnResponseReceived();
 }
 
-void UNearAuth::AuthorizedAccount(FString AccountID)
+void UNearAuth::AuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet)
 {
-	freeClient();
+    URLContract = URL_Contract;
+    URL_Redirect = URL_Success;
+    webT = MainNet;
+    freeClient();
 	FString Paths = FPaths::ProjectSavedDir();
 	typeClient = TypeClient::OLD;
 	client = new Client(*Paths, *AccountID, typeClient);
@@ -99,7 +103,7 @@ void UNearAuth::saveAccountId()
 
 void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
 {
-	FString fullURL = FString("https://wallet.") + FString(WEBTYPE_T) + ".near.org/login?title=rndname";
+	FString fullURL = FString("https://wallet.") + FString(webT ? WEBTYPE_M : WEBTYPE_T) + ".near.org/login?title=rndname";
 	if (!URLContract.IsEmpty())
 	{
 		TSharedPtr<FJsonObject> ResponseObj;
@@ -140,6 +144,7 @@ bool UNearAuth::CheckAccountKey(FString AccountName)
 }
 void UNearAuth::SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID)
 {
+    bad = false;
 	this->accountID = CONV_CHAR_TO_FSTRING(_accountID.near_account_id().c_str());
 	client->SetAccount(*(this->accountID));
 	
@@ -230,6 +235,15 @@ void UNearAuth::TimerAuth()
 
 			ResultNearRegist_Delegate.Broadcast(this->accountID);
 		}
+        else
+        {
+            if(bad)
+            {
+                BadKey();
+                bad = false;
+            }
+           
+        }
 	}
 }
 
