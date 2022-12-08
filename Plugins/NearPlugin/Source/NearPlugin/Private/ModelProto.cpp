@@ -162,7 +162,28 @@ FUSearchGameRequest& FUSearchGameRequest::operator=(const game::battlemon::mm::S
 
 FUSearchGameResponse& FUSearchGameResponse::operator=(const game::battlemon::mm::SearchGameResponse& searchGameResponse)
 {
-	status << searchGameResponse.status();
+    status = FUSearchGameResponseStatus::DEFAULT;
+    switch (searchGameResponse.status())
+    {
+    case game::battlemon::mm::SearchGameResponseStatus::OK:
+        status = FUSearchGameResponseStatus::OK;
+        break;
+    case game::battlemon::mm::SearchGameResponseStatus::NFT_ERROR:
+        status = FUSearchGameResponseStatus::NFT_ERROR;
+        break;
+    case game::battlemon::mm::SearchGameResponseStatus::ALREADY_IN_QUEUE:
+        status = FUSearchGameResponseStatus::ALREADY_IN_QUEUE;
+        break;
+    case game::battlemon::mm::SearchGameResponseStatus::GAMEMODE_ERROR:
+        status = FUSearchGameResponseStatus::GAMEMODE_ERROR;
+        break;
+    case game::battlemon::mm::SearchGameResponseStatus::INVALID_REQUEST:
+        status = FUSearchGameResponseStatus::INVALID_REQUEST;
+        break;
+    case game::battlemon::mm::SearchGameResponseStatus::INTERNAL_ERROR:
+        status = FUSearchGameResponseStatus::INTERNAL_ERROR;
+        break;
+    }
 	return *this;
 }
 

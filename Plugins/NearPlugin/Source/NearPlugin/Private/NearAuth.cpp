@@ -176,7 +176,7 @@ void UNearAuth::BadKey()
 void UNearAuth::TimerAuth()
 {
 
-	if (FString(client->GetError()) == FString("public key not found") && typeClient == TypeClient::OLD)
+	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
 	{
 		BadKey();
 		return;
@@ -209,11 +209,6 @@ void UNearAuth::TimerAuth()
 			if (_accountID.near_account_id() != "")
 			{
 				SetAccount(_accountID);
-			}
-			else
-			{
-				BadKey();
-				return;
 			}
 		}
 		else

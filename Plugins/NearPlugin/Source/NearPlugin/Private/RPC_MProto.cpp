@@ -115,7 +115,7 @@ gRPC_ClientMM::gRPC_ClientMM(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
 
 game::battlemon::mm::SearchGameResponse gRPC_ClientMM::CallRPC_SearchGame(game::battlemon::mm::SearchGameRequest& Request)
 {
-        game::battlemon::mm::SearchGameResponse read;
+    game::battlemon::mm::SearchGameResponse read;
     if (UNearAuth::client != nullptr)
     {
         std::string meta[] = { "nearid" , "sign" };
@@ -349,7 +349,7 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
     gRPC_MM = new gRPC_ClientMM(ssl, URL);
     game::battlemon::mm::SearchGameRequest g_request;
 
-    game::battlemon::mm::GameMode gm;
+    game::battlemon::mm::GameMode* gm = new game::battlemon::mm::GameMode();
 
     game::battlemon::mm::MatchMode mm;
     game::battlemon::mm::MatchType mt;
@@ -357,10 +357,10 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
     mt << Request.game_mode.match_type;
     mm << Request.game_mode.match_mode;
 
-    gm.set_match_mode(mm);
-    gm.set_match_type(mt);
+    gm->set_match_mode(mm);
+    gm->set_match_type(mt);
 
-    g_request.set_allocated_game_mode(&gm);
+    g_request.set_allocated_game_mode(gm);
 
     out = gRPC_MM->CallRPC_SearchGame(g_request);
 }
@@ -455,7 +455,7 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
 
     game::battlemon::mm::internal::CreateRoomRequest g_request;
     g_request.set_prev_room_id(CONV_FSTRING_TO_CHAR(Request.prev_room_id));
-    game::battlemon::mm::GameMode gm;
+    game::battlemon::mm::GameMode* gm = new game::battlemon::mm::GameMode();
 
     game::battlemon::mm::MatchMode mm;
     game::battlemon::mm::MatchType mt;
@@ -463,8 +463,8 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
     mt << Request.mode.match_type;
     mm << Request.mode.match_mode;
 
-    gm.set_match_mode(mm);
-    gm.set_match_type(mt);
+    gm-Þset_match_mode(mm);
+    gm-Þset_match_type(mt);
 
     g_request.set_allocated_mode(&gm);
 
