@@ -15,7 +15,7 @@ game::battlemon::auth::SendCodeResponse gRPC_ClientAuth::CallRPCSendCode(const g
     game::battlemon::auth::SendCodeResponse read;
 
     grpc::ClientContext context;
-    CallRPC<game::battlemon::auth::AuthService::Stub, game::battlemon::auth::SendCodeRequest, game::battlemon::auth::SendCodeResponse>(stub.get(), context, Request, &read, this->error, &game::battlemon::auth::AuthService::Stub::SendCode);
+    CallRPC<game::battlemon::auth::SendCodeRequest, game::battlemon::auth::SendCodeResponse>(context, Request, &read, &game::battlemon::auth::AuthService::Stub::SendCode);
     return read;
 }
 
@@ -23,7 +23,8 @@ game::battlemon::auth::VerifyCodeResponse gRPC_ClientAuth::CallRPCVerifyCode(con
 {
     game::battlemon::auth::VerifyCodeResponse read;
     grpc::ClientContext context;
-    CallRPC<game::battlemon::auth::AuthService::Stub, game::battlemon::auth::VerifyCodeRequest, game::battlemon::auth::VerifyCodeResponse>(stub.get(), context, Request, &read, this->error, &game::battlemon::auth::AuthService::Stub::VerifyCode);
+    CallRPC<game::battlemon::auth::VerifyCodeRequest, game::battlemon::auth::VerifyCodeResponse>(context, Request, &read, &game::battlemon::auth::AuthService::Stub::VerifyCode);
+    //AsyncCallRPC<game::battlemon::auth::VerifyCodeRequest, game::battlemon::auth::VerifyCodeResponse>(context, Request, &read, &game::battlemon::auth::AuthService::Stub::AsyncVerifyCode);
     return read;
 }
 

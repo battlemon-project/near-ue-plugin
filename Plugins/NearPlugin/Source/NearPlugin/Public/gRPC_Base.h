@@ -43,7 +43,7 @@ static inline std::string U16toString(const FString& wstr)
 	mbstate_t mbs;
 	const char16_t* chr16 = *wstr;
 
-	ParallelFor(size + 1, [&](int32 Idx)
+	ParallelFor(size, [&](int32 Idx)
 		{
 			memset(&mbs, 0, sizeof(mbs));
 			memmove(cstr, "\0\0\0", 3);
@@ -63,7 +63,7 @@ static inline FString StringtoU16(const std::string& str)
 	mbstate_t mbs;
 	const char* chr = str.c_str();
 
-	ParallelFor(size + 1, [&](int32 Idx)
+	ParallelFor(size, [&](int32 Idx)
 		{
 			memset(&mbs, 0, sizeof(mbs));
 			memmove(c16str, u"\0\0\0", 3);
@@ -129,26 +129,14 @@ public:
 
 };
 
-template <typename ServiceStub, typename Request, typename Response>
-void CallRPC(ServiceStub* stub, grpc::ClientContext& context, const Request& write, Response* read, FString& error, grpc::Status(ServiceStub::* gRPC_ptr)(grpc::ClientContext* context, const Request&, Response*))
-{
-	grpc::Status status = (stub->*gRPC_ptr)(&context, write, read);
-	if (status.ok())
-	{
-		return;
-	}
-
-	error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
-	UE_LOG(LogTemp, Error, TEXT("%error"), *error);
-}
-
-
 template <typename Service, typename ServiceStub>
 class gRPC_Stub : public gRPC_SSL
 {
 protected:
 	std::unique_ptr<ServiceStub> stub;
 	FString error;
+	grpc::CompletionQueue cq;
+	void* got_tag;
 
 	void CreateContext(grpc::ClientContext& context, TArray<FString> meta_key, TArray<FString> meta_value, const int number)
 	{
@@ -176,6 +164,43 @@ public:
 	}
 
 	~gRPC_Stub() {}
+
+	template <typename Request, typename Response>
+	void CallRPC(grpc::ClientContext& context, const Request& write, Response* read, grpc::Status(ServiceStub::* gRPC_ptr)(grpc::ClientContext* context, const Request&, Response*))
+	{
+		grpc::Status status = (stub.get()->*gRPC_ptr)(&context, write, read);
+		if (status.ok())
+		{
+			return;
+		}
+
+		error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
+		UE_LOG(LogTemp, Error, TEXT("%error"), *error);
+	}
+
+	template <typename Request, typename Response>
+	bool AsyncCallRPC(grpc::ClientContext& context, const Request& write, Response* read, grpc::Status(ServiceStub::* AsyncgRPC_ptr)(grpc::ClientContext* context, const Request&, grpc::CompletionQueue*))
+	{
+		std::unique_ptr<grpc::ClientAsyncResponseReader<Response> > rpc((stub->*AsyncgRPC_ptr)(&context, write, &cq));
+		grpc::Status status;
+
+		rpc->Finish(read, &status, (void*)1);
+		bool ok = false;
+		GPR_ASSERT(cq.Next(&got_tag, &ok));
+		GPR_ASSERT(got_tag == (void*)1);
+		GPR_ASSERT(ok);
+
+		if (status.ok())
+		{
+			return true;
+		}
+
+		error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
+		UE_LOG(LogTemp, Error, TEXT("%error"), *error);
+
+		return false;
+	}
+
 
 	FString& GetError()
 	{
