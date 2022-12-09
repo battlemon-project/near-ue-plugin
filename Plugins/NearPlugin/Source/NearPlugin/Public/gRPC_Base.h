@@ -137,7 +137,7 @@ class gRPC_Stub : public gRPC_SSL
 	void SetError(const grpc::Status& status)
 	{
 		error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
-		UE_LOG(LogTemp, Error, TEXT("%error"), *error);
+		UE_LOG(LogTemp, Error, TEXT("CallGRPC error %s"), *error);
 	}
 
 protected:
