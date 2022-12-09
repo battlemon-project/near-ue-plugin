@@ -51,14 +51,8 @@ static inline std::string U16toString(const FString& wstr)
 			str[Idx] = *std::string(cstr).c_str();
 		});
 
-	std::string foundStr("\\u0000");
-	std::size_t found = str.find(foundStr);
-	if (found != std::string::npos)
-	{
-		return std::string(str.begin(), str.begin() + found);
-	}
-	else
-		return str;
+	str[size] = '\0';
+	return str;
 }
 
 static inline FString StringtoU16(const std::string& str)
