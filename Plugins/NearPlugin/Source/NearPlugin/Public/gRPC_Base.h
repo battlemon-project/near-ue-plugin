@@ -50,7 +50,16 @@ static inline std::string U16toString(const FString& wstr)
 			c16rtomb(cstr, chr16[Idx], &mbs);
 			str[Idx] = *std::string(cstr).c_str();
 		});
-	return str;
+
+	std::string foundStr("\\u0000");
+	std::size_t found = str.find(foundStr);
+	std::string strOut(str.begin(), str.begin() + found);
+	if (found != std::string::npos)
+	{
+		return std::string(str.begin(), str.begin() + found);
+	}
+	else
+		return str;
 }
 
 static inline FString StringtoU16(const std::string& str)
@@ -132,10 +141,15 @@ public:
 template <typename Service, typename ServiceStub>
 class gRPC_Stub : public gRPC_SSL
 {
+	void SetError(const grpc::Status& status)
+	{
+		error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
+		UE_LOG(LogTemp, Error, TEXT("%error"), *error);
+	}
+
 protected:
 	std::unique_ptr<ServiceStub> stub;
 	FString error;
-	grpc::CompletionQueue cq;
 	void* got_tag;
 
 	void CreateContext(grpc::ClientContext& context, TArray<FString> meta_key, TArray<FString> meta_value, const int number)
@@ -165,23 +179,20 @@ public:
 
 	~gRPC_Stub() {}
 
-	template <typename Request, typename Response>
-	void CallRPC(grpc::ClientContext& context, const Request& write, Response* read, grpc::Status(ServiceStub::* gRPC_ptr)(grpc::ClientContext* context, const Request&, Response*))
+	bool CallRPC(grpc::Status status)
 	{
-		grpc::Status status = (stub.get()->*gRPC_ptr)(&context, write, read);
 		if (status.ok())
 		{
-			return;
+			return true;
 		}
 
-		error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
-		UE_LOG(LogTemp, Error, TEXT("%error"), *error);
+		SetError(status);
+		return false;
 	}
 
-	template <typename Request, typename Response>
-	bool AsyncCallRPC(grpc::ClientContext& context, const Request& write, Response* read, grpc::Status(ServiceStub::* AsyncgRPC_ptr)(grpc::ClientContext* context, const Request&, grpc::CompletionQueue*))
+	template <typename Response>
+	bool AsyncCallRPC(grpc::CompletionQueue& cq, Response* read, std::unique_ptr<grpc::ClientAsyncResponseReader<Response>> rpc)
 	{
-		std::unique_ptr<grpc::ClientAsyncResponseReader<Response> > rpc((stub->*AsyncgRPC_ptr)(&context, write, &cq));
 		grpc::Status status;
 
 		rpc->Finish(read, &status, (void*)1);
@@ -195,9 +206,7 @@ public:
 			return true;
 		}
 
-		error = CONV_CHAR_TO_FSTRING(status.error_message().c_str());
-		UE_LOG(LogTemp, Error, TEXT("%error"), *error);
-
+		SetError(status);
 		return false;
 	}
 
