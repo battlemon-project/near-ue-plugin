@@ -61,6 +61,24 @@ void UNearAuth::AuthorizedAccount(FString AccountID, FString URL_Success, FStrin
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 }
 
+void UNearAuth::AAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet)
+{
+	URLContract = URL_Contract;
+	URL_Redirect = URL_Success;
+	webT = MainNet;
+	freeClient();
+	FString Paths = FPaths::ProjectSavedDir();
+	typeClient = TypeClient::OLD;
+	client = new Client(*Paths, *AccountID, typeClient);
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::ATimerAuth, 1.0f, true, 1.0f);
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
+}
+
 void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 {
 	bIsValid = false;
@@ -169,6 +187,25 @@ const char* UNearAuth::CSignMessage(gRPC_ClientAuth& grpcClient)
 	return client->CreateMessageNewSign(CodeResponse.code().c_str());
 }
 
+game::battlemon::auth::VerifyCodeResponse UNearAuth::ACVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign)
+{
+	game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
+	FString pubKey = client->GetPublicKey();
+	VerifyCodeRequest.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
+	VerifyCodeRequest.set_sign(sign);
+	return grpcClient.AsyncCallRPCVerifyCode(VerifyCodeRequest);
+}
+
+const char* UNearAuth::ACSignMessage(gRPC_ClientAuth& grpcClient)
+{
+	game::battlemon::auth::SendCodeResponse CodeResponse;
+	game::battlemon::auth::SendCodeRequest Request;
+	FString pubKey = client->GetPublicKey();
+	Request.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
+	CodeResponse = grpcClient.AsyncCallRPCSendCode(Request);
+	return client->CreateMessageNewSign(CodeResponse.code().c_str());
+}
+
 void UNearAuth::BadKey()
 {
 	ClearTimer();
@@ -180,10 +217,11 @@ void UNearAuth::BadKey()
 
 void UNearAuth::TimerAuth()
 {
-
+	timeS = UGameplayStatics::GetRealTimeSeconds(GetWorld());
 	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
 	{
 		BadKey();
+		bad = false;
 		return;
 	}
 	else
@@ -245,7 +283,87 @@ void UNearAuth::TimerAuth()
            
         }
 	}
+	timeS = UGameplayStatics::GetRealTimeSeconds(GetWorld()) - timeS;
+	FString TheFloatStr = FString::SanitizeFloat(timeS);
+	UE_LOG(LogTemp, Error, TEXT("%error"), *TheFloatStr);
+#if UE_BUILD_DEBUG
+#endif
 }
+
+
+void UNearAuth::ATimerAuth()
+{
+	AtimeS = UGameplayStatics::GetRealTimeSeconds(GetWorld());
+	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
+	{
+		BadKey();
+		return;
+	}
+	else
+	{
+		gRPC_ClientAuth grpcClient(true, URL);
+		game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
+		game::battlemon::auth::VerifyCodeResponse _accountID;
+
+		const char* sign = client->GetSing();
+		bool save = true;
+		if (*sign != '\0')
+		{
+			sign = CSignMessage(grpcClient);
+			save = false;
+		}
+
+		_accountID = CVerifyCode(grpcClient, sign);
+
+		if (_accountID.near_account_id() == "")
+		{
+			save = false;
+			_accountID.Clear();
+			VerifyCodeRequest.Clear();
+
+			sign = CSignMessage(grpcClient);
+			_accountID = CVerifyCode(grpcClient, sign);
+
+			if (_accountID.near_account_id() != "")
+			{
+				SetAccount(_accountID);
+			}
+		}
+		else
+		{
+			SetAccount(_accountID);
+		}
+
+
+		if (ResultNearRegist_Delegate.IsBound() && client->IsValidAccount())
+		{
+			if (!save)
+			{
+				client->SaveSign(*FPaths::ProjectSavedDir(), sign);
+				client->SaveKey(*FPaths::ProjectSavedDir());
+				ClearTimer();
+
+				saveAccountId();
+			}
+
+			ResultNearRegist_Delegate.Broadcast(this->accountID);
+		}
+		else
+		{
+			if (bad)
+			{
+				BadKey();
+				bad = false;
+			}
+
+		}
+	}
+
+	AtimeS = UGameplayStatics::GetRealTimeSeconds(GetWorld()) - AtimeS;
+	FString TheFloatStr = FString::SanitizeFloat(AtimeS);
+	UE_LOG(LogTemp, Error, TEXT("%error"), *TheFloatStr);
+}
+
 
 void UNearAuth::ClearTimer()
 {

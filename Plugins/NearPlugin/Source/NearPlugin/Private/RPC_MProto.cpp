@@ -18,13 +18,13 @@ game::battlemon::items::ItemsResponse gRPC_ClientItems::CallRPC_GetItems()
     {
         game::battlemon::items::ItemsRequest write;
 
-        std::string meta[] = { "nearid" , "sign" };
+        std::string meta[2] = { "nearid" , "sign" };
         FString nearid = UNearAuth::client->GetAccount();
-        std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
+        std::string value[2] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::items::ItemsRequest, game::battlemon::items::ItemsResponse>(context, write, &read, &game::battlemon::items::ItemsService::Stub::GetItems);
+        CallRPC(stub.get()->GetItems(&context, write, &read));
     }
     return read;
 }
@@ -43,7 +43,7 @@ game::battlemon::items::GetBundlesResponse gRPC_ClientItems::CallRPC_GetBundles(
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::items::GetBundlesRequest, game::battlemon::items::GetBundlesResponse>(context, write, &read, &game::battlemon::items::ItemsService::Stub::GetBundles);
+        CallRPC(stub.get()->GetBundles(&context, write, &read));
     }
     return read;
 }
@@ -61,7 +61,7 @@ game::battlemon::items::WeaponBundle gRPC_ClientItems::CallRPC_EditBundle(game::
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle>(context, request, &read, &game::battlemon::items::ItemsService::Stub::EditBundle);
+        CallRPC(stub.get()->EditBundle(&context, request, &read));
     }
     return read;
 }
@@ -78,10 +78,8 @@ bool gRPC_ClientItems::CallRPC_AttachBundle(game::battlemon::items::AttachBundle
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::items::AttachBundleRequest, game::battlemon::common::Empty>(context, request, &read, &game::battlemon::items::ItemsService::Stub::AttachBundle);
+        return CallRPC(stub.get()->AttachBundle(&context, request, &read));
 
-        if (error.IsEmpty())
-            return true;
     }
     return false;
 }
@@ -98,11 +96,7 @@ bool gRPC_ClientItems::CallRPC_DetachBundle(game::battlemon::items::DetachBundle
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::items::DetachBundleRequest, game::battlemon::common::Empty>(context, request, &read, &game::battlemon::items::ItemsService::Stub::DetachBundle);
-
-
-        if (error.IsEmpty())
-            return true;
+        return CallRPC(stub.get()->DetachBundle(&context, request, &read));
     }
     return false;
 }
@@ -125,7 +119,7 @@ game::battlemon::mm::SearchGameResponse gRPC_ClientMM::CallRPC_SearchGame(game::
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::mm::SearchGameRequest, game::battlemon::mm::SearchGameResponse>(context, Request, &read, &game::battlemon::mm::MMService::Stub::SearchGame);
+        CallRPC(stub.get()->SearchGame(&context, Request, &read));
     }
     return read;
 }
@@ -142,10 +136,7 @@ bool gRPC_ClientMM::CallRPC_AcceptGame(game::battlemon::mm::AcceptGameRequest& R
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::mm::AcceptGameRequest, game::battlemon::common::Empty>(context, Request, &read, &game::battlemon::mm::MMService::Stub::AcceptGame);
-
-        if (error.IsEmpty())
-            return true;
+        return CallRPC(stub.get()->AcceptGame(&context, Request, &read));
     }
     return false;
 }
@@ -163,10 +154,7 @@ bool gRPC_ClientMM::CallRPC_CancelSearch()
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        CallRPC<game::battlemon::mm::CancelSearchRequest, game::battlemon::common::Empty>(context, write, &read, &game::battlemon::mm::MMService::Stub::CancelSearch);
-
-        if (error.IsEmpty())
-            return true;
+        return CallRPC(stub.get()->CancelSearch(&context, write, &read));
     }
     return false;
 }
@@ -183,11 +171,7 @@ bool gRPC_ClientInternalMM::CallRPC_UserLeftBattle(game::battlemon::mm::internal
     game::battlemon::common::Empty read;
     grpc::ClientContext context;
 
-    CallRPC<game::battlemon::mm::internal::InternalUserLeftBattleRequest, game::battlemon::common::Empty>(context, Request, &read, &game::battlemon::mm::internal::InternalMMService::Stub::UserLeftBattle);
-  
-    if (error.IsEmpty())
-        return true;
-    return false;;
+    return CallRPC(stub.get()->UserLeftBattle(&context, Request, &read));
 }
 
 bool gRPC_ClientInternalMM::CallRPC_SaveBattleResult(game::battlemon::mm::internal::SaveBattleResultRequest& Request)
@@ -195,10 +179,7 @@ bool gRPC_ClientInternalMM::CallRPC_SaveBattleResult(game::battlemon::mm::intern
     game::battlemon::common::Empty read;
     grpc::ClientContext context;
 
-    CallRPC<game::battlemon::mm::internal::SaveBattleResultRequest, game::battlemon::common::Empty>(context, Request, &read, &game::battlemon::mm::internal::InternalMMService::Stub::SaveBattleResult);
-    if (error.IsEmpty())
-        return true;
-    return false;;
+    return CallRPC(stub.get()->SaveBattleResult(&context, Request, &read));
 }
 
 game::battlemon::mm::internal::RoomInfoResponse gRPC_ClientInternalMM::CallRPC_GetRoomInfo(game::battlemon::mm::internal::RoomInfoRequest& Request)
@@ -207,8 +188,7 @@ game::battlemon::mm::internal::RoomInfoResponse gRPC_ClientInternalMM::CallRPC_G
 
     grpc::ClientContext context;
 
-
-    CallRPC<game::battlemon::mm::internal::RoomInfoRequest, game::battlemon::mm::internal::RoomInfoResponse>(context, Request, &read, &game::battlemon::mm::internal::InternalMMService::Stub::GetRoomInfo);
+    CallRPC(stub.get()->GetRoomInfo(&context, Request, &read));
     return read;
 }
 
@@ -217,7 +197,7 @@ game::battlemon::mm::internal::RoomInfoResponse gRPC_ClientInternalMM::CallRPC_C
     game::battlemon::mm::internal::RoomInfoResponse read;
     grpc::ClientContext context;
 
-    CallRPC<game::battlemon::mm::internal::CreateRoomRequest, game::battlemon::mm::internal::RoomInfoResponse>(context, Request, &read, &game::battlemon::mm::internal::InternalMMService::Stub::CreateRoomWithPlayers);
+    CallRPC(stub.get()->CreateRoomWithPlayers(&context, Request, &read));
     return read;
 }
 
@@ -226,11 +206,7 @@ bool gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady(game::battlemon::mm::
     game::battlemon::common::Empty read;
     grpc::ClientContext context;
 
-    CallRPC<game::battlemon::mm::internal::DedicatedServerIsReadyRequest, game::battlemon::common::Empty>(context, Request, &read, &game::battlemon::mm::internal::InternalMMService::Stub::DedicatedServerIsReady);
-    
-    if (error.IsEmpty())
-        return true;
-    return false;;
+    return CallRPC(stub.get()->DedicatedServerIsReady(&context, Request, &read));
 }
 
 /// InternalMM.rpc end

@@ -53,7 +53,6 @@ static inline std::string U16toString(const FString& wstr)
 
 	std::string foundStr("\\u0000");
 	std::size_t found = str.find(foundStr);
-	std::string strOut(str.begin(), str.begin() + found);
 	if (found != std::string::npos)
 	{
 		return std::string(str.begin(), str.begin() + found);
