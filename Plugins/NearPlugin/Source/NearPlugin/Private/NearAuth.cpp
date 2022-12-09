@@ -18,7 +18,7 @@
 Client* UNearAuth::client = nullptr;
 FString UNearAuth::accountID = "";
 
-UNearAuth::UNearAuth():bad(true)
+UNearAuth::UNearAuth():BadKey(true)
 {
 }
 
@@ -61,7 +61,7 @@ void UNearAuth::AuthorizedAccount(FString AccountID, FString URL_Success, FStrin
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 }
 
-void UNearAuth::AAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet)
+void UNearAuth::AsyncAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet)
 {
 	URLContract = URL_Contract;
 	URL_Redirect = URL_Success;
@@ -73,7 +73,7 @@ void UNearAuth::AAuthorizedAccount(FString AccountID, FString URL_Success, FStri
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		World->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::ATimerAuth, 1.0f, true, 1.0f);
+		World->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::AsyncTimerAuth, 1.0f, true, 1.0f);
 	}
 	else
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
@@ -146,6 +146,7 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 
 void UNearAuth::OnResponseReceived()
 {
+	BadKey = false;
 	FHttpRequestRef Request = FHttpModule::Get().CreateRequest();
 	Request->OnProcessRequestComplete().BindUObject(this, &UNearAuth::OnGetRequest);
 	Request->SetURL(URLContract);
@@ -162,7 +163,7 @@ bool UNearAuth::CheckAccountKey(FString AccountName)
 }
 void UNearAuth::SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID)
 {
-    bad = false;
+	BadKey = false;
 	this->accountID = CONV_CHAR_TO_FSTRING(_accountID.near_account_id().c_str());
 	client->SetAccount(*(this->accountID));
 	
@@ -187,7 +188,7 @@ const char* UNearAuth::CSignMessage(gRPC_ClientAuth& grpcClient)
 	return client->CreateMessageNewSign(CodeResponse.code().c_str());
 }
 
-game::battlemon::auth::VerifyCodeResponse UNearAuth::ACVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign)
+game::battlemon::auth::VerifyCodeResponse UNearAuth::AsyncCVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign)
 {
 	game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
 	FString pubKey = client->GetPublicKey();
@@ -196,7 +197,7 @@ game::battlemon::auth::VerifyCodeResponse UNearAuth::ACVerifyCode(gRPC_ClientAut
 	return grpcClient.AsyncCallRPCVerifyCode(VerifyCodeRequest);
 }
 
-const char* UNearAuth::ACSignMessage(gRPC_ClientAuth& grpcClient)
+const char* UNearAuth::AsyncCSignMessage(gRPC_ClientAuth& grpcClient)
 {
 	game::battlemon::auth::SendCodeResponse CodeResponse;
 	game::battlemon::auth::SendCodeRequest Request;
@@ -206,7 +207,7 @@ const char* UNearAuth::ACSignMessage(gRPC_ClientAuth& grpcClient)
 	return client->CreateMessageNewSign(CodeResponse.code().c_str());
 }
 
-void UNearAuth::BadKey()
+void UNearAuth::BadKeyCreateNew()
 {
 	ClearTimer();
 	typeClient = TypeClient::NEW;
@@ -217,11 +218,9 @@ void UNearAuth::BadKey()
 
 void UNearAuth::TimerAuth()
 {
-	timeS = UGameplayStatics::GetRealTimeSeconds(GetWorld());
 	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
 	{
-		BadKey();
-		bad = false;
+		BadKeyCreateNew();
 		return;
 	}
 	else
@@ -275,28 +274,23 @@ void UNearAuth::TimerAuth()
 		}
         else
         {
-            if(bad)
+            if(BadKey)
             {
-                BadKey();
-                bad = false;
+				BadKeyCreateNew();
             }
            
         }
 	}
-	timeS = UGameplayStatics::GetRealTimeSeconds(GetWorld()) - timeS;
-	FString TheFloatStr = FString::SanitizeFloat(timeS);
-	UE_LOG(LogTemp, Error, TEXT("%error"), *TheFloatStr);
 #if UE_BUILD_DEBUG
 #endif
 }
 
 
-void UNearAuth::ATimerAuth()
+void UNearAuth::AsyncTimerAuth()
 {
-	AtimeS = UGameplayStatics::GetRealTimeSeconds(GetWorld());
 	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
 	{
-		BadKey();
+		BadKeyCreateNew();
 		return;
 	}
 	else
@@ -350,18 +344,13 @@ void UNearAuth::ATimerAuth()
 		}
 		else
 		{
-			if (bad)
+			if (BadKey)
 			{
-				BadKey();
-				bad = false;
+				BadKeyCreateNew();
 			}
 
 		}
 	}
-
-	AtimeS = UGameplayStatics::GetRealTimeSeconds(GetWorld()) - AtimeS;
-	FString TheFloatStr = FString::SanitizeFloat(AtimeS);
-	UE_LOG(LogTemp, Error, TEXT("%error"), *TheFloatStr);
 }
 
 

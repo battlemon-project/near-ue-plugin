@@ -44,22 +44,19 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
 	FTimerHandle NearAuthTimer;
-	FTimerHandle ANearAuthTimer;
 	void TimerAuth();
-	void ATimerAuth();
+	void AsyncTimerAuth();
 	void ClearTimer();
 	void SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID);
 	game::battlemon::auth::VerifyCodeResponse CVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
 	const char* CSignMessage(gRPC_ClientAuth& grpcClient);
-	game::battlemon::auth::VerifyCodeResponse ACVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
-	const char* ACSignMessage(gRPC_ClientAuth& grpcClient);
-	void BadKey();
-    bool bad;
+	game::battlemon::auth::VerifyCodeResponse AsyncCVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
+	const char* AsyncCSignMessage(gRPC_ClientAuth& grpcClient);
+	void BadKeyCreateNew();
+    bool BadKey;
     bool webT;
 	static FString accountID;
 
-	float timeS;
-	float AtimeS;
 public:
 	static Client* client;
 
@@ -84,7 +81,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
     void AuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet = false);
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void AAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet = false);
+	void AsyncAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet = false);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);
