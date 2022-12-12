@@ -35,10 +35,12 @@
 
 static inline std::string U16toString(const FString& wstr)
 {
-	int32 size = wstr.Len() + 1;
+	int32 size = wstr.Len();
 	std::string str = "";
-	str.resize(size);
-
+	str.resize(size + 3);
+	
+	//UE_LOG(LogTemp, Display, TEXT("------------->>>>FString %s"), *wstr);
+	//UE_LOG(LogTemp, Display, TEXT("------------->>>>size %d"), size);
 	char cstr[3] = "\0";
 	mbstate_t mbs;
 	const char16_t* chr16 = *wstr;
@@ -51,7 +53,9 @@ static inline std::string U16toString(const FString& wstr)
 			str[Idx] = *std::string(cstr).c_str();
 		});
 
-	str[size] = '\0';
+	str[size] = str[size + 1] = str[size + 2] = 0;
+	//UE_LOG(LogTemp, Display, TEXT("------------->>>>std::string %s"), str.c_str());
+	//UE_LOG(LogTemp, Display, TEXT("------------->>>>size %d"), str.size());
 	return str;
 }
 
