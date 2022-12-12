@@ -416,12 +416,12 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
 
 void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse& out)
 {
-    freegRPC_InternalMM();
-    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
+        freegRPC_InternalMM();
+        gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
 
-    game::battlemon::mm::internal::RoomInfoRequest g_request;
-    g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
-    out = gRPC_InternalMM->CallRPC_GetRoomInfo(g_request);
+        game::battlemon::mm::internal::RoomInfoRequest g_request;
+        g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
+        out = gRPC_InternalMM->CallRPC_GetRoomInfo(g_request);
 }
 
 void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomInfoResponse& out)

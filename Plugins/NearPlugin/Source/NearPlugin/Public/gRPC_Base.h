@@ -23,24 +23,23 @@
 #include <uchar.h>
 #endif
 
-
 #include "GrpcEnd.h"
 
 
 #if defined(__unix__)
 #include "Runtime/Core/Public/Async/ParallelFor.h"
 
-#define CONV_FSTRING_TO_CHAR(str) U16toString(str)
-#define CONV_CHAR_TO_FSTRING(str)  StringtoU16(str)
+//#define CONV_FSTRING_TO_CHAR(str) U16toString(str)
+//#define CONV_CHAR_TO_FSTRING(str)  StringtoU16(str)
+#define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_UTF8(*str)
+#define CONV_CHAR_TO_FSTRING(str)  UTF8_TO_TCHAR(str)
 
 static inline std::string U16toString(const FString& wstr)
 {
 	int32 size = wstr.Len();
 	std::string str = "";
-	str.resize(size + 3);
+	str.resize(size + 1);
 	
-	//UE_LOG(LogTemp, Display, TEXT("------------->>>>FString %s"), *wstr);
-	//UE_LOG(LogTemp, Display, TEXT("------------->>>>size %d"), size);
 	char cstr[3] = "\0";
 	mbstate_t mbs;
 	const char16_t* chr16 = *wstr;
@@ -53,9 +52,7 @@ static inline std::string U16toString(const FString& wstr)
 			str[Idx] = *std::string(cstr).c_str();
 		});
 
-	str[size] = str[size + 1] = str[size + 2] = 0;
-	//UE_LOG(LogTemp, Display, TEXT("------------->>>>std::string %s"), str.c_str());
-	//UE_LOG(LogTemp, Display, TEXT("------------->>>>size %d"), str.size());
+	str[size] = '\0';
 	return str;
 }
 
