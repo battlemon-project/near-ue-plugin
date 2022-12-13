@@ -69,11 +69,11 @@ FUUpdateMessage& FUUpdateMessage::operator=(const game::battlemon::updates::Upda
 		this->roomInfo = UM.room_ready();
 		break;
 	case game::battlemon::updates::UpdateMessage::UpdateCase::kUserIsAlreadyInLine:
-		this->update = FUUpdateCase::ROOM_READY;
-		this->roomInfo = UM.user_is_already_in_battle();
+		this->update = FUUpdateCase::USER_IS_ALREADY_IN_LINE;
 		break;
 	case game::battlemon::updates::UpdateMessage::UpdateCase::kUserIsAlreadyInBattle:
-		this->update = FUUpdateCase::USER_IS_ALREADY_IN_LINE;
+		this->update = FUUpdateCase::USER_IS_ALREADY_IN_BATTLE;
+		this->roomInfo = UM.user_is_already_in_battle();
 		break;
 	case game::battlemon::updates::UpdateMessage::UpdateCase::kUserOutOfLine:
 		this->update = FUUpdateCase::USER_OUT_OF_LINE;
