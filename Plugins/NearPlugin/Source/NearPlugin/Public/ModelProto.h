@@ -415,8 +415,6 @@ struct FURoomInfoResponse
     FUGameMode mode;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
     TArray<FURoomPlayerInfo> players;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
-    FString ott;
 
     FURoomInfoResponse& operator=(const game::battlemon::mm::internal::RoomInfoResponse& roomInfoResponse);
 };
@@ -431,6 +429,8 @@ struct FUCreateRoomRequest
     TArray<FString> near_ids;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
     FString prev_room_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
+    FString ott;
 
     FUCreateRoomRequest& operator=(const game::battlemon::mm::internal::CreateRoomRequest& createRoomRequest);
 };

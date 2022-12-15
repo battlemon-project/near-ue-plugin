@@ -253,7 +253,6 @@ FURoomInfoResponse& FURoomInfoResponse::operator=(const game::battlemon::mm::int
 {
     room_id = CONV_CHAR_TO_FSTRING(roomInfoResponse.room_id().c_str());
 	mode = roomInfoResponse.mode();
-    ott = CONV_CHAR_TO_FSTRING(roomInfoResponse.ott().c_str());
 
 	int size = roomInfoResponse.players().size();
 	players.SetNum(size);
@@ -268,6 +267,7 @@ FURoomInfoResponse& FURoomInfoResponse::operator=(const game::battlemon::mm::int
 FUCreateRoomRequest& FUCreateRoomRequest::operator=(const game::battlemon::mm::internal::CreateRoomRequest& createRoomRequest)
 {
 	mode = createRoomRequest.mode();
+    ott = CONV_CHAR_TO_FSTRING(createRoomRequest.ott().c_str());
 
 	int size = createRoomRequest.near_ids().size();
 	near_ids.SetNum(size);
@@ -281,7 +281,7 @@ FUCreateRoomRequest& FUCreateRoomRequest::operator=(const game::battlemon::mm::i
 	return *this;
 }
 
-FUDedicatedServerIsReadyRequest& operator=(const game::battlemon::mm::internal::DedicatedServerIsReadyRequest& dedicatedServerIsReadyRequest)
+FUDedicatedServerIsReadyRequest& FUDedicatedServerIsReadyRequest::operator=(const game::battlemon::mm::internal::DedicatedServerIsReadyRequest& dedicatedServerIsReadyRequest)
 {
     room_id = CONV_CHAR_TO_FSTRING(dedicatedServerIsReadyRequest.room_id().c_str());
     ott = CONV_CHAR_TO_FSTRING(dedicatedServerIsReadyRequest.ott().c_str());;
