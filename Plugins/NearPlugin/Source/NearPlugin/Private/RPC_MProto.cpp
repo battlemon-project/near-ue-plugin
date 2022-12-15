@@ -328,16 +328,23 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
 
     game::battlemon::mm::GameMode* gm = new game::battlemon::mm::GameMode();
 
-    game::battlemon::mm::MatchMode mm;
-    game::battlemon::mm::MatchType mt;
+    {
+        game::battlemon::mm::Region value;
+        value << Request.region;
+        g_request.set_region(value);
+    }
+    {
+        game::battlemon::mm::MatchMode mm;
+        game::battlemon::mm::MatchType mt;
 
-    mt << Request.game_mode.match_type;
-    mm << Request.game_mode.match_mode;
+        mt << Request.game_mode.match_type;
+        mm << Request.game_mode.match_mode;
 
-    gm->set_match_mode(mm);
-    gm->set_match_type(mt);
+        gm->set_match_mode(mm);
+        gm->set_match_type(mt);
 
-    g_request.set_allocated_game_mode(gm);
+        g_request.set_allocated_game_mode(gm);
+    }
 
     out = gRPC_MM->CallRPC_SearchGame(g_request);
 }
@@ -401,6 +408,8 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
 
     game::battlemon::mm::internal::SaveBattleResultRequest g_request;
+
+    g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
     g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
 
     int size = Request.results.Num();
@@ -421,6 +430,7 @@ void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse&
 
         game::battlemon::mm::internal::RoomInfoRequest g_request;
         g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
+        g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
         out = gRPC_InternalMM->CallRPC_GetRoomInfo(g_request);
 }
 
@@ -443,6 +453,7 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
     gm->set_match_type(mt);
 
     g_request.set_allocated_mode(gm);
+    g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
 
     int size = Request.near_ids.Num();
     for (size_t Idx = 0; Idx < size; Idx++)
