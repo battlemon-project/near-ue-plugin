@@ -149,13 +149,13 @@ FUGameMode& FUGameMode::operator=(const game::battlemon::mm::GameMode& gameMode)
 {
 	match_type << gameMode.match_type();
 	match_mode << gameMode.match_mode();
-
 	return *this;
 }
 
 FUSearchGameRequest& FUSearchGameRequest::operator=(const game::battlemon::mm::SearchGameRequest& searchGameRequest)
 {
 	game_mode = searchGameRequest.game_mode();
+    region << searchGameRequest.region();
 	return *this;
 }
 
@@ -601,4 +601,35 @@ FUSearchGameResponseStatus& operator<<(FUSearchGameResponseStatus& FU, const gam
         break;
     }
     return FU;
+}
+
+FRegion& operator<<(FRegion& FU, const game::battlemon::mm::Region& region)
+{
+
+    FU = FRegion::DEFAULT;
+    switch (region)
+    {
+    case game::battlemon::mm::Region::EU:
+        FU = FRegion::EU;
+        break;
+    case game::battlemon::mm::Region::US:
+        FU = FRegion::US;
+        break;
+    }
+    return FU;
+}
+
+game::battlemon::mm::Region& operator<<(game::battlemon::mm::Region& region, const  FRegion& FU)
+{
+    switch (FU)
+    {
+    case FRegion::EU:
+        region = game::battlemon::mm::Region::EU;
+        break;
+    case FRegion::US:
+        region = game::battlemon::mm::Region::US;
+        break;
+    }
+
+    return region;
 }

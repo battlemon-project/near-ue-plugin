@@ -130,6 +130,31 @@ inline bool MatchMode_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MatchMode>(
     MatchMode_descriptor(), name, value);
 }
+enum Region : int {
+  US = 0,
+  EU = 1,
+  Region_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  Region_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool Region_IsValid(int value);
+constexpr Region Region_MIN = US;
+constexpr Region Region_MAX = EU;
+constexpr int Region_ARRAYSIZE = Region_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Region_descriptor();
+template<typename T>
+inline const std::string& Region_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Region>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function Region_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    Region_descriptor(), enum_t_value);
+}
+inline bool Region_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, Region* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Region>(
+    Region_descriptor(), name, value);
+}
 enum SearchGameResponseStatus : int {
   OK = 0,
   NFT_ERROR = 1,
@@ -443,6 +468,7 @@ class SearchGameRequest final :
 
   enum : int {
     kGameModeFieldNumber = 1,
+    kRegionFieldNumber = 2,
   };
   // .game.battlemon.mm.GameMode game_mode = 1;
   bool has_game_mode() const;
@@ -462,6 +488,15 @@ class SearchGameRequest final :
       ::game::battlemon::mm::GameMode* game_mode);
   ::game::battlemon::mm::GameMode* unsafe_arena_release_game_mode();
 
+  // .game.battlemon.mm.Region region = 2;
+  void clear_region();
+  ::game::battlemon::mm::Region region() const;
+  void set_region(::game::battlemon::mm::Region value);
+  private:
+  ::game::battlemon::mm::Region _internal_region() const;
+  void _internal_set_region(::game::battlemon::mm::Region value);
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.mm.SearchGameRequest)
  private:
   class _Internal;
@@ -471,6 +506,7 @@ class SearchGameRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::game::battlemon::mm::GameMode* game_mode_;
+    int region_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1040,6 +1076,26 @@ inline void SearchGameRequest::set_allocated_game_mode(::game::battlemon::mm::Ga
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.SearchGameRequest.game_mode)
 }
 
+// .game.battlemon.mm.Region region = 2;
+inline void SearchGameRequest::clear_region() {
+  _impl_.region_ = 0;
+}
+inline ::game::battlemon::mm::Region SearchGameRequest::_internal_region() const {
+  return static_cast< ::game::battlemon::mm::Region >(_impl_.region_);
+}
+inline ::game::battlemon::mm::Region SearchGameRequest::region() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.mm.SearchGameRequest.region)
+  return _internal_region();
+}
+inline void SearchGameRequest::_internal_set_region(::game::battlemon::mm::Region value) {
+  
+  _impl_.region_ = value;
+}
+inline void SearchGameRequest::set_region(::game::battlemon::mm::Region value) {
+  _internal_set_region(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.mm.SearchGameRequest.region)
+}
+
 // -------------------------------------------------------------------
 
 // SearchGameResponse
@@ -1151,6 +1207,11 @@ template <> struct is_proto_enum< ::game::battlemon::mm::MatchMode> : ::std::tru
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::mm::MatchMode>() {
   return ::game::battlemon::mm::MatchMode_descriptor();
+}
+template <> struct is_proto_enum< ::game::battlemon::mm::Region> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::mm::Region>() {
+  return ::game::battlemon::mm::Region_descriptor();
 }
 template <> struct is_proto_enum< ::game::battlemon::mm::SearchGameResponseStatus> : ::std::true_type {};
 template <>

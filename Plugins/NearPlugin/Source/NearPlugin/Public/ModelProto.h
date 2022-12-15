@@ -275,6 +275,15 @@ enum class FUMatchMode : uint8
     DEFAULT UMETA(DisplayName = "DEFAULT")
 };
 
+
+UENUM(BlueprintType)
+enum class FRegion : uint8
+{
+    DEFAULT UMETA(DisplayName = "DEFAULT"),
+    US UMETA(DisplayName = "US"),
+    EU UMETA(DisplayName = "EU")
+};
+
 USTRUCT(BlueprintType)
 struct FUGameMode
 {
@@ -293,6 +302,7 @@ struct FUSearchGameRequest
     GENERATED_BODY()
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | MMProto")
     FUGameMode game_mode;
+    FRegion region;
 
     FUSearchGameRequest& operator=(const game::battlemon::mm::SearchGameRequest& searchGameRequest);
 };
@@ -460,3 +470,6 @@ game::battlemon::mm::MatchMode& operator<<(game::battlemon::mm::MatchMode& match
 game::battlemon::mm::SearchGameResponseStatus& operator<<(game::battlemon::mm::SearchGameResponseStatus& searchGameResponseStatus, const FUSearchGameResponseStatus& FU);
 
 FUSearchGameResponseStatus& operator<<(FUSearchGameResponseStatus& FU, const game::battlemon::mm::SearchGameResponseStatus& searchGameResponseStatus);
+
+FRegion& operator<<(FRegion& FU, const game::battlemon::mm::Region& region);
+game::battlemon::mm::Region& operator<<(game::battlemon::mm::Region& region, const  FRegion& FU);

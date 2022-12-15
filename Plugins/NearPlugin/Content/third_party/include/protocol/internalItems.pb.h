@@ -58,6 +58,9 @@ extern InternalLemonsInfoResponseDefaultTypeInternal _InternalLemonsInfoResponse
 class InternalUserLemon;
 struct InternalUserLemonDefaultTypeInternal;
 extern InternalUserLemonDefaultTypeInternal _InternalUserLemon_default_instance_;
+class InternalUserLemonID;
+struct InternalUserLemonIDDefaultTypeInternal;
+extern InternalUserLemonIDDefaultTypeInternal _InternalUserLemonID_default_instance_;
 class IsOwnerRequest;
 struct IsOwnerRequestDefaultTypeInternal;
 extern IsOwnerRequestDefaultTypeInternal _IsOwnerRequest_default_instance_;
@@ -72,6 +75,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::game::battlemon::items::internal::InternalLemonsInfoRequest* Arena::CreateMaybeMessage<::game::battlemon::items::internal::InternalLemonsInfoRequest>(Arena*);
 template<> ::game::battlemon::items::internal::InternalLemonsInfoResponse* Arena::CreateMaybeMessage<::game::battlemon::items::internal::InternalLemonsInfoResponse>(Arena*);
 template<> ::game::battlemon::items::internal::InternalUserLemon* Arena::CreateMaybeMessage<::game::battlemon::items::internal::InternalUserLemon>(Arena*);
+template<> ::game::battlemon::items::internal::InternalUserLemonID* Arena::CreateMaybeMessage<::game::battlemon::items::internal::InternalUserLemonID>(Arena*);
 template<> ::game::battlemon::items::internal::IsOwnerRequest* Arena::CreateMaybeMessage<::game::battlemon::items::internal::IsOwnerRequest>(Arena*);
 template<> ::game::battlemon::items::internal::IsOwnerResponse* Arena::CreateMaybeMessage<::game::battlemon::items::internal::IsOwnerResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -530,25 +534,25 @@ class InternalLemonsInfoRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kUsersLemonsFieldNumber = 1,
+    kUsersLemonidsFieldNumber = 1,
   };
-  // repeated .game.battlemon.items.internal.InternalUserLemon users_lemons = 1;
-  int users_lemons_size() const;
+  // repeated .game.battlemon.items.internal.InternalUserLemonID users_lemonids = 1;
+  int users_lemonids_size() const;
   private:
-  int _internal_users_lemons_size() const;
+  int _internal_users_lemonids_size() const;
   public:
-  void clear_users_lemons();
-  ::game::battlemon::items::internal::InternalUserLemon* mutable_users_lemons(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon >*
-      mutable_users_lemons();
+  void clear_users_lemonids();
+  ::game::battlemon::items::internal::InternalUserLemonID* mutable_users_lemonids(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemonID >*
+      mutable_users_lemonids();
   private:
-  const ::game::battlemon::items::internal::InternalUserLemon& _internal_users_lemons(int index) const;
-  ::game::battlemon::items::internal::InternalUserLemon* _internal_add_users_lemons();
+  const ::game::battlemon::items::internal::InternalUserLemonID& _internal_users_lemonids(int index) const;
+  ::game::battlemon::items::internal::InternalUserLemonID* _internal_add_users_lemonids();
   public:
-  const ::game::battlemon::items::internal::InternalUserLemon& users_lemons(int index) const;
-  ::game::battlemon::items::internal::InternalUserLemon* add_users_lemons();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon >&
-      users_lemons() const;
+  const ::game::battlemon::items::internal::InternalUserLemonID& users_lemonids(int index) const;
+  ::game::battlemon::items::internal::InternalUserLemonID* add_users_lemonids();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemonID >&
+      users_lemonids() const;
 
   // @@protoc_insertion_point(class_scope:game.battlemon.items.internal.InternalLemonsInfoRequest)
  private:
@@ -558,7 +562,7 @@ class InternalLemonsInfoRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon > users_lemons_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemonID > users_lemonids_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -566,24 +570,24 @@ class InternalLemonsInfoRequest final :
 };
 // -------------------------------------------------------------------
 
-class InternalUserLemon final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.internal.InternalUserLemon) */ {
+class InternalUserLemonID final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.internal.InternalUserLemonID) */ {
  public:
-  inline InternalUserLemon() : InternalUserLemon(nullptr) {}
-  ~InternalUserLemon() override;
-  explicit PROTOBUF_CONSTEXPR InternalUserLemon(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline InternalUserLemonID() : InternalUserLemonID(nullptr) {}
+  ~InternalUserLemonID() override;
+  explicit PROTOBUF_CONSTEXPR InternalUserLemonID(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  InternalUserLemon(const InternalUserLemon& from);
-  InternalUserLemon(InternalUserLemon&& from) noexcept
-    : InternalUserLemon() {
+  InternalUserLemonID(const InternalUserLemonID& from);
+  InternalUserLemonID(InternalUserLemonID&& from) noexcept
+    : InternalUserLemonID() {
     *this = ::std::move(from);
   }
 
-  inline InternalUserLemon& operator=(const InternalUserLemon& from) {
+  inline InternalUserLemonID& operator=(const InternalUserLemonID& from) {
     CopyFrom(from);
     return *this;
   }
-  inline InternalUserLemon& operator=(InternalUserLemon&& from) noexcept {
+  inline InternalUserLemonID& operator=(InternalUserLemonID&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -606,20 +610,20 @@ class InternalUserLemon final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const InternalUserLemon& default_instance() {
+  static const InternalUserLemonID& default_instance() {
     return *internal_default_instance();
   }
-  static inline const InternalUserLemon* internal_default_instance() {
-    return reinterpret_cast<const InternalUserLemon*>(
-               &_InternalUserLemon_default_instance_);
+  static inline const InternalUserLemonID* internal_default_instance() {
+    return reinterpret_cast<const InternalUserLemonID*>(
+               &_InternalUserLemonID_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     3;
 
-  friend void swap(InternalUserLemon& a, InternalUserLemon& b) {
+  friend void swap(InternalUserLemonID& a, InternalUserLemonID& b) {
     a.Swap(&b);
   }
-  inline void Swap(InternalUserLemon* other) {
+  inline void Swap(InternalUserLemonID* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -632,7 +636,7 @@ class InternalUserLemon final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(InternalUserLemon* other) {
+  void UnsafeArenaSwap(InternalUserLemonID* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -640,14 +644,14 @@ class InternalUserLemon final :
 
   // implements Message ----------------------------------------------
 
-  InternalUserLemon* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<InternalUserLemon>(arena);
+  InternalUserLemonID* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalUserLemonID>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const InternalUserLemon& from);
+  void CopyFrom(const InternalUserLemonID& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const InternalUserLemon& from) {
-    InternalUserLemon::MergeImpl(*this, from);
+  void MergeFrom( const InternalUserLemonID& from) {
+    InternalUserLemonID::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -665,15 +669,15 @@ class InternalUserLemon final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(InternalUserLemon* other);
+  void InternalSwap(InternalUserLemonID* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.items.internal.InternalUserLemon";
+    return "game.battlemon.items.internal.InternalUserLemonID";
   }
   protected:
-  explicit InternalUserLemon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit InternalUserLemonID(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -718,7 +722,7 @@ class InternalUserLemon final :
   std::string* _internal_mutable_lemon_id();
   public:
 
-  // @@protoc_insertion_point(class_scope:game.battlemon.items.internal.InternalUserLemon)
+  // @@protoc_insertion_point(class_scope:game.battlemon.items.internal.InternalUserLemonID)
  private:
   class _Internal;
 
@@ -856,25 +860,25 @@ class InternalLemonsInfoResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kLemonsFieldNumber = 1,
+    kUsersLemonsFieldNumber = 1,
   };
-  // repeated .game.battlemon.items.Item lemons = 1;
-  int lemons_size() const;
+  // repeated .game.battlemon.items.internal.InternalUserLemon users_lemons = 1;
+  int users_lemons_size() const;
   private:
-  int _internal_lemons_size() const;
+  int _internal_users_lemons_size() const;
   public:
-  void clear_lemons();
-  ::game::battlemon::items::Item* mutable_lemons(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Item >*
-      mutable_lemons();
+  void clear_users_lemons();
+  ::game::battlemon::items::internal::InternalUserLemon* mutable_users_lemons(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon >*
+      mutable_users_lemons();
   private:
-  const ::game::battlemon::items::Item& _internal_lemons(int index) const;
-  ::game::battlemon::items::Item* _internal_add_lemons();
+  const ::game::battlemon::items::internal::InternalUserLemon& _internal_users_lemons(int index) const;
+  ::game::battlemon::items::internal::InternalUserLemon* _internal_add_users_lemons();
   public:
-  const ::game::battlemon::items::Item& lemons(int index) const;
-  ::game::battlemon::items::Item* add_lemons();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Item >&
-      lemons() const;
+  const ::game::battlemon::items::internal::InternalUserLemon& users_lemons(int index) const;
+  ::game::battlemon::items::internal::InternalUserLemon* add_users_lemons();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon >&
+      users_lemons() const;
 
   // @@protoc_insertion_point(class_scope:game.battlemon.items.internal.InternalLemonsInfoResponse)
  private:
@@ -884,7 +888,180 @@ class InternalLemonsInfoResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Item > lemons_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon > users_lemons_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_internalItems_2eproto;
+};
+// -------------------------------------------------------------------
+
+class InternalUserLemon final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.internal.InternalUserLemon) */ {
+ public:
+  inline InternalUserLemon() : InternalUserLemon(nullptr) {}
+  ~InternalUserLemon() override;
+  explicit PROTOBUF_CONSTEXPR InternalUserLemon(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  InternalUserLemon(const InternalUserLemon& from);
+  InternalUserLemon(InternalUserLemon&& from) noexcept
+    : InternalUserLemon() {
+    *this = ::std::move(from);
+  }
+
+  inline InternalUserLemon& operator=(const InternalUserLemon& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InternalUserLemon& operator=(InternalUserLemon&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const InternalUserLemon& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const InternalUserLemon* internal_default_instance() {
+    return reinterpret_cast<const InternalUserLemon*>(
+               &_InternalUserLemon_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(InternalUserLemon& a, InternalUserLemon& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InternalUserLemon* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InternalUserLemon* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  InternalUserLemon* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalUserLemon>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const InternalUserLemon& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const InternalUserLemon& from) {
+    InternalUserLemon::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InternalUserLemon* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.items.internal.InternalUserLemon";
+  }
+  protected:
+  explicit InternalUserLemon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNearIdFieldNumber = 1,
+    kLemonFieldNumber = 2,
+  };
+  // string near_id = 1;
+  void clear_near_id();
+  const std::string& near_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_near_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_near_id();
+  PROTOBUF_NODISCARD std::string* release_near_id();
+  void set_allocated_near_id(std::string* near_id);
+  private:
+  const std::string& _internal_near_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_near_id(const std::string& value);
+  std::string* _internal_mutable_near_id();
+  public:
+
+  // .game.battlemon.items.Item lemon = 2;
+  bool has_lemon() const;
+  private:
+  bool _internal_has_lemon() const;
+  public:
+  void clear_lemon();
+  const ::game::battlemon::items::Item& lemon() const;
+  PROTOBUF_NODISCARD ::game::battlemon::items::Item* release_lemon();
+  ::game::battlemon::items::Item* mutable_lemon();
+  void set_allocated_lemon(::game::battlemon::items::Item* lemon);
+  private:
+  const ::game::battlemon::items::Item& _internal_lemon() const;
+  ::game::battlemon::items::Item* _internal_mutable_lemon();
+  public:
+  void unsafe_arena_set_allocated_lemon(
+      ::game::battlemon::items::Item* lemon);
+  ::game::battlemon::items::Item* unsafe_arena_release_lemon();
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.items.internal.InternalUserLemon)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_id_;
+    ::game::battlemon::items::Item* lemon_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1054,43 +1231,191 @@ inline void IsOwnerResponse::set_result(bool value) {
 
 // InternalLemonsInfoRequest
 
+// repeated .game.battlemon.items.internal.InternalUserLemonID users_lemonids = 1;
+inline int InternalLemonsInfoRequest::_internal_users_lemonids_size() const {
+  return _impl_.users_lemonids_.size();
+}
+inline int InternalLemonsInfoRequest::users_lemonids_size() const {
+  return _internal_users_lemonids_size();
+}
+inline void InternalLemonsInfoRequest::clear_users_lemonids() {
+  _impl_.users_lemonids_.Clear();
+}
+inline ::game::battlemon::items::internal::InternalUserLemonID* InternalLemonsInfoRequest::mutable_users_lemonids(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemonids)
+  return _impl_.users_lemonids_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemonID >*
+InternalLemonsInfoRequest::mutable_users_lemonids() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemonids)
+  return &_impl_.users_lemonids_;
+}
+inline const ::game::battlemon::items::internal::InternalUserLemonID& InternalLemonsInfoRequest::_internal_users_lemonids(int index) const {
+  return _impl_.users_lemonids_.Get(index);
+}
+inline const ::game::battlemon::items::internal::InternalUserLemonID& InternalLemonsInfoRequest::users_lemonids(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemonids)
+  return _internal_users_lemonids(index);
+}
+inline ::game::battlemon::items::internal::InternalUserLemonID* InternalLemonsInfoRequest::_internal_add_users_lemonids() {
+  return _impl_.users_lemonids_.Add();
+}
+inline ::game::battlemon::items::internal::InternalUserLemonID* InternalLemonsInfoRequest::add_users_lemonids() {
+  ::game::battlemon::items::internal::InternalUserLemonID* _add = _internal_add_users_lemonids();
+  // @@protoc_insertion_point(field_add:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemonids)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemonID >&
+InternalLemonsInfoRequest::users_lemonids() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemonids)
+  return _impl_.users_lemonids_;
+}
+
+// -------------------------------------------------------------------
+
+// InternalUserLemonID
+
+// string near_id = 1;
+inline void InternalUserLemonID::clear_near_id() {
+  _impl_.near_id_.ClearToEmpty();
+}
+inline const std::string& InternalUserLemonID::near_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalUserLemonID.near_id)
+  return _internal_near_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void InternalUserLemonID::set_near_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.near_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.internal.InternalUserLemonID.near_id)
+}
+inline std::string* InternalUserLemonID::mutable_near_id() {
+  std::string* _s = _internal_mutable_near_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalUserLemonID.near_id)
+  return _s;
+}
+inline const std::string& InternalUserLemonID::_internal_near_id() const {
+  return _impl_.near_id_.Get();
+}
+inline void InternalUserLemonID::_internal_set_near_id(const std::string& value) {
+  
+  _impl_.near_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* InternalUserLemonID::_internal_mutable_near_id() {
+  
+  return _impl_.near_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* InternalUserLemonID::release_near_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.internal.InternalUserLemonID.near_id)
+  return _impl_.near_id_.Release();
+}
+inline void InternalUserLemonID::set_allocated_near_id(std::string* near_id) {
+  if (near_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.near_id_.SetAllocated(near_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.near_id_.IsDefault()) {
+    _impl_.near_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.internal.InternalUserLemonID.near_id)
+}
+
+// string lemon_id = 2;
+inline void InternalUserLemonID::clear_lemon_id() {
+  _impl_.lemon_id_.ClearToEmpty();
+}
+inline const std::string& InternalUserLemonID::lemon_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalUserLemonID.lemon_id)
+  return _internal_lemon_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void InternalUserLemonID::set_lemon_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.lemon_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.internal.InternalUserLemonID.lemon_id)
+}
+inline std::string* InternalUserLemonID::mutable_lemon_id() {
+  std::string* _s = _internal_mutable_lemon_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalUserLemonID.lemon_id)
+  return _s;
+}
+inline const std::string& InternalUserLemonID::_internal_lemon_id() const {
+  return _impl_.lemon_id_.Get();
+}
+inline void InternalUserLemonID::_internal_set_lemon_id(const std::string& value) {
+  
+  _impl_.lemon_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* InternalUserLemonID::_internal_mutable_lemon_id() {
+  
+  return _impl_.lemon_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* InternalUserLemonID::release_lemon_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.internal.InternalUserLemonID.lemon_id)
+  return _impl_.lemon_id_.Release();
+}
+inline void InternalUserLemonID::set_allocated_lemon_id(std::string* lemon_id) {
+  if (lemon_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.lemon_id_.SetAllocated(lemon_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.lemon_id_.IsDefault()) {
+    _impl_.lemon_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.internal.InternalUserLemonID.lemon_id)
+}
+
+// -------------------------------------------------------------------
+
+// InternalLemonsInfoResponse
+
 // repeated .game.battlemon.items.internal.InternalUserLemon users_lemons = 1;
-inline int InternalLemonsInfoRequest::_internal_users_lemons_size() const {
+inline int InternalLemonsInfoResponse::_internal_users_lemons_size() const {
   return _impl_.users_lemons_.size();
 }
-inline int InternalLemonsInfoRequest::users_lemons_size() const {
+inline int InternalLemonsInfoResponse::users_lemons_size() const {
   return _internal_users_lemons_size();
 }
-inline void InternalLemonsInfoRequest::clear_users_lemons() {
+inline void InternalLemonsInfoResponse::clear_users_lemons() {
   _impl_.users_lemons_.Clear();
 }
-inline ::game::battlemon::items::internal::InternalUserLemon* InternalLemonsInfoRequest::mutable_users_lemons(int index) {
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemons)
+inline ::game::battlemon::items::internal::InternalUserLemon* InternalLemonsInfoResponse::mutable_users_lemons(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalLemonsInfoResponse.users_lemons)
   return _impl_.users_lemons_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon >*
-InternalLemonsInfoRequest::mutable_users_lemons() {
-  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemons)
+InternalLemonsInfoResponse::mutable_users_lemons() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.internal.InternalLemonsInfoResponse.users_lemons)
   return &_impl_.users_lemons_;
 }
-inline const ::game::battlemon::items::internal::InternalUserLemon& InternalLemonsInfoRequest::_internal_users_lemons(int index) const {
+inline const ::game::battlemon::items::internal::InternalUserLemon& InternalLemonsInfoResponse::_internal_users_lemons(int index) const {
   return _impl_.users_lemons_.Get(index);
 }
-inline const ::game::battlemon::items::internal::InternalUserLemon& InternalLemonsInfoRequest::users_lemons(int index) const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemons)
+inline const ::game::battlemon::items::internal::InternalUserLemon& InternalLemonsInfoResponse::users_lemons(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalLemonsInfoResponse.users_lemons)
   return _internal_users_lemons(index);
 }
-inline ::game::battlemon::items::internal::InternalUserLemon* InternalLemonsInfoRequest::_internal_add_users_lemons() {
+inline ::game::battlemon::items::internal::InternalUserLemon* InternalLemonsInfoResponse::_internal_add_users_lemons() {
   return _impl_.users_lemons_.Add();
 }
-inline ::game::battlemon::items::internal::InternalUserLemon* InternalLemonsInfoRequest::add_users_lemons() {
+inline ::game::battlemon::items::internal::InternalUserLemon* InternalLemonsInfoResponse::add_users_lemons() {
   ::game::battlemon::items::internal::InternalUserLemon* _add = _internal_add_users_lemons();
-  // @@protoc_insertion_point(field_add:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemons)
+  // @@protoc_insertion_point(field_add:game.battlemon.items.internal.InternalLemonsInfoResponse.users_lemons)
   return _add;
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::internal::InternalUserLemon >&
-InternalLemonsInfoRequest::users_lemons() const {
-  // @@protoc_insertion_point(field_list:game.battlemon.items.internal.InternalLemonsInfoRequest.users_lemons)
+InternalLemonsInfoResponse::users_lemons() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.items.internal.InternalLemonsInfoResponse.users_lemons)
   return _impl_.users_lemons_;
 }
 
@@ -1148,100 +1473,96 @@ inline void InternalUserLemon::set_allocated_near_id(std::string* near_id) {
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.internal.InternalUserLemon.near_id)
 }
 
-// string lemon_id = 2;
-inline void InternalUserLemon::clear_lemon_id() {
-  _impl_.lemon_id_.ClearToEmpty();
+// .game.battlemon.items.Item lemon = 2;
+inline bool InternalUserLemon::_internal_has_lemon() const {
+  return this != internal_default_instance() && _impl_.lemon_ != nullptr;
 }
-inline const std::string& InternalUserLemon::lemon_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalUserLemon.lemon_id)
-  return _internal_lemon_id();
+inline bool InternalUserLemon::has_lemon() const {
+  return _internal_has_lemon();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void InternalUserLemon::set_lemon_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.lemon_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.internal.InternalUserLemon.lemon_id)
+inline const ::game::battlemon::items::Item& InternalUserLemon::_internal_lemon() const {
+  const ::game::battlemon::items::Item* p = _impl_.lemon_;
+  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::items::Item&>(
+      ::game::battlemon::items::_Item_default_instance_);
 }
-inline std::string* InternalUserLemon::mutable_lemon_id() {
-  std::string* _s = _internal_mutable_lemon_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalUserLemon.lemon_id)
-  return _s;
+inline const ::game::battlemon::items::Item& InternalUserLemon::lemon() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalUserLemon.lemon)
+  return _internal_lemon();
 }
-inline const std::string& InternalUserLemon::_internal_lemon_id() const {
-  return _impl_.lemon_id_.Get();
-}
-inline void InternalUserLemon::_internal_set_lemon_id(const std::string& value) {
-  
-  _impl_.lemon_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* InternalUserLemon::_internal_mutable_lemon_id() {
-  
-  return _impl_.lemon_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* InternalUserLemon::release_lemon_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.internal.InternalUserLemon.lemon_id)
-  return _impl_.lemon_id_.Release();
-}
-inline void InternalUserLemon::set_allocated_lemon_id(std::string* lemon_id) {
-  if (lemon_id != nullptr) {
+inline void InternalUserLemon::unsafe_arena_set_allocated_lemon(
+    ::game::battlemon::items::Item* lemon) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.lemon_);
+  }
+  _impl_.lemon_ = lemon;
+  if (lemon) {
     
   } else {
     
   }
-  _impl_.lemon_id_.SetAllocated(lemon_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.lemon_id_.IsDefault()) {
-    _impl_.lemon_id_.Set("", GetArenaForAllocation());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.internal.InternalUserLemon.lemon)
+}
+inline ::game::battlemon::items::Item* InternalUserLemon::release_lemon() {
+  
+  ::game::battlemon::items::Item* temp = _impl_.lemon_;
+  _impl_.lemon_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.internal.InternalUserLemon.lemon_id)
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-
-// -------------------------------------------------------------------
-
-// InternalLemonsInfoResponse
-
-// repeated .game.battlemon.items.Item lemons = 1;
-inline int InternalLemonsInfoResponse::_internal_lemons_size() const {
-  return _impl_.lemons_.size();
+inline ::game::battlemon::items::Item* InternalUserLemon::unsafe_arena_release_lemon() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.internal.InternalUserLemon.lemon)
+  
+  ::game::battlemon::items::Item* temp = _impl_.lemon_;
+  _impl_.lemon_ = nullptr;
+  return temp;
 }
-inline int InternalLemonsInfoResponse::lemons_size() const {
-  return _internal_lemons_size();
+inline ::game::battlemon::items::Item* InternalUserLemon::_internal_mutable_lemon() {
+  
+  if (_impl_.lemon_ == nullptr) {
+    auto* p = CreateMaybeMessage<::game::battlemon::items::Item>(GetArenaForAllocation());
+    _impl_.lemon_ = p;
+  }
+  return _impl_.lemon_;
 }
-inline ::game::battlemon::items::Item* InternalLemonsInfoResponse::mutable_lemons(int index) {
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalLemonsInfoResponse.lemons)
-  return _impl_.lemons_.Mutable(index);
+inline ::game::battlemon::items::Item* InternalUserLemon::mutable_lemon() {
+  ::game::battlemon::items::Item* _msg = _internal_mutable_lemon();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.internal.InternalUserLemon.lemon)
+  return _msg;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Item >*
-InternalLemonsInfoResponse::mutable_lemons() {
-  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.internal.InternalLemonsInfoResponse.lemons)
-  return &_impl_.lemons_;
-}
-inline const ::game::battlemon::items::Item& InternalLemonsInfoResponse::_internal_lemons(int index) const {
-  return _impl_.lemons_.Get(index);
-}
-inline const ::game::battlemon::items::Item& InternalLemonsInfoResponse::lemons(int index) const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.internal.InternalLemonsInfoResponse.lemons)
-  return _internal_lemons(index);
-}
-inline ::game::battlemon::items::Item* InternalLemonsInfoResponse::_internal_add_lemons() {
-  return _impl_.lemons_.Add();
-}
-inline ::game::battlemon::items::Item* InternalLemonsInfoResponse::add_lemons() {
-  ::game::battlemon::items::Item* _add = _internal_add_lemons();
-  // @@protoc_insertion_point(field_add:game.battlemon.items.internal.InternalLemonsInfoResponse.lemons)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Item >&
-InternalLemonsInfoResponse::lemons() const {
-  // @@protoc_insertion_point(field_list:game.battlemon.items.internal.InternalLemonsInfoResponse.lemons)
-  return _impl_.lemons_;
+inline void InternalUserLemon::set_allocated_lemon(::game::battlemon::items::Item* lemon) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.lemon_);
+  }
+  if (lemon) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(lemon));
+    if (message_arena != submessage_arena) {
+      lemon = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, lemon, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.lemon_ = lemon;
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.internal.InternalUserLemon.lemon)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
