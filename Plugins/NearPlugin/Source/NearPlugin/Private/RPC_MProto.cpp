@@ -471,6 +471,7 @@ bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Req
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
     game::battlemon::mm::internal::DedicatedServerIsReadyRequest g_request;
     g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
+    g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
     return gRPC_InternalMM->CallRPC_DedicatedServerIsReady(g_request);
 }
 
