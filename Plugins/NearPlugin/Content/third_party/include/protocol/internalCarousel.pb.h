@@ -989,6 +989,7 @@ class InternalRoomInfo final :
     kPlayersFieldNumber = 3,
     kRoomIdFieldNumber = 1,
     kModeFieldNumber = 2,
+    kRegionFieldNumber = 4,
   };
   // repeated .game.battlemon.carousel.internal.InternalPlayer players = 3;
   int players_size() const;
@@ -1040,6 +1041,15 @@ class InternalRoomInfo final :
       ::game::battlemon::mm::GameMode* mode);
   ::game::battlemon::mm::GameMode* unsafe_arena_release_mode();
 
+  // .game.battlemon.mm.Region region = 4;
+  void clear_region();
+  ::game::battlemon::mm::Region region() const;
+  void set_region(::game::battlemon::mm::Region value);
+  private:
+  ::game::battlemon::mm::Region _internal_region() const;
+  void _internal_set_region(::game::battlemon::mm::Region value);
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.carousel.internal.InternalRoomInfo)
  private:
   class _Internal;
@@ -1051,6 +1061,7 @@ class InternalRoomInfo final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::carousel::internal::InternalPlayer > players_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
     ::game::battlemon::mm::GameMode* mode_;
+    int region_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1181,6 +1192,7 @@ class InternalNewPlayer final :
   enum : int {
     kRoomIdFieldNumber = 1,
     kPlayerFieldNumber = 2,
+    kRegionFieldNumber = 3,
   };
   // string room_id = 1;
   void clear_room_id();
@@ -1214,6 +1226,15 @@ class InternalNewPlayer final :
       ::game::battlemon::carousel::internal::InternalPlayer* player);
   ::game::battlemon::carousel::internal::InternalPlayer* unsafe_arena_release_player();
 
+  // .game.battlemon.mm.Region region = 3;
+  void clear_region();
+  ::game::battlemon::mm::Region region() const;
+  void set_region(::game::battlemon::mm::Region value);
+  private:
+  ::game::battlemon::mm::Region _internal_region() const;
+  void _internal_set_region(::game::battlemon::mm::Region value);
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.carousel.internal.InternalNewPlayer)
  private:
   class _Internal;
@@ -1224,6 +1245,7 @@ class InternalNewPlayer final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
     ::game::battlemon::carousel::internal::InternalPlayer* player_;
+    int region_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1355,6 +1377,7 @@ class InternalPlayer final :
     kNearIdFieldNumber = 1,
     kLemonIdFieldNumber = 3,
     kModeFieldNumber = 2,
+    kRegionFieldNumber = 4,
   };
   // string near_id = 1;
   void clear_near_id();
@@ -1402,6 +1425,15 @@ class InternalPlayer final :
       ::game::battlemon::mm::GameMode* mode);
   ::game::battlemon::mm::GameMode* unsafe_arena_release_mode();
 
+  // .game.battlemon.mm.Region region = 4;
+  void clear_region();
+  ::game::battlemon::mm::Region region() const;
+  void set_region(::game::battlemon::mm::Region value);
+  private:
+  ::game::battlemon::mm::Region _internal_region() const;
+  void _internal_set_region(::game::battlemon::mm::Region value);
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.carousel.internal.InternalPlayer)
  private:
   class _Internal;
@@ -1413,6 +1445,7 @@ class InternalPlayer final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr lemon_id_;
     ::game::battlemon::mm::GameMode* mode_;
+    int region_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2880,6 +2913,26 @@ InternalRoomInfo::players() const {
   return _impl_.players_;
 }
 
+// .game.battlemon.mm.Region region = 4;
+inline void InternalRoomInfo::clear_region() {
+  _impl_.region_ = 0;
+}
+inline ::game::battlemon::mm::Region InternalRoomInfo::_internal_region() const {
+  return static_cast< ::game::battlemon::mm::Region >(_impl_.region_);
+}
+inline ::game::battlemon::mm::Region InternalRoomInfo::region() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalRoomInfo.region)
+  return _internal_region();
+}
+inline void InternalRoomInfo::_internal_set_region(::game::battlemon::mm::Region value) {
+  
+  _impl_.region_ = value;
+}
+inline void InternalRoomInfo::set_region(::game::battlemon::mm::Region value) {
+  _internal_set_region(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalRoomInfo.region)
+}
+
 // -------------------------------------------------------------------
 
 // InternalNewPlayer
@@ -3022,6 +3075,26 @@ inline void InternalNewPlayer::set_allocated_player(::game::battlemon::carousel:
   }
   _impl_.player_ = player;
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalNewPlayer.player)
+}
+
+// .game.battlemon.mm.Region region = 3;
+inline void InternalNewPlayer::clear_region() {
+  _impl_.region_ = 0;
+}
+inline ::game::battlemon::mm::Region InternalNewPlayer::_internal_region() const {
+  return static_cast< ::game::battlemon::mm::Region >(_impl_.region_);
+}
+inline ::game::battlemon::mm::Region InternalNewPlayer::region() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalNewPlayer.region)
+  return _internal_region();
+}
+inline void InternalNewPlayer::_internal_set_region(::game::battlemon::mm::Region value) {
+  
+  _impl_.region_ = value;
+}
+inline void InternalNewPlayer::set_region(::game::battlemon::mm::Region value) {
+  _internal_set_region(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalNewPlayer.region)
 }
 
 // -------------------------------------------------------------------
@@ -3211,6 +3284,26 @@ inline void InternalPlayer::set_allocated_lemon_id(std::string* lemon_id) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
+}
+
+// .game.battlemon.mm.Region region = 4;
+inline void InternalPlayer::clear_region() {
+  _impl_.region_ = 0;
+}
+inline ::game::battlemon::mm::Region InternalPlayer::_internal_region() const {
+  return static_cast< ::game::battlemon::mm::Region >(_impl_.region_);
+}
+inline ::game::battlemon::mm::Region InternalPlayer::region() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalPlayer.region)
+  return _internal_region();
+}
+inline void InternalPlayer::_internal_set_region(::game::battlemon::mm::Region value) {
+  
+  _impl_.region_ = value;
+}
+inline void InternalPlayer::set_region(::game::battlemon::mm::Region value) {
+  _internal_set_region(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.region)
 }
 
 // -------------------------------------------------------------------

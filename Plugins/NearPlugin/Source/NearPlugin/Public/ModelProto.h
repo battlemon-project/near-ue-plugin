@@ -375,6 +375,8 @@ struct FUSaveBattleResultRequest
     FString room_id;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
     TArray<FUInternalPlayerResult> results;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
+    FString ott;
 
     FUSaveBattleResultRequest& operator=(const game::battlemon::mm::internal::SaveBattleResultRequest& saveBattleResultRequest);
 };
@@ -385,6 +387,8 @@ struct FURoomInfoRequest
     GENERATED_BODY()
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
     FString room_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
+    FString ott;
 
     FURoomInfoRequest& operator=(const game::battlemon::mm::internal::RoomInfoRequest& roomInfoRequest);
 };
@@ -411,6 +415,8 @@ struct FURoomInfoResponse
     FUGameMode mode;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
     TArray<FURoomPlayerInfo> players;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
+    FString ott;
 
     FURoomInfoResponse& operator=(const game::battlemon::mm::internal::RoomInfoResponse& roomInfoResponse);
 };
@@ -436,6 +442,10 @@ struct FUDedicatedServerIsReadyRequest
         
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
     FString room_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | InternalMMProto")
+    FString ott;
+
+    FUDedicatedServerIsReadyRequest& operator=(const game::battlemon::mm::internal::DedicatedServerIsReadyRequest& dedicatedServerIsReadyRequest);
 };
 //InternalMM.massange end
 

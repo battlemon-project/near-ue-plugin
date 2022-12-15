@@ -399,6 +399,7 @@ class SaveBattleResultRequest final :
   enum : int {
     kResultsFieldNumber = 2,
     kRoomIdFieldNumber = 1,
+    kOttFieldNumber = 3,
   };
   // repeated .game.battlemon.mm.internal.InternalPlayerResult results = 2;
   int results_size() const;
@@ -432,6 +433,20 @@ class SaveBattleResultRequest final :
   std::string* _internal_mutable_room_id();
   public:
 
+  // string ott = 3;
+  void clear_ott();
+  const std::string& ott() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ott(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ott();
+  PROTOBUF_NODISCARD std::string* release_ott();
+  void set_allocated_ott(std::string* ott);
+  private:
+  const std::string& _internal_ott() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ott(const std::string& value);
+  std::string* _internal_mutable_ott();
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.mm.internal.SaveBattleResultRequest)
  private:
   class _Internal;
@@ -442,6 +457,7 @@ class SaveBattleResultRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::mm::internal::InternalPlayerResult > results_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ott_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -735,6 +751,7 @@ class RoomInfoRequest final :
 
   enum : int {
     kRoomIdFieldNumber = 1,
+    kOttFieldNumber = 2,
   };
   // string room_id = 1;
   void clear_room_id();
@@ -750,6 +767,20 @@ class RoomInfoRequest final :
   std::string* _internal_mutable_room_id();
   public:
 
+  // string ott = 2;
+  void clear_ott();
+  const std::string& ott() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ott(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ott();
+  PROTOBUF_NODISCARD std::string* release_ott();
+  void set_allocated_ott(std::string* ott);
+  private:
+  const std::string& _internal_ott() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ott(const std::string& value);
+  std::string* _internal_mutable_ott();
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.mm.internal.RoomInfoRequest)
  private:
   class _Internal;
@@ -759,6 +790,7 @@ class RoomInfoRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ott_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1255,6 +1287,7 @@ class CreateRoomRequest final :
   enum : int {
     kNearIdsFieldNumber = 2,
     kPrevRoomIdFieldNumber = 3,
+    kOttFieldNumber = 4,
     kModeFieldNumber = 1,
   };
   // repeated string near_ids = 2;
@@ -1295,6 +1328,20 @@ class CreateRoomRequest final :
   std::string* _internal_mutable_prev_room_id();
   public:
 
+  // string ott = 4;
+  void clear_ott();
+  const std::string& ott() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ott(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ott();
+  PROTOBUF_NODISCARD std::string* release_ott();
+  void set_allocated_ott(std::string* ott);
+  private:
+  const std::string& _internal_ott() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ott(const std::string& value);
+  std::string* _internal_mutable_ott();
+  public:
+
   // .game.battlemon.mm.GameMode mode = 1;
   bool has_mode() const;
   private:
@@ -1323,6 +1370,7 @@ class CreateRoomRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> near_ids_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr prev_room_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ott_;
     ::game::battlemon::mm::GameMode* mode_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1453,6 +1501,7 @@ class DedicatedServerIsReadyRequest final :
 
   enum : int {
     kRoomIdFieldNumber = 1,
+    kOttFieldNumber = 2,
   };
   // string room_id = 1;
   void clear_room_id();
@@ -1468,6 +1517,20 @@ class DedicatedServerIsReadyRequest final :
   std::string* _internal_mutable_room_id();
   public:
 
+  // string ott = 2;
+  void clear_ott();
+  const std::string& ott() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ott(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ott();
+  PROTOBUF_NODISCARD std::string* release_ott();
+  void set_allocated_ott(std::string* ott);
+  private:
+  const std::string& _internal_ott() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ott(const std::string& value);
+  std::string* _internal_mutable_ott();
+  public:
+
   // @@protoc_insertion_point(class_scope:game.battlemon.mm.internal.DedicatedServerIsReadyRequest)
  private:
   class _Internal;
@@ -1477,6 +1540,7 @@ class DedicatedServerIsReadyRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ott_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1707,6 +1771,56 @@ SaveBattleResultRequest::results() const {
   return _impl_.results_;
 }
 
+// string ott = 3;
+inline void SaveBattleResultRequest::clear_ott() {
+  _impl_.ott_.ClearToEmpty();
+}
+inline const std::string& SaveBattleResultRequest::ott() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.mm.internal.SaveBattleResultRequest.ott)
+  return _internal_ott();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SaveBattleResultRequest::set_ott(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ott_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.mm.internal.SaveBattleResultRequest.ott)
+}
+inline std::string* SaveBattleResultRequest::mutable_ott() {
+  std::string* _s = _internal_mutable_ott();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.mm.internal.SaveBattleResultRequest.ott)
+  return _s;
+}
+inline const std::string& SaveBattleResultRequest::_internal_ott() const {
+  return _impl_.ott_.Get();
+}
+inline void SaveBattleResultRequest::_internal_set_ott(const std::string& value) {
+  
+  _impl_.ott_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SaveBattleResultRequest::_internal_mutable_ott() {
+  
+  return _impl_.ott_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SaveBattleResultRequest::release_ott() {
+  // @@protoc_insertion_point(field_release:game.battlemon.mm.internal.SaveBattleResultRequest.ott)
+  return _impl_.ott_.Release();
+}
+inline void SaveBattleResultRequest::set_allocated_ott(std::string* ott) {
+  if (ott != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ott_.SetAllocated(ott, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ott_.IsDefault()) {
+    _impl_.ott_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.SaveBattleResultRequest.ott)
+}
+
 // -------------------------------------------------------------------
 
 // InternalPlayerResult
@@ -1833,6 +1947,56 @@ inline void RoomInfoRequest::set_allocated_room_id(std::string* room_id) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.RoomInfoRequest.room_id)
+}
+
+// string ott = 2;
+inline void RoomInfoRequest::clear_ott() {
+  _impl_.ott_.ClearToEmpty();
+}
+inline const std::string& RoomInfoRequest::ott() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.mm.internal.RoomInfoRequest.ott)
+  return _internal_ott();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RoomInfoRequest::set_ott(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ott_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.mm.internal.RoomInfoRequest.ott)
+}
+inline std::string* RoomInfoRequest::mutable_ott() {
+  std::string* _s = _internal_mutable_ott();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.mm.internal.RoomInfoRequest.ott)
+  return _s;
+}
+inline const std::string& RoomInfoRequest::_internal_ott() const {
+  return _impl_.ott_.Get();
+}
+inline void RoomInfoRequest::_internal_set_ott(const std::string& value) {
+  
+  _impl_.ott_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RoomInfoRequest::_internal_mutable_ott() {
+  
+  return _impl_.ott_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RoomInfoRequest::release_ott() {
+  // @@protoc_insertion_point(field_release:game.battlemon.mm.internal.RoomInfoRequest.ott)
+  return _impl_.ott_.Release();
+}
+inline void RoomInfoRequest::set_allocated_ott(std::string* ott) {
+  if (ott != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ott_.SetAllocated(ott, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ott_.IsDefault()) {
+    _impl_.ott_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.RoomInfoRequest.ott)
 }
 
 // -------------------------------------------------------------------
@@ -2367,6 +2531,56 @@ inline void CreateRoomRequest::set_allocated_prev_room_id(std::string* prev_room
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.CreateRoomRequest.prev_room_id)
 }
 
+// string ott = 4;
+inline void CreateRoomRequest::clear_ott() {
+  _impl_.ott_.ClearToEmpty();
+}
+inline const std::string& CreateRoomRequest::ott() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.mm.internal.CreateRoomRequest.ott)
+  return _internal_ott();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CreateRoomRequest::set_ott(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ott_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.mm.internal.CreateRoomRequest.ott)
+}
+inline std::string* CreateRoomRequest::mutable_ott() {
+  std::string* _s = _internal_mutable_ott();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.mm.internal.CreateRoomRequest.ott)
+  return _s;
+}
+inline const std::string& CreateRoomRequest::_internal_ott() const {
+  return _impl_.ott_.Get();
+}
+inline void CreateRoomRequest::_internal_set_ott(const std::string& value) {
+  
+  _impl_.ott_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CreateRoomRequest::_internal_mutable_ott() {
+  
+  return _impl_.ott_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CreateRoomRequest::release_ott() {
+  // @@protoc_insertion_point(field_release:game.battlemon.mm.internal.CreateRoomRequest.ott)
+  return _impl_.ott_.Release();
+}
+inline void CreateRoomRequest::set_allocated_ott(std::string* ott) {
+  if (ott != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ott_.SetAllocated(ott, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ott_.IsDefault()) {
+    _impl_.ott_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.CreateRoomRequest.ott)
+}
+
 // -------------------------------------------------------------------
 
 // DedicatedServerIsReadyRequest
@@ -2419,6 +2633,56 @@ inline void DedicatedServerIsReadyRequest::set_allocated_room_id(std::string* ro
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.DedicatedServerIsReadyRequest.room_id)
+}
+
+// string ott = 2;
+inline void DedicatedServerIsReadyRequest::clear_ott() {
+  _impl_.ott_.ClearToEmpty();
+}
+inline const std::string& DedicatedServerIsReadyRequest::ott() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.mm.internal.DedicatedServerIsReadyRequest.ott)
+  return _internal_ott();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void DedicatedServerIsReadyRequest::set_ott(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ott_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.mm.internal.DedicatedServerIsReadyRequest.ott)
+}
+inline std::string* DedicatedServerIsReadyRequest::mutable_ott() {
+  std::string* _s = _internal_mutable_ott();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.mm.internal.DedicatedServerIsReadyRequest.ott)
+  return _s;
+}
+inline const std::string& DedicatedServerIsReadyRequest::_internal_ott() const {
+  return _impl_.ott_.Get();
+}
+inline void DedicatedServerIsReadyRequest::_internal_set_ott(const std::string& value) {
+  
+  _impl_.ott_.Set(value, GetArenaForAllocation());
+}
+inline std::string* DedicatedServerIsReadyRequest::_internal_mutable_ott() {
+  
+  return _impl_.ott_.Mutable(GetArenaForAllocation());
+}
+inline std::string* DedicatedServerIsReadyRequest::release_ott() {
+  // @@protoc_insertion_point(field_release:game.battlemon.mm.internal.DedicatedServerIsReadyRequest.ott)
+  return _impl_.ott_.Release();
+}
+inline void DedicatedServerIsReadyRequest::set_allocated_ott(std::string* ott) {
+  if (ott != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ott_.SetAllocated(ott, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ott_.IsDefault()) {
+    _impl_.ott_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.mm.internal.DedicatedServerIsReadyRequest.ott)
 }
 
 #ifdef __GNUC__

@@ -218,6 +218,7 @@ FUSaveBattleResultRequest& FUSaveBattleResultRequest::operator=(const game::batt
 {
 	
 	room_id = CONV_CHAR_TO_FSTRING(saveBattleResultRequest.room_id().c_str());
+    ott = CONV_CHAR_TO_FSTRING(saveBattleResultRequest.ott().c_str());
 
 	int size = saveBattleResultRequest.results().size();
 	results.SetNum(size);
@@ -233,6 +234,7 @@ FUSaveBattleResultRequest& FUSaveBattleResultRequest::operator=(const game::batt
 FURoomInfoRequest& FURoomInfoRequest::operator=(const game::battlemon::mm::internal::RoomInfoRequest& roomInfoRequest)
 {
 	room_id = CONV_CHAR_TO_FSTRING(roomInfoRequest.room_id().c_str());
+    ott = CONV_CHAR_TO_FSTRING(roomInfoRequest.ott().c_str());
 
 	return *this;
 }
@@ -251,6 +253,7 @@ FURoomInfoResponse& FURoomInfoResponse::operator=(const game::battlemon::mm::int
 {
     room_id = CONV_CHAR_TO_FSTRING(roomInfoResponse.room_id().c_str());
 	mode = roomInfoResponse.mode();
+    ott = CONV_CHAR_TO_FSTRING(roomInfoResponse.ott().c_str());
 
 	int size = roomInfoResponse.players().size();
 	players.SetNum(size);
@@ -278,6 +281,14 @@ FUCreateRoomRequest& FUCreateRoomRequest::operator=(const game::battlemon::mm::i
 	return *this;
 }
 
+FUDedicatedServerIsReadyRequest& operator=(const game::battlemon::mm::internal::DedicatedServerIsReadyRequest& dedicatedServerIsReadyRequest)
+{
+    room_id = CONV_CHAR_TO_FSTRING(dedicatedServerIsReadyRequest.room_id().c_str());
+    ott = CONV_CHAR_TO_FSTRING(dedicatedServerIsReadyRequest.ott().c_str());;
+
+
+    return *this;
+}
 
 FUWeaponBundleItemType& operator<<(FUWeaponBundleItemType& FU, const game::battlemon::items::WeaponBundleItemType& weaponBundleItemType)
 {
