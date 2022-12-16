@@ -302,6 +302,7 @@ struct FUSearchGameRequest
     GENERATED_BODY()
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | MMProto")
     FUGameMode game_mode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | MMProto")
     FRegion region;
 
     FUSearchGameRequest& operator=(const game::battlemon::mm::SearchGameRequest& searchGameRequest);
