@@ -242,55 +242,36 @@ void UNearItems::GetBundles(FUGetBundlesResponse& out)
     out = gRPC_Item->CallRPC_GetBundles();
 }
 
-void UNearItems::EditBundle(FUEditBundleRequest request, FUWeaponBundle& out)
+void UNearItems::EditBundle(FUEditBundleRequest Request, FUWeaponBundle& out)
 {
     freegRPC_Item();
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     game::battlemon::items::EditBundleRequest g_request;
-    g_request.set_bundle_num(request.bundle_num);
-    g_request.set_title(CONV_FSTRING_TO_CHAR(request.title));
-    
-    int size = request.items.Num();
-    for(int Idx = 0; Idx < size; Idx++)
-    {
-        game::battlemon::items::WeaponBundleItem* wpPtr = g_request.add_items();
-        game::battlemon::items::WeaponBundleItemType wbit;
-        wbit << request.items[Idx].item_type;
-        wpPtr->set_item_type(wbit);
-
-        game::battlemon::items::WeaponBundleSlotType wbst;
-        wbst << request.items[Idx].slot_type;
-        wpPtr->set_slot_type(wbst);
-
-        wpPtr->set_skin(CONV_FSTRING_TO_CHAR(request.items[Idx].skin));
-    }
-
+    g_request << Request;
     out = gRPC_Item->CallRPC_EditBundle(g_request);
 }
 
-bool UNearItems::AttachBundle(FUAttachBundleRequest request)
+bool UNearItems::AttachBundle(FUAttachBundleRequest Request)
 {
     freegRPC_Item();
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     game::battlemon::items::AttachBundleRequest g_request;
 
-    g_request.set_bundle_num(request.bundle_num);
-    g_request.set_lemon_id(CONV_FSTRING_TO_CHAR(request.lemon_id));
+    g_request << Request;
 
     return gRPC_Item->CallRPC_AttachBundle(g_request);
 }
 
-bool UNearItems::DetachBundle(FUDetachBundleRequest request)
+bool UNearItems::DetachBundle(FUDetachBundleRequest Request)
 {
     freegRPC_Item();
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     game::battlemon::items::DetachBundleRequest g_request;
 
-    g_request.set_bundle_num(request.bundle_num);
-    g_request.set_lemon_id(CONV_FSTRING_TO_CHAR(request.lemon_id));
+    g_request << Request;
 
     return gRPC_Item->CallRPC_DetachBundle(g_request);
 }
@@ -325,27 +306,7 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
     freegRPC_MM();
     gRPC_MM = new gRPC_ClientMM(ssl, URL);
     game::battlemon::mm::SearchGameRequest g_request;
-
-    game::battlemon::mm::GameMode* gm = new game::battlemon::mm::GameMode();
-
-    {
-        game::battlemon::mm::Region value;
-        value << Request.region;
-        g_request.set_region(value);
-    }
-    {
-        game::battlemon::mm::MatchMode mm;
-        game::battlemon::mm::MatchType mt;
-
-        mt << Request.game_mode.match_type;
-        mm << Request.game_mode.match_mode;
-
-        gm->set_match_mode(mm);
-        gm->set_match_type(mt);
-
-        g_request.set_allocated_game_mode(gm);
-    }
-
+    g_request << Request;
     out = gRPC_MM->CallRPC_SearchGame(g_request);
 }
 
@@ -354,8 +315,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request)
     freegRPC_MM();
     gRPC_MM = new gRPC_ClientMM(ssl, URL);
     game::battlemon::mm::AcceptGameRequest g_request;
-
-    g_request.set_lemon_id(CONV_FSTRING_TO_CHAR(Request.lemon_id));
+    g_request << Request;
 
     return gRPC_MM->CallRPC_AcceptGame(g_request);
 }
@@ -396,8 +356,7 @@ bool UNearInternalMM::UserLeftBattle(FUInternalUserLeftBattleRequest Request)
     freegRPC_InternalMM();
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
     game::battlemon::mm::internal::InternalUserLeftBattleRequest g_request;
-    g_request.set_near_id(CONV_FSTRING_TO_CHAR(Request.near_id));
-    g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
+    g_request << Request;
 
     return gRPC_InternalMM->CallRPC_UserLeftBattle(g_request);
 }
@@ -409,16 +368,7 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request)
 
     game::battlemon::mm::internal::SaveBattleResultRequest g_request;
 
-    g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
-    g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
-
-    int size = Request.results.Num();
-    for (size_t Idx = 0; Idx < size; Idx++)
-    {
-        game::battlemon::mm::internal::InternalPlayerResult* resptr = g_request.add_results();
-        resptr->set_near_id(CONV_FSTRING_TO_CHAR(Request.results[Idx].near_id));
-        resptr->set_place(Request.results[Idx].place);
-    }
+    g_request << Request;
 
     return gRPC_InternalMM->CallRPC_SaveBattleResult(g_request);
 }
@@ -429,8 +379,7 @@ void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse&
         gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
 
         game::battlemon::mm::internal::RoomInfoRequest g_request;
-        g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
-        g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
+        g_request << Request;
         out = gRPC_InternalMM->CallRPC_GetRoomInfo(g_request);
 }
 
@@ -440,27 +389,7 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
 
     game::battlemon::mm::internal::CreateRoomRequest g_request;
-    g_request.set_prev_room_id(CONV_FSTRING_TO_CHAR(Request.prev_room_id));
-    game::battlemon::mm::GameMode* gm = new game::battlemon::mm::GameMode();
-
-    game::battlemon::mm::MatchMode mm;
-    game::battlemon::mm::MatchType mt;
-
-    mt << Request.mode.match_type;
-    mm << Request.mode.match_mode;
-
-    gm->set_match_mode(mm);
-    gm->set_match_type(mt);
-
-    g_request.set_allocated_mode(gm);
-    g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
-
-    int size = Request.near_ids.Num();
-    for (size_t Idx = 0; Idx < size; Idx++)
-    {
-        std::string* strptr = g_request.add_near_ids();
-        *strptr = CONV_FSTRING_TO_CHAR(Request.near_ids[Idx]);
-    }
+    g_request << Request;
     
     out = gRPC_InternalMM->CallRPC_CreateRoomWithPlayers(g_request);
 }
@@ -470,8 +399,7 @@ bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Req
     freegRPC_InternalMM();
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
     game::battlemon::mm::internal::DedicatedServerIsReadyRequest g_request;
-    g_request.set_room_id(CONV_FSTRING_TO_CHAR(Request.room_id));
-    g_request.set_ott(CONV_FSTRING_TO_CHAR(Request.ott));
+    g_request << Request;
     return gRPC_InternalMM->CallRPC_DedicatedServerIsReady(g_request);
 }
 

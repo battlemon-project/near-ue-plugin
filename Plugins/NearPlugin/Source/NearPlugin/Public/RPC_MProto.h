@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ModelProto.h"
+#include "items.h"
+#include "mm.h"
+#include "internalMm.h"
 #include "gRPC_Base.h"
 
 #include "GrpcBegin.h"
@@ -80,11 +82,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
 	void GetBundles(FUGetBundlesResponse& out);
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	void EditBundle(FUEditBundleRequest request, FUWeaponBundle& out);
+	void EditBundle(FUEditBundleRequest Request, FUWeaponBundle& out);
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	bool AttachBundle(FUAttachBundleRequest request);
+	bool AttachBundle(FUAttachBundleRequest Request);
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | ItemsProto")
-	bool DetachBundle(FUDetachBundleRequest request);
+	bool DetachBundle(FUDetachBundleRequest Request);
 
 	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
 	FString GetError();

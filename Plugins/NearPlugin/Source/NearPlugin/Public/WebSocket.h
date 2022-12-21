@@ -10,12 +10,10 @@
 #include "RPC_MProto.h"
 #include "Misc/Base64.h"
 
-
-#include "GrpcBegin.h"
-#include "protocol/updates.grpc.pb.h"
-#include "GrpcEnd.h"
+#include"updates.h"
 
 #include "WebSocket.generated.h"
+
 
 /**
  * 
@@ -25,98 +23,7 @@ DECLARE_LOG_CATEGORY_EXTERN(WebSocketLog, Error, All);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWebSocketMessageDelegate, const FString&, MessageString);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWebSocketConnectedDelegate);
 
-USTRUCT(BlueprintType)
-struct FUUpdate 
-{
-    GENERATED_BODY()
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FString id; // update id
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    int64 timestamp; // millisec
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FString message; //UpdateMessage's bytes in base64
-
-    FUUpdate& operator=(const game::battlemon::updates::Update& update);
-};
-
-USTRUCT(BlueprintType)
-struct FURoomNeedAccept
-{
-    GENERATED_BODY()
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    bool manual_accept;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    int32 time_to_accept;
-
-    FURoomNeedAccept& operator=(const game::battlemon::updates::RoomNeedAccept& RNA);
-};
-
-UENUM(BlueprintType)
-enum class FUUpdateCase : uint8
-{
-    NONE UMETA(DisplayName = "NONE"),
-    ROOM_NEED_ACCEPT UMETA(DisplayName = "ROOM_NEED_ACCEPT"),
-    ROOM_ACCEPTING_CANCELED UMETA(DisplayName = "ROOM_ACCEPTING_CANCELED"),
-    ROOM_FOUND UMETA(DisplayName = "ROOM_FOUND"),
-    ROOM_TEAMMATES UMETA(DisplayName = "ROOM_TEAMMATES"),
-    ROOM_READY UMETA(DisplayName = "ROOM_READY"),
-    BUNDLE_ITEM_PERK UMETA(DisplayName = "BUNDLE_ITEM_PERK"),
-
-    USER_IS_ALREADY_IN_LINE UMETA(DisplayName = "USER_IS_ALREADY_IN_LINE"),
-    USER_IS_ALREADY_IN_BATTLE UMETA(DisplayName = "USER_IS_ALREADY_IN_BATTLE"),
-    USER_OUT_OF_LINE UMETA(DisplayName = "USER_OUT_OF_LINE"),
-
-    DEFAULT UMETA(DisplayName = "DEFAULT")
-};
-
-USTRUCT(BlueprintType)
-struct FURoomPlayer
-{
-    GENERATED_BODY()
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FString near_id;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FUItem lemon;
-
-    FURoomPlayer& operator=(const game::battlemon::updates::RoomPlayer& RP);
-};
-
-USTRUCT(BlueprintType)
-struct FURoomInfo
-{
-    GENERATED_BODY()
-    
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FString room_id;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FString server_ip;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    TArray<FURoomPlayer> players;
-
-    FURoomInfo& operator=(const game::battlemon::updates::RoomInfo& RI);
-};
-
-USTRUCT(BlueprintType)
-struct FUUpdateMessage 
-{
-    GENERATED_BODY()
-        
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FUUpdateCase update;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    FURoomNeedAccept room_need_accept;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | UpdatesProto")
-    //common.Empty room_accepting_canceled;
-    FURoomInfo roomInfo;
-
-    FUUpdateMessage& operator=(const game::battlemon::updates::UpdateMessage& UM);
-};
-
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUUpdateMessageDelegate, const FUUpdateMessage&, Update_Message);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUpdateMessageDelegate, const FUUpdateMessage&, Update_Message);
 
 UCLASS(BlueprintType)
 class NEARPLUGIN_API UWebSocket : public UObject
@@ -125,7 +32,7 @@ class NEARPLUGIN_API UWebSocket : public UObject
 	GENERATED_BODY()
 	TSharedPtr<IWebSocket> WebSocket;
     void Base64Decode(const FString& Source, TArray<uint8> &Dest);
-    FUUpdateMessage updateMessage;
+	FUUpdateMessage updateMessage;
 
 public:
 
@@ -150,5 +57,5 @@ public:
 	FWebSocketMessageDelegate OnErrorEvent;
 
     UPROPERTY(BlueprintAssignable, Category = ".Near | WebSocet")
-    FUUpdateMessageDelegate OnUpdateMessageEvent;
+    FUpdateMessageDelegate OnUpdateMessageEvent;
 };
