@@ -96,7 +96,7 @@ public:
 	~UNearSuiAuth();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | SuiAuth")
-	void CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse out);
+	void CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse& out);
 };
 
 enum class ItemsRPC

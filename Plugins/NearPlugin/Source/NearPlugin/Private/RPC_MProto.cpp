@@ -265,7 +265,7 @@ UNearSuiAuth::~UNearSuiAuth()
 }
 
 
-void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse out)
+void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse& out)
 {
     free_gRPC_SuiAuth();
 
