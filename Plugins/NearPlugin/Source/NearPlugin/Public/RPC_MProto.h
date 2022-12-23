@@ -98,12 +98,22 @@ public:
 	void CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse out);
 };
 
+enum class ItemsRPC
+{
+	GetItems,
+	GetBundles,
+	EditBundle,
+	AttachBundle,
+	DetachBundle
+};
+
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearItems : public UObject
 {
 	GENERATED_BODY()
 	static gRPC_ClientItems* gRPC_Item;
 	void freegRPC_Item();
+	ItemsRPC rpc;
 
 public:
 
@@ -134,11 +144,19 @@ public:
 	FString GetError();
 };
 
+enum class MMRPC
+{
+	SearchGame,
+	AcceptGame,
+	CancelSearch
+};
+
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearMM : public	UObject
 {
 	GENERATED_BODY()
 	static gRPC_ClientMM* gRPC_MM;
+	MMRPC rpc;
 
 	void freegRPC_MM();
 
@@ -168,11 +186,21 @@ public:
 	FString GetError();
 };
 
+enum class InternalMMRPC
+{
+	UserLeftBattle,
+	SaveBattleResult,
+	GetRoomInfo, 
+	CreateRoomWithPlayers,
+	DedicatedServerIsReady
+};
+
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearInternalMM : public UObject
 {
 	GENERATED_BODY()
 	static gRPC_ClientInternalMM* gRPC_InternalMM;
+	InternalMMRPC rpc;
 
 	void freegRPC_InternalMM();
 

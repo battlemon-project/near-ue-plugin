@@ -244,7 +244,14 @@ bool gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady(game::battlemon::mm::
 void UNearSuiAuth::free_gRPC_SuiAuth()
 {
     if (_gRPC_SuiAuth != nullptr)
+    {
+        if (_gRPC_SuiAuth->Task != nullptr)
+        {
+            delete CAST_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse)(_gRPC_SuiAuth->Task);
+            _gRPC_SuiAuth->Task = nullptr;
+        }
         delete _gRPC_SuiAuth;
+    }
     _gRPC_SuiAuth = nullptr;
 }
 
@@ -276,7 +283,33 @@ void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWal
 void UNearItems::freegRPC_Item()
 {
     if (gRPC_Item != nullptr)
+    {
+        if (gRPC_Item->Task != nullptr)
+        {
+            switch (rpc)
+            {
+            case ItemsRPC::GetItems:
+                delete CAST_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse)(gRPC_Item->Task);
+                break;
+            case ItemsRPC::GetBundles:
+                delete CAST_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse)(gRPC_Item->Task);
+                break;
+            case ItemsRPC::EditBundle:
+                delete CAST_ASINCTASK(FUWeaponBundle, gRPC_ClientItems, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(gRPC_Item->Task);
+                break;
+            case ItemsRPC::AttachBundle:
+                delete CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::AttachBundleRequest, bool)(gRPC_Item->Task);
+                break;
+            case ItemsRPC::DetachBundle:
+                delete CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::DetachBundleRequest, bool)(gRPC_Item->Task);
+                break;
+            default:
+                break;
+            }
+            gRPC_Item->Task = nullptr;
+        }
         delete gRPC_Item;
+    }
     gRPC_Item = nullptr;
 }
 
@@ -295,6 +328,7 @@ UNearItems::~UNearItems()
 void UNearItems::GetItems(FUItemsResponse& out)
 {
     freegRPC_Item();
+    rpc = ItemsRPC::GetItems;
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
     CREATE_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse);
     gRPC_Item->Task = GET_ASINCTASK;
@@ -307,6 +341,7 @@ void UNearItems::GetItems(FUItemsResponse& out)
 void UNearItems::GetBundles(FUGetBundlesResponse& out)
 {
     freegRPC_Item();
+    rpc = ItemsRPC::GetBundles;
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     CREATE_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse);
@@ -320,6 +355,7 @@ void UNearItems::GetBundles(FUGetBundlesResponse& out)
 void UNearItems::EditBundle(FUEditBundleRequest Request, FUWeaponBundle& out)
 {
     freegRPC_Item();
+    rpc = ItemsRPC::EditBundle;
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     game::battlemon::items::EditBundleRequest g_request;
@@ -335,6 +371,7 @@ void UNearItems::EditBundle(FUEditBundleRequest Request, FUWeaponBundle& out)
 bool UNearItems::AttachBundle(FUAttachBundleRequest Request, bool& out)
 {
     freegRPC_Item();
+    rpc = ItemsRPC::AttachBundle;
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     game::battlemon::items::AttachBundleRequest g_request;
@@ -354,6 +391,7 @@ bool UNearItems::AttachBundle(FUAttachBundleRequest Request, bool& out)
 bool UNearItems::DetachBundle(FUDetachBundleRequest Request, bool& out)
 {
     freegRPC_Item();
+    rpc = ItemsRPC::DetachBundle;
     gRPC_Item = new gRPC_ClientItems(ssl, URL);
 
     game::battlemon::items::DetachBundleRequest g_request;
@@ -379,7 +417,27 @@ FString UNearItems::GetError()
 void UNearMM::freegRPC_MM()
 {
     if (gRPC_MM != nullptr)
+    {
+        if (gRPC_MM->Task != nullptr)
+        {
+            switch (rpc)
+            {
+            case MMRPC::SearchGame:
+                delete CAST_ASINCTASK(FUSearchGameResponse, gRPC_ClientMM, game::battlemon::mm::SearchGameRequest, game::battlemon::mm::SearchGameResponse)(gRPC_MM->Task);
+                break;
+            case MMRPC::AcceptGame:
+                delete CAST_ASINCTASK(bool, gRPC_ClientMM, game::battlemon::mm::AcceptGameRequest, bool)(gRPC_MM->Task);
+                break;
+            case MMRPC::CancelSearch:
+                delete CAST_ASINCTASK(bool, gRPC_ClientMM, void*, bool)(gRPC_MM->Task);
+                break;
+            default:
+                break;
+            }
+            gRPC_MM->Task = nullptr;
+        }
         delete gRPC_MM;
+    }
     gRPC_MM = nullptr;
 }
 
@@ -397,6 +455,7 @@ UNearMM::~UNearMM()
 void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
 {
     freegRPC_MM();
+    rpc = MMRPC::SearchGame;
     gRPC_MM = new gRPC_ClientMM(ssl, URL);
     game::battlemon::mm::SearchGameRequest g_request;
     g_request << Request;
@@ -412,6 +471,7 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
 bool UNearMM::AcceptGame(FUAcceptGameRequest Request, bool& out)
 {
     freegRPC_MM();
+    rpc = MMRPC::AcceptGame;
     gRPC_MM = new gRPC_ClientMM(ssl, URL);
     game::battlemon::mm::AcceptGameRequest g_request;
     g_request << Request;
@@ -427,6 +487,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request, bool& out)
 bool UNearMM::CancelSearch(bool& out)
 {
     freegRPC_MM();
+    rpc = MMRPC::CancelSearch;
     gRPC_MM = new gRPC_ClientMM(ssl, URL);
 
     CREATE_ASINCTASK(bool, gRPC_ClientMM, void*, bool);
@@ -447,8 +508,35 @@ FString UNearMM::GetError()
 void UNearInternalMM::freegRPC_InternalMM()
 {
     if (gRPC_InternalMM != nullptr)
+    {
+        if (gRPC_InternalMM->Task != nullptr)
+        {
+            switch (rpc)
+            {
+            case InternalMMRPC::UserLeftBattle:
+                delete CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::InternalUserLeftBattleRequest, bool)(gRPC_InternalMM->Task);
+                break;
+            case InternalMMRPC::SaveBattleResult:
+                delete CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::SaveBattleResultRequest, bool)(gRPC_InternalMM->Task);
+                break;
+            case InternalMMRPC::GetRoomInfo:
+                delete CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::RoomInfoRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task);
+                break;
+            case InternalMMRPC::CreateRoomWithPlayers:
+                delete CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::CreateRoomRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task);
+                break;
+            case InternalMMRPC::DedicatedServerIsReady:
+                delete CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::DedicatedServerIsReadyRequest, bool)(gRPC_InternalMM->Task);
+                break;
+            default:
+                break;
+            }
+            gRPC_InternalMM->Task = nullptr;
+        }
         delete gRPC_InternalMM;
+    }
     gRPC_InternalMM = nullptr;
+
 }
 
 UNearInternalMM::UNearInternalMM()
@@ -463,6 +551,7 @@ UNearInternalMM::~UNearInternalMM()
 bool UNearInternalMM::UserLeftBattle(FUInternalUserLeftBattleRequest Request, bool& out)
 {
     freegRPC_InternalMM();
+    rpc = InternalMMRPC::UserLeftBattle;
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
     game::battlemon::mm::internal::InternalUserLeftBattleRequest g_request;
     g_request << Request;
@@ -478,6 +567,7 @@ bool UNearInternalMM::UserLeftBattle(FUInternalUserLeftBattleRequest Request, bo
 bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request, bool& out)
 {
     freegRPC_InternalMM();
+    rpc = InternalMMRPC::SaveBattleResult;
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
 
     game::battlemon::mm::internal::SaveBattleResultRequest g_request;
@@ -495,6 +585,7 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request, bool& 
 void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse& out)
 {
     freegRPC_InternalMM();
+    rpc = InternalMMRPC::GetRoomInfo;
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
     
     game::battlemon::mm::internal::RoomInfoRequest g_request;
@@ -511,6 +602,7 @@ void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse&
 void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomInfoResponse& out)
 {
     freegRPC_InternalMM();
+    rpc = InternalMMRPC::CreateRoomWithPlayers;
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
 
     game::battlemon::mm::internal::CreateRoomRequest g_request;
@@ -528,6 +620,7 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
 bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Request, bool& out)
 {
     freegRPC_InternalMM();
+    rpc = InternalMMRPC::DedicatedServerIsReady;
     gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
     game::battlemon::mm::internal::DedicatedServerIsReadyRequest g_request;
     g_request << Request;

@@ -26,6 +26,8 @@
 #include "GrpcEnd.h"
 
 #include "UObject/Object.h"
+#include "Async/AsyncWork.h"
+
 #include "gRPC_Base.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
@@ -89,6 +91,8 @@ static inline FString StringtoU16(const std::string& str)
 
 #define CREATE_ASINCTASK(StructResult, Service, grpcRequest, grpcResponse) FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>* Task = new FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>()
 #define GET_ASINCTASK Task
+#define CAST_ASINCTASK(StructResult, Service, grpcRequest, grpcResponse) static_cast<FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>*>
+
 
 class gRPC_SSL
 {
@@ -136,14 +140,7 @@ public:
 #endif
 	static void* Task;
 
-	~gRPC_SSL() 
-	{
-		if (Task != nullptr)
-		{
-			delete static_cast<FNonAbandonableTask*>(gRPC_SSL::Task);
-			Task = nullptr;
-		}
-	};
+	~gRPC_SSL() {};
 };
 
 void* gRPC_SSL::Task = nullptr;

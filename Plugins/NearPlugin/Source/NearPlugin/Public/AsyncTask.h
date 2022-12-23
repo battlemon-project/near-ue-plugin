@@ -26,7 +26,14 @@ class FMAsyncTask :public FNonAbandonableTask
 
 public:
     FMAsyncTask() :result(nullptr), request(new grpcRequest()), CallRPC(nullptr){};
-    ~FMAsyncTask() { delete request; request = nullptr; };
+    ~FMAsyncTask() 
+    {
+        if (request != nullptr)
+        {
+            delete request;
+            request = nullptr;
+        }
+    };
     void SetData(Service* _service, FStructResultDelegate* _structResultDelegate, StructResult* _result, grpcResponse(Service::*_CallRPC)())
     {
         service = _service;
