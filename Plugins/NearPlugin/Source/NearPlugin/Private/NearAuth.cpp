@@ -17,6 +17,7 @@
 
 Client* UNearAuth::client = nullptr;
 FString UNearAuth::accountID = "";
+FAsyncTask<FMAsyncTask<void*, UNearAuth, void*, void*>>* UNearAuth::AsyncTask = nullptr;
 
 UNearAuth::UNearAuth():BadKey(true)
 {
@@ -52,6 +53,8 @@ void UNearAuth::AuthorizedAccount(FString AccountID, FString URL_Success, FStrin
 	FString Paths = FPaths::ProjectSavedDir();
 	typeClient = TypeClient::OLD;
 	client = new Client(*Paths, *AccountID, typeClient);
+
+
 	UWorld* World = GetWorld();
 	if (World)
 	{
@@ -61,23 +64,6 @@ void UNearAuth::AuthorizedAccount(FString AccountID, FString URL_Success, FStrin
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 }
 
-void UNearAuth::AsyncAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet)
-{
-	URLContract = URL_Contract;
-	URL_Redirect = URL_Success;
-	webT = MainNet;
-	freeClient();
-	FString Paths = FPaths::ProjectSavedDir();
-	typeClient = TypeClient::OLD;
-	client = new Client(*Paths, *AccountID, typeClient);
-	UWorld* World = GetWorld();
-	if (World)
-	{
-		World->GetTimerManager().SetTimer(NearAuthTimer, this, &UNearAuth::AsyncTimerAuth, 1.0f, true, 1.0f);
-	}
-	else
-		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
-}
 
 void UNearAuth::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 {
@@ -188,25 +174,6 @@ const char* UNearAuth::CSignMessage(gRPC_ClientAuth& grpcClient)
 	return client->CreateMessageNewSign(CodeResponse.code().c_str());
 }
 
-game::battlemon::auth::VerifyCodeResponse UNearAuth::AsyncCVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign)
-{
-	game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
-	FString pubKey = client->GetPublicKey();
-	VerifyCodeRequest.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
-	VerifyCodeRequest.set_sign(sign);
-	return grpcClient.AsyncCallRPCVerifyCode(VerifyCodeRequest);
-}
-
-const char* UNearAuth::AsyncCSignMessage(gRPC_ClientAuth& grpcClient)
-{
-	game::battlemon::auth::SendCodeResponse CodeResponse;
-	game::battlemon::auth::SendCodeRequest Request;
-	FString pubKey = client->GetPublicKey();
-	Request.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
-	CodeResponse = grpcClient.AsyncCallRPCSendCode(Request);
-	return client->CreateMessageNewSign(CodeResponse.code().c_str());
-}
-
 void UNearAuth::BadKeyCreateNew()
 {
 	ClearTimer();
@@ -216,12 +183,12 @@ void UNearAuth::BadKeyCreateNew()
 	OnResponseReceived();
 }
 
-void UNearAuth::TimerAuth()
+void* UNearAuth::TryAuth()
 {
 	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
 	{
 		BadKeyCreateNew();
-		return;
+		return nullptr;
 	}
 	else
 	{
@@ -281,78 +248,43 @@ void UNearAuth::TimerAuth()
            
         }
 	}
+	return nullptr;
 #if UE_BUILD_DEBUG
 #endif
 }
 
-
-void UNearAuth::AsyncTimerAuth()
+void UNearAuth::TimerAuth()
 {
-	if (client->GetError() != nullptr && typeClient == TypeClient::OLD)
+	if (!client->IsValidAccount())
 	{
-		BadKeyCreateNew();
-		return;
+		if (UNearAuth::AsyncTask == nullptr)
+		{
+			UNearAuth::AsyncTask = new FAsyncTask<FMAsyncTask<void*, UNearAuth, void*, void*>>();
+			void** out = new void*();
+			UNearAuth::AsyncTask->GetTask().SetData(this, &structResultDelegate, out, &UNearAuth::TryAuth);
+			UNearAuth::AsyncTask->StartBackgroundTask();
+		}
+		else if (UNearAuth::AsyncTask->IsDone())
+		{
+			UNearAuth::AsyncTask->StartBackgroundTask();
+		}
 	}
 	else
 	{
-		gRPC_ClientAuth grpcClient(true, URL);
-		game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
-		game::battlemon::auth::VerifyCodeResponse _accountID;
-
-		const char* sign = client->GetSing();
-		bool save = true;
-		if (*sign != '\0')
+		if (UNearAuth::AsyncTask != nullptr || UNearAuth::AsyncTask->IsDone())
 		{
-			sign = CSignMessage(grpcClient);
-			save = false;
-		}
-
-		_accountID = CVerifyCode(grpcClient, sign);
-
-		if (_accountID.near_account_id() == "")
-		{
-			save = false;
-			_accountID.Clear();
-			VerifyCodeRequest.Clear();
-
-			sign = CSignMessage(grpcClient);
-			_accountID = CVerifyCode(grpcClient, sign);
-
-			if (_accountID.near_account_id() != "")
+			if (UNearAuth::AsyncTask->Cancel())
 			{
-				SetAccount(_accountID);
+				void** out = nullptr;
+				UNearAuth::AsyncTask->GetTask().GetData(out);
+				delete out;
+				out = nullptr;
+				delete UNearAuth::AsyncTask;
+				UNearAuth::AsyncTask = nullptr;
 			}
-		}
-		else
-		{
-			SetAccount(_accountID);
-		}
-
-
-		if (ResultNearRegist_Delegate.IsBound() && client->IsValidAccount())
-		{
-			if (!save)
-			{
-				client->SaveSign(*FPaths::ProjectSavedDir(), sign);
-				client->SaveKey(*FPaths::ProjectSavedDir());
-				ClearTimer();
-
-				saveAccountId();
-			}
-
-			ResultNearRegist_Delegate.Broadcast(this->accountID);
-		}
-		else
-		{
-			if (BadKey)
-			{
-				BadKeyCreateNew();
-			}
-
 		}
 	}
 }
-
 
 void UNearAuth::ClearTimer()
 {

@@ -25,6 +25,10 @@
 
 #include "GrpcEnd.h"
 
+#include "UObject/Object.h"
+#include "gRPC_Base.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
 #if defined(__unix__)
 #include "Runtime/Core/Public/Async/ParallelFor.h"
@@ -83,7 +87,8 @@ static inline FString StringtoU16(const std::string& str)
 #define CONV_CHAR_TO_FSTRING(str) FString(str)
 #endif
 
-
+#define CREATE_ASINCTASK(StructResult, Service, grpcRequest, grpcResponse) FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>* Task = new FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>()
+#define GET_ASINCTASK Task
 
 class gRPC_SSL
 {
@@ -129,8 +134,19 @@ public:
 		return grpc::SslCredentialsOptions();
 	}
 #endif
+	static void* Task;
 
+	~gRPC_SSL() 
+	{
+		if (Task != nullptr)
+		{
+			delete static_cast<FNonAbandonableTask*>(gRPC_SSL::Task);
+			Task = nullptr;
+		}
+	};
 };
+
+void* gRPC_SSL::Task = nullptr;
 
 template <typename Service, typename ServiceStub>
 class gRPC_Stub : public gRPC_SSL
@@ -171,30 +187,10 @@ public:
 			stub = std::unique_ptr<ServiceStub>(Service::NewStub((grpc::CreateChannel(CONV_FSTRING_TO_CHAR(url), grpc::InsecureChannelCredentials()))));
 	}
 
-	~gRPC_Stub() {}
+	virtual ~gRPC_Stub() {};
 
-	bool CallRPC(grpc::Status status)
+	bool CheckError(grpc::Status status)
 	{
-		if (status.ok())
-		{
-			return true;
-		}
-
-		SetError(status);
-		return false;
-	}
-
-	template <typename Response>
-	bool AsyncCallRPC(grpc::CompletionQueue& cq, Response* read, std::unique_ptr<grpc::ClientAsyncResponseReader<Response>> rpc)
-	{
-		grpc::Status status;
-
-		rpc->Finish(read, &status, (void*)1);
-		bool ok = false;
-		GPR_ASSERT(cq.Next(&got_tag, &ok));
-		GPR_ASSERT(got_tag == (void*)1);
-		GPR_ASSERT(ok);
-
 		if (status.ok())
 		{
 			return true;
@@ -210,7 +206,13 @@ public:
 		return error;
 	}
 };
-
 /**
  * 
  */
+
+USTRUCT()
+struct FWTF
+{
+	GENERATED_BODY()
+};
+

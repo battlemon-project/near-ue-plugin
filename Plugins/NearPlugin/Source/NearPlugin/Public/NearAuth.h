@@ -12,6 +12,8 @@
 #include "Engine/EngineTypes.h"
 
 #include "UObject/NoExportTypes.h"
+#include "AsyncTask.h"
+
 #include "NearAuth.generated.h"
 
 #if PLATFORM_WINDOWS
@@ -29,12 +31,17 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, const FStr
 /**
  * 
  */
+
+class FMAsyncAuthTask;
+
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearAuth : public UObject
 {
 	GENERATED_BODY()
 	virtual UWorld* GetWorld() const override;
-	
+
+	static  FAsyncTask<FMAsyncTask<void*, UNearAuth, void*, void*>>* AsyncTask;
+
 	TypeClient typeClient;
 	static void freeClient();
 	void saveAccountId();
@@ -44,14 +51,12 @@ class NEARPLUGIN_API UNearAuth : public UObject
 	void OnResponseReceived();
 	bool CheckAccountKey(FString AccountName);
 	FTimerHandle NearAuthTimer;
+	void* TryAuth();
 	void TimerAuth();
-	void AsyncTimerAuth();
 	void ClearTimer();
 	void SetAccount(game::battlemon::auth::VerifyCodeResponse& _accountID);
 	game::battlemon::auth::VerifyCodeResponse CVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
 	const char* CSignMessage(gRPC_ClientAuth& grpcClient);
-	game::battlemon::auth::VerifyCodeResponse AsyncCVerifyCode(gRPC_ClientAuth& grpcClient, const char* sign);
-	const char* AsyncCSignMessage(gRPC_ClientAuth& grpcClient);
 	void BadKeyCreateNew();
     bool BadKey;
     bool webT;
@@ -62,6 +67,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
+
+	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
+	FStructResultDelegate structResultDelegate;
 
 	FString URLContract;
 	FString URL_Redirect;
@@ -80,8 +88,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
     void AuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet = false);
-	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
-	void AsyncAuthorizedAccount(FString AccountID, FString URL_Success, FString URL_Contract, bool MainNet = false);
 	
 	UFUNCTION(BlueprintCallable, Category = ".Near | Auth")
 	void loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid);

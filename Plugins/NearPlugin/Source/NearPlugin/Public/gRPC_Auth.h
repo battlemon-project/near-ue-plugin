@@ -11,13 +11,11 @@
 #include "GrpcEnd.h"
 
 
+
 class gRPC_ClientAuth : public gRPC_Stub<game::battlemon::auth::AuthService, game::battlemon::auth::AuthService::Stub>
 {
 public:
 	gRPC_ClientAuth(const bool& ssl, FString& url);
-
-	game::battlemon::auth::SendCodeResponse AsyncCallRPCSendCode(const game::battlemon::auth::SendCodeRequest& Request);
-	game::battlemon::auth::VerifyCodeResponse AsyncCallRPCVerifyCode(const game::battlemon::auth::VerifyCodeRequest& Request);
 
 	game::battlemon::auth::SendCodeResponse CallRPCSendCode(const game::battlemon::auth::SendCodeRequest& Request);
 	game::battlemon::auth::VerifyCodeResponse CallRPCVerifyCode(const game::battlemon::auth::VerifyCodeRequest& Request);
