@@ -269,21 +269,7 @@ void UNearAuth::TimerAuth()
 			UNearAuth::AsyncTask->StartBackgroundTask();
 		}
 	}
-	else
-	{
-		if (UNearAuth::AsyncTask != nullptr || UNearAuth::AsyncTask->IsDone())
-		{
-			if (UNearAuth::AsyncTask->Cancel())
-			{
-				void** out = nullptr;
-				UNearAuth::AsyncTask->GetTask().GetData(out);
-				delete out;
-				out = nullptr;
-				delete UNearAuth::AsyncTask;
-				UNearAuth::AsyncTask = nullptr;
-			}
-		}
-	}
+	
 }
 
 void UNearAuth::ClearTimer()
@@ -292,6 +278,32 @@ void UNearAuth::ClearTimer()
 	if (World)
 	{
 		World->GetTimerManager().ClearAllTimersForObject(this);
+
+		if (UNearAuth::AsyncTask != nullptr )
+		{
+			if (UNearAuth::AsyncTask->IsIdle())
+			{
+				void** out = nullptr;
+				UNearAuth::AsyncTask->GetTask().GetData(out);
+				delete out;
+				out = nullptr;
+				delete UNearAuth::AsyncTask;
+				UNearAuth::AsyncTask = nullptr;
+			}
+			else if (UNearAuth::AsyncTask->Cancel())
+			{
+				void** out = nullptr;
+				UNearAuth::AsyncTask->GetTask().GetData(out);
+				delete out;
+				out = nullptr;
+				delete UNearAuth::AsyncTask;
+				UNearAuth::AsyncTask = nullptr;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("AsyncTask Cancel error!"));
+			}
+		}
 	}
 	else
 		UE_LOG(LogTemp, Error, TEXT("Clear timer World not exist!"));
