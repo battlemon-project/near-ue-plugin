@@ -3,12 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "auth.h"
 #include "items.h"
 #include "mm.h"
 #include "internalMm.h"
 #include "gRPC_Base.h"
 
 #include "GrpcBegin.h"
+
+#include <protocol/auth.grpc.pb.h>
 
 #include <protocol/common.grpc.pb.h>
 #include <protocol/items.grpc.pb.h>
@@ -27,6 +31,13 @@
  * 
  */
 
+class gRPC_SuiAuth : public gRPC_Stub<game::battlemon::auth::AuthService, game::battlemon::auth::AuthService::Stub>
+{
+public:
+	gRPC_SuiAuth(const bool& ssl, FString& url);
+
+	game::battlemon::auth::WalletAddressResponse CallRPCGetWalletAddress(game::battlemon::auth::WalletAddressRequest* request);
+};
 
 class gRPC_ClientItems : public gRPC_Stub<game::battlemon::items::ItemsService, game::battlemon::items::ItemsService::Stub>
 {
@@ -61,6 +72,31 @@ public:
 	bool CallRPC_DedicatedServerIsReady(game::battlemon::mm::internal::DedicatedServerIsReadyRequest* Request);
 };
 
+
+UCLASS(Blueprintable)
+class NEARPLUGIN_API UNearSuiAuth : public UObject
+{
+	GENERATED_BODY()
+
+	void free_gRPC_SuiAuth();
+	static gRPC_SuiAuth* _gRPC_SuiAuth;
+
+public:
+
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| SuiAuth", meta = (ExposeOnSpawn = true))
+	FString URL;
+	UPROPERTY(BlueprintReadWrite, Category = ".Near| SuiAuth", meta = (ExposeOnSpawn = true))
+	bool ssl = true;
+
+
+	UPROPERTY(BlueprintAssignable, Category = ".Near | SuiAuth")
+	FStructResultDelegate structResultDelegate;
+
+	UNearSuiAuth();
+	~UNearSuiAuth();
+
+	void CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse out);
+};
 
 UCLASS(Blueprintable)
 class NEARPLUGIN_API UNearItems : public UObject

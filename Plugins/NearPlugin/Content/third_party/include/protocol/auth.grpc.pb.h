@@ -56,6 +56,13 @@ class AuthService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>> PrepareAsyncVerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>>(PrepareAsyncVerifyCodeRaw(context, request, cq));
     }
+    virtual ::grpc::Status GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::game::battlemon::auth::WalletAddressResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>> AsyncGetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>>(AsyncGetWalletAddressRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>> PrepareAsyncGetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>>(PrepareAsyncGetWalletAddressRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -68,6 +75,8 @@ class AuthService final {
       // FAILED PRECONDITION - code expired
       virtual void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -77,6 +86,8 @@ class AuthService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>* PrepareAsyncSendCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>* AsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>* PrepareAsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>* AsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>* PrepareAsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -95,6 +106,13 @@ class AuthService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>> PrepareAsyncVerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>>(PrepareAsyncVerifyCodeRaw(context, request, cq));
     }
+    ::grpc::Status GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::game::battlemon::auth::WalletAddressResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>> AsyncGetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>>(AsyncGetWalletAddressRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>> PrepareAsyncGetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>>(PrepareAsyncGetWalletAddressRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -102,6 +120,8 @@ class AuthService final {
       void SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, std::function<void(::grpc::Status)>) override;
       void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -117,8 +137,11 @@ class AuthService final {
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>* PrepareAsyncSendCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>* AsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>* PrepareAsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>* AsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>* PrepareAsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_SendCode_;
     const ::grpc::internal::RpcMethod rpcmethod_VerifyCode_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetWalletAddress_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -133,6 +156,7 @@ class AuthService final {
     // PERMISSION DENIED - invalid sign
     // FAILED PRECONDITION - code expired
     virtual ::grpc::Status VerifyCode(::grpc::ServerContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response);
+    virtual ::grpc::Status GetWalletAddress(::grpc::ServerContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_SendCode : public BaseClass {
@@ -174,7 +198,27 @@ class AuthService final {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_SendCode<WithAsyncMethod_VerifyCode<Service > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_GetWalletAddress : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetWalletAddress() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_GetWalletAddress() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWalletAddress(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetWalletAddress(::grpc::ServerContext* context, ::game::battlemon::auth::WalletAddressRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::WalletAddressResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_SendCode<WithAsyncMethod_VerifyCode<WithAsyncMethod_GetWalletAddress<Service > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_SendCode : public BaseClass {
    private:
@@ -229,7 +273,34 @@ class AuthService final {
     virtual ::grpc::ServerUnaryReactor* VerifyCode(
       ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_SendCode<WithCallbackMethod_VerifyCode<Service > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_GetWalletAddress : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetWalletAddress() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::WalletAddressRequest, ::game::battlemon::auth::WalletAddressResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response) { return this->GetWalletAddress(context, request, response); }));}
+    void SetMessageAllocatorFor_GetWalletAddress(
+        ::grpc::MessageAllocator< ::game::battlemon::auth::WalletAddressRequest, ::game::battlemon::auth::WalletAddressResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::WalletAddressRequest, ::game::battlemon::auth::WalletAddressResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetWalletAddress() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWalletAddress(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetWalletAddress(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_SendCode<WithCallbackMethod_VerifyCode<WithCallbackMethod_GetWalletAddress<Service > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_SendCode : public BaseClass {
@@ -261,6 +332,23 @@ class AuthService final {
     }
     // disable synchronous version of this method
     ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetWalletAddress : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetWalletAddress() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_GetWalletAddress() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWalletAddress(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -306,6 +394,26 @@ class AuthService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_GetWalletAddress : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetWalletAddress() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_GetWalletAddress() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWalletAddress(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetWalletAddress(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_SendCode : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -347,6 +455,28 @@ class AuthService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* VerifyCode(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_GetWalletAddress : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetWalletAddress() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetWalletAddress(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetWalletAddress() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWalletAddress(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetWalletAddress(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -403,9 +533,36 @@ class AuthService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedVerifyCode(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::VerifyCodeRequest,::game::battlemon::auth::VerifyCodeResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_SendCode<WithStreamedUnaryMethod_VerifyCode<Service > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetWalletAddress : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetWalletAddress() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::game::battlemon::auth::WalletAddressRequest, ::game::battlemon::auth::WalletAddressResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::game::battlemon::auth::WalletAddressRequest, ::game::battlemon::auth::WalletAddressResponse>* streamer) {
+                       return this->StreamedGetWalletAddress(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetWalletAddress() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetWalletAddress(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetWalletAddress(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::WalletAddressRequest,::game::battlemon::auth::WalletAddressResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_SendCode<WithStreamedUnaryMethod_VerifyCode<WithStreamedUnaryMethod_GetWalletAddress<Service > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_SendCode<WithStreamedUnaryMethod_VerifyCode<Service > > StreamedService;
+  typedef WithStreamedUnaryMethod_SendCode<WithStreamedUnaryMethod_VerifyCode<WithStreamedUnaryMethod_GetWalletAddress<Service > > > StreamedService;
 };
 
 }  // namespace auth

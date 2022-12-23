@@ -29,6 +29,20 @@ FUVerifyCodeResponse& FUVerifyCodeResponse::operator=(const game::battlemon::aut
 }
 
 
+FUWalletAddressRequest& FUWalletAddressRequest::operator=(const game::battlemon::auth::WalletAddressRequest& grpcWalletAddressRequest)
+{
+	client_id = CONV_CHAR_TO_FSTRING(grpcWalletAddressRequest.client_id().c_str());
+	return *this;
+}
+
+
+FUWalletAddressResponse& FUWalletAddressResponse::operator=(const game::battlemon::auth::WalletAddressResponse& grpcWalletAddressResponse)
+{
+	wallet_address = CONV_CHAR_TO_FSTRING(grpcWalletAddressResponse.wallet_address().c_str());
+	return *this;
+}
+
+
 
 game::battlemon::auth::SendCodeRequest &operator<<(game::battlemon::auth::SendCodeRequest &grpcSendCodeRequest, const FUSendCodeRequest &UE)
 {
@@ -66,5 +80,23 @@ game::battlemon::auth::VerifyCodeResponse &operator<<(game::battlemon::auth::Ver
 		grpcVerifyCodeResponse.set_near_account_id(CONV_FSTRING_TO_CHAR(UE.near_account_id));
 	}
 	return grpcVerifyCodeResponse;
+}
+
+
+game::battlemon::auth::WalletAddressRequest &operator<<(game::battlemon::auth::WalletAddressRequest &grpcWalletAddressRequest, const FUWalletAddressRequest &UE)
+{
+	{
+		grpcWalletAddressRequest.set_client_id(CONV_FSTRING_TO_CHAR(UE.client_id));
+	}
+	return grpcWalletAddressRequest;
+}
+
+
+game::battlemon::auth::WalletAddressResponse &operator<<(game::battlemon::auth::WalletAddressResponse &grpcWalletAddressResponse, const FUWalletAddressResponse &UE)
+{
+	{
+		grpcWalletAddressResponse.set_wallet_address(CONV_FSTRING_TO_CHAR(UE.wallet_address));
+	}
+	return grpcWalletAddressResponse;
 }
 

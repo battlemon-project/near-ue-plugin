@@ -4,10 +4,34 @@
 
 #include "AsyncTask.h"
 
+gRPC_SuiAuth* UNearSuiAuth::_gRPC_SuiAuth = nullptr;
 gRPC_ClientItems* UNearItems::gRPC_Item = nullptr;
 gRPC_ClientMM* UNearMM::gRPC_MM = nullptr;
 gRPC_ClientInternalMM* UNearInternalMM::gRPC_InternalMM = nullptr;
 
+
+gRPC_SuiAuth::gRPC_SuiAuth(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
+{
+}
+
+game::battlemon::auth::WalletAddressResponse gRPC_SuiAuth::CallRPCGetWalletAddress(game::battlemon::auth::WalletAddressRequest* request)
+{
+    game::battlemon::auth::WalletAddressResponse read;
+
+    if (UNearAuth::client != nullptr)
+    {
+
+        std::string meta[2] = { "nearid" , "sign" };
+        FString nearid = UNearAuth::client->GetAccount();
+        std::string value[2] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
+        grpc::ClientContext context;
+        CreateContext(context, meta, value, 2);
+
+        CheckError(stub.get()->GetWalletAddress(&context, *request, &read));
+    }
+
+    return read;
+}
 
 /// items.rpc
 gRPC_ClientItems::gRPC_ClientItems(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
@@ -105,6 +129,7 @@ bool gRPC_ClientItems::CallRPC_DetachBundle(game::battlemon::items::DetachBundle
 }
 
 /// items.rpc end
+
 
 /// mm.rpc
 gRPC_ClientMM::gRPC_ClientMM(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
@@ -216,14 +241,44 @@ bool gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady(game::battlemon::mm::
 
 /// InternalMM.rpc end
 
+void UNearSuiAuth::free_gRPC_SuiAuth()
+{
+    if (_gRPC_SuiAuth != nullptr)
+        delete _gRPC_SuiAuth;
+    _gRPC_SuiAuth = nullptr;
+}
+
+UNearSuiAuth::UNearSuiAuth() 
+{
+}
+
+UNearSuiAuth::~UNearSuiAuth()
+{
+    free_gRPC_SuiAuth();
+}
+
+
+void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse out)
+{
+    free_gRPC_SuiAuth();
+
+    _gRPC_SuiAuth = new gRPC_SuiAuth(ssl, URL);
+
+    game::battlemon::auth::WalletAddressRequest g_request;
+    g_request << Request;
+
+    CREATE_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse);
+    _gRPC_SuiAuth->Task = GET_ASINCTASK;
+    GET_ASINCTASK->GetTask().SetData(_gRPC_SuiAuth, &structResultDelegate, &out, &g_request, &gRPC_SuiAuth::CallRPCGetWalletAddress);
+    GET_ASINCTASK->StartBackgroundTask();
+}
+
 void UNearItems::freegRPC_Item()
 {
     if (gRPC_Item != nullptr)
         delete gRPC_Item;
     gRPC_Item = nullptr;
 }
-
-
 
 UNearItems::UNearItems()
 {

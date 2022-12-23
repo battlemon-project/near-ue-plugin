@@ -59,6 +59,12 @@ extern VerifyCodeRequestDefaultTypeInternal _VerifyCodeRequest_default_instance_
 class VerifyCodeResponse;
 struct VerifyCodeResponseDefaultTypeInternal;
 extern VerifyCodeResponseDefaultTypeInternal _VerifyCodeResponse_default_instance_;
+class WalletAddressRequest;
+struct WalletAddressRequestDefaultTypeInternal;
+extern WalletAddressRequestDefaultTypeInternal _WalletAddressRequest_default_instance_;
+class WalletAddressResponse;
+struct WalletAddressResponseDefaultTypeInternal;
+extern WalletAddressResponseDefaultTypeInternal _WalletAddressResponse_default_instance_;
 }  // namespace auth
 }  // namespace battlemon
 }  // namespace game
@@ -67,6 +73,8 @@ template<> ::game::battlemon::auth::SendCodeRequest* Arena::CreateMaybeMessage<:
 template<> ::game::battlemon::auth::SendCodeResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::SendCodeResponse>(Arena*);
 template<> ::game::battlemon::auth::VerifyCodeRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::VerifyCodeRequest>(Arena*);
 template<> ::game::battlemon::auth::VerifyCodeResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::VerifyCodeResponse>(Arena*);
+template<> ::game::battlemon::auth::WalletAddressRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::WalletAddressRequest>(Arena*);
+template<> ::game::battlemon::auth::WalletAddressResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::WalletAddressResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace game {
 namespace battlemon {
@@ -700,6 +708,312 @@ class VerifyCodeResponse final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_auth_2eproto;
 };
+// -------------------------------------------------------------------
+
+class WalletAddressRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.WalletAddressRequest) */ {
+ public:
+  inline WalletAddressRequest() : WalletAddressRequest(nullptr) {}
+  ~WalletAddressRequest() override;
+  explicit PROTOBUF_CONSTEXPR WalletAddressRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  WalletAddressRequest(const WalletAddressRequest& from);
+  WalletAddressRequest(WalletAddressRequest&& from) noexcept
+    : WalletAddressRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline WalletAddressRequest& operator=(const WalletAddressRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline WalletAddressRequest& operator=(WalletAddressRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const WalletAddressRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const WalletAddressRequest* internal_default_instance() {
+    return reinterpret_cast<const WalletAddressRequest*>(
+               &_WalletAddressRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(WalletAddressRequest& a, WalletAddressRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(WalletAddressRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(WalletAddressRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  WalletAddressRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<WalletAddressRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const WalletAddressRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const WalletAddressRequest& from) {
+    WalletAddressRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WalletAddressRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.auth.WalletAddressRequest";
+  }
+  protected:
+  explicit WalletAddressRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kClientIdFieldNumber = 1,
+  };
+  // string client_id = 1;
+  void clear_client_id();
+  const std::string& client_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_client_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_client_id();
+  PROTOBUF_NODISCARD std::string* release_client_id();
+  void set_allocated_client_id(std::string* client_id);
+  private:
+  const std::string& _internal_client_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_client_id(const std::string& value);
+  std::string* _internal_mutable_client_id();
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.WalletAddressRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_auth_2eproto;
+};
+// -------------------------------------------------------------------
+
+class WalletAddressResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.WalletAddressResponse) */ {
+ public:
+  inline WalletAddressResponse() : WalletAddressResponse(nullptr) {}
+  ~WalletAddressResponse() override;
+  explicit PROTOBUF_CONSTEXPR WalletAddressResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  WalletAddressResponse(const WalletAddressResponse& from);
+  WalletAddressResponse(WalletAddressResponse&& from) noexcept
+    : WalletAddressResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline WalletAddressResponse& operator=(const WalletAddressResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline WalletAddressResponse& operator=(WalletAddressResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const WalletAddressResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const WalletAddressResponse* internal_default_instance() {
+    return reinterpret_cast<const WalletAddressResponse*>(
+               &_WalletAddressResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(WalletAddressResponse& a, WalletAddressResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(WalletAddressResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(WalletAddressResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  WalletAddressResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<WalletAddressResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const WalletAddressResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const WalletAddressResponse& from) {
+    WalletAddressResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WalletAddressResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.auth.WalletAddressResponse";
+  }
+  protected:
+  explicit WalletAddressResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kWalletAddressFieldNumber = 1,
+  };
+  // string wallet_address = 1;
+  void clear_wallet_address();
+  const std::string& wallet_address() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_wallet_address(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_wallet_address();
+  PROTOBUF_NODISCARD std::string* release_wallet_address();
+  void set_allocated_wallet_address(std::string* wallet_address);
+  private:
+  const std::string& _internal_wallet_address() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_wallet_address(const std::string& value);
+  std::string* _internal_mutable_wallet_address();
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.WalletAddressResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr wallet_address_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_auth_2eproto;
+};
 // ===================================================================
 
 
@@ -973,9 +1287,121 @@ inline void VerifyCodeResponse::set_allocated_near_account_id(std::string* near_
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.VerifyCodeResponse.near_account_id)
 }
 
+// -------------------------------------------------------------------
+
+// WalletAddressRequest
+
+// string client_id = 1;
+inline void WalletAddressRequest::clear_client_id() {
+  _impl_.client_id_.ClearToEmpty();
+}
+inline const std::string& WalletAddressRequest::client_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.WalletAddressRequest.client_id)
+  return _internal_client_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WalletAddressRequest::set_client_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.client_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.WalletAddressRequest.client_id)
+}
+inline std::string* WalletAddressRequest::mutable_client_id() {
+  std::string* _s = _internal_mutable_client_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.WalletAddressRequest.client_id)
+  return _s;
+}
+inline const std::string& WalletAddressRequest::_internal_client_id() const {
+  return _impl_.client_id_.Get();
+}
+inline void WalletAddressRequest::_internal_set_client_id(const std::string& value) {
+  
+  _impl_.client_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WalletAddressRequest::_internal_mutable_client_id() {
+  
+  return _impl_.client_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WalletAddressRequest::release_client_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.WalletAddressRequest.client_id)
+  return _impl_.client_id_.Release();
+}
+inline void WalletAddressRequest::set_allocated_client_id(std::string* client_id) {
+  if (client_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.client_id_.SetAllocated(client_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.client_id_.IsDefault()) {
+    _impl_.client_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.WalletAddressRequest.client_id)
+}
+
+// -------------------------------------------------------------------
+
+// WalletAddressResponse
+
+// string wallet_address = 1;
+inline void WalletAddressResponse::clear_wallet_address() {
+  _impl_.wallet_address_.ClearToEmpty();
+}
+inline const std::string& WalletAddressResponse::wallet_address() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.WalletAddressResponse.wallet_address)
+  return _internal_wallet_address();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WalletAddressResponse::set_wallet_address(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.wallet_address_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.WalletAddressResponse.wallet_address)
+}
+inline std::string* WalletAddressResponse::mutable_wallet_address() {
+  std::string* _s = _internal_mutable_wallet_address();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.WalletAddressResponse.wallet_address)
+  return _s;
+}
+inline const std::string& WalletAddressResponse::_internal_wallet_address() const {
+  return _impl_.wallet_address_.Get();
+}
+inline void WalletAddressResponse::_internal_set_wallet_address(const std::string& value) {
+  
+  _impl_.wallet_address_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WalletAddressResponse::_internal_mutable_wallet_address() {
+  
+  return _impl_.wallet_address_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WalletAddressResponse::release_wallet_address() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.WalletAddressResponse.wallet_address)
+  return _impl_.wallet_address_.Release();
+}
+inline void WalletAddressResponse::set_allocated_wallet_address(std::string* wallet_address) {
+  if (wallet_address != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.wallet_address_.SetAllocated(wallet_address, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.wallet_address_.IsDefault()) {
+    _impl_.wallet_address_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.WalletAddressResponse.wallet_address)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

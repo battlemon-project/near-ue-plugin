@@ -69,6 +69,32 @@ struct FUVerifyCodeResponse
 };
 
 
+USTRUCT(BlueprintType)
+struct FUWalletAddressRequest 
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | authProto")
+	FString client_id;
+
+	FUWalletAddressRequest& operator=(const game::battlemon::auth::WalletAddressRequest& grpcWalletAddressRequest);
+
+};
+
+
+USTRUCT(BlueprintType)
+struct FUWalletAddressResponse 
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | authProto")
+	FString wallet_address;
+
+	FUWalletAddressResponse& operator=(const game::battlemon::auth::WalletAddressResponse& grpcWalletAddressResponse);
+
+};
+
+
 game::battlemon::auth::SendCodeRequest &operator<<(game::battlemon::auth::SendCodeRequest &grpcSendCodeRequest, const FUSendCodeRequest &UE);
 
 game::battlemon::auth::SendCodeResponse &operator<<(game::battlemon::auth::SendCodeResponse &grpcSendCodeResponse, const FUSendCodeResponse &UE);
@@ -76,4 +102,8 @@ game::battlemon::auth::SendCodeResponse &operator<<(game::battlemon::auth::SendC
 game::battlemon::auth::VerifyCodeRequest &operator<<(game::battlemon::auth::VerifyCodeRequest &grpcVerifyCodeRequest, const FUVerifyCodeRequest &UE);
 
 game::battlemon::auth::VerifyCodeResponse &operator<<(game::battlemon::auth::VerifyCodeResponse &grpcVerifyCodeResponse, const FUVerifyCodeResponse &UE);
+
+game::battlemon::auth::WalletAddressRequest &operator<<(game::battlemon::auth::WalletAddressRequest &grpcWalletAddressRequest, const FUWalletAddressRequest &UE);
+
+game::battlemon::auth::WalletAddressResponse &operator<<(game::battlemon::auth::WalletAddressResponse &grpcWalletAddressResponse, const FUWalletAddressResponse &UE);
 
