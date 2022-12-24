@@ -247,6 +247,10 @@ void UNearSuiAuth::free_gRPC_SuiAuth()
     {
         if (_gRPC_SuiAuth->Task != nullptr)
         {
+            if (!CAST_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse)(_gRPC_SuiAuth->Task)->Cancel())
+            {
+                CAST_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse)(_gRPC_SuiAuth->Task)->EnsureCompletion();
+            }
             delete CAST_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse)(_gRPC_SuiAuth->Task);
             _gRPC_SuiAuth->Task = nullptr;
         }
@@ -289,18 +293,38 @@ void UNearItems::freegRPC_Item()
             switch (rpc)
             {
             case ItemsRPC::GetItems:
+                if (!CAST_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse)(gRPC_Item->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse)(gRPC_Item->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse)(gRPC_Item->Task);
                 break;
             case ItemsRPC::GetBundles:
+                if (!CAST_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse)(gRPC_Item->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse)(gRPC_Item->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse)(gRPC_Item->Task);
                 break;
             case ItemsRPC::EditBundle:
+                if (!CAST_ASINCTASK(FUWeaponBundle, gRPC_ClientItems, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(gRPC_Item->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(FUWeaponBundle, gRPC_ClientItems, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(gRPC_Item->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(FUWeaponBundle, gRPC_ClientItems, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(gRPC_Item->Task);
                 break;
             case ItemsRPC::AttachBundle:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::AttachBundleRequest, bool)(gRPC_Item->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::AttachBundleRequest, bool)(gRPC_Item->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::AttachBundleRequest, bool)(gRPC_Item->Task);
                 break;
             case ItemsRPC::DetachBundle:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::DetachBundleRequest, bool)(gRPC_Item->Task))
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::DetachBundleRequest, bool)(gRPC_Item->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::DetachBundleRequest, bool)(gRPC_Item->Task);
                 break;
             default:
@@ -321,8 +345,6 @@ UNearItems::~UNearItems()
 {
     freegRPC_Item();
 }
-
-
 
 
 void UNearItems::GetItems(FUItemsResponse& out)
@@ -423,12 +445,24 @@ void UNearMM::freegRPC_MM()
             switch (rpc)
             {
             case MMRPC::SearchGame:
+                if (!CAST_ASINCTASK(FUSearchGameResponse, gRPC_ClientMM, game::battlemon::mm::SearchGameRequest, game::battlemon::mm::SearchGameResponse)(gRPC_MM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(FUSearchGameResponse, gRPC_ClientMM, game::battlemon::mm::SearchGameRequest, game::battlemon::mm::SearchGameResponse)(gRPC_MM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(FUSearchGameResponse, gRPC_ClientMM, game::battlemon::mm::SearchGameRequest, game::battlemon::mm::SearchGameResponse)(gRPC_MM->Task);
                 break;
             case MMRPC::AcceptGame:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientMM, game::battlemon::mm::AcceptGameRequest, bool)(gRPC_MM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientMM, game::battlemon::mm::AcceptGameRequest, bool)(gRPC_MM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientMM, game::battlemon::mm::AcceptGameRequest, bool)(gRPC_MM->Task);
                 break;
             case MMRPC::CancelSearch:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientMM, void*, bool)(gRPC_MM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientMM, void*, bool)(gRPC_MM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientMM, void*, bool)(gRPC_MM->Task);
                 break;
             default:
@@ -514,18 +548,38 @@ void UNearInternalMM::freegRPC_InternalMM()
             switch (rpc)
             {
             case InternalMMRPC::UserLeftBattle:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::InternalUserLeftBattleRequest, bool)(gRPC_InternalMM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::InternalUserLeftBattleRequest, bool)(gRPC_InternalMM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::InternalUserLeftBattleRequest, bool)(gRPC_InternalMM->Task);
                 break;
             case InternalMMRPC::SaveBattleResult:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::SaveBattleResultRequest, bool)(gRPC_InternalMM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::SaveBattleResultRequest, bool)(gRPC_InternalMM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::SaveBattleResultRequest, bool)(gRPC_InternalMM->Task);
                 break;
             case InternalMMRPC::GetRoomInfo:
+                if (!CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::RoomInfoRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::RoomInfoRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::RoomInfoRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task);
                 break;
             case InternalMMRPC::CreateRoomWithPlayers:
+                if (!CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::CreateRoomRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::CreateRoomRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::CreateRoomRequest, game::battlemon::mm::internal::RoomInfoResponse)(gRPC_InternalMM->Task);
                 break;
             case InternalMMRPC::DedicatedServerIsReady:
+                if (!CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::DedicatedServerIsReadyRequest, bool)(gRPC_InternalMM->Task)->Cancel())
+                {
+                    CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::DedicatedServerIsReadyRequest, bool)(gRPC_InternalMM->Task)->EnsureCompletion();
+                }
                 delete CAST_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::DedicatedServerIsReadyRequest, bool)(gRPC_InternalMM->Task);
                 break;
             default:

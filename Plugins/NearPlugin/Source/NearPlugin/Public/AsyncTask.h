@@ -61,7 +61,7 @@ protected:
     {
         if (service != nullptr)
         {
-            if(request != nullptr)
+            if(CallRPC != nullptr)
                 *result = (service->*CallRPC)(request);
             else
                 *result = (service->*CallRPCvoid)();

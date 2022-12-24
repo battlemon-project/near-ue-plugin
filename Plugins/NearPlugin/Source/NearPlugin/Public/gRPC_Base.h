@@ -138,12 +138,10 @@ public:
 		return grpc::SslCredentialsOptions();
 	}
 #endif
-	static void* Task;
 
 	~gRPC_SSL() {};
 };
 
-void* gRPC_SSL::Task = nullptr;
 
 template <typename Service, typename ServiceStub>
 class gRPC_Stub : public gRPC_SSL
@@ -175,7 +173,8 @@ protected:
 	}
 
 public:
-	gRPC_Stub(const bool& ssl, FString& url)
+	void* Task;
+	gRPC_Stub(const bool& ssl, FString& url) : Task(nullptr)
 	{
 		error = "";
 		if (ssl)
