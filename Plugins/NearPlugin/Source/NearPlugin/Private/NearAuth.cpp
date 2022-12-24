@@ -165,6 +165,7 @@ void UNearAuth::TimerAuth()
 		//TryAuth();
 		if (AsyncAuthTask == nullptr)
 		{
+			grpcClient = new gRPC_ClientAuth(true, URL);
 			AsyncAuthTask = new FAsyncTask<FMAsyncAuthTask>();
 			AsyncAuthTask->GetTask().SetData(this, &structResultDelegate);
 			AsyncAuthTask->StartBackgroundTask();
@@ -180,6 +181,8 @@ void UNearAuth::TimerAuth()
 		{
 			AsyncAuthTask->EnsureCompletion();
 		}
+		delete grpcClient;
+		grpcClient = nullptr;
 		delete AsyncAuthTask;
 		AsyncAuthTask = nullptr;
 		ClearTimer();
@@ -195,7 +198,6 @@ void UNearAuth::TryAuth()
 	}
 	else
 	{
-		grpcClient = new gRPC_ClientAuth(true, URL);
 		game::battlemon::auth::VerifyCodeRequest VerifyCodeRequest;
 		game::battlemon::auth::SendCodeResponse CodeResponse;
 		game::battlemon::auth::VerifyCodeResponse _accountID;
@@ -203,17 +205,49 @@ void UNearAuth::TryAuth()
 		bool save = true;
 		if (*sign != '\0')
 		{
-			CSignMessage(CodeResponse);
+			//CSignMessage(CodeResponse);
+
+			{
+				game::battlemon::auth::SendCodeRequest Request;
+				FString pubKey = client->GetPublicKey();
+				Request.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
+				CodeResponse = grpcClient->CallRPCSendCode(&Request);
+			}
+
+
 			save = false;
 		}
-		CVerifyCode(VerifyCodeRequest, _accountID, CodeResponse);
+		//CVerifyCode(VerifyCodeRequest, _accountID, CodeResponse);
+
+		{
+			FString pubKey = client->GetPublicKey();
+			VerifyCodeRequest.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
+			VerifyCodeRequest.set_sign(client->CreateMessageNewSign(CodeResponse.code().c_str()));
+			_accountID = grpcClient->CallRPCVerifyCode(&VerifyCodeRequest);
+		}
+
 		if (_accountID.near_account_id() == "")
 		{
 			save = false;
 			_accountID.Clear();
 			VerifyCodeRequest.Clear();
-			CSignMessage(CodeResponse);
-			CVerifyCode(VerifyCodeRequest, _accountID, CodeResponse);
+			//CSignMessage(CodeResponse);
+			{
+				game::battlemon::auth::SendCodeRequest Request;
+				FString pubKey = client->GetPublicKey();
+				Request.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
+				CodeResponse = grpcClient->CallRPCSendCode(&Request);
+			}
+
+			//CVerifyCode(VerifyCodeRequest, _accountID, CodeResponse);
+			{
+				FString pubKey = client->GetPublicKey();
+				VerifyCodeRequest.set_public_key(CONV_FSTRING_TO_CHAR(pubKey));
+				VerifyCodeRequest.set_sign(client->CreateMessageNewSign(CodeResponse.code().c_str()));
+				_accountID = grpcClient->CallRPCVerifyCode(&VerifyCodeRequest);
+			}
+
+
 			if (_accountID.near_account_id() != "")
 			{
 				SetAccount(_accountID);
@@ -241,8 +275,6 @@ void UNearAuth::TryAuth()
 			}
 
 		}
-		delete grpcClient;
-		grpcClient = nullptr;
 	}
 #if UE_BUILD_DEBUG
 #endif
