@@ -27,22 +27,38 @@
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBoolDelegate, const bool, Response);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGetWalletAddressDelegate, const FUWalletAddressResponse&, Response);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGetItemsDelegate, const FUItemsResponse&, Response);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGetBundlesDelegate, const FUGetBundlesResponse&, Response);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEditBundleDelegate, const FUWeaponBundle&, Response);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSearchGameDelegate, const FUSearchGameResponse&, Response);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGetRoomInfoDelegate, const FURoomInfoResponse&, Response);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCreateRoomWithPlayersDelegate, const FURoomInfoResponse&, Response);
 /**
  * 
  */
 
 class gRPC_SuiAuth : public gRPC_Stub<game::battlemon::auth::AuthService, game::battlemon::auth::AuthService::Stub>
 {
+	void* Delegate;
+	void* out;
 public:
-	gRPC_SuiAuth(const bool& ssl, FString& url);
+	gRPC_SuiAuth(const bool& ssl, FString& url, void* _Delegate, void* _out);
 
 	game::battlemon::auth::WalletAddressResponse CallRPCGetWalletAddress(game::battlemon::auth::WalletAddressRequest* request);
 };
 
 class gRPC_ClientItems : public gRPC_Stub<game::battlemon::items::ItemsService, game::battlemon::items::ItemsService::Stub>
 {
+	void* getItemsDelegate;
+	void* out;
 public:
-	gRPC_ClientItems(const bool& ssl, FString& url);
+	gRPC_ClientItems(const bool& ssl, FString& url, void* _getItemsDelegate, void* _out);
 	game::battlemon::items::ItemsResponse CallRPC_GetItems();
 	game::battlemon::items::GetBundlesResponse CallRPC_GetBundles();
 	game::battlemon::items::WeaponBundle CallRPC_EditBundle(game::battlemon::items::EditBundleRequest* request);
@@ -53,8 +69,10 @@ public:
 
 class gRPC_ClientMM : public gRPC_Stub<game::battlemon::mm::MMService, game::battlemon::mm::MMService::Stub>
 {
+	void* Delegate;
+	void* out;
 public:
-	gRPC_ClientMM(const bool& ssl, FString& url);
+	gRPC_ClientMM(const bool& ssl, FString& url, void* _Delegate, void* _out);
 	game::battlemon::mm::SearchGameResponse CallRPC_SearchGame(game::battlemon::mm::SearchGameRequest* Request);
 	bool CallRPC_AcceptGame(game::battlemon::mm::AcceptGameRequest* Request);
 	bool CallRPC_CancelSearch();
@@ -63,8 +81,10 @@ public:
 
 class gRPC_ClientInternalMM : public gRPC_Stub<game::battlemon::mm::internal::InternalMMService, game::battlemon::mm::internal::InternalMMService::Stub>
 {
+	void* Delegate;
+	void* out;
 public:
-	gRPC_ClientInternalMM(const bool& ssl, FString& url);
+	gRPC_ClientInternalMM(const bool& ssl, FString& url, void* _Delegate, void* _out);
 	bool CallRPC_UserLeftBattle(game::battlemon::mm::internal::InternalUserLeftBattleRequest* Request);
 	bool CallRPC_SaveBattleResult(game::battlemon::mm::internal::SaveBattleResultRequest* Request);
 	game::battlemon::mm::internal::RoomInfoResponse CallRPC_GetRoomInfo(game::battlemon::mm::internal::RoomInfoRequest* Request);
@@ -92,6 +112,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = ".Near | SuiAuth")
 	FStructResultDelegate structResultDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = ".Near | SuiAuth")
+	FGetWalletAddressDelegate GetWalletAddressDelegate;
+	
 	UNearSuiAuth();
 	~UNearSuiAuth();
 
@@ -126,6 +149,17 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
 	FStructResultDelegate structResultDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FGetItemsDelegate getItemsDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FGetBundlesDelegate getBundlesDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FEditBundleDelegate editBundleDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FBoolDelegate AttachBundleDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FBoolDelegate DetachBundleDelegate;
 
 	UNearItems();
 	~UNearItems();
@@ -170,6 +204,12 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, Category = ".Near | MMProto")
 	FStructResultDelegate structResultDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | MMProto")
+	FSearchGameDelegate SearchGameDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FBoolDelegate AcceptGameDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
+	FBoolDelegate CancelSearchDelegate;
 
 	UNearMM();
 	~UNearMM();
@@ -217,6 +257,17 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
 	FStructResultDelegate structResultDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
+	FBoolDelegate userLeftBattleDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
+	FBoolDelegate saveBattleResultDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
+	FBoolDelegate dedicatedServerIsReadyDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
+	FGetRoomInfoDelegate getRoomInfoDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
+	FCreateRoomWithPlayersDelegate createRoomWithPlayersDelegate;
 
 	UNearInternalMM();
 	~UNearInternalMM();

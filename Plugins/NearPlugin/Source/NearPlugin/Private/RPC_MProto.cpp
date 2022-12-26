@@ -10,7 +10,7 @@ gRPC_ClientMM* UNearMM::gRPC_MM = nullptr;
 gRPC_ClientInternalMM* UNearInternalMM::gRPC_InternalMM = nullptr;
 
 
-gRPC_SuiAuth::gRPC_SuiAuth(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
+gRPC_SuiAuth::gRPC_SuiAuth(const bool& ssl, FString& url, void* _Delegate, void* _out) :gRPC_Stub(ssl, url), Delegate(_Delegate), out(_out)
 {
 }
 
@@ -29,12 +29,16 @@ game::battlemon::auth::WalletAddressResponse gRPC_SuiAuth::CallRPCGetWalletAddre
 
         CheckError(stub.get()->GetWalletAddress(&context, *request, &read));
     }
-
+    if (static_cast<FGetWalletAddressDelegate*>(Delegate)->IsBound())
+    {
+        *static_cast<FUWalletAddressResponse*>(out) = read;
+        static_cast<FGetWalletAddressDelegate*>(Delegate)->Broadcast(*static_cast<FUWalletAddressResponse*>(out));
+    }
     return read;
 }
 
 /// items.rpc
-gRPC_ClientItems::gRPC_ClientItems(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
+gRPC_ClientItems::gRPC_ClientItems(const bool& ssl, FString& url, void* _getItemsDelegate, void* _out) :gRPC_Stub(ssl, url), getItemsDelegate(_getItemsDelegate), out(_out)
 {
 }
 
@@ -53,6 +57,13 @@ game::battlemon::items::ItemsResponse gRPC_ClientItems::CallRPC_GetItems()
 
         CheckError(stub.get()->GetItems(&context, write, &read));
     }
+
+    if (static_cast<FGetItemsDelegate*>(getItemsDelegate)->IsBound())
+    {
+        *static_cast<FUItemsResponse*>(out) = read;
+        static_cast<FGetItemsDelegate*>(getItemsDelegate)->Broadcast(*static_cast<FUItemsResponse*>(out));
+    }
+
     return read;
 }
 
@@ -72,6 +83,12 @@ game::battlemon::items::GetBundlesResponse gRPC_ClientItems::CallRPC_GetBundles(
 
         CheckError(stub.get()->GetBundles(&context, write, &read));
     }
+
+    if (static_cast<FGetBundlesDelegate*>(getItemsDelegate)->IsBound())
+    {
+        *static_cast<FUGetBundlesResponse*>(out) = read;
+        static_cast<FGetBundlesDelegate*>(getItemsDelegate)->Broadcast(*static_cast<FUGetBundlesResponse*>(out));
+    }
     return read;
 }
 
@@ -90,6 +107,11 @@ game::battlemon::items::WeaponBundle gRPC_ClientItems::CallRPC_EditBundle(game::
 
         CheckError(stub.get()->EditBundle(&context, *request, &read));
     }
+    if (static_cast<FEditBundleDelegate*>(getItemsDelegate)->IsBound())
+    {
+        *static_cast<FUWeaponBundle*>(out) = read;
+        static_cast<FEditBundleDelegate*>(getItemsDelegate)->Broadcast(*static_cast<FUWeaponBundle*>(out));
+    }
     return read;
 }
 
@@ -105,8 +127,17 @@ bool gRPC_ClientItems::CallRPC_AttachBundle(game::battlemon::items::AttachBundle
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
+        if (static_cast<FBoolDelegate*>(getItemsDelegate)->IsBound())
+        {
+            *static_cast<bool*>(out) = true;
+            static_cast<FBoolDelegate*>(getItemsDelegate)->Broadcast(*static_cast<bool*>(out));
+        }
         return CheckError(stub.get()->AttachBundle(&context, *request, &read));
-
+    }
+    if (static_cast<FBoolDelegate*>(getItemsDelegate)->IsBound())
+    {
+        *static_cast<bool*>(out) = false;
+        static_cast<FBoolDelegate*>(getItemsDelegate)->Broadcast(*static_cast<bool*>(out));
     }
     return false;
 }
@@ -123,7 +154,17 @@ bool gRPC_ClientItems::CallRPC_DetachBundle(game::battlemon::items::DetachBundle
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
+        if (static_cast<FBoolDelegate*>(getItemsDelegate)->IsBound())
+        {
+            *static_cast<bool*>(out) = true;
+            static_cast<FBoolDelegate*>(getItemsDelegate)->Broadcast(*static_cast<bool*>(out));
+        }
         return CheckError(stub.get()->DetachBundle(&context, *request, &read));
+    }
+    if (static_cast<FBoolDelegate*>(getItemsDelegate)->IsBound())
+    {
+        *static_cast<bool*>(out) = false;
+        static_cast<FBoolDelegate*>(getItemsDelegate)->Broadcast(*static_cast<bool*>(out));
     }
     return false;
 }
@@ -132,7 +173,7 @@ bool gRPC_ClientItems::CallRPC_DetachBundle(game::battlemon::items::DetachBundle
 
 
 /// mm.rpc
-gRPC_ClientMM::gRPC_ClientMM(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
+gRPC_ClientMM::gRPC_ClientMM(const bool& ssl, FString& url, void* _Delegate, void* _out) :gRPC_Stub(ssl, url), Delegate(_Delegate), out(_out)
 {
 }
 
@@ -149,6 +190,12 @@ game::battlemon::mm::SearchGameResponse gRPC_ClientMM::CallRPC_SearchGame(game::
 
         CheckError(stub.get()->SearchGame(&context, *Request, &read));
     }
+    //FSearchGameDelegate
+    if (static_cast<FSearchGameDelegate*>(Delegate)->IsBound())
+    {
+        *static_cast<FUSearchGameResponse*>(out) = read;
+        static_cast<FSearchGameDelegate*>(Delegate)->Broadcast(*static_cast<FUSearchGameResponse*>(out));
+    }
     return read;
 }
 
@@ -163,9 +210,17 @@ bool gRPC_ClientMM::CallRPC_AcceptGame(game::battlemon::mm::AcceptGameRequest* R
         std::string value[] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
+        *static_cast<bool*>(out) = true;
 
-        return CheckError(stub.get()->AcceptGame(&context, *Request, &read));
+        if (static_cast<FBoolDelegate*>(Delegate)->IsBound())
+        {
+            static_cast<FBoolDelegate*>(Delegate)->Broadcast(*static_cast<bool*>(out));
+        }
+        return *static_cast<bool*>(out);
+
+        
     }
+    *static_cast<bool*>(out) = false;
     return false;
 }
 
@@ -182,7 +237,17 @@ bool gRPC_ClientMM::CallRPC_CancelSearch()
         grpc::ClientContext context;
         CreateContext(context, meta, value, 2);
 
-        return CheckError(stub.get()->CancelSearch(&context, write, &read));
+        if (static_cast<FBoolDelegate*>(Delegate)->IsBound())
+        {
+            *static_cast<bool*>(out) = CheckError(stub.get()->CancelSearch(&context, write, &read));
+            static_cast<FBoolDelegate*>(Delegate)->Broadcast(*static_cast<bool*>(out));
+        }
+        return  *static_cast<bool*>(out);
+    }
+    if (static_cast<FBoolDelegate*>(Delegate)->IsBound())
+    {
+        *static_cast<bool*>(out) = false;
+        static_cast<FBoolDelegate*>(Delegate)->Broadcast(*static_cast<bool*>(out));
     }
     return false;
 }
@@ -191,7 +256,7 @@ bool gRPC_ClientMM::CallRPC_CancelSearch()
 /// mm.rpc end
 
 /// InternalMM.rpc
-gRPC_ClientInternalMM::gRPC_ClientInternalMM(const bool& ssl, FString& url) :gRPC_Stub(ssl, url)
+gRPC_ClientInternalMM::gRPC_ClientInternalMM(const bool& ssl, FString& url, void* _Delegate, void* _out) :gRPC_Stub(ssl, url), Delegate(_Delegate), out(_out)
 {
 }
 
@@ -200,7 +265,12 @@ bool gRPC_ClientInternalMM::CallRPC_UserLeftBattle(game::battlemon::mm::internal
     game::battlemon::common::Empty read;
     grpc::ClientContext context;
 
-    return CheckError(stub.get()->UserLeftBattle(&context, *Request, &read));
+    *static_cast<bool*>(out) = CheckError(stub.get()->UserLeftBattle(&context, *Request, &read));
+    if (static_cast<FBoolDelegate*>(Delegate)->IsBound())
+    {
+        static_cast<FBoolDelegate*>(Delegate)->Broadcast(*static_cast<bool*>(out));
+    }
+    return  *static_cast<bool*>(out);
 }
 
 bool gRPC_ClientInternalMM::CallRPC_SaveBattleResult(game::battlemon::mm::internal::SaveBattleResultRequest* Request)
@@ -208,7 +278,13 @@ bool gRPC_ClientInternalMM::CallRPC_SaveBattleResult(game::battlemon::mm::intern
     game::battlemon::common::Empty read;
     grpc::ClientContext context;
 
-    return CheckError(stub.get()->SaveBattleResult(&context, *Request, &read));
+    *static_cast<bool*>(out) = CheckError(stub.get()->SaveBattleResult(&context, *Request, &read));
+
+    if (static_cast<FBoolDelegate*>(Delegate)->IsBound())
+    {
+        static_cast<FBoolDelegate*>(Delegate)->Broadcast(*static_cast<bool*>(out));
+    }
+    return  *static_cast<bool*>(out);
 }
 
 game::battlemon::mm::internal::RoomInfoResponse gRPC_ClientInternalMM::CallRPC_GetRoomInfo(game::battlemon::mm::internal::RoomInfoRequest* Request)
@@ -216,8 +292,12 @@ game::battlemon::mm::internal::RoomInfoResponse gRPC_ClientInternalMM::CallRPC_G
     game::battlemon::mm::internal::RoomInfoResponse read;
 
     grpc::ClientContext context;
-
     CheckError(stub.get()->GetRoomInfo(&context, *Request, &read));
+    if (static_cast<FGetRoomInfoDelegate*>(Delegate)->IsBound())
+    {
+        *static_cast<FURoomInfoResponse*>(out) = read;
+        static_cast<FGetRoomInfoDelegate*>(Delegate)->Broadcast(*static_cast<FURoomInfoResponse*>(out));
+    }
     return read;
 }
 
@@ -235,7 +315,12 @@ bool gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady(game::battlemon::mm::
     game::battlemon::common::Empty read;
     grpc::ClientContext context;
 
-    return CheckError(stub.get()->DedicatedServerIsReady(&context, *Request, &read));
+    *static_cast<bool*>(out) = CheckError(stub.get()->DedicatedServerIsReady(&context, *Request, &read));
+    if (static_cast<FBoolDelegate*>(Delegate)->IsBound())
+    {
+        static_cast<FBoolDelegate*>(Delegate)->Broadcast(*static_cast<bool*>(out));
+    }
+    return  *static_cast<bool*>(out);
 }
 
 
@@ -273,7 +358,7 @@ void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWal
 {
     free_gRPC_SuiAuth();
 
-    _gRPC_SuiAuth = new gRPC_SuiAuth(ssl, URL);
+    _gRPC_SuiAuth = new gRPC_SuiAuth(ssl, URL, &GetWalletAddressDelegate, &out);
 
     game::battlemon::auth::WalletAddressRequest g_request;
     g_request << Request;
@@ -351,7 +436,7 @@ void UNearItems::GetItems(FUItemsResponse& out)
 {
     freegRPC_Item();
     rpc = ItemsRPC::GetItems;
-    gRPC_Item = new gRPC_ClientItems(ssl, URL);
+    gRPC_Item = new gRPC_ClientItems(ssl, URL, &getItemsDelegate, &out);
     CREATE_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse);
     gRPC_Item->Task = GET_ASINCTASK;
     GET_ASINCTASK->GetTask().SetData(gRPC_Item, &structResultDelegate, &out, &gRPC_ClientItems::CallRPC_GetItems);
@@ -364,7 +449,7 @@ void UNearItems::GetBundles(FUGetBundlesResponse& out)
 {
     freegRPC_Item();
     rpc = ItemsRPC::GetBundles;
-    gRPC_Item = new gRPC_ClientItems(ssl, URL);
+    gRPC_Item = new gRPC_ClientItems(ssl, URL, &getBundlesDelegate, &out);
 
     CREATE_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse);
     gRPC_Item->Task = GET_ASINCTASK;
@@ -378,7 +463,7 @@ void UNearItems::EditBundle(FUEditBundleRequest Request, FUWeaponBundle& out)
 {
     freegRPC_Item();
     rpc = ItemsRPC::EditBundle;
-    gRPC_Item = new gRPC_ClientItems(ssl, URL);
+    gRPC_Item = new gRPC_ClientItems(ssl, URL, &editBundleDelegate, &out);
 
     game::battlemon::items::EditBundleRequest g_request;
     g_request << Request;
@@ -394,7 +479,7 @@ bool UNearItems::AttachBundle(FUAttachBundleRequest Request, bool& out)
 {
     freegRPC_Item();
     rpc = ItemsRPC::AttachBundle;
-    gRPC_Item = new gRPC_ClientItems(ssl, URL);
+    gRPC_Item = new gRPC_ClientItems(ssl, URL, &AttachBundleDelegate, &out);
 
     game::battlemon::items::AttachBundleRequest g_request;
 
@@ -414,7 +499,7 @@ bool UNearItems::DetachBundle(FUDetachBundleRequest Request, bool& out)
 {
     freegRPC_Item();
     rpc = ItemsRPC::DetachBundle;
-    gRPC_Item = new gRPC_ClientItems(ssl, URL);
+    gRPC_Item = new gRPC_ClientItems(ssl, URL, &DetachBundleDelegate, &out);
 
     game::battlemon::items::DetachBundleRequest g_request;
 
@@ -490,7 +575,7 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
 {
     freegRPC_MM();
     rpc = MMRPC::SearchGame;
-    gRPC_MM = new gRPC_ClientMM(ssl, URL);
+    gRPC_MM = new gRPC_ClientMM(ssl, URL, &SearchGameDelegate, &out);
     game::battlemon::mm::SearchGameRequest g_request;
     g_request << Request;
 
@@ -506,7 +591,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request, bool& out)
 {
     freegRPC_MM();
     rpc = MMRPC::AcceptGame;
-    gRPC_MM = new gRPC_ClientMM(ssl, URL);
+    gRPC_MM = new gRPC_ClientMM(ssl, URL, &AcceptGameDelegate, &out);
     game::battlemon::mm::AcceptGameRequest g_request;
     g_request << Request;
 
@@ -522,7 +607,7 @@ bool UNearMM::CancelSearch(bool& out)
 {
     freegRPC_MM();
     rpc = MMRPC::CancelSearch;
-    gRPC_MM = new gRPC_ClientMM(ssl, URL);
+    gRPC_MM = new gRPC_ClientMM(ssl, URL, &CancelSearchDelegate, &out);
 
     CREATE_ASINCTASK(bool, gRPC_ClientMM, void*, bool);
     gRPC_MM->Task = GET_ASINCTASK;
@@ -606,7 +691,7 @@ bool UNearInternalMM::UserLeftBattle(FUInternalUserLeftBattleRequest Request, bo
 {
     freegRPC_InternalMM();
     rpc = InternalMMRPC::UserLeftBattle;
-    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
+    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL, &userLeftBattleDelegate, &out);
     game::battlemon::mm::internal::InternalUserLeftBattleRequest g_request;
     g_request << Request;
 
@@ -622,7 +707,7 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request, bool& 
 {
     freegRPC_InternalMM();
     rpc = InternalMMRPC::SaveBattleResult;
-    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
+    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL, &saveBattleResultDelegate, &out);
 
     game::battlemon::mm::internal::SaveBattleResultRequest g_request;
 
@@ -640,7 +725,7 @@ void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse&
 {
     freegRPC_InternalMM();
     rpc = InternalMMRPC::GetRoomInfo;
-    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
+    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL, &getRoomInfoDelegate, &out);
     
     game::battlemon::mm::internal::RoomInfoRequest g_request;
     g_request << Request;
@@ -657,7 +742,7 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
 {
     freegRPC_InternalMM();
     rpc = InternalMMRPC::CreateRoomWithPlayers;
-    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
+    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL, &createRoomWithPlayersDelegate, &out);
 
     game::battlemon::mm::internal::CreateRoomRequest g_request;
     g_request << Request;
@@ -675,7 +760,7 @@ bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Req
 {
     freegRPC_InternalMM();
     rpc = InternalMMRPC::DedicatedServerIsReady;
-    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL);
+    gRPC_InternalMM = new gRPC_ClientInternalMM(ssl, URL, &dedicatedServerIsReadyDelegate, &out);
     game::battlemon::mm::internal::DedicatedServerIsReadyRequest g_request;
     g_request << Request;
 
