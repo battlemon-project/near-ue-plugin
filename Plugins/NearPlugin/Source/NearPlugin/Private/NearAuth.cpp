@@ -17,9 +17,10 @@ Client* UNearAuth::client = nullptr;
 FString UNearAuth::accountID = "";
 gRPC_ClientAuth* UNearAuth::grpcClient = nullptr;
 
-UNearAuth::UNearAuth() :BadKey(true), AsyncAuthTask(nullptr)
+UNearAuth::UNearAuth() :AsyncAuthTask(nullptr), BadKey(true)
 {
 }
+
 UNearAuth::~UNearAuth()
 {
 }

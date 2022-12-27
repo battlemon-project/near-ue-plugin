@@ -27,13 +27,13 @@
 
 #include "UObject/Object.h"
 #include "Async/AsyncWork.h"
+#include "Runtime/Core/Public/Async/ParallelFor.h"
 
 #include "gRPC_Base.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
 #if defined(__unix__)
-#include "Runtime/Core/Public/Async/ParallelFor.h"
 
 //#define CONV_FSTRING_TO_CHAR(str) U16toString(str)
 //#define CONV_CHAR_TO_FSTRING(str)  StringtoU16(str)

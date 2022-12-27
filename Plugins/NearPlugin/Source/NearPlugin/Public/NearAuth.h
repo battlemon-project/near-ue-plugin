@@ -90,8 +90,8 @@ class FMAsyncAuthTask :public FNonAbandonableTask
 {
 	friend class FAsyncTask<FMAsyncAuthTask>;
 
-    FStructResultDelegate* structResultDelegate;
-    UNearAuth* service;
+	UNearAuth* service;
+	FStructResultDelegate* structResultDelegate;
 
 public:
     FMAsyncAuthTask() :service(nullptr), structResultDelegate(nullptr) {};
