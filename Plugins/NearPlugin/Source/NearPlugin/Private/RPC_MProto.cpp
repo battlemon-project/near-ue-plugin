@@ -4,7 +4,7 @@
 
 #include "AsyncTask.h"
 
-gRPC_SuiAuth* UNearSuiAuth::_gRPC_SuiAuth = nullptr;
+gRPC_SuiAuth* USuiAuth::_gRPC_SuiAuth = nullptr;
 gRPC_ClientItems* UNearItems::gRPC_Item = nullptr;
 gRPC_ClientMM* UNearMM::gRPC_MM = nullptr;
 gRPC_ClientInternalMM* UNearInternalMM::gRPC_InternalMM = nullptr;
@@ -326,7 +326,7 @@ bool gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady(game::battlemon::mm::
 
 /// InternalMM.rpc end
 
-void UNearSuiAuth::free_gRPC_SuiAuth()
+void USuiAuth::free_gRPC_SuiAuth()
 {
     if (_gRPC_SuiAuth != nullptr)
     {
@@ -344,17 +344,17 @@ void UNearSuiAuth::free_gRPC_SuiAuth()
     _gRPC_SuiAuth = nullptr;
 }
 
-UNearSuiAuth::UNearSuiAuth() 
+USuiAuth::USuiAuth()
 {
 }
 
-UNearSuiAuth::~UNearSuiAuth()
+USuiAuth::~USuiAuth()
 {
     free_gRPC_SuiAuth();
 }
 
 
-void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse& out)
+void USuiAuth::GetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse& out)
 {
     free_gRPC_SuiAuth();
 
@@ -367,6 +367,13 @@ void UNearSuiAuth::CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWal
     _gRPC_SuiAuth->Task = GET_ASINCTASK;
     GET_ASINCTASK->GetTask().SetData(_gRPC_SuiAuth, &structResultDelegate, &out, &g_request, &gRPC_SuiAuth::CallRPCGetWalletAddress);
     GET_ASINCTASK->StartBackgroundTask();
+}
+
+FString USuiAuth::GetError()
+{
+    if (_gRPC_SuiAuth != nullptr)
+        return _gRPC_SuiAuth->GetError();
+    return FString();
 }
 
 void UNearItems::freegRPC_Item()

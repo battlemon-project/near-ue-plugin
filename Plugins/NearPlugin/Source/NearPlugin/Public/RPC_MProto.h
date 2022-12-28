@@ -94,7 +94,7 @@ public:
 
 
 UCLASS(Blueprintable)
-class NEARPLUGIN_API UNearSuiAuth : public UObject
+class NEARPLUGIN_API USuiAuth : public UObject
 {
 	GENERATED_BODY()
 
@@ -115,11 +115,14 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = ".Near | SuiAuth")
 	FGetWalletAddressDelegate GetWalletAddressDelegate;
 	
-	UNearSuiAuth();
-	~UNearSuiAuth();
+	USuiAuth();
+	~USuiAuth();
 
 	UFUNCTION(BlueprintCallable, Category = ".NearItems | SuiAuth")
-	void CallRPCGetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse& out);
+	void GetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressResponse& out);
+
+	UFUNCTION(BlueprintCallable, Category = ".Near | Debug")
+	FString GetError();
 };
 
 enum class ItemsRPC
