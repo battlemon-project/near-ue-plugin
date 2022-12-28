@@ -27,7 +27,7 @@ game::battlemon::auth::VerifyCodeResponse gRPC_ClientAuth::CallRPCVerifyCode(gam
     game::battlemon::auth::VerifyCodeResponse read;
     grpc::ClientContext context;
 
-    UE_LOG_REQUEST("%c%c", static_cast<const char*>(Request->public_key().c_str()), static_cast<const char*>(Request->sign().c_str()));
+    UE_LOG_REQUEST("public_key %c sign %c", static_cast<const char*>(Request->public_key().c_str()), static_cast<const char*>(Request->sign().c_str()));
 
     CheckError(stub.get()->VerifyCode(&context, *Request, &read));
     return read;

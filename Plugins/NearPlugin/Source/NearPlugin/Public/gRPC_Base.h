@@ -100,7 +100,7 @@ static inline FString StringtoU16(const std::string& str)
 #endif
 
 #ifdef UE_BUILD_DEVELOPMENT
-#pragma warning (disable : 4840)// Implicit conversion from 'type' to bool. Possible information loss
+#pragma warning (disable : 4840)
 static inline void printLOG(std::string format, ...)
 {
 	va_list ptrIn;
@@ -113,24 +113,30 @@ static inline void printLOG(std::string format, ...)
 	va_start(ptrIn, format);
 	for (const char* c = format.c_str(); *c; c++)
 	{
-		switch (*++c)
+		if (*c != '%')
 		{
-		case 'i':
-			iT = va_arg(ptrIn, int);
-			res += FString::FromInt(iT);
-			res += "\n\t\t";
-			break;
-		case 's':
-			str = va_arg(ptrIn, std::string);
-			res += CONV_CHAR_TO_FSTRING(str.c_str());
-			res += "\n\t\t";
-			break;
-		case 'c':
-			cPtr = va_arg(ptrIn, const char*);
-			res += CONV_CHAR_TO_FSTRING(cPtr);
-			res += "\n\t\t";
-			break;
+			res += *c;
+			continue;
 		}
+		else
+		{
+			switch (*++c)
+			{
+			case 'i':
+				iT = va_arg(ptrIn, int);
+				res += FString::FromInt(iT);
+				break;
+			case 's':
+				str = va_arg(ptrIn, std::string);
+				res += CONV_CHAR_TO_FSTRING(str.c_str());
+				break;
+			case 'c':
+				cPtr = va_arg(ptrIn, const char*);
+				res += CONV_CHAR_TO_FSTRING(cPtr);
+				break;
+			}
+		}
+
 	}
 	va_end(ptrIn);
 
