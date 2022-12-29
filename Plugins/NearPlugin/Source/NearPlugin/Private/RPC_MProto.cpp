@@ -356,7 +356,6 @@ void USuiAuth::GetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressR
     game::battlemon::auth::WalletAddressRequest g_request;
     g_request << Request;
 
-    out = _gRPC_SuiAuth->CallRPCGetWalletAddress(&g_request);
     CREATE_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse);
     _gRPC_SuiAuth->Task = GET_ASINCTASK;
     GET_ASINCTASK->GetTask().SetData(_gRPC_SuiAuth, &structResultDelegate, &out, &g_request, &gRPC_SuiAuth::CallRPCGetWalletAddress);
