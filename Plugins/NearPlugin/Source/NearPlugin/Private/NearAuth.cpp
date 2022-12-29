@@ -98,7 +98,13 @@ void UNearAuth::OnGetRequest(FHttpRequestPtr Request, FHttpResponsePtr Response,
 		TSharedPtr<FJsonObject> ResponseObj;
 		TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 		FJsonSerializer::Deserialize(Reader, ResponseObj);
-		fullURL += "&contract_id=" + ResponseObj->GetStringField("nft_contract_id");
+		if(ResponseObj->HasField("nft_contract_id"))
+			fullURL += "&contract_id=" + ResponseObj->GetStringField("nft_contract_id");
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("ResponseObj nft_contract_id filed!"));
+			return;
+		}
 	}
 	if (!URL_Redirect.IsEmpty())
 	{
