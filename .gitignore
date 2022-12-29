@@ -75,6 +75,7 @@ DerivedDataCache/*
 /.idea
 /Plugins/Developer
 /Plugins/NearPlugin/Binaries
+/Plugins/NearPlugin/Content/third_party/include/protocol/*.cc
 /Content
 !/Plugins/NearPlugin/Content/third_party/
 /Config/SteamVRBindings
