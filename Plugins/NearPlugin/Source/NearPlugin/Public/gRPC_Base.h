@@ -139,7 +139,7 @@ static inline void printLOG(std::string format, ...)
 	}
 	va_end(ptrIn);
 
-	UE_LOG(LogTemp, Display, TEXT("write %s"), *res);
+	UE_LOG(LogTemp, Display, TEXT("%s"), *res);
 };
 #define UE_LOG_REQUEST(Format, ...) printLOG(Format, ##__VA_ARGS__);
 #endif

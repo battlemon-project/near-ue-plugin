@@ -16,7 +16,7 @@ gRPC_SuiAuth::gRPC_SuiAuth(const bool& ssl, FString& url, void* _Delegate, void*
 
 game::battlemon::auth::WalletAddressResponse gRPC_SuiAuth::CallRPCGetWalletAddress(game::battlemon::auth::WalletAddressRequest* request)
 {
-    UE_LOG_REQUEST("%s", request->client_id());
+    UE_LOG_REQUEST("write client_id %s", request->client_id());
     game::battlemon::auth::WalletAddressResponse read;
 
     if (UNearAuth::client != nullptr)
