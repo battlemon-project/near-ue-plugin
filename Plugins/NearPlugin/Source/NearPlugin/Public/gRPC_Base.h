@@ -93,7 +93,7 @@ static inline FString StringtoU16(const std::string& str)
 	FString strUe(wstr.c_str());
 	return strUe;
 }
-#define UE_LOG_REQUEST(Format, ...)
+#define UE_LOG_REQUEST(Format, ...) ((void)0)
 #else
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_ANSI(*str)
 #define CONV_CHAR_TO_FSTRING(str) FString(str)
