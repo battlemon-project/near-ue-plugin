@@ -19,17 +19,9 @@ game::battlemon::auth::WalletAddressResponse gRPC_SuiAuth::CallRPCGetWalletAddre
     UE_LOG_REQUEST("write client_id %s", request->client_id());
     game::battlemon::auth::WalletAddressResponse read;
 
-    if (UNearAuth::client != nullptr)
-    {
+    grpc::ClientContext context;
+    CheckError(stub.get()->GetWalletAddress(&context, *request, &read));
 
-        std::string meta[2] = { "nearid" , "sign" };
-        FString nearid = UNearAuth::client->GetAccount();
-        std::string value[2] = { CONV_FSTRING_TO_CHAR(nearid) , UNearAuth::client->GetSing() };
-        grpc::ClientContext context;
-        CreateContext(context, meta, value, 2);
-
-        CheckError(stub.get()->GetWalletAddress(&context, *request, &read));
-    }
     if (static_cast<FGetWalletAddressDelegate*>(Delegate)->IsBound())
     {
         *static_cast<FUWalletAddressResponse*>(out) = read;
@@ -364,6 +356,7 @@ void USuiAuth::GetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressR
     game::battlemon::auth::WalletAddressRequest g_request;
     g_request << Request;
 
+    out = _gRPC_SuiAuth->CallRPCGetWalletAddress(&g_request);
     CREATE_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse);
     _gRPC_SuiAuth->Task = GET_ASINCTASK;
     GET_ASINCTASK->GetTask().SetData(_gRPC_SuiAuth, &structResultDelegate, &out, &g_request, &gRPC_SuiAuth::CallRPCGetWalletAddress);
