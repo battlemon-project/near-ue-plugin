@@ -99,7 +99,7 @@ static inline FString StringtoU16(const std::string& str)
 #define CONV_CHAR_TO_FSTRING(str) FString(str)
 #endif
 
-#ifdef UE_BUILD_DEVELOPMENT
+#if defined(UE_BUILD_DEVELOPMENT) && defined(PLATFORM_WINDOWS)
 #pragma warning (disable : 4840)
 static inline void printLOG(std::string format, ...)
 {
