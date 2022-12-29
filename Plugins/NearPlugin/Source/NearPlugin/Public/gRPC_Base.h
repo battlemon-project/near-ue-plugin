@@ -13,11 +13,20 @@
 
 #include <string>
 
+
+
 #if PLATFORM_WINDOWS
 #include <wincrypt.h>
 #include <Windows.h>
 #include <cryptuiapi.h>
+
+
 #endif // PLATFORM_WINDOWS
+
+#ifdef UE_BUILD_DEVELOPMENT
+#include <stdio.h>
+#include <stdarg.h>
+#endif
 
 #if defined(__unix__)
 #include <uchar.h>
@@ -30,6 +39,7 @@
 #include "Runtime/Core/Public/Async/ParallelFor.h"
 
 #include "gRPC_Base.generated.h"
+
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
@@ -88,6 +98,55 @@ static inline FString StringtoU16(const std::string& str)
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_ANSI(*str)
 #define CONV_CHAR_TO_FSTRING(str) FString(str)
 #endif
+
+#ifdef UE_BUILD_DEVELOPMENT
+#pragma warning (disable : 4840)
+static inline void printLOG(std::string format, ...)
+{
+	va_list ptrIn;
+	int iT;
+	const char* cPtr;
+	std::string str;
+
+	FString res = "";
+
+	va_start(ptrIn, format);
+	for (const char* c = format.c_str(); *c; c++)
+	{
+		if (*c != '%')
+		{
+			res += *c;
+			continue;
+		}
+		else
+		{
+			switch (*++c)
+			{
+			case 'i':
+				iT = va_arg(ptrIn, int);
+				res += FString::FromInt(iT);
+				break;
+			case 's':
+				str = va_arg(ptrIn, std::string);
+				res += CONV_CHAR_TO_FSTRING(str.c_str());
+				break;
+			case 'c':
+				cPtr = va_arg(ptrIn, const char*);
+				res += CONV_CHAR_TO_FSTRING(cPtr);
+				break;
+			}
+		}
+
+	}
+	va_end(ptrIn);
+
+	UE_LOG(LogTemp, Display, TEXT("write %s"), *res);
+};
+#define UE_LOG_REQUEST(Format, ...) printLOG(Format, ##__VA_ARGS__);
+#elif
+#define UE_LOG_REQUEST(Format, ...)
+#endif
+
 
 #define CREATE_ASINCTASK(StructResult, Service, grpcRequest, grpcResponse) FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>* Task = new FAsyncTask<FMAsyncTask<StructResult, Service, grpcRequest, grpcResponse>>()
 #define GET_ASINCTASK Task
