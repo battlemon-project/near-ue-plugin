@@ -93,13 +93,12 @@ static inline FString StringtoU16(const std::string& str)
 	FString strUe(wstr.c_str());
 	return strUe;
 }
-
+#define UE_LOG_REQUEST(Format, ...)
 #else
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_ANSI(*str)
 #define CONV_CHAR_TO_FSTRING(str) FString(str)
-#endif
 
-#if defined(UE_BUILD_DEVELOPMENT) && defined(PLATFORM_WINDOWS)
+#if defined(UE_BUILD_DEVELOPMENT)
 #pragma warning (disable : 4840)
 static inline void printLOG(std::string format, ...)
 {
@@ -143,8 +142,7 @@ static inline void printLOG(std::string format, ...)
 	UE_LOG(LogTemp, Display, TEXT("write %s"), *res);
 };
 #define UE_LOG_REQUEST(Format, ...) printLOG(Format, ##__VA_ARGS__);
-#elif
-#define UE_LOG_REQUEST(Format, ...)
+#endif
 #endif
 
 
