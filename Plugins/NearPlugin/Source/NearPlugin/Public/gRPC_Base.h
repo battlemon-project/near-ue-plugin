@@ -97,7 +97,7 @@ static inline FString StringtoU16(const std::string& str)
 #else
 #define UE_LOG_REQUEST(Format, ...) ((void)0)
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_ANSI(*str)
-#define CONV_CHAR_TO_FSTRING(str) FString(str)
+#define CONV_CHAR_TO_FSTRING(str) UTF8_TO_TCHAR(str)
 
 #if defined(UE_BUILD_DEVELOPMENT)
 #pragma warning (disable : 4840)
