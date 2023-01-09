@@ -41,7 +41,6 @@
 #include "gRPC_Base.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
 #if defined(__unix__)
 

@@ -110,9 +110,6 @@ public:
 
 
 	UPROPERTY(BlueprintAssignable, Category = ".Near | SuiAuth")
-	FStructResultDelegate structResultDelegate;
-
-	UPROPERTY(BlueprintAssignable, Category = ".Near | SuiAuth")
 	FGetWalletAddressDelegate GetWalletAddressDelegate;
 	
 	USuiAuth();
@@ -150,8 +147,6 @@ public:
 	bool ssl = true;
 
 
-	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
-	FStructResultDelegate structResultDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
 	FGetItemsDelegate getItemsDelegate;
@@ -206,8 +201,6 @@ public:
 	bool ssl = true;
 	
 	UPROPERTY(BlueprintAssignable, Category = ".Near | MMProto")
-	FStructResultDelegate structResultDelegate;
-	UPROPERTY(BlueprintAssignable, Category = ".Near | MMProto")
 	FSearchGameDelegate SearchGameDelegate;
 	UPROPERTY(BlueprintAssignable, Category = ".Near | ItemsProto")
 	FBoolDelegate AcceptGameDelegate;
@@ -258,8 +251,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| InternalMMProto", meta = (ExposeOnSpawn = true))
 	bool ssl = true;
 	
-	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
-	FStructResultDelegate structResultDelegate;
 	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")
 	FBoolDelegate userLeftBattleDelegate;
 	UPROPERTY(BlueprintAssignable, Category = ".Near | InternalMMProto")

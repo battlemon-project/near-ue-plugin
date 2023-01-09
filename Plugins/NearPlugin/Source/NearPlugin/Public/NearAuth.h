@@ -23,6 +23,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResultNearAuth_Delegate, const FString&, Result);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
 class FMAsyncAuthTask;
 

@@ -17,7 +17,6 @@ class FMAsyncTask :public FNonAbandonableTask
 {
 	friend class FAsyncTask<FMAsyncTask>;
 
-    FStructResultDelegate* structResultDelegate;
     Service* service;
     StructResult* result;
     grpcRequest* request;
@@ -34,18 +33,16 @@ public:
             request = nullptr;
         }
     };
-    void SetData(Service* _service, FStructResultDelegate* _structResultDelegate, StructResult* _result, grpcResponse(Service::*_CallRPC)())
+    void SetData(Service* _service, StructResult* _result, grpcResponse(Service::*_CallRPC)())
     {
         service = _service;
-        structResultDelegate = _structResultDelegate;
         result = _result;
         CallRPCvoid = _CallRPC;
     };
 
-    void SetData(Service* _service, FStructResultDelegate* _structResultDelegate, StructResult* _result, grpcRequest* _request, grpcResponse(Service::* _CallRPC)(grpcRequest* _request))
+    void SetData(Service* _service, StructResult* _result, grpcRequest* _request, grpcResponse(Service::* _CallRPC)(grpcRequest* _request))
     {
         service = _service;
-        structResultDelegate = _structResultDelegate;
         result = _result;
         *request = *_request;
         CallRPC = _CallRPC;
@@ -65,8 +62,6 @@ protected:
                 *result = (service->*CallRPC)(request);
             else
                 *result = (service->*CallRPCvoid)();
-            if (structResultDelegate->IsBound())
-                structResultDelegate->Broadcast();
         }
     }
 

@@ -358,7 +358,7 @@ void USuiAuth::GetWalletAddress(FUWalletAddressRequest Request, FUWalletAddressR
 
     CREATE_ASINCTASK(FUWalletAddressResponse, gRPC_SuiAuth, game::battlemon::auth::WalletAddressRequest, game::battlemon::auth::WalletAddressResponse);
     _gRPC_SuiAuth->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(_gRPC_SuiAuth, &structResultDelegate, &out, &g_request, &gRPC_SuiAuth::CallRPCGetWalletAddress);
+    GET_ASINCTASK->GetTask().SetData(_gRPC_SuiAuth, &out, &g_request, &gRPC_SuiAuth::CallRPCGetWalletAddress);
     GET_ASINCTASK->StartBackgroundTask();
 }
 
@@ -439,7 +439,7 @@ void UNearItems::GetItems(FUItemsResponse& out)
     gRPC_Item = new gRPC_ClientItems(ssl, URL, &getItemsDelegate, &out);
     CREATE_ASINCTASK(FUItemsResponse, gRPC_ClientItems, void*, game::battlemon::items::ItemsResponse);
     gRPC_Item->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &structResultDelegate, &out, &gRPC_ClientItems::CallRPC_GetItems);
+    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &out, &gRPC_ClientItems::CallRPC_GetItems);
     GET_ASINCTASK->StartBackgroundTask();
     //out = gRPC_Item->CallRPC_GetItems();
 
@@ -453,7 +453,7 @@ void UNearItems::GetBundles(FUGetBundlesResponse& out)
 
     CREATE_ASINCTASK(FUGetBundlesResponse, gRPC_ClientItems, void*, game::battlemon::items::GetBundlesResponse);
     gRPC_Item->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &structResultDelegate, &out, &gRPC_ClientItems::CallRPC_GetBundles);
+    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &out, &gRPC_ClientItems::CallRPC_GetBundles);
     GET_ASINCTASK->StartBackgroundTask();
 
     //out = gRPC_Item->CallRPC_GetBundles();
@@ -470,7 +470,7 @@ void UNearItems::EditBundle(FUEditBundleRequest Request, FUWeaponBundle& out)
 
     CREATE_ASINCTASK(FUWeaponBundle, gRPC_ClientItems, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle);
     gRPC_Item->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &structResultDelegate, &out, &g_request, &gRPC_ClientItems::CallRPC_EditBundle);
+    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &out, &g_request, &gRPC_ClientItems::CallRPC_EditBundle);
     GET_ASINCTASK->StartBackgroundTask();
     //out = gRPC_Item->CallRPC_EditBundle(g_request);
 }
@@ -488,7 +488,7 @@ bool UNearItems::AttachBundle(FUAttachBundleRequest Request, bool& out)
 
     CREATE_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::AttachBundleRequest, bool);
     gRPC_Item->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &structResultDelegate, &out, &g_request, &gRPC_ClientItems::CallRPC_AttachBundle);
+    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &out, &g_request, &gRPC_ClientItems::CallRPC_AttachBundle);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;
@@ -507,7 +507,7 @@ bool UNearItems::DetachBundle(FUDetachBundleRequest Request, bool& out)
 
     CREATE_ASINCTASK(bool, gRPC_ClientItems, game::battlemon::items::DetachBundleRequest, bool);
     gRPC_Item->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &structResultDelegate, &out, &g_request, &gRPC_ClientItems::CallRPC_DetachBundle);
+    GET_ASINCTASK->GetTask().SetData(gRPC_Item, &out, &g_request, &gRPC_ClientItems::CallRPC_DetachBundle);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;
@@ -581,7 +581,7 @@ void UNearMM::SearchGame(FUSearchGameRequest Request, FUSearchGameResponse& out)
 
     CREATE_ASINCTASK(FUSearchGameResponse, gRPC_ClientMM, game::battlemon::mm::SearchGameRequest, game::battlemon::mm::SearchGameResponse);
     gRPC_MM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_MM, &structResultDelegate, &out, &g_request, &gRPC_ClientMM::CallRPC_SearchGame);
+    GET_ASINCTASK->GetTask().SetData(gRPC_MM, &out, &g_request, &gRPC_ClientMM::CallRPC_SearchGame);
     GET_ASINCTASK->StartBackgroundTask();
 
     //out = gRPC_MM->CallRPC_SearchGame(g_request);
@@ -597,7 +597,7 @@ bool UNearMM::AcceptGame(FUAcceptGameRequest Request, bool& out)
 
     CREATE_ASINCTASK(bool, gRPC_ClientMM, game::battlemon::mm::AcceptGameRequest, bool);
     gRPC_MM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_MM, &structResultDelegate, &out, &g_request, &gRPC_ClientMM::CallRPC_AcceptGame);
+    GET_ASINCTASK->GetTask().SetData(gRPC_MM, &out, &g_request, &gRPC_ClientMM::CallRPC_AcceptGame);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;//gRPC_MM->CallRPC_AcceptGame(g_request);
@@ -611,7 +611,7 @@ bool UNearMM::CancelSearch(bool& out)
 
     CREATE_ASINCTASK(bool, gRPC_ClientMM, void*, bool);
     gRPC_MM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_MM, &structResultDelegate, &out, &gRPC_ClientMM::CallRPC_CancelSearch);
+    GET_ASINCTASK->GetTask().SetData(gRPC_MM, &out, &gRPC_ClientMM::CallRPC_CancelSearch);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;// gRPC_MM->CallRPC_CancelSearch();
@@ -697,7 +697,7 @@ bool UNearInternalMM::UserLeftBattle(FUInternalUserLeftBattleRequest Request, bo
 
     CREATE_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::InternalUserLeftBattleRequest, bool);
     gRPC_InternalMM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &structResultDelegate, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_UserLeftBattle);
+    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_UserLeftBattle);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;//  gRPC_InternalMM->CallRPC_UserLeftBattle(g_request);
@@ -715,7 +715,7 @@ bool UNearInternalMM::SaveBattleResult(FUSaveBattleResultRequest Request, bool& 
 
     CREATE_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::SaveBattleResultRequest, bool);
     gRPC_InternalMM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &structResultDelegate, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_SaveBattleResult);
+    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_SaveBattleResult);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;// gRPC_InternalMM->CallRPC_SaveBattleResult(g_request);
@@ -732,7 +732,7 @@ void UNearInternalMM::GetRoomInfo(FURoomInfoRequest Request, FURoomInfoResponse&
 
     CREATE_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::RoomInfoRequest, game::battlemon::mm::internal::RoomInfoResponse);
     gRPC_InternalMM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &structResultDelegate, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_GetRoomInfo);
+    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_GetRoomInfo);
     GET_ASINCTASK->StartBackgroundTask();
 
     //out = gRPC_InternalMM->CallRPC_GetRoomInfo(g_request);
@@ -750,7 +750,7 @@ void UNearInternalMM::CreateRoomWithPlayers(FUCreateRoomRequest Request, FURoomI
 
     CREATE_ASINCTASK(FURoomInfoResponse, gRPC_ClientInternalMM, game::battlemon::mm::internal::CreateRoomRequest, game::battlemon::mm::internal::RoomInfoResponse);
     gRPC_InternalMM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &structResultDelegate, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_CreateRoomWithPlayers);
+    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_CreateRoomWithPlayers);
     GET_ASINCTASK->StartBackgroundTask();
 
     //out = gRPC_InternalMM->CallRPC_CreateRoomWithPlayers(g_request);
@@ -766,7 +766,7 @@ bool UNearInternalMM::DedicatedServerIsReady(FUDedicatedServerIsReadyRequest Req
 
     CREATE_ASINCTASK(bool, gRPC_ClientInternalMM, game::battlemon::mm::internal::DedicatedServerIsReadyRequest, bool);
     gRPC_InternalMM->Task = GET_ASINCTASK;
-    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &structResultDelegate, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady);
+    GET_ASINCTASK->GetTask().SetData(gRPC_InternalMM, &out, &g_request, &gRPC_ClientInternalMM::CallRPC_DedicatedServerIsReady);
     GET_ASINCTASK->StartBackgroundTask();
 
     return out;//  gRPC_InternalMM->CallRPC_DedicatedServerIsReady(g_request);
