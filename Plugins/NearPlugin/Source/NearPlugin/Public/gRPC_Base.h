@@ -28,6 +28,21 @@
 #include <stdarg.h>
 #endif
 
+#if defined(__APPLE__)
+#include <stdint.h>
+typedef char16_t CHAR16_T;
+#define U16_STRING_LITERAL_PREFIX u
+#elif defined(\_MSC_VER)
+typedef wchar_t CHAR16_T;
+#define U16_STRING_LITERAL_PREFIX L
+#else
+typedef UINT16_T CHAR16_T;
+#endif
+
+//typedef uint16_t char16_t;
+//typedef uint32_t char32_t;
+//#endif
+
 #if defined(__unix__)
 #include <uchar.h>
 #endif
@@ -38,60 +53,20 @@
 #include "Async/AsyncWork.h"
 #include "Runtime/Core/Public/Async/ParallelFor.h"
 
-#include "gRPC_Base.generated.h"
 
 
-
-#if defined(__unix__)
+#if defined(__unix__) || defined(__unix) || \
+        (defined(__APPLE__) && defined(__MACH__))
 
 //#define CONV_FSTRING_TO_CHAR(str) U16toString(str)
 //#define CONV_CHAR_TO_FSTRING(str)  StringtoU16(str)
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_UTF8(*str)
 #define CONV_CHAR_TO_FSTRING(str)  UTF8_TO_TCHAR(str)
 
-static inline std::string U16toString(const FString& wstr)
-{
-	int32 size = wstr.Len();
-	std::string str = "";
-	str.resize(size + 1);
-	
-	char cstr[3] = "\0";
-	mbstate_t mbs;
-	const char16_t* chr16 = *wstr;
 
-	ParallelFor(size, [&](int32 Idx)
-		{
-			memset(&mbs, 0, sizeof(mbs));
-			memmove(cstr, "\0\0\0", 3);
-			c16rtomb(cstr, chr16[Idx], &mbs);
-			str[Idx] = *std::string(cstr).c_str();
-		});
 
-	str[size] = '\0';
-	return str;
-}
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
 
-static inline FString StringtoU16(const std::string& str)
-{
-	int32 size = str.size();
-	std::u16string wstr = u"";
-	wstr.resize(size);
-
-	char16_t c16str[3] = u"\0";
-	mbstate_t mbs;
-	const char* chr = str.c_str();
-
-	ParallelFor(size, [&](int32 Idx)
-		{
-			memset(&mbs, 0, sizeof(mbs));
-			memmove(c16str, u"\0\0\0", 3);
-			mbrtoc16(c16str, &chr[Idx], 3, &mbs);
-			wstr[Idx] = *std::u16string(c16str).c_str();
-		});
-
-	FString strUe(wstr.c_str());
-	return strUe;
-}
 #define UE_LOG_REQUEST(Format, ...) ((void)0)
 #else
 #define UE_LOG_REQUEST(Format, ...) ((void)0)
@@ -126,7 +101,7 @@ static inline void printLOG(std::string format, ...)
 				res += FString::FromInt(iT);
 				break;
 			case 's':
-				str = va_arg(ptrIn, std::string);
+				str = va_arg(ptrIn, std::string.c_str();
 				res += CONV_CHAR_TO_FSTRING(str.c_str());
 				break;
 			case 'c':
@@ -264,9 +239,5 @@ public:
  * 
  */
 
-USTRUCT()
-struct FWTF
-{
-	GENERATED_BODY()
-};
+
 

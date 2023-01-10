@@ -58,16 +58,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ".Near| Client", meta = (ExposeOnSpawn = true))
 	FString URL;
 	
-	UPROPERTY(BlueprintAssignable, Category = ".Near | MMProto")
-	FStructResultDelegate structResultDelegate;
+
 
 	FString URLContract;
 	FString URL_Redirect;
 
 	UNearAuth();
 	~UNearAuth();
-	
-	UFUNCTION(BlueprintCallable, Category = ".Near | Client")
+    
+    UPROPERTY(BlueprintAssignable, Category = ".Near | MMProto")
+    FStructResultDelegate structResultDelegate;
+    
+    UFUNCTION(BlueprintCallable, Category = ".Near | Client")
 	FString getAccountID();
 	
 	UPROPERTY(BlueprintAssignable, Category = ".Near | Registration")
