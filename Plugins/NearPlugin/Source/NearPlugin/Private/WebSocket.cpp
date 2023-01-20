@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "WebSocket.h"
-#include "NearAuth.h"
+#include "Serialization/JsonSerializer.h"
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonReader.h"
+#include <CryptoClient.h>
 
 DEFINE_LOG_CATEGORY(WebSocketLog);
 
@@ -32,15 +35,14 @@ void UWebSocket::CreateWebSocet(FString Address)
 			FModuleManager::Get().LoadModule("WebSockets");
 		}
 		TMap<FString, FString> UHeaders;
-		if (UNearAuth::client != nullptr)
+		if (!UCryptoClient::GetWalletAddress().IsEmpty())
 		{
-			UHeaders.Add("near_id", UNearAuth::client->GetAccount());
-			FString sign = CONV_CHAR_TO_FSTRING(UNearAuth::client->GetSing());
-			UHeaders.Add("sign", sign);
+			UHeaders.Add("wallet_address", UCryptoClient::GetWalletAddress());
+		//	UHeaders.Add("sign", UCryptoClient::GetSing());
 		}
 		else
 		{
-
+		
 			OnErrorEvent.Broadcast("client == nullptr");
 			UE_LOG(WebSocketLog, Display, TEXT("client == nullptr"));
 			return;

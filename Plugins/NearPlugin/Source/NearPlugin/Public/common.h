@@ -1,5 +1,5 @@
 #pragma once
-#include "gRPC_Base.h"
+ #include "gRPC_Base.h"
 
 #include "GrpcBegin.h"
 
@@ -58,12 +58,14 @@ enum class FUFaction : uint8
 
 
 USTRUCT(BlueprintType)
-struct FUEmpty 
+struct FUResultStatus 
 {
 	GENERATED_BODY()
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | commonProto")
+	FUStatus status;
 
-	FUEmpty& operator=(const game::battlemon::common::Empty& grpcEmpty);
+	FUResultStatus& operator=(const game::battlemon::common::ResultStatus& grpcResultStatus);
 
 };
 
@@ -73,7 +75,7 @@ struct FUResponse
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | commonProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | commonProto")
 	FUServiceStatus status;
 
 	FUResponse& operator=(const game::battlemon::common::Response& grpcResponse);
@@ -82,14 +84,12 @@ struct FUResponse
 
 
 USTRUCT(BlueprintType)
-struct FUResultStatus 
+struct FUEmpty 
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | commonProto")
-	FUStatus status;
 
-	FUResultStatus& operator=(const game::battlemon::common::ResultStatus& grpcResultStatus);
+	FUEmpty& operator=(const game::battlemon::common::Empty& grpcEmpty);
 
 };
 
@@ -114,9 +114,9 @@ game::battlemon::common::Rarity& operator<<(game::battlemon::common::Rarity & gr
 
 game::battlemon::common::Faction& operator<<(game::battlemon::common::Faction & grpc, const FUFaction &UE); 
 
-game::battlemon::common::Empty &operator<<(game::battlemon::common::Empty &grpcEmpty, const FUEmpty &UE);
+game::battlemon::common::ResultStatus &operator<<(game::battlemon::common::ResultStatus &grpcResultStatus, const FUResultStatus &UE);
 
 game::battlemon::common::Response &operator<<(game::battlemon::common::Response &grpcResponse, const FUResponse &UE);
 
-game::battlemon::common::ResultStatus &operator<<(game::battlemon::common::ResultStatus &grpcResultStatus, const FUResultStatus &UE);
+game::battlemon::common::Empty &operator<<(game::battlemon::common::Empty &grpcEmpty, const FUEmpty &UE);
 

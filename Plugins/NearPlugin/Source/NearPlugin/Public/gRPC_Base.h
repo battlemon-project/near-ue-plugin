@@ -28,23 +28,12 @@
 #include <stdarg.h>
 #endif
 
-#if defined(__APPLE__)
-#include <stdint.h>
-typedef char16_t CHAR16_T;
-#define U16_STRING_LITERAL_PREFIX u
-#elif defined(\_MSC_VER)
-typedef wchar_t CHAR16_T;
-#define U16_STRING_LITERAL_PREFIX L
-#else
-typedef UINT16_T CHAR16_T;
-#endif
-
-//typedef uint16_t char16_t;
-//typedef uint32_t char32_t;
-//#endif
-
 #if defined(__unix__)
 #include <uchar.h>
+#endif
+
+#if defined(__APPLE__)
+#include <stdint.h>
 #endif
 
 #include "GrpcEnd.h"
@@ -53,25 +42,27 @@ typedef UINT16_T CHAR16_T;
 #include "Async/AsyncWork.h"
 #include "Runtime/Core/Public/Async/ParallelFor.h"
 
+#include "gRPC_Base.generated.h"
 
 
-#if defined(__unix__) || defined(__unix) || \
-        (defined(__APPLE__) && defined(__MACH__))
 
-//#define CONV_FSTRING_TO_CHAR(str) U16toString(str)
-//#define CONV_CHAR_TO_FSTRING(str)  StringtoU16(str)
+#if defined(__unix__)
+
+typedef char16_t CHAR16_T;
+#define U16_STRING_LITERAL_PREFIX u
+
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_UTF8(*str)
 #define CONV_CHAR_TO_FSTRING(str)  UTF8_TO_TCHAR(str)
 
-
-
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStructResultDelegate);
-
 #define UE_LOG_REQUEST(Format, ...) ((void)0)
 #else
-#define UE_LOG_REQUEST(Format, ...) ((void)0)
+typedef wchar_t CHAR16_T;
+#define U16_STRING_LITERAL_PREFIX L
+
 #define CONV_FSTRING_TO_CHAR(str) TCHAR_TO_ANSI(*str)
 #define CONV_CHAR_TO_FSTRING(str) UTF8_TO_TCHAR(str)
+
+#define UE_LOG_REQUEST(Format, ...) ((void)0)
 
 #if defined(UE_BUILD_DEVELOPMENT)
 #pragma warning (disable : 4840)
@@ -101,7 +92,7 @@ static inline void printLOG(std::string format, ...)
 				res += FString::FromInt(iT);
 				break;
 			case 's':
-				str = va_arg(ptrIn, std::string.c_str();
+				str = va_arg(ptrIn, std::string);
 				res += CONV_CHAR_TO_FSTRING(str.c_str());
 				break;
 			case 'c':
@@ -239,5 +230,9 @@ public:
  * 
  */
 
-
+USTRUCT()
+struct FWTF
+{
+	GENERATED_BODY()
+};
 

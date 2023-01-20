@@ -1,5 +1,5 @@
 #pragma once
-#include "gRPC_Base.h"
+ #include "gRPC_Base.h"
 
 #include "GrpcBegin.h"
 
@@ -40,134 +40,111 @@ enum class FUResponseCase : uint8
 	kPlayerOutOfLine UMETA(DisplayName = "kPlayerOutOfLine")
 };
 
-USTRUCT(BlueprintType)
-struct FUInternalPlayer 
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FString near_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUGameMode mode;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FString lemon_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FURegion region;
 
-	FUInternalPlayer& operator=(const game::battlemon::carousel::internal::InternalPlayer& grpcInternalPlayer);
-
-};
-
-USTRUCT(BlueprintType)
-struct FUInternalRoomInfo 
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FString room_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUGameMode mode;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	TArray<FUInternalPlayer> players;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FURegion region;
-
-	FUInternalRoomInfo& operator=(const game::battlemon::carousel::internal::InternalRoomInfo& grpcInternalRoomInfo);
-
-};
-USTRUCT(BlueprintType)
-struct FUCarouselRequests 
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FURequestCase request_case;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalPlayer new_player;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalRoomInfo new_room;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalPlayer remove_player;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalRoomInfo room_finished;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalPlayer accept_game;
-
-	FUCarouselRequests& operator=(const game::battlemon::carousel::internal::CarouselRequests& grpcCarouselRequests);
-
-};
-
-USTRUCT(BlueprintType)
-struct FUInternalNewPlayer 
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FString room_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalPlayer player;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FURegion region;
-
-	FUInternalNewPlayer& operator=(const game::battlemon::carousel::internal::InternalNewPlayer& grpcInternalNewPlayer);
-
-};
 
 USTRUCT(BlueprintType)
 struct FUNeedUsersAccept 
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	TArray<FString> near_ids;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	TArray<FString> user_ids;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	bool manual_accept;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	int32 time_to_accept;
 
 	FUNeedUsersAccept& operator=(const game::battlemon::carousel::internal::NeedUsersAccept& grpcNeedUsersAccept);
 
 };
 
+
 USTRUCT(BlueprintType)
-struct FUPlayerInBattle 
+struct FUInternalPlayer 
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FString near_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FString user_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FString lemon_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FString room_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUGameMode mode;
 
-	FUPlayerInBattle& operator=(const game::battlemon::carousel::internal::PlayerInBattle& grpcPlayerInBattle);
+	FUInternalPlayer& operator=(const game::battlemon::carousel::internal::InternalPlayer& grpcInternalPlayer);
 
 };
+
+
+USTRUCT(BlueprintType)
+struct FUInternalRoomInfo 
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FString room_id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUGameMode mode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	TArray<FUInternalPlayer> players;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FURegion region;
+
+	FUInternalRoomInfo& operator=(const game::battlemon::carousel::internal::InternalRoomInfo& grpcInternalRoomInfo);
+
+};
+
 
 USTRUCT(BlueprintType)
 struct FUCarouselResponses 
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUResponseCase response_case;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUInternalRoomInfo room_ready;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUInternalNewPlayer new_room_player;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalPlayer new_room_player;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUNeedUsersAccept need_users_accept;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUInternalPlayer room_not_found;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUInternalRoomInfo accepting_canceled;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUInternalPlayer player_in_queue;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
-	FUPlayerInBattle player_in_battle;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | internalCarouselProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalPlayer player_in_battle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
 	FUInternalPlayer player_out_of_line;
 
 	FUCarouselResponses& operator=(const game::battlemon::carousel::internal::CarouselResponses& grpcCarouselResponses);
+
+};
+
+
+USTRUCT(BlueprintType)
+struct FUCarouselRequests 
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FURequestCase request_case;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalPlayer new_player;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalRoomInfo new_room;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalPlayer remove_player;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalRoomInfo room_finished;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | internalCarouselProto")
+	FUInternalPlayer accept_game;
+
+	FUCarouselRequests& operator=(const game::battlemon::carousel::internal::CarouselRequests& grpcCarouselRequests);
 
 };
 
@@ -180,17 +157,13 @@ game::battlemon::carousel::internal::CarouselRequests::RequestCase& operator<<(g
 
 game::battlemon::carousel::internal::CarouselResponses::ResponseCase& operator<<(game::battlemon::carousel::internal::CarouselResponses::ResponseCase & grpc, const FUResponseCase &UE); 
 
-game::battlemon::carousel::internal::CarouselRequests &operator<<(game::battlemon::carousel::internal::CarouselRequests &grpcCarouselRequests, const FUCarouselRequests &UE);
-
-game::battlemon::carousel::internal::CarouselResponses &operator<<(game::battlemon::carousel::internal::CarouselResponses &grpcCarouselResponses, const FUCarouselResponses &UE);
-
 game::battlemon::carousel::internal::NeedUsersAccept &operator<<(game::battlemon::carousel::internal::NeedUsersAccept &grpcNeedUsersAccept, const FUNeedUsersAccept &UE);
-
-game::battlemon::carousel::internal::InternalRoomInfo &operator<<(game::battlemon::carousel::internal::InternalRoomInfo &grpcInternalRoomInfo, const FUInternalRoomInfo &UE);
-
-game::battlemon::carousel::internal::InternalNewPlayer &operator<<(game::battlemon::carousel::internal::InternalNewPlayer &grpcInternalNewPlayer, const FUInternalNewPlayer &UE);
 
 game::battlemon::carousel::internal::InternalPlayer &operator<<(game::battlemon::carousel::internal::InternalPlayer &grpcInternalPlayer, const FUInternalPlayer &UE);
 
-game::battlemon::carousel::internal::PlayerInBattle &operator<<(game::battlemon::carousel::internal::PlayerInBattle &grpcPlayerInBattle, const FUPlayerInBattle &UE);
+game::battlemon::carousel::internal::InternalRoomInfo &operator<<(game::battlemon::carousel::internal::InternalRoomInfo &grpcInternalRoomInfo, const FUInternalRoomInfo &UE);
+
+game::battlemon::carousel::internal::CarouselResponses &operator<<(game::battlemon::carousel::internal::CarouselResponses &grpcCarouselResponses, const FUCarouselResponses &UE);
+
+game::battlemon::carousel::internal::CarouselRequests &operator<<(game::battlemon::carousel::internal::CarouselRequests &grpcCarouselRequests, const FUCarouselRequests &UE);
 

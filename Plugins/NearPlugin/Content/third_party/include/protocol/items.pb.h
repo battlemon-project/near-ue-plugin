@@ -74,12 +74,15 @@ extern ItemsRequestDefaultTypeInternal _ItemsRequest_default_instance_;
 class ItemsResponse;
 struct ItemsResponseDefaultTypeInternal;
 extern ItemsResponseDefaultTypeInternal _ItemsResponse_default_instance_;
-class LemonModel;
-struct LemonModelDefaultTypeInternal;
-extern LemonModelDefaultTypeInternal _LemonModel_default_instance_;
-class OutfitModel;
-struct OutfitModelDefaultTypeInternal;
-extern OutfitModelDefaultTypeInternal _OutfitModel_default_instance_;
+class NftItem;
+struct NftItemDefaultTypeInternal;
+extern NftItemDefaultTypeInternal _NftItem_default_instance_;
+class NonNftItem;
+struct NonNftItemDefaultTypeInternal;
+extern NonNftItemDefaultTypeInternal _NonNftItem_default_instance_;
+class Trait;
+struct TraitDefaultTypeInternal;
+extern TraitDefaultTypeInternal _Trait_default_instance_;
 class WeaponBundle;
 struct WeaponBundleDefaultTypeInternal;
 extern WeaponBundleDefaultTypeInternal _WeaponBundle_default_instance_;
@@ -98,8 +101,9 @@ template<> ::game::battlemon::items::GetBundlesResponse* Arena::CreateMaybeMessa
 template<> ::game::battlemon::items::Item* Arena::CreateMaybeMessage<::game::battlemon::items::Item>(Arena*);
 template<> ::game::battlemon::items::ItemsRequest* Arena::CreateMaybeMessage<::game::battlemon::items::ItemsRequest>(Arena*);
 template<> ::game::battlemon::items::ItemsResponse* Arena::CreateMaybeMessage<::game::battlemon::items::ItemsResponse>(Arena*);
-template<> ::game::battlemon::items::LemonModel* Arena::CreateMaybeMessage<::game::battlemon::items::LemonModel>(Arena*);
-template<> ::game::battlemon::items::OutfitModel* Arena::CreateMaybeMessage<::game::battlemon::items::OutfitModel>(Arena*);
+template<> ::game::battlemon::items::NftItem* Arena::CreateMaybeMessage<::game::battlemon::items::NftItem>(Arena*);
+template<> ::game::battlemon::items::NonNftItem* Arena::CreateMaybeMessage<::game::battlemon::items::NonNftItem>(Arena*);
+template<> ::game::battlemon::items::Trait* Arena::CreateMaybeMessage<::game::battlemon::items::Trait>(Arena*);
 template<> ::game::battlemon::items::WeaponBundle* Arena::CreateMaybeMessage<::game::battlemon::items::WeaponBundle>(Arena*);
 template<> ::game::battlemon::items::WeaponBundleItem* Arena::CreateMaybeMessage<::game::battlemon::items::WeaponBundleItem>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -107,34 +111,6 @@ namespace game {
 namespace battlemon {
 namespace items {
 
-enum OutfitKind : int {
-  CAP = 0,
-  CLOTH = 1,
-  FIRE_ARM = 2,
-  COLD_ARM = 3,
-  BACK = 4,
-  OutfitKind_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  OutfitKind_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
-};
-bool OutfitKind_IsValid(int value);
-constexpr OutfitKind OutfitKind_MIN = CAP;
-constexpr OutfitKind OutfitKind_MAX = BACK;
-constexpr int OutfitKind_ARRAYSIZE = OutfitKind_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OutfitKind_descriptor();
-template<typename T>
-inline const std::string& OutfitKind_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, OutfitKind>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function OutfitKind_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    OutfitKind_descriptor(), enum_t_value);
-}
-inline bool OutfitKind_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, OutfitKind* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<OutfitKind>(
-    OutfitKind_descriptor(), name, value);
-}
 enum WeaponBundleItemType : int {
   BUNDLE_ITEM_PRIMARY = 0,
   BUNDLE_ITEM_SECONDARY = 1,
@@ -516,10 +492,10 @@ class Item final :
   static const Item& default_instance() {
     return *internal_default_instance();
   }
-  enum ModelCase {
-    kLemon = 5,
-    kOutfit = 6,
-    MODEL_NOT_SET = 0,
+  enum ItemCase {
+    kNft = 1,
+    kNonNft = 2,
+    ITEM_NOT_SET = 0,
   };
 
   static inline const Item* internal_default_instance() {
@@ -600,125 +576,66 @@ class Item final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTokenIdFieldNumber = 1,
-    kMediaFieldNumber = 2,
-    kOwnerIdFieldNumber = 3,
-    kInFightFieldNumber = 4,
-    kLemonFieldNumber = 5,
-    kOutfitFieldNumber = 6,
+    kNftFieldNumber = 1,
+    kNonNftFieldNumber = 2,
   };
-  // string token_id = 1;
-  void clear_token_id();
-  const std::string& token_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_token_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_token_id();
-  PROTOBUF_NODISCARD std::string* release_token_id();
-  void set_allocated_token_id(std::string* token_id);
+  // .game.battlemon.items.NftItem nft = 1;
+  bool has_nft() const;
   private:
-  const std::string& _internal_token_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token_id(const std::string& value);
-  std::string* _internal_mutable_token_id();
+  bool _internal_has_nft() const;
   public:
+  void clear_nft();
+  const ::game::battlemon::items::NftItem& nft() const;
+  PROTOBUF_NODISCARD ::game::battlemon::items::NftItem* release_nft();
+  ::game::battlemon::items::NftItem* mutable_nft();
+  void set_allocated_nft(::game::battlemon::items::NftItem* nft);
+  private:
+  const ::game::battlemon::items::NftItem& _internal_nft() const;
+  ::game::battlemon::items::NftItem* _internal_mutable_nft();
+  public:
+  void unsafe_arena_set_allocated_nft(
+      ::game::battlemon::items::NftItem* nft);
+  ::game::battlemon::items::NftItem* unsafe_arena_release_nft();
 
-  // string media = 2;
-  void clear_media();
-  const std::string& media() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_media(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_media();
-  PROTOBUF_NODISCARD std::string* release_media();
-  void set_allocated_media(std::string* media);
+  // .game.battlemon.items.NonNftItem non_nft = 2;
+  bool has_non_nft() const;
   private:
-  const std::string& _internal_media() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_media(const std::string& value);
-  std::string* _internal_mutable_media();
+  bool _internal_has_non_nft() const;
   public:
+  void clear_non_nft();
+  const ::game::battlemon::items::NonNftItem& non_nft() const;
+  PROTOBUF_NODISCARD ::game::battlemon::items::NonNftItem* release_non_nft();
+  ::game::battlemon::items::NonNftItem* mutable_non_nft();
+  void set_allocated_non_nft(::game::battlemon::items::NonNftItem* non_nft);
+  private:
+  const ::game::battlemon::items::NonNftItem& _internal_non_nft() const;
+  ::game::battlemon::items::NonNftItem* _internal_mutable_non_nft();
+  public:
+  void unsafe_arena_set_allocated_non_nft(
+      ::game::battlemon::items::NonNftItem* non_nft);
+  ::game::battlemon::items::NonNftItem* unsafe_arena_release_non_nft();
 
-  // string owner_id = 3;
-  void clear_owner_id();
-  const std::string& owner_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_owner_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_owner_id();
-  PROTOBUF_NODISCARD std::string* release_owner_id();
-  void set_allocated_owner_id(std::string* owner_id);
-  private:
-  const std::string& _internal_owner_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_owner_id(const std::string& value);
-  std::string* _internal_mutable_owner_id();
-  public:
-
-  // bool in_fight = 4;
-  void clear_in_fight();
-  bool in_fight() const;
-  void set_in_fight(bool value);
-  private:
-  bool _internal_in_fight() const;
-  void _internal_set_in_fight(bool value);
-  public:
-
-  // .game.battlemon.items.LemonModel lemon = 5;
-  bool has_lemon() const;
-  private:
-  bool _internal_has_lemon() const;
-  public:
-  void clear_lemon();
-  const ::game::battlemon::items::LemonModel& lemon() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::LemonModel* release_lemon();
-  ::game::battlemon::items::LemonModel* mutable_lemon();
-  void set_allocated_lemon(::game::battlemon::items::LemonModel* lemon);
-  private:
-  const ::game::battlemon::items::LemonModel& _internal_lemon() const;
-  ::game::battlemon::items::LemonModel* _internal_mutable_lemon();
-  public:
-  void unsafe_arena_set_allocated_lemon(
-      ::game::battlemon::items::LemonModel* lemon);
-  ::game::battlemon::items::LemonModel* unsafe_arena_release_lemon();
-
-  // .game.battlemon.items.OutfitModel outfit = 6;
-  bool has_outfit() const;
-  private:
-  bool _internal_has_outfit() const;
-  public:
-  void clear_outfit();
-  const ::game::battlemon::items::OutfitModel& outfit() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::OutfitModel* release_outfit();
-  ::game::battlemon::items::OutfitModel* mutable_outfit();
-  void set_allocated_outfit(::game::battlemon::items::OutfitModel* outfit);
-  private:
-  const ::game::battlemon::items::OutfitModel& _internal_outfit() const;
-  ::game::battlemon::items::OutfitModel* _internal_mutable_outfit();
-  public:
-  void unsafe_arena_set_allocated_outfit(
-      ::game::battlemon::items::OutfitModel* outfit);
-  ::game::battlemon::items::OutfitModel* unsafe_arena_release_outfit();
-
-  void clear_model();
-  ModelCase model_case() const;
+  void clear_item();
+  ItemCase item_case() const;
   // @@protoc_insertion_point(class_scope:game.battlemon.items.Item)
  private:
   class _Internal;
-  void set_has_lemon();
-  void set_has_outfit();
+  void set_has_nft();
+  void set_has_non_nft();
 
-  inline bool has_model() const;
-  inline void clear_has_model();
+  inline bool has_item() const;
+  inline void clear_has_item();
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr media_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_id_;
-    bool in_fight_;
-    union ModelUnion {
-      constexpr ModelUnion() : _constinit_{} {}
+    union ItemUnion {
+      constexpr ItemUnion() : _constinit_{} {}
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
-      ::game::battlemon::items::LemonModel* lemon_;
-      ::game::battlemon::items::OutfitModel* outfit_;
-    } model_;
+      ::game::battlemon::items::NftItem* nft_;
+      ::game::battlemon::items::NonNftItem* non_nft_;
+    } item_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     uint32_t _oneof_case_[1];
 
@@ -728,24 +645,24 @@ class Item final :
 };
 // -------------------------------------------------------------------
 
-class LemonModel final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.LemonModel) */ {
+class NftItem final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.NftItem) */ {
  public:
-  inline LemonModel() : LemonModel(nullptr) {}
-  ~LemonModel() override;
-  explicit PROTOBUF_CONSTEXPR LemonModel(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline NftItem() : NftItem(nullptr) {}
+  ~NftItem() override;
+  explicit PROTOBUF_CONSTEXPR NftItem(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  LemonModel(const LemonModel& from);
-  LemonModel(LemonModel&& from) noexcept
-    : LemonModel() {
+  NftItem(const NftItem& from);
+  NftItem(NftItem&& from) noexcept
+    : NftItem() {
     *this = ::std::move(from);
   }
 
-  inline LemonModel& operator=(const LemonModel& from) {
+  inline NftItem& operator=(const NftItem& from) {
     CopyFrom(from);
     return *this;
   }
-  inline LemonModel& operator=(LemonModel&& from) noexcept {
+  inline NftItem& operator=(NftItem&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -768,20 +685,20 @@ class LemonModel final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const LemonModel& default_instance() {
+  static const NftItem& default_instance() {
     return *internal_default_instance();
   }
-  static inline const LemonModel* internal_default_instance() {
-    return reinterpret_cast<const LemonModel*>(
-               &_LemonModel_default_instance_);
+  static inline const NftItem* internal_default_instance() {
+    return reinterpret_cast<const NftItem*>(
+               &_NftItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     3;
 
-  friend void swap(LemonModel& a, LemonModel& b) {
+  friend void swap(NftItem& a, NftItem& b) {
     a.Swap(&b);
   }
-  inline void Swap(LemonModel* other) {
+  inline void Swap(NftItem* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -794,7 +711,7 @@ class LemonModel final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(LemonModel* other) {
+  void UnsafeArenaSwap(NftItem* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -802,14 +719,14 @@ class LemonModel final :
 
   // implements Message ----------------------------------------------
 
-  LemonModel* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<LemonModel>(arena);
+  NftItem* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<NftItem>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const LemonModel& from);
+  void CopyFrom(const NftItem& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const LemonModel& from) {
-    LemonModel::MergeImpl(*this, from);
+  void MergeFrom( const NftItem& from) {
+    NftItem::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -827,15 +744,15 @@ class LemonModel final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(LemonModel* other);
+  void InternalSwap(NftItem* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.items.LemonModel";
+    return "game.battlemon.items.NftItem";
   }
   protected:
-  explicit LemonModel(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit NftItem(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -849,19 +766,33 @@ class LemonModel final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kAttachedBundlesFieldNumber = 11,
-    kExoFieldNumber = 3,
-    kEyesFieldNumber = 4,
-    kHeadFieldNumber = 5,
-    kTeethFieldNumber = 6,
-    kFaceFieldNumber = 7,
-    kCapFieldNumber = 1,
-    kClothFieldNumber = 2,
-    kFireArmFieldNumber = 8,
-    kColdArmFieldNumber = 9,
-    kBackFieldNumber = 10,
+    kTraitsFieldNumber = 5,
+    kAttachedBundlesFieldNumber = 7,
+    kIdFieldNumber = 1,
+    kTypeFieldNumber = 2,
+    kOwnerFieldNumber = 3,
+    kUrlFieldNumber = 4,
+    kCreatedAtFieldNumber = 6,
   };
-  // repeated .game.battlemon.items.WeaponBundle attached_bundles = 11;
+  // repeated .game.battlemon.items.Trait traits = 5;
+  int traits_size() const;
+  private:
+  int _internal_traits_size() const;
+  public:
+  void clear_traits();
+  ::game::battlemon::items::Trait* mutable_traits(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Trait >*
+      mutable_traits();
+  private:
+  const ::game::battlemon::items::Trait& _internal_traits(int index) const;
+  ::game::battlemon::items::Trait* _internal_add_traits();
+  public:
+  const ::game::battlemon::items::Trait& traits(int index) const;
+  ::game::battlemon::items::Trait* add_traits();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Trait >&
+      traits() const;
+
+  // repeated .game.battlemon.items.WeaponBundle attached_bundles = 7;
   int attached_bundles_size() const;
   private:
   int _internal_attached_bundles_size() const;
@@ -879,167 +810,72 @@ class LemonModel final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >&
       attached_bundles() const;
 
-  // string exo = 3;
-  void clear_exo();
-  const std::string& exo() const;
+  // string id = 1;
+  void clear_id();
+  const std::string& id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_exo(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_exo();
-  PROTOBUF_NODISCARD std::string* release_exo();
-  void set_allocated_exo(std::string* exo);
+  void set_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_id();
+  PROTOBUF_NODISCARD std::string* release_id();
+  void set_allocated_id(std::string* id);
   private:
-  const std::string& _internal_exo() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_exo(const std::string& value);
-  std::string* _internal_mutable_exo();
+  const std::string& _internal_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(const std::string& value);
+  std::string* _internal_mutable_id();
   public:
 
-  // string eyes = 4;
-  void clear_eyes();
-  const std::string& eyes() const;
+  // string type = 2;
+  void clear_type();
+  const std::string& type() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_eyes(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_eyes();
-  PROTOBUF_NODISCARD std::string* release_eyes();
-  void set_allocated_eyes(std::string* eyes);
+  void set_type(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_type();
+  PROTOBUF_NODISCARD std::string* release_type();
+  void set_allocated_type(std::string* type);
   private:
-  const std::string& _internal_eyes() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_eyes(const std::string& value);
-  std::string* _internal_mutable_eyes();
+  const std::string& _internal_type() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_type(const std::string& value);
+  std::string* _internal_mutable_type();
   public:
 
-  // string head = 5;
-  void clear_head();
-  const std::string& head() const;
+  // string owner = 3;
+  void clear_owner();
+  const std::string& owner() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_head(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_head();
-  PROTOBUF_NODISCARD std::string* release_head();
-  void set_allocated_head(std::string* head);
+  void set_owner(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_owner();
+  PROTOBUF_NODISCARD std::string* release_owner();
+  void set_allocated_owner(std::string* owner);
   private:
-  const std::string& _internal_head() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_head(const std::string& value);
-  std::string* _internal_mutable_head();
+  const std::string& _internal_owner() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_owner(const std::string& value);
+  std::string* _internal_mutable_owner();
   public:
 
-  // string teeth = 6;
-  void clear_teeth();
-  const std::string& teeth() const;
+  // string url = 4;
+  void clear_url();
+  const std::string& url() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_teeth(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_teeth();
-  PROTOBUF_NODISCARD std::string* release_teeth();
-  void set_allocated_teeth(std::string* teeth);
+  void set_url(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_url();
+  PROTOBUF_NODISCARD std::string* release_url();
+  void set_allocated_url(std::string* url);
   private:
-  const std::string& _internal_teeth() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_teeth(const std::string& value);
-  std::string* _internal_mutable_teeth();
+  const std::string& _internal_url() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_url(const std::string& value);
+  std::string* _internal_mutable_url();
   public:
 
-  // string face = 7;
-  void clear_face();
-  const std::string& face() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_face(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_face();
-  PROTOBUF_NODISCARD std::string* release_face();
-  void set_allocated_face(std::string* face);
+  // int64 created_at = 6;
+  void clear_created_at();
+  int64_t created_at() const;
+  void set_created_at(int64_t value);
   private:
-  const std::string& _internal_face() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_face(const std::string& value);
-  std::string* _internal_mutable_face();
+  int64_t _internal_created_at() const;
+  void _internal_set_created_at(int64_t value);
   public:
 
-  // .game.battlemon.items.OutfitModel cap = 1;
-  bool has_cap() const;
-  private:
-  bool _internal_has_cap() const;
-  public:
-  void clear_cap();
-  const ::game::battlemon::items::OutfitModel& cap() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::OutfitModel* release_cap();
-  ::game::battlemon::items::OutfitModel* mutable_cap();
-  void set_allocated_cap(::game::battlemon::items::OutfitModel* cap);
-  private:
-  const ::game::battlemon::items::OutfitModel& _internal_cap() const;
-  ::game::battlemon::items::OutfitModel* _internal_mutable_cap();
-  public:
-  void unsafe_arena_set_allocated_cap(
-      ::game::battlemon::items::OutfitModel* cap);
-  ::game::battlemon::items::OutfitModel* unsafe_arena_release_cap();
-
-  // .game.battlemon.items.OutfitModel cloth = 2;
-  bool has_cloth() const;
-  private:
-  bool _internal_has_cloth() const;
-  public:
-  void clear_cloth();
-  const ::game::battlemon::items::OutfitModel& cloth() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::OutfitModel* release_cloth();
-  ::game::battlemon::items::OutfitModel* mutable_cloth();
-  void set_allocated_cloth(::game::battlemon::items::OutfitModel* cloth);
-  private:
-  const ::game::battlemon::items::OutfitModel& _internal_cloth() const;
-  ::game::battlemon::items::OutfitModel* _internal_mutable_cloth();
-  public:
-  void unsafe_arena_set_allocated_cloth(
-      ::game::battlemon::items::OutfitModel* cloth);
-  ::game::battlemon::items::OutfitModel* unsafe_arena_release_cloth();
-
-  // .game.battlemon.items.OutfitModel fire_arm = 8;
-  bool has_fire_arm() const;
-  private:
-  bool _internal_has_fire_arm() const;
-  public:
-  void clear_fire_arm();
-  const ::game::battlemon::items::OutfitModel& fire_arm() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::OutfitModel* release_fire_arm();
-  ::game::battlemon::items::OutfitModel* mutable_fire_arm();
-  void set_allocated_fire_arm(::game::battlemon::items::OutfitModel* fire_arm);
-  private:
-  const ::game::battlemon::items::OutfitModel& _internal_fire_arm() const;
-  ::game::battlemon::items::OutfitModel* _internal_mutable_fire_arm();
-  public:
-  void unsafe_arena_set_allocated_fire_arm(
-      ::game::battlemon::items::OutfitModel* fire_arm);
-  ::game::battlemon::items::OutfitModel* unsafe_arena_release_fire_arm();
-
-  // .game.battlemon.items.OutfitModel cold_arm = 9;
-  bool has_cold_arm() const;
-  private:
-  bool _internal_has_cold_arm() const;
-  public:
-  void clear_cold_arm();
-  const ::game::battlemon::items::OutfitModel& cold_arm() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::OutfitModel* release_cold_arm();
-  ::game::battlemon::items::OutfitModel* mutable_cold_arm();
-  void set_allocated_cold_arm(::game::battlemon::items::OutfitModel* cold_arm);
-  private:
-  const ::game::battlemon::items::OutfitModel& _internal_cold_arm() const;
-  ::game::battlemon::items::OutfitModel* _internal_mutable_cold_arm();
-  public:
-  void unsafe_arena_set_allocated_cold_arm(
-      ::game::battlemon::items::OutfitModel* cold_arm);
-  ::game::battlemon::items::OutfitModel* unsafe_arena_release_cold_arm();
-
-  // .game.battlemon.items.OutfitModel back = 10;
-  bool has_back() const;
-  private:
-  bool _internal_has_back() const;
-  public:
-  void clear_back();
-  const ::game::battlemon::items::OutfitModel& back() const;
-  PROTOBUF_NODISCARD ::game::battlemon::items::OutfitModel* release_back();
-  ::game::battlemon::items::OutfitModel* mutable_back();
-  void set_allocated_back(::game::battlemon::items::OutfitModel* back);
-  private:
-  const ::game::battlemon::items::OutfitModel& _internal_back() const;
-  ::game::battlemon::items::OutfitModel* _internal_mutable_back();
-  public:
-  void unsafe_arena_set_allocated_back(
-      ::game::battlemon::items::OutfitModel* back);
-  ::game::battlemon::items::OutfitModel* unsafe_arena_release_back();
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.items.LemonModel)
+  // @@protoc_insertion_point(class_scope:game.battlemon.items.NftItem)
  private:
   class _Internal;
 
@@ -1047,17 +883,13 @@ class LemonModel final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Trait > traits_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle > attached_bundles_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr exo_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr eyes_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr head_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr teeth_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr face_;
-    ::game::battlemon::items::OutfitModel* cap_;
-    ::game::battlemon::items::OutfitModel* cloth_;
-    ::game::battlemon::items::OutfitModel* fire_arm_;
-    ::game::battlemon::items::OutfitModel* cold_arm_;
-    ::game::battlemon::items::OutfitModel* back_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr type_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr url_;
+    int64_t created_at_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1065,24 +897,24 @@ class LemonModel final :
 };
 // -------------------------------------------------------------------
 
-class OutfitModel final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.OutfitModel) */ {
+class Trait final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.Trait) */ {
  public:
-  inline OutfitModel() : OutfitModel(nullptr) {}
-  ~OutfitModel() override;
-  explicit PROTOBUF_CONSTEXPR OutfitModel(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline Trait() : Trait(nullptr) {}
+  ~Trait() override;
+  explicit PROTOBUF_CONSTEXPR Trait(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  OutfitModel(const OutfitModel& from);
-  OutfitModel(OutfitModel&& from) noexcept
-    : OutfitModel() {
+  Trait(const Trait& from);
+  Trait(Trait&& from) noexcept
+    : Trait() {
     *this = ::std::move(from);
   }
 
-  inline OutfitModel& operator=(const OutfitModel& from) {
+  inline Trait& operator=(const Trait& from) {
     CopyFrom(from);
     return *this;
   }
-  inline OutfitModel& operator=(OutfitModel&& from) noexcept {
+  inline Trait& operator=(Trait&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -1105,20 +937,20 @@ class OutfitModel final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const OutfitModel& default_instance() {
+  static const Trait& default_instance() {
     return *internal_default_instance();
   }
-  static inline const OutfitModel* internal_default_instance() {
-    return reinterpret_cast<const OutfitModel*>(
-               &_OutfitModel_default_instance_);
+  static inline const Trait* internal_default_instance() {
+    return reinterpret_cast<const Trait*>(
+               &_Trait_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     4;
 
-  friend void swap(OutfitModel& a, OutfitModel& b) {
+  friend void swap(Trait& a, Trait& b) {
     a.Swap(&b);
   }
-  inline void Swap(OutfitModel* other) {
+  inline void Swap(Trait* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -1131,7 +963,7 @@ class OutfitModel final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(OutfitModel* other) {
+  void UnsafeArenaSwap(Trait* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -1139,14 +971,14 @@ class OutfitModel final :
 
   // implements Message ----------------------------------------------
 
-  OutfitModel* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<OutfitModel>(arena);
+  Trait* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Trait>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const OutfitModel& from);
+  void CopyFrom(const Trait& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const OutfitModel& from) {
-    OutfitModel::MergeImpl(*this, from);
+  void MergeFrom( const Trait& from) {
+    Trait::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -1164,15 +996,15 @@ class OutfitModel final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(OutfitModel* other);
+  void InternalSwap(Trait* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.items.OutfitModel";
+    return "game.battlemon.items.Trait";
   }
   protected:
-  explicit OutfitModel(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit Trait(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -1186,11 +1018,24 @@ class OutfitModel final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFlavourFieldNumber = 1,
-    kTokenIdFieldNumber = 2,
-    kKindFieldNumber = 3,
+    kNameFieldNumber = 1,
+    kFlavourFieldNumber = 2,
   };
-  // string flavour = 1;
+  // string name = 1;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // string flavour = 2;
   void clear_flavour();
   const std::string& flavour() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -1204,30 +1049,7 @@ class OutfitModel final :
   std::string* _internal_mutable_flavour();
   public:
 
-  // string token_id = 2;
-  void clear_token_id();
-  const std::string& token_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_token_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_token_id();
-  PROTOBUF_NODISCARD std::string* release_token_id();
-  void set_allocated_token_id(std::string* token_id);
-  private:
-  const std::string& _internal_token_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token_id(const std::string& value);
-  std::string* _internal_mutable_token_id();
-  public:
-
-  // .game.battlemon.items.OutfitKind kind = 3;
-  void clear_kind();
-  ::game::battlemon::items::OutfitKind kind() const;
-  void set_kind(::game::battlemon::items::OutfitKind value);
-  private:
-  ::game::battlemon::items::OutfitKind _internal_kind() const;
-  void _internal_set_kind(::game::battlemon::items::OutfitKind value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.items.OutfitModel)
+  // @@protoc_insertion_point(class_scope:game.battlemon.items.Trait)
  private:
   class _Internal;
 
@@ -1235,9 +1057,208 @@ class OutfitModel final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr flavour_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_id_;
-    int kind_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_items_2eproto;
+};
+// -------------------------------------------------------------------
+
+class NonNftItem final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.items.NonNftItem) */ {
+ public:
+  inline NonNftItem() : NonNftItem(nullptr) {}
+  ~NonNftItem() override;
+  explicit PROTOBUF_CONSTEXPR NonNftItem(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  NonNftItem(const NonNftItem& from);
+  NonNftItem(NonNftItem&& from) noexcept
+    : NonNftItem() {
+    *this = ::std::move(from);
+  }
+
+  inline NonNftItem& operator=(const NonNftItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline NonNftItem& operator=(NonNftItem&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const NonNftItem& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const NonNftItem* internal_default_instance() {
+    return reinterpret_cast<const NonNftItem*>(
+               &_NonNftItem_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(NonNftItem& a, NonNftItem& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(NonNftItem* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(NonNftItem* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  NonNftItem* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<NonNftItem>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const NonNftItem& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const NonNftItem& from) {
+    NonNftItem::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(NonNftItem* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.items.NonNftItem";
+  }
+  protected:
+  explicit NonNftItem(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAttachedBundlesFieldNumber = 4,
+    kIdFieldNumber = 1,
+    kOwnerFieldNumber = 2,
+    kLevelFieldNumber = 3,
+  };
+  // repeated .game.battlemon.items.WeaponBundle attached_bundles = 4;
+  int attached_bundles_size() const;
+  private:
+  int _internal_attached_bundles_size() const;
+  public:
+  void clear_attached_bundles();
+  ::game::battlemon::items::WeaponBundle* mutable_attached_bundles(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >*
+      mutable_attached_bundles();
+  private:
+  const ::game::battlemon::items::WeaponBundle& _internal_attached_bundles(int index) const;
+  ::game::battlemon::items::WeaponBundle* _internal_add_attached_bundles();
+  public:
+  const ::game::battlemon::items::WeaponBundle& attached_bundles(int index) const;
+  ::game::battlemon::items::WeaponBundle* add_attached_bundles();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >&
+      attached_bundles() const;
+
+  // string id = 1;
+  void clear_id();
+  const std::string& id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_id();
+  PROTOBUF_NODISCARD std::string* release_id();
+  void set_allocated_id(std::string* id);
+  private:
+  const std::string& _internal_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(const std::string& value);
+  std::string* _internal_mutable_id();
+  public:
+
+  // string owner = 2;
+  void clear_owner();
+  const std::string& owner() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_owner(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_owner();
+  PROTOBUF_NODISCARD std::string* release_owner();
+  void set_allocated_owner(std::string* owner);
+  private:
+  const std::string& _internal_owner() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_owner(const std::string& value);
+  std::string* _internal_mutable_owner();
+  public:
+
+  // int32 level = 3;
+  void clear_level();
+  int32_t level() const;
+  void set_level(int32_t value);
+  private:
+  int32_t _internal_level() const;
+  void _internal_set_level(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.items.NonNftItem)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle > attached_bundles_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_;
+    int32_t level_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1293,7 +1314,7 @@ class WeaponBundle final :
                &_WeaponBundle_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(WeaponBundle& a, WeaponBundle& b) {
     a.Swap(&b);
@@ -1488,7 +1509,7 @@ class WeaponBundleItem final :
                &_WeaponBundleItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(WeaponBundleItem& a, WeaponBundleItem& b) {
     a.Swap(&b);
@@ -1662,7 +1683,7 @@ class GetBundlesRequest final :
                &_GetBundlesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(GetBundlesRequest& a, GetBundlesRequest& b) {
     a.Swap(&b);
@@ -1781,7 +1802,7 @@ class GetBundlesResponse final :
                &_GetBundlesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(GetBundlesResponse& a, GetBundlesResponse& b) {
     a.Swap(&b);
@@ -1938,7 +1959,7 @@ class EditBundleRequest final :
                &_EditBundleRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(EditBundleRequest& a, EditBundleRequest& b) {
     a.Swap(&b);
@@ -2122,7 +2143,7 @@ class AttachBundleRequest final :
                &_AttachBundleRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(AttachBundleRequest& a, AttachBundleRequest& b) {
     a.Swap(&b);
@@ -2286,7 +2307,7 @@ class DetachBundleRequest final :
                &_DetachBundleRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(DetachBundleRequest& a, DetachBundleRequest& b) {
     a.Swap(&b);
@@ -2459,1117 +2480,557 @@ ItemsResponse::items() const {
 
 // Item
 
-// string token_id = 1;
-inline void Item::clear_token_id() {
-  _impl_.token_id_.ClearToEmpty();
+// .game.battlemon.items.NftItem nft = 1;
+inline bool Item::_internal_has_nft() const {
+  return item_case() == kNft;
 }
-inline const std::string& Item::token_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.token_id)
-  return _internal_token_id();
+inline bool Item::has_nft() const {
+  return _internal_has_nft();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void Item::set_token_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.token_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.Item.token_id)
+inline void Item::set_has_nft() {
+  _impl_._oneof_case_[0] = kNft;
 }
-inline std::string* Item::mutable_token_id() {
-  std::string* _s = _internal_mutable_token_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.token_id)
-  return _s;
-}
-inline const std::string& Item::_internal_token_id() const {
-  return _impl_.token_id_.Get();
-}
-inline void Item::_internal_set_token_id(const std::string& value) {
-  
-  _impl_.token_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* Item::_internal_mutable_token_id() {
-  
-  return _impl_.token_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* Item::release_token_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.token_id)
-  return _impl_.token_id_.Release();
-}
-inline void Item::set_allocated_token_id(std::string* token_id) {
-  if (token_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.token_id_.SetAllocated(token_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.token_id_.IsDefault()) {
-    _impl_.token_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.Item.token_id)
-}
-
-// string media = 2;
-inline void Item::clear_media() {
-  _impl_.media_.ClearToEmpty();
-}
-inline const std::string& Item::media() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.media)
-  return _internal_media();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void Item::set_media(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.media_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.Item.media)
-}
-inline std::string* Item::mutable_media() {
-  std::string* _s = _internal_mutable_media();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.media)
-  return _s;
-}
-inline const std::string& Item::_internal_media() const {
-  return _impl_.media_.Get();
-}
-inline void Item::_internal_set_media(const std::string& value) {
-  
-  _impl_.media_.Set(value, GetArenaForAllocation());
-}
-inline std::string* Item::_internal_mutable_media() {
-  
-  return _impl_.media_.Mutable(GetArenaForAllocation());
-}
-inline std::string* Item::release_media() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.media)
-  return _impl_.media_.Release();
-}
-inline void Item::set_allocated_media(std::string* media) {
-  if (media != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.media_.SetAllocated(media, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.media_.IsDefault()) {
-    _impl_.media_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.Item.media)
-}
-
-// string owner_id = 3;
-inline void Item::clear_owner_id() {
-  _impl_.owner_id_.ClearToEmpty();
-}
-inline const std::string& Item::owner_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.owner_id)
-  return _internal_owner_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void Item::set_owner_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.owner_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.Item.owner_id)
-}
-inline std::string* Item::mutable_owner_id() {
-  std::string* _s = _internal_mutable_owner_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.owner_id)
-  return _s;
-}
-inline const std::string& Item::_internal_owner_id() const {
-  return _impl_.owner_id_.Get();
-}
-inline void Item::_internal_set_owner_id(const std::string& value) {
-  
-  _impl_.owner_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* Item::_internal_mutable_owner_id() {
-  
-  return _impl_.owner_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* Item::release_owner_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.owner_id)
-  return _impl_.owner_id_.Release();
-}
-inline void Item::set_allocated_owner_id(std::string* owner_id) {
-  if (owner_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.owner_id_.SetAllocated(owner_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.owner_id_.IsDefault()) {
-    _impl_.owner_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.Item.owner_id)
-}
-
-// bool in_fight = 4;
-inline void Item::clear_in_fight() {
-  _impl_.in_fight_ = false;
-}
-inline bool Item::_internal_in_fight() const {
-  return _impl_.in_fight_;
-}
-inline bool Item::in_fight() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.in_fight)
-  return _internal_in_fight();
-}
-inline void Item::_internal_set_in_fight(bool value) {
-  
-  _impl_.in_fight_ = value;
-}
-inline void Item::set_in_fight(bool value) {
-  _internal_set_in_fight(value);
-  // @@protoc_insertion_point(field_set:game.battlemon.items.Item.in_fight)
-}
-
-// .game.battlemon.items.LemonModel lemon = 5;
-inline bool Item::_internal_has_lemon() const {
-  return model_case() == kLemon;
-}
-inline bool Item::has_lemon() const {
-  return _internal_has_lemon();
-}
-inline void Item::set_has_lemon() {
-  _impl_._oneof_case_[0] = kLemon;
-}
-inline void Item::clear_lemon() {
-  if (_internal_has_lemon()) {
+inline void Item::clear_nft() {
+  if (_internal_has_nft()) {
     if (GetArenaForAllocation() == nullptr) {
-      delete _impl_.model_.lemon_;
+      delete _impl_.item_.nft_;
     }
-    clear_has_model();
+    clear_has_item();
   }
 }
-inline ::game::battlemon::items::LemonModel* Item::release_lemon() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.lemon)
-  if (_internal_has_lemon()) {
-    clear_has_model();
-    ::game::battlemon::items::LemonModel* temp = _impl_.model_.lemon_;
+inline ::game::battlemon::items::NftItem* Item::release_nft() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.nft)
+  if (_internal_has_nft()) {
+    clear_has_item();
+    ::game::battlemon::items::NftItem* temp = _impl_.item_.nft_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
-    _impl_.model_.lemon_ = nullptr;
+    _impl_.item_.nft_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline const ::game::battlemon::items::LemonModel& Item::_internal_lemon() const {
-  return _internal_has_lemon()
-      ? *_impl_.model_.lemon_
-      : reinterpret_cast< ::game::battlemon::items::LemonModel&>(::game::battlemon::items::_LemonModel_default_instance_);
+inline const ::game::battlemon::items::NftItem& Item::_internal_nft() const {
+  return _internal_has_nft()
+      ? *_impl_.item_.nft_
+      : reinterpret_cast< ::game::battlemon::items::NftItem&>(::game::battlemon::items::_NftItem_default_instance_);
 }
-inline const ::game::battlemon::items::LemonModel& Item::lemon() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.lemon)
-  return _internal_lemon();
+inline const ::game::battlemon::items::NftItem& Item::nft() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.nft)
+  return _internal_nft();
 }
-inline ::game::battlemon::items::LemonModel* Item::unsafe_arena_release_lemon() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:game.battlemon.items.Item.lemon)
-  if (_internal_has_lemon()) {
-    clear_has_model();
-    ::game::battlemon::items::LemonModel* temp = _impl_.model_.lemon_;
-    _impl_.model_.lemon_ = nullptr;
+inline ::game::battlemon::items::NftItem* Item::unsafe_arena_release_nft() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:game.battlemon.items.Item.nft)
+  if (_internal_has_nft()) {
+    clear_has_item();
+    ::game::battlemon::items::NftItem* temp = _impl_.item_.nft_;
+    _impl_.item_.nft_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Item::unsafe_arena_set_allocated_lemon(::game::battlemon::items::LemonModel* lemon) {
-  clear_model();
-  if (lemon) {
-    set_has_lemon();
-    _impl_.model_.lemon_ = lemon;
+inline void Item::unsafe_arena_set_allocated_nft(::game::battlemon::items::NftItem* nft) {
+  clear_item();
+  if (nft) {
+    set_has_nft();
+    _impl_.item_.nft_ = nft;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.Item.lemon)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.Item.nft)
 }
-inline ::game::battlemon::items::LemonModel* Item::_internal_mutable_lemon() {
-  if (!_internal_has_lemon()) {
-    clear_model();
-    set_has_lemon();
-    _impl_.model_.lemon_ = CreateMaybeMessage< ::game::battlemon::items::LemonModel >(GetArenaForAllocation());
+inline ::game::battlemon::items::NftItem* Item::_internal_mutable_nft() {
+  if (!_internal_has_nft()) {
+    clear_item();
+    set_has_nft();
+    _impl_.item_.nft_ = CreateMaybeMessage< ::game::battlemon::items::NftItem >(GetArenaForAllocation());
   }
-  return _impl_.model_.lemon_;
+  return _impl_.item_.nft_;
 }
-inline ::game::battlemon::items::LemonModel* Item::mutable_lemon() {
-  ::game::battlemon::items::LemonModel* _msg = _internal_mutable_lemon();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.lemon)
+inline ::game::battlemon::items::NftItem* Item::mutable_nft() {
+  ::game::battlemon::items::NftItem* _msg = _internal_mutable_nft();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.nft)
   return _msg;
 }
 
-// .game.battlemon.items.OutfitModel outfit = 6;
-inline bool Item::_internal_has_outfit() const {
-  return model_case() == kOutfit;
+// .game.battlemon.items.NonNftItem non_nft = 2;
+inline bool Item::_internal_has_non_nft() const {
+  return item_case() == kNonNft;
 }
-inline bool Item::has_outfit() const {
-  return _internal_has_outfit();
+inline bool Item::has_non_nft() const {
+  return _internal_has_non_nft();
 }
-inline void Item::set_has_outfit() {
-  _impl_._oneof_case_[0] = kOutfit;
+inline void Item::set_has_non_nft() {
+  _impl_._oneof_case_[0] = kNonNft;
 }
-inline void Item::clear_outfit() {
-  if (_internal_has_outfit()) {
+inline void Item::clear_non_nft() {
+  if (_internal_has_non_nft()) {
     if (GetArenaForAllocation() == nullptr) {
-      delete _impl_.model_.outfit_;
+      delete _impl_.item_.non_nft_;
     }
-    clear_has_model();
+    clear_has_item();
   }
 }
-inline ::game::battlemon::items::OutfitModel* Item::release_outfit() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.outfit)
-  if (_internal_has_outfit()) {
-    clear_has_model();
-    ::game::battlemon::items::OutfitModel* temp = _impl_.model_.outfit_;
+inline ::game::battlemon::items::NonNftItem* Item::release_non_nft() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.Item.non_nft)
+  if (_internal_has_non_nft()) {
+    clear_has_item();
+    ::game::battlemon::items::NonNftItem* temp = _impl_.item_.non_nft_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
-    _impl_.model_.outfit_ = nullptr;
+    _impl_.item_.non_nft_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline const ::game::battlemon::items::OutfitModel& Item::_internal_outfit() const {
-  return _internal_has_outfit()
-      ? *_impl_.model_.outfit_
-      : reinterpret_cast< ::game::battlemon::items::OutfitModel&>(::game::battlemon::items::_OutfitModel_default_instance_);
+inline const ::game::battlemon::items::NonNftItem& Item::_internal_non_nft() const {
+  return _internal_has_non_nft()
+      ? *_impl_.item_.non_nft_
+      : reinterpret_cast< ::game::battlemon::items::NonNftItem&>(::game::battlemon::items::_NonNftItem_default_instance_);
 }
-inline const ::game::battlemon::items::OutfitModel& Item::outfit() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.outfit)
-  return _internal_outfit();
+inline const ::game::battlemon::items::NonNftItem& Item::non_nft() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.Item.non_nft)
+  return _internal_non_nft();
 }
-inline ::game::battlemon::items::OutfitModel* Item::unsafe_arena_release_outfit() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:game.battlemon.items.Item.outfit)
-  if (_internal_has_outfit()) {
-    clear_has_model();
-    ::game::battlemon::items::OutfitModel* temp = _impl_.model_.outfit_;
-    _impl_.model_.outfit_ = nullptr;
+inline ::game::battlemon::items::NonNftItem* Item::unsafe_arena_release_non_nft() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:game.battlemon.items.Item.non_nft)
+  if (_internal_has_non_nft()) {
+    clear_has_item();
+    ::game::battlemon::items::NonNftItem* temp = _impl_.item_.non_nft_;
+    _impl_.item_.non_nft_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Item::unsafe_arena_set_allocated_outfit(::game::battlemon::items::OutfitModel* outfit) {
-  clear_model();
-  if (outfit) {
-    set_has_outfit();
-    _impl_.model_.outfit_ = outfit;
+inline void Item::unsafe_arena_set_allocated_non_nft(::game::battlemon::items::NonNftItem* non_nft) {
+  clear_item();
+  if (non_nft) {
+    set_has_non_nft();
+    _impl_.item_.non_nft_ = non_nft;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.Item.outfit)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.Item.non_nft)
 }
-inline ::game::battlemon::items::OutfitModel* Item::_internal_mutable_outfit() {
-  if (!_internal_has_outfit()) {
-    clear_model();
-    set_has_outfit();
-    _impl_.model_.outfit_ = CreateMaybeMessage< ::game::battlemon::items::OutfitModel >(GetArenaForAllocation());
+inline ::game::battlemon::items::NonNftItem* Item::_internal_mutable_non_nft() {
+  if (!_internal_has_non_nft()) {
+    clear_item();
+    set_has_non_nft();
+    _impl_.item_.non_nft_ = CreateMaybeMessage< ::game::battlemon::items::NonNftItem >(GetArenaForAllocation());
   }
-  return _impl_.model_.outfit_;
+  return _impl_.item_.non_nft_;
 }
-inline ::game::battlemon::items::OutfitModel* Item::mutable_outfit() {
-  ::game::battlemon::items::OutfitModel* _msg = _internal_mutable_outfit();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.outfit)
+inline ::game::battlemon::items::NonNftItem* Item::mutable_non_nft() {
+  ::game::battlemon::items::NonNftItem* _msg = _internal_mutable_non_nft();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Item.non_nft)
   return _msg;
 }
 
-inline bool Item::has_model() const {
-  return model_case() != MODEL_NOT_SET;
+inline bool Item::has_item() const {
+  return item_case() != ITEM_NOT_SET;
 }
-inline void Item::clear_has_model() {
-  _impl_._oneof_case_[0] = MODEL_NOT_SET;
+inline void Item::clear_has_item() {
+  _impl_._oneof_case_[0] = ITEM_NOT_SET;
 }
-inline Item::ModelCase Item::model_case() const {
-  return Item::ModelCase(_impl_._oneof_case_[0]);
+inline Item::ItemCase Item::item_case() const {
+  return Item::ItemCase(_impl_._oneof_case_[0]);
 }
 // -------------------------------------------------------------------
 
-// LemonModel
+// NftItem
 
-// .game.battlemon.items.OutfitModel cap = 1;
-inline bool LemonModel::_internal_has_cap() const {
-  return this != internal_default_instance() && _impl_.cap_ != nullptr;
+// string id = 1;
+inline void NftItem::clear_id() {
+  _impl_.id_.ClearToEmpty();
 }
-inline bool LemonModel::has_cap() const {
-  return _internal_has_cap();
-}
-inline void LemonModel::clear_cap() {
-  if (GetArenaForAllocation() == nullptr && _impl_.cap_ != nullptr) {
-    delete _impl_.cap_;
-  }
-  _impl_.cap_ = nullptr;
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::_internal_cap() const {
-  const ::game::battlemon::items::OutfitModel* p = _impl_.cap_;
-  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::items::OutfitModel&>(
-      ::game::battlemon::items::_OutfitModel_default_instance_);
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::cap() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.cap)
-  return _internal_cap();
-}
-inline void LemonModel::unsafe_arena_set_allocated_cap(
-    ::game::battlemon::items::OutfitModel* cap) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.cap_);
-  }
-  _impl_.cap_ = cap;
-  if (cap) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.LemonModel.cap)
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::release_cap() {
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.cap_;
-  _impl_.cap_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::unsafe_arena_release_cap() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.cap)
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.cap_;
-  _impl_.cap_ = nullptr;
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::_internal_mutable_cap() {
-  
-  if (_impl_.cap_ == nullptr) {
-    auto* p = CreateMaybeMessage<::game::battlemon::items::OutfitModel>(GetArenaForAllocation());
-    _impl_.cap_ = p;
-  }
-  return _impl_.cap_;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::mutable_cap() {
-  ::game::battlemon::items::OutfitModel* _msg = _internal_mutable_cap();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.cap)
-  return _msg;
-}
-inline void LemonModel::set_allocated_cap(::game::battlemon::items::OutfitModel* cap) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.cap_;
-  }
-  if (cap) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(cap);
-    if (message_arena != submessage_arena) {
-      cap = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, cap, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.cap_ = cap;
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.cap)
-}
-
-// .game.battlemon.items.OutfitModel cloth = 2;
-inline bool LemonModel::_internal_has_cloth() const {
-  return this != internal_default_instance() && _impl_.cloth_ != nullptr;
-}
-inline bool LemonModel::has_cloth() const {
-  return _internal_has_cloth();
-}
-inline void LemonModel::clear_cloth() {
-  if (GetArenaForAllocation() == nullptr && _impl_.cloth_ != nullptr) {
-    delete _impl_.cloth_;
-  }
-  _impl_.cloth_ = nullptr;
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::_internal_cloth() const {
-  const ::game::battlemon::items::OutfitModel* p = _impl_.cloth_;
-  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::items::OutfitModel&>(
-      ::game::battlemon::items::_OutfitModel_default_instance_);
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::cloth() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.cloth)
-  return _internal_cloth();
-}
-inline void LemonModel::unsafe_arena_set_allocated_cloth(
-    ::game::battlemon::items::OutfitModel* cloth) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.cloth_);
-  }
-  _impl_.cloth_ = cloth;
-  if (cloth) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.LemonModel.cloth)
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::release_cloth() {
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.cloth_;
-  _impl_.cloth_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::unsafe_arena_release_cloth() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.cloth)
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.cloth_;
-  _impl_.cloth_ = nullptr;
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::_internal_mutable_cloth() {
-  
-  if (_impl_.cloth_ == nullptr) {
-    auto* p = CreateMaybeMessage<::game::battlemon::items::OutfitModel>(GetArenaForAllocation());
-    _impl_.cloth_ = p;
-  }
-  return _impl_.cloth_;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::mutable_cloth() {
-  ::game::battlemon::items::OutfitModel* _msg = _internal_mutable_cloth();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.cloth)
-  return _msg;
-}
-inline void LemonModel::set_allocated_cloth(::game::battlemon::items::OutfitModel* cloth) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.cloth_;
-  }
-  if (cloth) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(cloth);
-    if (message_arena != submessage_arena) {
-      cloth = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, cloth, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.cloth_ = cloth;
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.cloth)
-}
-
-// string exo = 3;
-inline void LemonModel::clear_exo() {
-  _impl_.exo_.ClearToEmpty();
-}
-inline const std::string& LemonModel::exo() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.exo)
-  return _internal_exo();
+inline const std::string& NftItem::id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.id)
+  return _internal_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void LemonModel::set_exo(ArgT0&& arg0, ArgT... args) {
+void NftItem::set_id(ArgT0&& arg0, ArgT... args) {
  
- _impl_.exo_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.LemonModel.exo)
+ _impl_.id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NftItem.id)
 }
-inline std::string* LemonModel::mutable_exo() {
-  std::string* _s = _internal_mutable_exo();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.exo)
+inline std::string* NftItem::mutable_id() {
+  std::string* _s = _internal_mutable_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NftItem.id)
   return _s;
 }
-inline const std::string& LemonModel::_internal_exo() const {
-  return _impl_.exo_.Get();
+inline const std::string& NftItem::_internal_id() const {
+  return _impl_.id_.Get();
 }
-inline void LemonModel::_internal_set_exo(const std::string& value) {
+inline void NftItem::_internal_set_id(const std::string& value) {
   
-  _impl_.exo_.Set(value, GetArenaForAllocation());
+  _impl_.id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* LemonModel::_internal_mutable_exo() {
+inline std::string* NftItem::_internal_mutable_id() {
   
-  return _impl_.exo_.Mutable(GetArenaForAllocation());
+  return _impl_.id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* LemonModel::release_exo() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.exo)
-  return _impl_.exo_.Release();
+inline std::string* NftItem::release_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.NftItem.id)
+  return _impl_.id_.Release();
 }
-inline void LemonModel::set_allocated_exo(std::string* exo) {
-  if (exo != nullptr) {
+inline void NftItem::set_allocated_id(std::string* id) {
+  if (id != nullptr) {
     
   } else {
     
   }
-  _impl_.exo_.SetAllocated(exo, GetArenaForAllocation());
+  _impl_.id_.SetAllocated(id, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.exo_.IsDefault()) {
-    _impl_.exo_.Set("", GetArenaForAllocation());
+  if (_impl_.id_.IsDefault()) {
+    _impl_.id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.exo)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.NftItem.id)
 }
 
-// string eyes = 4;
-inline void LemonModel::clear_eyes() {
-  _impl_.eyes_.ClearToEmpty();
+// string type = 2;
+inline void NftItem::clear_type() {
+  _impl_.type_.ClearToEmpty();
 }
-inline const std::string& LemonModel::eyes() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.eyes)
-  return _internal_eyes();
+inline const std::string& NftItem::type() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.type)
+  return _internal_type();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void LemonModel::set_eyes(ArgT0&& arg0, ArgT... args) {
+void NftItem::set_type(ArgT0&& arg0, ArgT... args) {
  
- _impl_.eyes_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.LemonModel.eyes)
+ _impl_.type_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NftItem.type)
 }
-inline std::string* LemonModel::mutable_eyes() {
-  std::string* _s = _internal_mutable_eyes();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.eyes)
+inline std::string* NftItem::mutable_type() {
+  std::string* _s = _internal_mutable_type();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NftItem.type)
   return _s;
 }
-inline const std::string& LemonModel::_internal_eyes() const {
-  return _impl_.eyes_.Get();
+inline const std::string& NftItem::_internal_type() const {
+  return _impl_.type_.Get();
 }
-inline void LemonModel::_internal_set_eyes(const std::string& value) {
+inline void NftItem::_internal_set_type(const std::string& value) {
   
-  _impl_.eyes_.Set(value, GetArenaForAllocation());
+  _impl_.type_.Set(value, GetArenaForAllocation());
 }
-inline std::string* LemonModel::_internal_mutable_eyes() {
+inline std::string* NftItem::_internal_mutable_type() {
   
-  return _impl_.eyes_.Mutable(GetArenaForAllocation());
+  return _impl_.type_.Mutable(GetArenaForAllocation());
 }
-inline std::string* LemonModel::release_eyes() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.eyes)
-  return _impl_.eyes_.Release();
+inline std::string* NftItem::release_type() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.NftItem.type)
+  return _impl_.type_.Release();
 }
-inline void LemonModel::set_allocated_eyes(std::string* eyes) {
-  if (eyes != nullptr) {
+inline void NftItem::set_allocated_type(std::string* type) {
+  if (type != nullptr) {
     
   } else {
     
   }
-  _impl_.eyes_.SetAllocated(eyes, GetArenaForAllocation());
+  _impl_.type_.SetAllocated(type, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.eyes_.IsDefault()) {
-    _impl_.eyes_.Set("", GetArenaForAllocation());
+  if (_impl_.type_.IsDefault()) {
+    _impl_.type_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.eyes)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.NftItem.type)
 }
 
-// string head = 5;
-inline void LemonModel::clear_head() {
-  _impl_.head_.ClearToEmpty();
+// string owner = 3;
+inline void NftItem::clear_owner() {
+  _impl_.owner_.ClearToEmpty();
 }
-inline const std::string& LemonModel::head() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.head)
-  return _internal_head();
+inline const std::string& NftItem::owner() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.owner)
+  return _internal_owner();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void LemonModel::set_head(ArgT0&& arg0, ArgT... args) {
+void NftItem::set_owner(ArgT0&& arg0, ArgT... args) {
  
- _impl_.head_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.LemonModel.head)
+ _impl_.owner_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NftItem.owner)
 }
-inline std::string* LemonModel::mutable_head() {
-  std::string* _s = _internal_mutable_head();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.head)
+inline std::string* NftItem::mutable_owner() {
+  std::string* _s = _internal_mutable_owner();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NftItem.owner)
   return _s;
 }
-inline const std::string& LemonModel::_internal_head() const {
-  return _impl_.head_.Get();
+inline const std::string& NftItem::_internal_owner() const {
+  return _impl_.owner_.Get();
 }
-inline void LemonModel::_internal_set_head(const std::string& value) {
+inline void NftItem::_internal_set_owner(const std::string& value) {
   
-  _impl_.head_.Set(value, GetArenaForAllocation());
+  _impl_.owner_.Set(value, GetArenaForAllocation());
 }
-inline std::string* LemonModel::_internal_mutable_head() {
+inline std::string* NftItem::_internal_mutable_owner() {
   
-  return _impl_.head_.Mutable(GetArenaForAllocation());
+  return _impl_.owner_.Mutable(GetArenaForAllocation());
 }
-inline std::string* LemonModel::release_head() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.head)
-  return _impl_.head_.Release();
+inline std::string* NftItem::release_owner() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.NftItem.owner)
+  return _impl_.owner_.Release();
 }
-inline void LemonModel::set_allocated_head(std::string* head) {
-  if (head != nullptr) {
+inline void NftItem::set_allocated_owner(std::string* owner) {
+  if (owner != nullptr) {
     
   } else {
     
   }
-  _impl_.head_.SetAllocated(head, GetArenaForAllocation());
+  _impl_.owner_.SetAllocated(owner, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.head_.IsDefault()) {
-    _impl_.head_.Set("", GetArenaForAllocation());
+  if (_impl_.owner_.IsDefault()) {
+    _impl_.owner_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.head)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.NftItem.owner)
 }
 
-// string teeth = 6;
-inline void LemonModel::clear_teeth() {
-  _impl_.teeth_.ClearToEmpty();
+// string url = 4;
+inline void NftItem::clear_url() {
+  _impl_.url_.ClearToEmpty();
 }
-inline const std::string& LemonModel::teeth() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.teeth)
-  return _internal_teeth();
+inline const std::string& NftItem::url() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.url)
+  return _internal_url();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void LemonModel::set_teeth(ArgT0&& arg0, ArgT... args) {
+void NftItem::set_url(ArgT0&& arg0, ArgT... args) {
  
- _impl_.teeth_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.LemonModel.teeth)
+ _impl_.url_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NftItem.url)
 }
-inline std::string* LemonModel::mutable_teeth() {
-  std::string* _s = _internal_mutable_teeth();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.teeth)
+inline std::string* NftItem::mutable_url() {
+  std::string* _s = _internal_mutable_url();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NftItem.url)
   return _s;
 }
-inline const std::string& LemonModel::_internal_teeth() const {
-  return _impl_.teeth_.Get();
+inline const std::string& NftItem::_internal_url() const {
+  return _impl_.url_.Get();
 }
-inline void LemonModel::_internal_set_teeth(const std::string& value) {
+inline void NftItem::_internal_set_url(const std::string& value) {
   
-  _impl_.teeth_.Set(value, GetArenaForAllocation());
+  _impl_.url_.Set(value, GetArenaForAllocation());
 }
-inline std::string* LemonModel::_internal_mutable_teeth() {
+inline std::string* NftItem::_internal_mutable_url() {
   
-  return _impl_.teeth_.Mutable(GetArenaForAllocation());
+  return _impl_.url_.Mutable(GetArenaForAllocation());
 }
-inline std::string* LemonModel::release_teeth() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.teeth)
-  return _impl_.teeth_.Release();
+inline std::string* NftItem::release_url() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.NftItem.url)
+  return _impl_.url_.Release();
 }
-inline void LemonModel::set_allocated_teeth(std::string* teeth) {
-  if (teeth != nullptr) {
+inline void NftItem::set_allocated_url(std::string* url) {
+  if (url != nullptr) {
     
   } else {
     
   }
-  _impl_.teeth_.SetAllocated(teeth, GetArenaForAllocation());
+  _impl_.url_.SetAllocated(url, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.teeth_.IsDefault()) {
-    _impl_.teeth_.Set("", GetArenaForAllocation());
+  if (_impl_.url_.IsDefault()) {
+    _impl_.url_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.teeth)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.NftItem.url)
 }
 
-// string face = 7;
-inline void LemonModel::clear_face() {
-  _impl_.face_.ClearToEmpty();
+// repeated .game.battlemon.items.Trait traits = 5;
+inline int NftItem::_internal_traits_size() const {
+  return _impl_.traits_.size();
 }
-inline const std::string& LemonModel::face() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.face)
-  return _internal_face();
+inline int NftItem::traits_size() const {
+  return _internal_traits_size();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void LemonModel::set_face(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.face_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.LemonModel.face)
+inline void NftItem::clear_traits() {
+  _impl_.traits_.Clear();
 }
-inline std::string* LemonModel::mutable_face() {
-  std::string* _s = _internal_mutable_face();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.face)
-  return _s;
+inline ::game::battlemon::items::Trait* NftItem::mutable_traits(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NftItem.traits)
+  return _impl_.traits_.Mutable(index);
 }
-inline const std::string& LemonModel::_internal_face() const {
-  return _impl_.face_.Get();
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Trait >*
+NftItem::mutable_traits() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.NftItem.traits)
+  return &_impl_.traits_;
 }
-inline void LemonModel::_internal_set_face(const std::string& value) {
-  
-  _impl_.face_.Set(value, GetArenaForAllocation());
+inline const ::game::battlemon::items::Trait& NftItem::_internal_traits(int index) const {
+  return _impl_.traits_.Get(index);
 }
-inline std::string* LemonModel::_internal_mutable_face() {
-  
-  return _impl_.face_.Mutable(GetArenaForAllocation());
+inline const ::game::battlemon::items::Trait& NftItem::traits(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.traits)
+  return _internal_traits(index);
 }
-inline std::string* LemonModel::release_face() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.face)
-  return _impl_.face_.Release();
+inline ::game::battlemon::items::Trait* NftItem::_internal_add_traits() {
+  return _impl_.traits_.Add();
 }
-inline void LemonModel::set_allocated_face(std::string* face) {
-  if (face != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.face_.SetAllocated(face, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.face_.IsDefault()) {
-    _impl_.face_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.face)
+inline ::game::battlemon::items::Trait* NftItem::add_traits() {
+  ::game::battlemon::items::Trait* _add = _internal_add_traits();
+  // @@protoc_insertion_point(field_add:game.battlemon.items.NftItem.traits)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::Trait >&
+NftItem::traits() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.items.NftItem.traits)
+  return _impl_.traits_;
 }
 
-// .game.battlemon.items.OutfitModel fire_arm = 8;
-inline bool LemonModel::_internal_has_fire_arm() const {
-  return this != internal_default_instance() && _impl_.fire_arm_ != nullptr;
+// int64 created_at = 6;
+inline void NftItem::clear_created_at() {
+  _impl_.created_at_ = int64_t{0};
 }
-inline bool LemonModel::has_fire_arm() const {
-  return _internal_has_fire_arm();
+inline int64_t NftItem::_internal_created_at() const {
+  return _impl_.created_at_;
 }
-inline void LemonModel::clear_fire_arm() {
-  if (GetArenaForAllocation() == nullptr && _impl_.fire_arm_ != nullptr) {
-    delete _impl_.fire_arm_;
-  }
-  _impl_.fire_arm_ = nullptr;
+inline int64_t NftItem::created_at() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.created_at)
+  return _internal_created_at();
 }
-inline const ::game::battlemon::items::OutfitModel& LemonModel::_internal_fire_arm() const {
-  const ::game::battlemon::items::OutfitModel* p = _impl_.fire_arm_;
-  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::items::OutfitModel&>(
-      ::game::battlemon::items::_OutfitModel_default_instance_);
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::fire_arm() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.fire_arm)
-  return _internal_fire_arm();
-}
-inline void LemonModel::unsafe_arena_set_allocated_fire_arm(
-    ::game::battlemon::items::OutfitModel* fire_arm) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.fire_arm_);
-  }
-  _impl_.fire_arm_ = fire_arm;
-  if (fire_arm) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.LemonModel.fire_arm)
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::release_fire_arm() {
+inline void NftItem::_internal_set_created_at(int64_t value) {
   
-  ::game::battlemon::items::OutfitModel* temp = _impl_.fire_arm_;
-  _impl_.fire_arm_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
+  _impl_.created_at_ = value;
 }
-inline ::game::battlemon::items::OutfitModel* LemonModel::unsafe_arena_release_fire_arm() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.fire_arm)
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.fire_arm_;
-  _impl_.fire_arm_ = nullptr;
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::_internal_mutable_fire_arm() {
-  
-  if (_impl_.fire_arm_ == nullptr) {
-    auto* p = CreateMaybeMessage<::game::battlemon::items::OutfitModel>(GetArenaForAllocation());
-    _impl_.fire_arm_ = p;
-  }
-  return _impl_.fire_arm_;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::mutable_fire_arm() {
-  ::game::battlemon::items::OutfitModel* _msg = _internal_mutable_fire_arm();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.fire_arm)
-  return _msg;
-}
-inline void LemonModel::set_allocated_fire_arm(::game::battlemon::items::OutfitModel* fire_arm) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.fire_arm_;
-  }
-  if (fire_arm) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(fire_arm);
-    if (message_arena != submessage_arena) {
-      fire_arm = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, fire_arm, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.fire_arm_ = fire_arm;
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.fire_arm)
+inline void NftItem::set_created_at(int64_t value) {
+  _internal_set_created_at(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NftItem.created_at)
 }
 
-// .game.battlemon.items.OutfitModel cold_arm = 9;
-inline bool LemonModel::_internal_has_cold_arm() const {
-  return this != internal_default_instance() && _impl_.cold_arm_ != nullptr;
-}
-inline bool LemonModel::has_cold_arm() const {
-  return _internal_has_cold_arm();
-}
-inline void LemonModel::clear_cold_arm() {
-  if (GetArenaForAllocation() == nullptr && _impl_.cold_arm_ != nullptr) {
-    delete _impl_.cold_arm_;
-  }
-  _impl_.cold_arm_ = nullptr;
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::_internal_cold_arm() const {
-  const ::game::battlemon::items::OutfitModel* p = _impl_.cold_arm_;
-  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::items::OutfitModel&>(
-      ::game::battlemon::items::_OutfitModel_default_instance_);
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::cold_arm() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.cold_arm)
-  return _internal_cold_arm();
-}
-inline void LemonModel::unsafe_arena_set_allocated_cold_arm(
-    ::game::battlemon::items::OutfitModel* cold_arm) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.cold_arm_);
-  }
-  _impl_.cold_arm_ = cold_arm;
-  if (cold_arm) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.LemonModel.cold_arm)
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::release_cold_arm() {
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.cold_arm_;
-  _impl_.cold_arm_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::unsafe_arena_release_cold_arm() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.cold_arm)
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.cold_arm_;
-  _impl_.cold_arm_ = nullptr;
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::_internal_mutable_cold_arm() {
-  
-  if (_impl_.cold_arm_ == nullptr) {
-    auto* p = CreateMaybeMessage<::game::battlemon::items::OutfitModel>(GetArenaForAllocation());
-    _impl_.cold_arm_ = p;
-  }
-  return _impl_.cold_arm_;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::mutable_cold_arm() {
-  ::game::battlemon::items::OutfitModel* _msg = _internal_mutable_cold_arm();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.cold_arm)
-  return _msg;
-}
-inline void LemonModel::set_allocated_cold_arm(::game::battlemon::items::OutfitModel* cold_arm) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.cold_arm_;
-  }
-  if (cold_arm) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(cold_arm);
-    if (message_arena != submessage_arena) {
-      cold_arm = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, cold_arm, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.cold_arm_ = cold_arm;
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.cold_arm)
-}
-
-// .game.battlemon.items.OutfitModel back = 10;
-inline bool LemonModel::_internal_has_back() const {
-  return this != internal_default_instance() && _impl_.back_ != nullptr;
-}
-inline bool LemonModel::has_back() const {
-  return _internal_has_back();
-}
-inline void LemonModel::clear_back() {
-  if (GetArenaForAllocation() == nullptr && _impl_.back_ != nullptr) {
-    delete _impl_.back_;
-  }
-  _impl_.back_ = nullptr;
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::_internal_back() const {
-  const ::game::battlemon::items::OutfitModel* p = _impl_.back_;
-  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::items::OutfitModel&>(
-      ::game::battlemon::items::_OutfitModel_default_instance_);
-}
-inline const ::game::battlemon::items::OutfitModel& LemonModel::back() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.back)
-  return _internal_back();
-}
-inline void LemonModel::unsafe_arena_set_allocated_back(
-    ::game::battlemon::items::OutfitModel* back) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.back_);
-  }
-  _impl_.back_ = back;
-  if (back) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.items.LemonModel.back)
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::release_back() {
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.back_;
-  _impl_.back_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::unsafe_arena_release_back() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.LemonModel.back)
-  
-  ::game::battlemon::items::OutfitModel* temp = _impl_.back_;
-  _impl_.back_ = nullptr;
-  return temp;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::_internal_mutable_back() {
-  
-  if (_impl_.back_ == nullptr) {
-    auto* p = CreateMaybeMessage<::game::battlemon::items::OutfitModel>(GetArenaForAllocation());
-    _impl_.back_ = p;
-  }
-  return _impl_.back_;
-}
-inline ::game::battlemon::items::OutfitModel* LemonModel::mutable_back() {
-  ::game::battlemon::items::OutfitModel* _msg = _internal_mutable_back();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.back)
-  return _msg;
-}
-inline void LemonModel::set_allocated_back(::game::battlemon::items::OutfitModel* back) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.back_;
-  }
-  if (back) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(back);
-    if (message_arena != submessage_arena) {
-      back = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, back, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.back_ = back;
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.LemonModel.back)
-}
-
-// repeated .game.battlemon.items.WeaponBundle attached_bundles = 11;
-inline int LemonModel::_internal_attached_bundles_size() const {
+// repeated .game.battlemon.items.WeaponBundle attached_bundles = 7;
+inline int NftItem::_internal_attached_bundles_size() const {
   return _impl_.attached_bundles_.size();
 }
-inline int LemonModel::attached_bundles_size() const {
+inline int NftItem::attached_bundles_size() const {
   return _internal_attached_bundles_size();
 }
-inline void LemonModel::clear_attached_bundles() {
+inline void NftItem::clear_attached_bundles() {
   _impl_.attached_bundles_.Clear();
 }
-inline ::game::battlemon::items::WeaponBundle* LemonModel::mutable_attached_bundles(int index) {
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.LemonModel.attached_bundles)
+inline ::game::battlemon::items::WeaponBundle* NftItem::mutable_attached_bundles(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NftItem.attached_bundles)
   return _impl_.attached_bundles_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >*
-LemonModel::mutable_attached_bundles() {
-  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.LemonModel.attached_bundles)
+NftItem::mutable_attached_bundles() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.NftItem.attached_bundles)
   return &_impl_.attached_bundles_;
 }
-inline const ::game::battlemon::items::WeaponBundle& LemonModel::_internal_attached_bundles(int index) const {
+inline const ::game::battlemon::items::WeaponBundle& NftItem::_internal_attached_bundles(int index) const {
   return _impl_.attached_bundles_.Get(index);
 }
-inline const ::game::battlemon::items::WeaponBundle& LemonModel::attached_bundles(int index) const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.LemonModel.attached_bundles)
+inline const ::game::battlemon::items::WeaponBundle& NftItem::attached_bundles(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NftItem.attached_bundles)
   return _internal_attached_bundles(index);
 }
-inline ::game::battlemon::items::WeaponBundle* LemonModel::_internal_add_attached_bundles() {
+inline ::game::battlemon::items::WeaponBundle* NftItem::_internal_add_attached_bundles() {
   return _impl_.attached_bundles_.Add();
 }
-inline ::game::battlemon::items::WeaponBundle* LemonModel::add_attached_bundles() {
+inline ::game::battlemon::items::WeaponBundle* NftItem::add_attached_bundles() {
   ::game::battlemon::items::WeaponBundle* _add = _internal_add_attached_bundles();
-  // @@protoc_insertion_point(field_add:game.battlemon.items.LemonModel.attached_bundles)
+  // @@protoc_insertion_point(field_add:game.battlemon.items.NftItem.attached_bundles)
   return _add;
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >&
-LemonModel::attached_bundles() const {
-  // @@protoc_insertion_point(field_list:game.battlemon.items.LemonModel.attached_bundles)
+NftItem::attached_bundles() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.items.NftItem.attached_bundles)
   return _impl_.attached_bundles_;
 }
 
 // -------------------------------------------------------------------
 
-// OutfitModel
+// Trait
 
-// string flavour = 1;
-inline void OutfitModel::clear_flavour() {
+// string name = 1;
+inline void Trait::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& Trait::name() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.Trait.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Trait::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.Trait.name)
+}
+inline std::string* Trait::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Trait.name)
+  return _s;
+}
+inline const std::string& Trait::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void Trait::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Trait::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Trait::release_name() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.Trait.name)
+  return _impl_.name_.Release();
+}
+inline void Trait::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.Trait.name)
+}
+
+// string flavour = 2;
+inline void Trait::clear_flavour() {
   _impl_.flavour_.ClearToEmpty();
 }
-inline const std::string& OutfitModel::flavour() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.OutfitModel.flavour)
+inline const std::string& Trait::flavour() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.Trait.flavour)
   return _internal_flavour();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void OutfitModel::set_flavour(ArgT0&& arg0, ArgT... args) {
+void Trait::set_flavour(ArgT0&& arg0, ArgT... args) {
  
  _impl_.flavour_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.OutfitModel.flavour)
+  // @@protoc_insertion_point(field_set:game.battlemon.items.Trait.flavour)
 }
-inline std::string* OutfitModel::mutable_flavour() {
+inline std::string* Trait::mutable_flavour() {
   std::string* _s = _internal_mutable_flavour();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.OutfitModel.flavour)
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.Trait.flavour)
   return _s;
 }
-inline const std::string& OutfitModel::_internal_flavour() const {
+inline const std::string& Trait::_internal_flavour() const {
   return _impl_.flavour_.Get();
 }
-inline void OutfitModel::_internal_set_flavour(const std::string& value) {
+inline void Trait::_internal_set_flavour(const std::string& value) {
   
   _impl_.flavour_.Set(value, GetArenaForAllocation());
 }
-inline std::string* OutfitModel::_internal_mutable_flavour() {
+inline std::string* Trait::_internal_mutable_flavour() {
   
   return _impl_.flavour_.Mutable(GetArenaForAllocation());
 }
-inline std::string* OutfitModel::release_flavour() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.OutfitModel.flavour)
+inline std::string* Trait::release_flavour() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.Trait.flavour)
   return _impl_.flavour_.Release();
 }
-inline void OutfitModel::set_allocated_flavour(std::string* flavour) {
+inline void Trait::set_allocated_flavour(std::string* flavour) {
   if (flavour != nullptr) {
     
   } else {
@@ -3581,77 +3042,171 @@ inline void OutfitModel::set_allocated_flavour(std::string* flavour) {
     _impl_.flavour_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.OutfitModel.flavour)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.Trait.flavour)
 }
 
-// string token_id = 2;
-inline void OutfitModel::clear_token_id() {
-  _impl_.token_id_.ClearToEmpty();
+// -------------------------------------------------------------------
+
+// NonNftItem
+
+// string id = 1;
+inline void NonNftItem::clear_id() {
+  _impl_.id_.ClearToEmpty();
 }
-inline const std::string& OutfitModel::token_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.OutfitModel.token_id)
-  return _internal_token_id();
+inline const std::string& NonNftItem::id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NonNftItem.id)
+  return _internal_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void OutfitModel::set_token_id(ArgT0&& arg0, ArgT... args) {
+void NonNftItem::set_id(ArgT0&& arg0, ArgT... args) {
  
- _impl_.token_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.items.OutfitModel.token_id)
+ _impl_.id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NonNftItem.id)
 }
-inline std::string* OutfitModel::mutable_token_id() {
-  std::string* _s = _internal_mutable_token_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.items.OutfitModel.token_id)
+inline std::string* NonNftItem::mutable_id() {
+  std::string* _s = _internal_mutable_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NonNftItem.id)
   return _s;
 }
-inline const std::string& OutfitModel::_internal_token_id() const {
-  return _impl_.token_id_.Get();
+inline const std::string& NonNftItem::_internal_id() const {
+  return _impl_.id_.Get();
 }
-inline void OutfitModel::_internal_set_token_id(const std::string& value) {
+inline void NonNftItem::_internal_set_id(const std::string& value) {
   
-  _impl_.token_id_.Set(value, GetArenaForAllocation());
+  _impl_.id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* OutfitModel::_internal_mutable_token_id() {
+inline std::string* NonNftItem::_internal_mutable_id() {
   
-  return _impl_.token_id_.Mutable(GetArenaForAllocation());
+  return _impl_.id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* OutfitModel::release_token_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.items.OutfitModel.token_id)
-  return _impl_.token_id_.Release();
+inline std::string* NonNftItem::release_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.NonNftItem.id)
+  return _impl_.id_.Release();
 }
-inline void OutfitModel::set_allocated_token_id(std::string* token_id) {
-  if (token_id != nullptr) {
+inline void NonNftItem::set_allocated_id(std::string* id) {
+  if (id != nullptr) {
     
   } else {
     
   }
-  _impl_.token_id_.SetAllocated(token_id, GetArenaForAllocation());
+  _impl_.id_.SetAllocated(id, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.token_id_.IsDefault()) {
-    _impl_.token_id_.Set("", GetArenaForAllocation());
+  if (_impl_.id_.IsDefault()) {
+    _impl_.id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.OutfitModel.token_id)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.NonNftItem.id)
 }
 
-// .game.battlemon.items.OutfitKind kind = 3;
-inline void OutfitModel::clear_kind() {
-  _impl_.kind_ = 0;
+// string owner = 2;
+inline void NonNftItem::clear_owner() {
+  _impl_.owner_.ClearToEmpty();
 }
-inline ::game::battlemon::items::OutfitKind OutfitModel::_internal_kind() const {
-  return static_cast< ::game::battlemon::items::OutfitKind >(_impl_.kind_);
+inline const std::string& NonNftItem::owner() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NonNftItem.owner)
+  return _internal_owner();
 }
-inline ::game::battlemon::items::OutfitKind OutfitModel::kind() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.items.OutfitModel.kind)
-  return _internal_kind();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void NonNftItem::set_owner(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.owner_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NonNftItem.owner)
 }
-inline void OutfitModel::_internal_set_kind(::game::battlemon::items::OutfitKind value) {
+inline std::string* NonNftItem::mutable_owner() {
+  std::string* _s = _internal_mutable_owner();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NonNftItem.owner)
+  return _s;
+}
+inline const std::string& NonNftItem::_internal_owner() const {
+  return _impl_.owner_.Get();
+}
+inline void NonNftItem::_internal_set_owner(const std::string& value) {
   
-  _impl_.kind_ = value;
+  _impl_.owner_.Set(value, GetArenaForAllocation());
 }
-inline void OutfitModel::set_kind(::game::battlemon::items::OutfitKind value) {
-  _internal_set_kind(value);
-  // @@protoc_insertion_point(field_set:game.battlemon.items.OutfitModel.kind)
+inline std::string* NonNftItem::_internal_mutable_owner() {
+  
+  return _impl_.owner_.Mutable(GetArenaForAllocation());
+}
+inline std::string* NonNftItem::release_owner() {
+  // @@protoc_insertion_point(field_release:game.battlemon.items.NonNftItem.owner)
+  return _impl_.owner_.Release();
+}
+inline void NonNftItem::set_allocated_owner(std::string* owner) {
+  if (owner != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.owner_.SetAllocated(owner, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.owner_.IsDefault()) {
+    _impl_.owner_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.items.NonNftItem.owner)
+}
+
+// int32 level = 3;
+inline void NonNftItem::clear_level() {
+  _impl_.level_ = 0;
+}
+inline int32_t NonNftItem::_internal_level() const {
+  return _impl_.level_;
+}
+inline int32_t NonNftItem::level() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NonNftItem.level)
+  return _internal_level();
+}
+inline void NonNftItem::_internal_set_level(int32_t value) {
+  
+  _impl_.level_ = value;
+}
+inline void NonNftItem::set_level(int32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.items.NonNftItem.level)
+}
+
+// repeated .game.battlemon.items.WeaponBundle attached_bundles = 4;
+inline int NonNftItem::_internal_attached_bundles_size() const {
+  return _impl_.attached_bundles_.size();
+}
+inline int NonNftItem::attached_bundles_size() const {
+  return _internal_attached_bundles_size();
+}
+inline void NonNftItem::clear_attached_bundles() {
+  _impl_.attached_bundles_.Clear();
+}
+inline ::game::battlemon::items::WeaponBundle* NonNftItem::mutable_attached_bundles(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.items.NonNftItem.attached_bundles)
+  return _impl_.attached_bundles_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >*
+NonNftItem::mutable_attached_bundles() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.items.NonNftItem.attached_bundles)
+  return &_impl_.attached_bundles_;
+}
+inline const ::game::battlemon::items::WeaponBundle& NonNftItem::_internal_attached_bundles(int index) const {
+  return _impl_.attached_bundles_.Get(index);
+}
+inline const ::game::battlemon::items::WeaponBundle& NonNftItem::attached_bundles(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.items.NonNftItem.attached_bundles)
+  return _internal_attached_bundles(index);
+}
+inline ::game::battlemon::items::WeaponBundle* NonNftItem::_internal_add_attached_bundles() {
+  return _impl_.attached_bundles_.Add();
+}
+inline ::game::battlemon::items::WeaponBundle* NonNftItem::add_attached_bundles() {
+  ::game::battlemon::items::WeaponBundle* _add = _internal_add_attached_bundles();
+  // @@protoc_insertion_point(field_add:game.battlemon.items.NonNftItem.attached_bundles)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::items::WeaponBundle >&
+NonNftItem::attached_bundles() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.items.NonNftItem.attached_bundles)
+  return _impl_.attached_bundles_;
 }
 
 // -------------------------------------------------------------------
@@ -4217,6 +3772,8 @@ inline void DetachBundleRequest::set_allocated_lemon_id(std::string* lemon_id) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -4226,11 +3783,6 @@ inline void DetachBundleRequest::set_allocated_lemon_id(std::string* lemon_id) {
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::game::battlemon::items::OutfitKind> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::items::OutfitKind>() {
-  return ::game::battlemon::items::OutfitKind_descriptor();
-}
 template <> struct is_proto_enum< ::game::battlemon::items::WeaponBundleItemType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::items::WeaponBundleItemType>() {

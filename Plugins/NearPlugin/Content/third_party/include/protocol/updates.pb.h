@@ -1057,21 +1057,21 @@ class RoomPlayer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNearIdFieldNumber = 1,
+    kUserIdFieldNumber = 1,
     kLemonFieldNumber = 2,
   };
-  // string near_id = 1;
-  void clear_near_id();
-  const std::string& near_id() const;
+  // string user_id = 1;
+  void clear_user_id();
+  const std::string& user_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_near_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_near_id();
-  PROTOBUF_NODISCARD std::string* release_near_id();
-  void set_allocated_near_id(std::string* near_id);
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
   private:
-  const std::string& _internal_near_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_near_id(const std::string& value);
-  std::string* _internal_mutable_near_id();
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
   public:
 
   // .game.battlemon.items.Item lemon = 2;
@@ -1100,7 +1100,7 @@ class RoomPlayer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
     ::game::battlemon::items::Item* lemon_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -2011,54 +2011,54 @@ RoomInfo::players() const {
 
 // RoomPlayer
 
-// string near_id = 1;
-inline void RoomPlayer::clear_near_id() {
-  _impl_.near_id_.ClearToEmpty();
+// string user_id = 1;
+inline void RoomPlayer::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
 }
-inline const std::string& RoomPlayer::near_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.updates.RoomPlayer.near_id)
-  return _internal_near_id();
+inline const std::string& RoomPlayer::user_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.updates.RoomPlayer.user_id)
+  return _internal_user_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void RoomPlayer::set_near_id(ArgT0&& arg0, ArgT... args) {
+void RoomPlayer::set_user_id(ArgT0&& arg0, ArgT... args) {
  
- _impl_.near_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.updates.RoomPlayer.near_id)
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.updates.RoomPlayer.user_id)
 }
-inline std::string* RoomPlayer::mutable_near_id() {
-  std::string* _s = _internal_mutable_near_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.updates.RoomPlayer.near_id)
+inline std::string* RoomPlayer::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.updates.RoomPlayer.user_id)
   return _s;
 }
-inline const std::string& RoomPlayer::_internal_near_id() const {
-  return _impl_.near_id_.Get();
+inline const std::string& RoomPlayer::_internal_user_id() const {
+  return _impl_.user_id_.Get();
 }
-inline void RoomPlayer::_internal_set_near_id(const std::string& value) {
+inline void RoomPlayer::_internal_set_user_id(const std::string& value) {
   
-  _impl_.near_id_.Set(value, GetArenaForAllocation());
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* RoomPlayer::_internal_mutable_near_id() {
+inline std::string* RoomPlayer::_internal_mutable_user_id() {
   
-  return _impl_.near_id_.Mutable(GetArenaForAllocation());
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* RoomPlayer::release_near_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.updates.RoomPlayer.near_id)
-  return _impl_.near_id_.Release();
+inline std::string* RoomPlayer::release_user_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.updates.RoomPlayer.user_id)
+  return _impl_.user_id_.Release();
 }
-inline void RoomPlayer::set_allocated_near_id(std::string* near_id) {
-  if (near_id != nullptr) {
+inline void RoomPlayer::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
     
   } else {
     
   }
-  _impl_.near_id_.SetAllocated(near_id, GetArenaForAllocation());
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.near_id_.IsDefault()) {
-    _impl_.near_id_.Set("", GetArenaForAllocation());
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.updates.RoomPlayer.near_id)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.updates.RoomPlayer.user_id)
 }
 
 // .game.battlemon.items.Item lemon = 2;

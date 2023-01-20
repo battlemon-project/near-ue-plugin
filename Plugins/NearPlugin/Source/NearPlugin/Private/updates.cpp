@@ -1,4 +1,5 @@
 #include"updates.h"
+#include "AsyncTask.h"
 
 FUUpdateCase& operator<<(FUUpdateCase &UE, const game::battlemon::updates::UpdateMessage::UpdateCase& grpc)
 {
@@ -67,17 +68,27 @@ game::battlemon::updates::UpdateMessage::UpdateCase& operator<<(game::battlemon:
 }
 
 
-FUUpdate& FUUpdate::operator=(const game::battlemon::updates::Update& grpcUpdate)
+FURoomPlayer& FURoomPlayer::operator=(const game::battlemon::updates::RoomPlayer& grpcRoomPlayer)
 {
-	id = CONV_CHAR_TO_FSTRING(grpcUpdate.id().c_str());
-	timestamp = grpcUpdate.timestamp();
-	message = CONV_CHAR_TO_FSTRING(grpcUpdate.message().c_str());
+	user_id = CONV_CHAR_TO_FSTRING(grpcRoomPlayer.user_id().c_str());
+	lemon = grpcRoomPlayer.lemon();
 	return *this;
 }
 
 
-FUUpdateMessage& FUUpdateMessage::operator=(const game::battlemon::updates::UpdateMessage& grpcUpdateMessage)
+FURoomInfo& FURoomInfo::operator=(const game::battlemon::updates::RoomInfo& grpcRoomInfo)
 {
+	room_id = CONV_CHAR_TO_FSTRING(grpcRoomInfo.room_id().c_str());
+	server_ip = CONV_CHAR_TO_FSTRING(grpcRoomInfo.server_ip().c_str());
+{
+	int size = grpcRoomInfo.players().size();
+	players.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+		players[Idx] = grpcRoomInfo.players(Idx);
+		});
+
+	}
 	return *this;
 }
 
@@ -90,41 +101,63 @@ FURoomNeedAccept& FURoomNeedAccept::operator=(const game::battlemon::updates::Ro
 }
 
 
-FURoomInfo& FURoomInfo::operator=(const game::battlemon::updates::RoomInfo& grpcRoomInfo)
+FUUpdateMessage& FUUpdateMessage::operator=(const game::battlemon::updates::UpdateMessage& grpcUpdateMessage)
 {
-	room_id = CONV_CHAR_TO_FSTRING(grpcRoomInfo.room_id().c_str());
-	server_ip = CONV_CHAR_TO_FSTRING(grpcRoomInfo.server_ip().c_str());
-	int size = grpcRoomInfo.players().size();
-	players.SetNum(size);
-	ParallelFor(size, [&](int32 Idx)
-		{
-		players[Idx] = grpcRoomInfo.players(Idx);
-		});
 	return *this;
 }
 
 
-FURoomPlayer& FURoomPlayer::operator=(const game::battlemon::updates::RoomPlayer& grpcRoomPlayer)
+FUUpdate& FUUpdate::operator=(const game::battlemon::updates::Update& grpcUpdate)
 {
-	near_id = CONV_CHAR_TO_FSTRING(grpcRoomPlayer.near_id().c_str());
-	lemon = grpcRoomPlayer.lemon();
+	id = CONV_CHAR_TO_FSTRING(grpcUpdate.id().c_str());
+	timestamp = grpcUpdate.timestamp();
+	message = CONV_CHAR_TO_FSTRING(grpcUpdate.message().c_str());
 	return *this;
 }
 
 
 
-game::battlemon::updates::Update &operator<<(game::battlemon::updates::Update &grpcUpdate, const FUUpdate &UE)
+game::battlemon::updates::RoomPlayer &operator<<(game::battlemon::updates::RoomPlayer &grpcRoomPlayer, const FURoomPlayer &UE)
 {
 	{
-		grpcUpdate.set_id(CONV_FSTRING_TO_CHAR(UE.id));
+		grpcRoomPlayer.set_user_id(CONV_FSTRING_TO_CHAR(UE.user_id));
 	}
 	{
-		grpcUpdate.set_timestamp(UE.timestamp);
+		game::battlemon::items::Item* go = new game::battlemon::items::Item();
+		*go << UE.lemon;
+		grpcRoomPlayer.set_allocated_lemon(go);
+	}
+	return grpcRoomPlayer;
+}
+
+
+game::battlemon::updates::RoomInfo &operator<<(game::battlemon::updates::RoomInfo &grpcRoomInfo, const FURoomInfo &UE)
+{
+	{
+		grpcRoomInfo.set_room_id(CONV_FSTRING_TO_CHAR(UE.room_id));
 	}
 	{
-		grpcUpdate.set_message(CONV_FSTRING_TO_CHAR(UE.message));
+		grpcRoomInfo.set_server_ip(CONV_FSTRING_TO_CHAR(UE.server_ip));
 	}
-	return grpcUpdate;
+		int size = UE.players.Num(); 
+	for(size_t Idx = 0; Idx < size; Idx++)
+	{
+		game::battlemon::updates::RoomPlayer* ptr = grpcRoomInfo.add_players();
+		*ptr <<UE.players[Idx];
+	}
+	return grpcRoomInfo;
+}
+
+
+game::battlemon::updates::RoomNeedAccept &operator<<(game::battlemon::updates::RoomNeedAccept &grpcRoomNeedAccept, const FURoomNeedAccept &UE)
+{
+	{
+		grpcRoomNeedAccept.set_manual_accept(UE.manual_accept);
+	}
+	{
+		grpcRoomNeedAccept.set_time_to_accept(UE.time_to_accept);
+	}
+	return grpcRoomNeedAccept;
 }
 
 
@@ -193,46 +226,17 @@ game::battlemon::updates::UpdateMessage &operator<<(game::battlemon::updates::Up
 }
 
 
-game::battlemon::updates::RoomNeedAccept &operator<<(game::battlemon::updates::RoomNeedAccept &grpcRoomNeedAccept, const FURoomNeedAccept &UE)
+game::battlemon::updates::Update &operator<<(game::battlemon::updates::Update &grpcUpdate, const FUUpdate &UE)
 {
 	{
-		grpcRoomNeedAccept.set_manual_accept(UE.manual_accept);
+		grpcUpdate.set_id(CONV_FSTRING_TO_CHAR(UE.id));
 	}
 	{
-		grpcRoomNeedAccept.set_time_to_accept(UE.time_to_accept);
-	}
-	return grpcRoomNeedAccept;
-}
-
-
-game::battlemon::updates::RoomInfo &operator<<(game::battlemon::updates::RoomInfo &grpcRoomInfo, const FURoomInfo &UE)
-{
-	{
-		grpcRoomInfo.set_room_id(CONV_FSTRING_TO_CHAR(UE.room_id));
+		grpcUpdate.set_timestamp(UE.timestamp);
 	}
 	{
-		grpcRoomInfo.set_server_ip(CONV_FSTRING_TO_CHAR(UE.server_ip));
+		grpcUpdate.set_message(CONV_FSTRING_TO_CHAR(UE.message));
 	}
-		int size = UE.players.Num(); 
-	for(size_t Idx = 0; Idx < size; Idx++)
-	{
-		game::battlemon::updates::RoomPlayer* ptr =grpcRoomInfo.add_players();
-		(*ptr) << UE.players[Idx];
-	}
-	return grpcRoomInfo;
-}
-
-
-game::battlemon::updates::RoomPlayer &operator<<(game::battlemon::updates::RoomPlayer &grpcRoomPlayer, const FURoomPlayer &UE)
-{
-	{
-		grpcRoomPlayer.set_near_id(CONV_FSTRING_TO_CHAR(UE.near_id));
-	}
-	{
-		game::battlemon::items::Item* go = new game::battlemon::items::Item();
-		*go << UE.lemon;
-		grpcRoomPlayer.set_allocated_lemon(go);
-	}
-	return grpcRoomPlayer;
+	return grpcUpdate;
 }
 

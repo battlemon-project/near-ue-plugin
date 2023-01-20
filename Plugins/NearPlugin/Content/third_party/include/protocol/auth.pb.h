@@ -23,6 +23,7 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
+#include <google/protobuf/generated_message_bases.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
@@ -47,18 +48,18 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 namespace game {
 namespace battlemon {
 namespace auth {
-class SendCodeRequest;
-struct SendCodeRequestDefaultTypeInternal;
-extern SendCodeRequestDefaultTypeInternal _SendCodeRequest_default_instance_;
-class SendCodeResponse;
-struct SendCodeResponseDefaultTypeInternal;
-extern SendCodeResponseDefaultTypeInternal _SendCodeResponse_default_instance_;
-class VerifyCodeRequest;
-struct VerifyCodeRequestDefaultTypeInternal;
-extern VerifyCodeRequestDefaultTypeInternal _VerifyCodeRequest_default_instance_;
-class VerifyCodeResponse;
-struct VerifyCodeResponseDefaultTypeInternal;
-extern VerifyCodeResponseDefaultTypeInternal _VerifyCodeResponse_default_instance_;
+class GuestAuthRequest;
+struct GuestAuthRequestDefaultTypeInternal;
+extern GuestAuthRequestDefaultTypeInternal _GuestAuthRequest_default_instance_;
+class Session;
+struct SessionDefaultTypeInternal;
+extern SessionDefaultTypeInternal _Session_default_instance_;
+class SuiAuthRequest;
+struct SuiAuthRequestDefaultTypeInternal;
+extern SuiAuthRequestDefaultTypeInternal _SuiAuthRequest_default_instance_;
+class SuiSession;
+struct SuiSessionDefaultTypeInternal;
+extern SuiSessionDefaultTypeInternal _SuiSession_default_instance_;
 class WalletAddressRequest;
 struct WalletAddressRequestDefaultTypeInternal;
 extern WalletAddressRequestDefaultTypeInternal _WalletAddressRequest_default_instance_;
@@ -69,10 +70,10 @@ extern WalletAddressResponseDefaultTypeInternal _WalletAddressResponse_default_i
 }  // namespace battlemon
 }  // namespace game
 PROTOBUF_NAMESPACE_OPEN
-template<> ::game::battlemon::auth::SendCodeRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::SendCodeRequest>(Arena*);
-template<> ::game::battlemon::auth::SendCodeResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::SendCodeResponse>(Arena*);
-template<> ::game::battlemon::auth::VerifyCodeRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::VerifyCodeRequest>(Arena*);
-template<> ::game::battlemon::auth::VerifyCodeResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::VerifyCodeResponse>(Arena*);
+template<> ::game::battlemon::auth::GuestAuthRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::GuestAuthRequest>(Arena*);
+template<> ::game::battlemon::auth::Session* Arena::CreateMaybeMessage<::game::battlemon::auth::Session>(Arena*);
+template<> ::game::battlemon::auth::SuiAuthRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::SuiAuthRequest>(Arena*);
+template<> ::game::battlemon::auth::SuiSession* Arena::CreateMaybeMessage<::game::battlemon::auth::SuiSession>(Arena*);
 template<> ::game::battlemon::auth::WalletAddressRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::WalletAddressRequest>(Arena*);
 template<> ::game::battlemon::auth::WalletAddressResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::WalletAddressResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -82,24 +83,24 @@ namespace auth {
 
 // ===================================================================
 
-class SendCodeRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.SendCodeRequest) */ {
+class SuiAuthRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.SuiAuthRequest) */ {
  public:
-  inline SendCodeRequest() : SendCodeRequest(nullptr) {}
-  ~SendCodeRequest() override;
-  explicit PROTOBUF_CONSTEXPR SendCodeRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline SuiAuthRequest() : SuiAuthRequest(nullptr) {}
+  ~SuiAuthRequest() override;
+  explicit PROTOBUF_CONSTEXPR SuiAuthRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  SendCodeRequest(const SendCodeRequest& from);
-  SendCodeRequest(SendCodeRequest&& from) noexcept
-    : SendCodeRequest() {
+  SuiAuthRequest(const SuiAuthRequest& from);
+  SuiAuthRequest(SuiAuthRequest&& from) noexcept
+    : SuiAuthRequest() {
     *this = ::std::move(from);
   }
 
-  inline SendCodeRequest& operator=(const SendCodeRequest& from) {
+  inline SuiAuthRequest& operator=(const SuiAuthRequest& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SendCodeRequest& operator=(SendCodeRequest&& from) noexcept {
+  inline SuiAuthRequest& operator=(SuiAuthRequest&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -122,20 +123,20 @@ class SendCodeRequest final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SendCodeRequest& default_instance() {
+  static const SuiAuthRequest& default_instance() {
     return *internal_default_instance();
   }
-  static inline const SendCodeRequest* internal_default_instance() {
-    return reinterpret_cast<const SendCodeRequest*>(
-               &_SendCodeRequest_default_instance_);
+  static inline const SuiAuthRequest* internal_default_instance() {
+    return reinterpret_cast<const SuiAuthRequest*>(
+               &_SuiAuthRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(SendCodeRequest& a, SendCodeRequest& b) {
+  friend void swap(SuiAuthRequest& a, SuiAuthRequest& b) {
     a.Swap(&b);
   }
-  inline void Swap(SendCodeRequest* other) {
+  inline void Swap(SuiAuthRequest* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -148,7 +149,7 @@ class SendCodeRequest final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SendCodeRequest* other) {
+  void UnsafeArenaSwap(SuiAuthRequest* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -156,14 +157,14 @@ class SendCodeRequest final :
 
   // implements Message ----------------------------------------------
 
-  SendCodeRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<SendCodeRequest>(arena);
+  SuiAuthRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SuiAuthRequest>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const SendCodeRequest& from);
+  void CopyFrom(const SuiAuthRequest& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const SendCodeRequest& from) {
-    SendCodeRequest::MergeImpl(*this, from);
+  void MergeFrom( const SuiAuthRequest& from) {
+    SuiAuthRequest::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -181,15 +182,15 @@ class SendCodeRequest final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(SendCodeRequest* other);
+  void InternalSwap(SuiAuthRequest* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.auth.SendCodeRequest";
+    return "game.battlemon.auth.SuiAuthRequest";
   }
   protected:
-  explicit SendCodeRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit SuiAuthRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -203,23 +204,23 @@ class SendCodeRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPublicKeyFieldNumber = 1,
+    kClientIdFieldNumber = 1,
   };
-  // string public_key = 1;
-  void clear_public_key();
-  const std::string& public_key() const;
+  // string client_id = 1;
+  void clear_client_id();
+  const std::string& client_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_public_key(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_public_key();
-  PROTOBUF_NODISCARD std::string* release_public_key();
-  void set_allocated_public_key(std::string* public_key);
+  void set_client_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_client_id();
+  PROTOBUF_NODISCARD std::string* release_client_id();
+  void set_allocated_client_id(std::string* client_id);
   private:
-  const std::string& _internal_public_key() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_public_key(const std::string& value);
-  std::string* _internal_mutable_public_key();
+  const std::string& _internal_client_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_client_id(const std::string& value);
+  std::string* _internal_mutable_client_id();
   public:
 
-  // @@protoc_insertion_point(class_scope:game.battlemon.auth.SendCodeRequest)
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.SuiAuthRequest)
  private:
   class _Internal;
 
@@ -227,7 +228,7 @@ class SendCodeRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr public_key_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr client_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -235,24 +236,23 @@ class SendCodeRequest final :
 };
 // -------------------------------------------------------------------
 
-class SendCodeResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.SendCodeResponse) */ {
+class GuestAuthRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:game.battlemon.auth.GuestAuthRequest) */ {
  public:
-  inline SendCodeResponse() : SendCodeResponse(nullptr) {}
-  ~SendCodeResponse() override;
-  explicit PROTOBUF_CONSTEXPR SendCodeResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline GuestAuthRequest() : GuestAuthRequest(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR GuestAuthRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  SendCodeResponse(const SendCodeResponse& from);
-  SendCodeResponse(SendCodeResponse&& from) noexcept
-    : SendCodeResponse() {
+  GuestAuthRequest(const GuestAuthRequest& from);
+  GuestAuthRequest(GuestAuthRequest&& from) noexcept
+    : GuestAuthRequest() {
     *this = ::std::move(from);
   }
 
-  inline SendCodeResponse& operator=(const SendCodeResponse& from) {
+  inline GuestAuthRequest& operator=(const GuestAuthRequest& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SendCodeResponse& operator=(SendCodeResponse&& from) noexcept {
+  inline GuestAuthRequest& operator=(GuestAuthRequest&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -275,20 +275,20 @@ class SendCodeResponse final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SendCodeResponse& default_instance() {
+  static const GuestAuthRequest& default_instance() {
     return *internal_default_instance();
   }
-  static inline const SendCodeResponse* internal_default_instance() {
-    return reinterpret_cast<const SendCodeResponse*>(
-               &_SendCodeResponse_default_instance_);
+  static inline const GuestAuthRequest* internal_default_instance() {
+    return reinterpret_cast<const GuestAuthRequest*>(
+               &_GuestAuthRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(SendCodeResponse& a, SendCodeResponse& b) {
+  friend void swap(GuestAuthRequest& a, GuestAuthRequest& b) {
     a.Swap(&b);
   }
-  inline void Swap(SendCodeResponse* other) {
+  inline void Swap(GuestAuthRequest* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -301,7 +301,7 @@ class SendCodeResponse final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SendCodeResponse* other) {
+  void UnsafeArenaSwap(GuestAuthRequest* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -309,40 +309,26 @@ class SendCodeResponse final :
 
   // implements Message ----------------------------------------------
 
-  SendCodeResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<SendCodeResponse>(arena);
+  GuestAuthRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GuestAuthRequest>(arena);
   }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const SendCodeResponse& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const SendCodeResponse& from) {
-    SendCodeResponse::MergeImpl(*this, from);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const GuestAuthRequest& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
   }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const GuestAuthRequest& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
   public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SendCodeResponse* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.auth.SendCodeResponse";
+    return "game.battlemon.auth.GuestAuthRequest";
   }
   protected:
-  explicit SendCodeResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit GuestAuthRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -355,24 +341,7 @@ class SendCodeResponse final :
 
   // accessors -------------------------------------------------------
 
-  enum : int {
-    kCodeFieldNumber = 1,
-  };
-  // string code = 1;
-  void clear_code();
-  const std::string& code() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_code(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_code();
-  PROTOBUF_NODISCARD std::string* release_code();
-  void set_allocated_code(std::string* code);
-  private:
-  const std::string& _internal_code() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_code(const std::string& value);
-  std::string* _internal_mutable_code();
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.auth.SendCodeResponse)
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.GuestAuthRequest)
  private:
   class _Internal;
 
@@ -380,32 +349,29 @@ class SendCodeResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr code_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
-  union { Impl_ _impl_; };
   friend struct ::TableStruct_auth_2eproto;
 };
 // -------------------------------------------------------------------
 
-class VerifyCodeRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.VerifyCodeRequest) */ {
+class Session final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.Session) */ {
  public:
-  inline VerifyCodeRequest() : VerifyCodeRequest(nullptr) {}
-  ~VerifyCodeRequest() override;
-  explicit PROTOBUF_CONSTEXPR VerifyCodeRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline Session() : Session(nullptr) {}
+  ~Session() override;
+  explicit PROTOBUF_CONSTEXPR Session(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  VerifyCodeRequest(const VerifyCodeRequest& from);
-  VerifyCodeRequest(VerifyCodeRequest&& from) noexcept
-    : VerifyCodeRequest() {
+  Session(const Session& from);
+  Session(Session&& from) noexcept
+    : Session() {
     *this = ::std::move(from);
   }
 
-  inline VerifyCodeRequest& operator=(const VerifyCodeRequest& from) {
+  inline Session& operator=(const Session& from) {
     CopyFrom(from);
     return *this;
   }
-  inline VerifyCodeRequest& operator=(VerifyCodeRequest&& from) noexcept {
+  inline Session& operator=(Session&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -428,20 +394,20 @@ class VerifyCodeRequest final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const VerifyCodeRequest& default_instance() {
+  static const Session& default_instance() {
     return *internal_default_instance();
   }
-  static inline const VerifyCodeRequest* internal_default_instance() {
-    return reinterpret_cast<const VerifyCodeRequest*>(
-               &_VerifyCodeRequest_default_instance_);
+  static inline const Session* internal_default_instance() {
+    return reinterpret_cast<const Session*>(
+               &_Session_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     2;
 
-  friend void swap(VerifyCodeRequest& a, VerifyCodeRequest& b) {
+  friend void swap(Session& a, Session& b) {
     a.Swap(&b);
   }
-  inline void Swap(VerifyCodeRequest* other) {
+  inline void Swap(Session* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -454,7 +420,7 @@ class VerifyCodeRequest final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(VerifyCodeRequest* other) {
+  void UnsafeArenaSwap(Session* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -462,14 +428,14 @@ class VerifyCodeRequest final :
 
   // implements Message ----------------------------------------------
 
-  VerifyCodeRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<VerifyCodeRequest>(arena);
+  Session* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Session>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const VerifyCodeRequest& from);
+  void CopyFrom(const Session& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const VerifyCodeRequest& from) {
-    VerifyCodeRequest::MergeImpl(*this, from);
+  void MergeFrom( const Session& from) {
+    Session::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -487,15 +453,15 @@ class VerifyCodeRequest final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(VerifyCodeRequest* other);
+  void InternalSwap(Session* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.auth.VerifyCodeRequest";
+    return "game.battlemon.auth.Session";
   }
   protected:
-  explicit VerifyCodeRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit Session(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -509,38 +475,23 @@ class VerifyCodeRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPublicKeyFieldNumber = 1,
-    kSignFieldNumber = 2,
+    kJwtFieldNumber = 1,
   };
-  // string public_key = 1;
-  void clear_public_key();
-  const std::string& public_key() const;
+  // string jwt = 1;
+  void clear_jwt();
+  const std::string& jwt() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_public_key(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_public_key();
-  PROTOBUF_NODISCARD std::string* release_public_key();
-  void set_allocated_public_key(std::string* public_key);
+  void set_jwt(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_jwt();
+  PROTOBUF_NODISCARD std::string* release_jwt();
+  void set_allocated_jwt(std::string* jwt);
   private:
-  const std::string& _internal_public_key() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_public_key(const std::string& value);
-  std::string* _internal_mutable_public_key();
+  const std::string& _internal_jwt() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_jwt(const std::string& value);
+  std::string* _internal_mutable_jwt();
   public:
 
-  // string sign = 2;
-  void clear_sign();
-  const std::string& sign() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_sign(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_sign();
-  PROTOBUF_NODISCARD std::string* release_sign();
-  void set_allocated_sign(std::string* sign);
-  private:
-  const std::string& _internal_sign() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sign(const std::string& value);
-  std::string* _internal_mutable_sign();
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.auth.VerifyCodeRequest)
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.Session)
  private:
   class _Internal;
 
@@ -548,8 +499,7 @@ class VerifyCodeRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr public_key_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sign_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr jwt_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -557,24 +507,24 @@ class VerifyCodeRequest final :
 };
 // -------------------------------------------------------------------
 
-class VerifyCodeResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.VerifyCodeResponse) */ {
+class SuiSession final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.SuiSession) */ {
  public:
-  inline VerifyCodeResponse() : VerifyCodeResponse(nullptr) {}
-  ~VerifyCodeResponse() override;
-  explicit PROTOBUF_CONSTEXPR VerifyCodeResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline SuiSession() : SuiSession(nullptr) {}
+  ~SuiSession() override;
+  explicit PROTOBUF_CONSTEXPR SuiSession(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  VerifyCodeResponse(const VerifyCodeResponse& from);
-  VerifyCodeResponse(VerifyCodeResponse&& from) noexcept
-    : VerifyCodeResponse() {
+  SuiSession(const SuiSession& from);
+  SuiSession(SuiSession&& from) noexcept
+    : SuiSession() {
     *this = ::std::move(from);
   }
 
-  inline VerifyCodeResponse& operator=(const VerifyCodeResponse& from) {
+  inline SuiSession& operator=(const SuiSession& from) {
     CopyFrom(from);
     return *this;
   }
-  inline VerifyCodeResponse& operator=(VerifyCodeResponse&& from) noexcept {
+  inline SuiSession& operator=(SuiSession&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -597,20 +547,20 @@ class VerifyCodeResponse final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const VerifyCodeResponse& default_instance() {
+  static const SuiSession& default_instance() {
     return *internal_default_instance();
   }
-  static inline const VerifyCodeResponse* internal_default_instance() {
-    return reinterpret_cast<const VerifyCodeResponse*>(
-               &_VerifyCodeResponse_default_instance_);
+  static inline const SuiSession* internal_default_instance() {
+    return reinterpret_cast<const SuiSession*>(
+               &_SuiSession_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     3;
 
-  friend void swap(VerifyCodeResponse& a, VerifyCodeResponse& b) {
+  friend void swap(SuiSession& a, SuiSession& b) {
     a.Swap(&b);
   }
-  inline void Swap(VerifyCodeResponse* other) {
+  inline void Swap(SuiSession* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -623,7 +573,7 @@ class VerifyCodeResponse final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(VerifyCodeResponse* other) {
+  void UnsafeArenaSwap(SuiSession* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -631,14 +581,14 @@ class VerifyCodeResponse final :
 
   // implements Message ----------------------------------------------
 
-  VerifyCodeResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<VerifyCodeResponse>(arena);
+  SuiSession* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SuiSession>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const VerifyCodeResponse& from);
+  void CopyFrom(const SuiSession& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const VerifyCodeResponse& from) {
-    VerifyCodeResponse::MergeImpl(*this, from);
+  void MergeFrom( const SuiSession& from) {
+    SuiSession::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -656,15 +606,15 @@ class VerifyCodeResponse final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(VerifyCodeResponse* other);
+  void InternalSwap(SuiSession* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.auth.VerifyCodeResponse";
+    return "game.battlemon.auth.SuiSession";
   }
   protected:
-  explicit VerifyCodeResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit SuiSession(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -678,23 +628,42 @@ class VerifyCodeResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNearAccountIdFieldNumber = 1,
+    kWalletAddressFieldNumber = 2,
+    kSessionFieldNumber = 1,
   };
-  // string near_account_id = 1;
-  void clear_near_account_id();
-  const std::string& near_account_id() const;
+  // string wallet_address = 2;
+  void clear_wallet_address();
+  const std::string& wallet_address() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_near_account_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_near_account_id();
-  PROTOBUF_NODISCARD std::string* release_near_account_id();
-  void set_allocated_near_account_id(std::string* near_account_id);
+  void set_wallet_address(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_wallet_address();
+  PROTOBUF_NODISCARD std::string* release_wallet_address();
+  void set_allocated_wallet_address(std::string* wallet_address);
   private:
-  const std::string& _internal_near_account_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_near_account_id(const std::string& value);
-  std::string* _internal_mutable_near_account_id();
+  const std::string& _internal_wallet_address() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_wallet_address(const std::string& value);
+  std::string* _internal_mutable_wallet_address();
   public:
 
-  // @@protoc_insertion_point(class_scope:game.battlemon.auth.VerifyCodeResponse)
+  // .game.battlemon.auth.Session session = 1;
+  bool has_session() const;
+  private:
+  bool _internal_has_session() const;
+  public:
+  void clear_session();
+  const ::game::battlemon::auth::Session& session() const;
+  PROTOBUF_NODISCARD ::game::battlemon::auth::Session* release_session();
+  ::game::battlemon::auth::Session* mutable_session();
+  void set_allocated_session(::game::battlemon::auth::Session* session);
+  private:
+  const ::game::battlemon::auth::Session& _internal_session() const;
+  ::game::battlemon::auth::Session* _internal_mutable_session();
+  public:
+  void unsafe_arena_set_allocated_session(
+      ::game::battlemon::auth::Session* session);
+  ::game::battlemon::auth::Session* unsafe_arena_release_session();
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.SuiSession)
  private:
   class _Internal;
 
@@ -702,7 +671,8 @@ class VerifyCodeResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_account_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr wallet_address_;
+    ::game::battlemon::auth::Session* session_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1023,268 +993,258 @@ class WalletAddressResponse final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// SendCodeRequest
+// SuiAuthRequest
 
-// string public_key = 1;
-inline void SendCodeRequest::clear_public_key() {
-  _impl_.public_key_.ClearToEmpty();
+// string client_id = 1;
+inline void SuiAuthRequest::clear_client_id() {
+  _impl_.client_id_.ClearToEmpty();
 }
-inline const std::string& SendCodeRequest::public_key() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.SendCodeRequest.public_key)
-  return _internal_public_key();
+inline const std::string& SuiAuthRequest::client_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.SuiAuthRequest.client_id)
+  return _internal_client_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void SendCodeRequest::set_public_key(ArgT0&& arg0, ArgT... args) {
+void SuiAuthRequest::set_client_id(ArgT0&& arg0, ArgT... args) {
  
- _impl_.public_key_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.SendCodeRequest.public_key)
+ _impl_.client_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.SuiAuthRequest.client_id)
 }
-inline std::string* SendCodeRequest::mutable_public_key() {
-  std::string* _s = _internal_mutable_public_key();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.SendCodeRequest.public_key)
+inline std::string* SuiAuthRequest::mutable_client_id() {
+  std::string* _s = _internal_mutable_client_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.SuiAuthRequest.client_id)
   return _s;
 }
-inline const std::string& SendCodeRequest::_internal_public_key() const {
-  return _impl_.public_key_.Get();
+inline const std::string& SuiAuthRequest::_internal_client_id() const {
+  return _impl_.client_id_.Get();
 }
-inline void SendCodeRequest::_internal_set_public_key(const std::string& value) {
+inline void SuiAuthRequest::_internal_set_client_id(const std::string& value) {
   
-  _impl_.public_key_.Set(value, GetArenaForAllocation());
+  _impl_.client_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* SendCodeRequest::_internal_mutable_public_key() {
+inline std::string* SuiAuthRequest::_internal_mutable_client_id() {
   
-  return _impl_.public_key_.Mutable(GetArenaForAllocation());
+  return _impl_.client_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* SendCodeRequest::release_public_key() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.SendCodeRequest.public_key)
-  return _impl_.public_key_.Release();
+inline std::string* SuiAuthRequest::release_client_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.SuiAuthRequest.client_id)
+  return _impl_.client_id_.Release();
 }
-inline void SendCodeRequest::set_allocated_public_key(std::string* public_key) {
-  if (public_key != nullptr) {
+inline void SuiAuthRequest::set_allocated_client_id(std::string* client_id) {
+  if (client_id != nullptr) {
     
   } else {
     
   }
-  _impl_.public_key_.SetAllocated(public_key, GetArenaForAllocation());
+  _impl_.client_id_.SetAllocated(client_id, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.public_key_.IsDefault()) {
-    _impl_.public_key_.Set("", GetArenaForAllocation());
+  if (_impl_.client_id_.IsDefault()) {
+    _impl_.client_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.SendCodeRequest.public_key)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.SuiAuthRequest.client_id)
 }
 
 // -------------------------------------------------------------------
 
-// SendCodeResponse
+// GuestAuthRequest
 
-// string code = 1;
-inline void SendCodeResponse::clear_code() {
-  _impl_.code_.ClearToEmpty();
+// -------------------------------------------------------------------
+
+// Session
+
+// string jwt = 1;
+inline void Session::clear_jwt() {
+  _impl_.jwt_.ClearToEmpty();
 }
-inline const std::string& SendCodeResponse::code() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.SendCodeResponse.code)
-  return _internal_code();
+inline const std::string& Session::jwt() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.Session.jwt)
+  return _internal_jwt();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void SendCodeResponse::set_code(ArgT0&& arg0, ArgT... args) {
+void Session::set_jwt(ArgT0&& arg0, ArgT... args) {
  
- _impl_.code_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.SendCodeResponse.code)
+ _impl_.jwt_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.Session.jwt)
 }
-inline std::string* SendCodeResponse::mutable_code() {
-  std::string* _s = _internal_mutable_code();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.SendCodeResponse.code)
+inline std::string* Session::mutable_jwt() {
+  std::string* _s = _internal_mutable_jwt();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.Session.jwt)
   return _s;
 }
-inline const std::string& SendCodeResponse::_internal_code() const {
-  return _impl_.code_.Get();
+inline const std::string& Session::_internal_jwt() const {
+  return _impl_.jwt_.Get();
 }
-inline void SendCodeResponse::_internal_set_code(const std::string& value) {
+inline void Session::_internal_set_jwt(const std::string& value) {
   
-  _impl_.code_.Set(value, GetArenaForAllocation());
+  _impl_.jwt_.Set(value, GetArenaForAllocation());
 }
-inline std::string* SendCodeResponse::_internal_mutable_code() {
+inline std::string* Session::_internal_mutable_jwt() {
   
-  return _impl_.code_.Mutable(GetArenaForAllocation());
+  return _impl_.jwt_.Mutable(GetArenaForAllocation());
 }
-inline std::string* SendCodeResponse::release_code() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.SendCodeResponse.code)
-  return _impl_.code_.Release();
+inline std::string* Session::release_jwt() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.Session.jwt)
+  return _impl_.jwt_.Release();
 }
-inline void SendCodeResponse::set_allocated_code(std::string* code) {
-  if (code != nullptr) {
+inline void Session::set_allocated_jwt(std::string* jwt) {
+  if (jwt != nullptr) {
     
   } else {
     
   }
-  _impl_.code_.SetAllocated(code, GetArenaForAllocation());
+  _impl_.jwt_.SetAllocated(jwt, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.code_.IsDefault()) {
-    _impl_.code_.Set("", GetArenaForAllocation());
+  if (_impl_.jwt_.IsDefault()) {
+    _impl_.jwt_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.SendCodeResponse.code)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.Session.jwt)
 }
 
 // -------------------------------------------------------------------
 
-// VerifyCodeRequest
+// SuiSession
 
-// string public_key = 1;
-inline void VerifyCodeRequest::clear_public_key() {
-  _impl_.public_key_.ClearToEmpty();
+// .game.battlemon.auth.Session session = 1;
+inline bool SuiSession::_internal_has_session() const {
+  return this != internal_default_instance() && _impl_.session_ != nullptr;
 }
-inline const std::string& VerifyCodeRequest::public_key() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.VerifyCodeRequest.public_key)
-  return _internal_public_key();
+inline bool SuiSession::has_session() const {
+  return _internal_has_session();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void VerifyCodeRequest::set_public_key(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.public_key_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.VerifyCodeRequest.public_key)
+inline void SuiSession::clear_session() {
+  if (GetArenaForAllocation() == nullptr && _impl_.session_ != nullptr) {
+    delete _impl_.session_;
+  }
+  _impl_.session_ = nullptr;
 }
-inline std::string* VerifyCodeRequest::mutable_public_key() {
-  std::string* _s = _internal_mutable_public_key();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.VerifyCodeRequest.public_key)
-  return _s;
+inline const ::game::battlemon::auth::Session& SuiSession::_internal_session() const {
+  const ::game::battlemon::auth::Session* p = _impl_.session_;
+  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::auth::Session&>(
+      ::game::battlemon::auth::_Session_default_instance_);
 }
-inline const std::string& VerifyCodeRequest::_internal_public_key() const {
-  return _impl_.public_key_.Get();
+inline const ::game::battlemon::auth::Session& SuiSession::session() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.SuiSession.session)
+  return _internal_session();
 }
-inline void VerifyCodeRequest::_internal_set_public_key(const std::string& value) {
-  
-  _impl_.public_key_.Set(value, GetArenaForAllocation());
-}
-inline std::string* VerifyCodeRequest::_internal_mutable_public_key() {
-  
-  return _impl_.public_key_.Mutable(GetArenaForAllocation());
-}
-inline std::string* VerifyCodeRequest::release_public_key() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.VerifyCodeRequest.public_key)
-  return _impl_.public_key_.Release();
-}
-inline void VerifyCodeRequest::set_allocated_public_key(std::string* public_key) {
-  if (public_key != nullptr) {
+inline void SuiSession::unsafe_arena_set_allocated_session(
+    ::game::battlemon::auth::Session* session) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.session_);
+  }
+  _impl_.session_ = session;
+  if (session) {
     
   } else {
     
   }
-  _impl_.public_key_.SetAllocated(public_key, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.public_key_.IsDefault()) {
-    _impl_.public_key_.Set("", GetArenaForAllocation());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.auth.SuiSession.session)
+}
+inline ::game::battlemon::auth::Session* SuiSession::release_session() {
+  
+  ::game::battlemon::auth::Session* temp = _impl_.session_;
+  _impl_.session_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.VerifyCodeRequest.public_key)
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-
-// string sign = 2;
-inline void VerifyCodeRequest::clear_sign() {
-  _impl_.sign_.ClearToEmpty();
-}
-inline const std::string& VerifyCodeRequest::sign() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.VerifyCodeRequest.sign)
-  return _internal_sign();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void VerifyCodeRequest::set_sign(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.sign_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.VerifyCodeRequest.sign)
-}
-inline std::string* VerifyCodeRequest::mutable_sign() {
-  std::string* _s = _internal_mutable_sign();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.VerifyCodeRequest.sign)
-  return _s;
-}
-inline const std::string& VerifyCodeRequest::_internal_sign() const {
-  return _impl_.sign_.Get();
-}
-inline void VerifyCodeRequest::_internal_set_sign(const std::string& value) {
+inline ::game::battlemon::auth::Session* SuiSession::unsafe_arena_release_session() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.SuiSession.session)
   
-  _impl_.sign_.Set(value, GetArenaForAllocation());
+  ::game::battlemon::auth::Session* temp = _impl_.session_;
+  _impl_.session_ = nullptr;
+  return temp;
 }
-inline std::string* VerifyCodeRequest::_internal_mutable_sign() {
+inline ::game::battlemon::auth::Session* SuiSession::_internal_mutable_session() {
   
-  return _impl_.sign_.Mutable(GetArenaForAllocation());
+  if (_impl_.session_ == nullptr) {
+    auto* p = CreateMaybeMessage<::game::battlemon::auth::Session>(GetArenaForAllocation());
+    _impl_.session_ = p;
+  }
+  return _impl_.session_;
 }
-inline std::string* VerifyCodeRequest::release_sign() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.VerifyCodeRequest.sign)
-  return _impl_.sign_.Release();
+inline ::game::battlemon::auth::Session* SuiSession::mutable_session() {
+  ::game::battlemon::auth::Session* _msg = _internal_mutable_session();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.SuiSession.session)
+  return _msg;
 }
-inline void VerifyCodeRequest::set_allocated_sign(std::string* sign) {
-  if (sign != nullptr) {
+inline void SuiSession::set_allocated_session(::game::battlemon::auth::Session* session) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.session_;
+  }
+  if (session) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(session);
+    if (message_arena != submessage_arena) {
+      session = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, session, submessage_arena);
+    }
     
   } else {
     
   }
-  _impl_.sign_.SetAllocated(sign, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.sign_.IsDefault()) {
-    _impl_.sign_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.VerifyCodeRequest.sign)
+  _impl_.session_ = session;
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.SuiSession.session)
 }
 
-// -------------------------------------------------------------------
-
-// VerifyCodeResponse
-
-// string near_account_id = 1;
-inline void VerifyCodeResponse::clear_near_account_id() {
-  _impl_.near_account_id_.ClearToEmpty();
+// string wallet_address = 2;
+inline void SuiSession::clear_wallet_address() {
+  _impl_.wallet_address_.ClearToEmpty();
 }
-inline const std::string& VerifyCodeResponse::near_account_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.VerifyCodeResponse.near_account_id)
-  return _internal_near_account_id();
+inline const std::string& SuiSession::wallet_address() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.SuiSession.wallet_address)
+  return _internal_wallet_address();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void VerifyCodeResponse::set_near_account_id(ArgT0&& arg0, ArgT... args) {
+void SuiSession::set_wallet_address(ArgT0&& arg0, ArgT... args) {
  
- _impl_.near_account_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.VerifyCodeResponse.near_account_id)
+ _impl_.wallet_address_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.SuiSession.wallet_address)
 }
-inline std::string* VerifyCodeResponse::mutable_near_account_id() {
-  std::string* _s = _internal_mutable_near_account_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.VerifyCodeResponse.near_account_id)
+inline std::string* SuiSession::mutable_wallet_address() {
+  std::string* _s = _internal_mutable_wallet_address();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.SuiSession.wallet_address)
   return _s;
 }
-inline const std::string& VerifyCodeResponse::_internal_near_account_id() const {
-  return _impl_.near_account_id_.Get();
+inline const std::string& SuiSession::_internal_wallet_address() const {
+  return _impl_.wallet_address_.Get();
 }
-inline void VerifyCodeResponse::_internal_set_near_account_id(const std::string& value) {
+inline void SuiSession::_internal_set_wallet_address(const std::string& value) {
   
-  _impl_.near_account_id_.Set(value, GetArenaForAllocation());
+  _impl_.wallet_address_.Set(value, GetArenaForAllocation());
 }
-inline std::string* VerifyCodeResponse::_internal_mutable_near_account_id() {
+inline std::string* SuiSession::_internal_mutable_wallet_address() {
   
-  return _impl_.near_account_id_.Mutable(GetArenaForAllocation());
+  return _impl_.wallet_address_.Mutable(GetArenaForAllocation());
 }
-inline std::string* VerifyCodeResponse::release_near_account_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.VerifyCodeResponse.near_account_id)
-  return _impl_.near_account_id_.Release();
+inline std::string* SuiSession::release_wallet_address() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.SuiSession.wallet_address)
+  return _impl_.wallet_address_.Release();
 }
-inline void VerifyCodeResponse::set_allocated_near_account_id(std::string* near_account_id) {
-  if (near_account_id != nullptr) {
+inline void SuiSession::set_allocated_wallet_address(std::string* wallet_address) {
+  if (wallet_address != nullptr) {
     
   } else {
     
   }
-  _impl_.near_account_id_.SetAllocated(near_account_id, GetArenaForAllocation());
+  _impl_.wallet_address_.SetAllocated(wallet_address, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.near_account_id_.IsDefault()) {
-    _impl_.near_account_id_.Set("", GetArenaForAllocation());
+  if (_impl_.wallet_address_.IsDefault()) {
+    _impl_.wallet_address_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.VerifyCodeResponse.near_account_id)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.SuiSession.wallet_address)
 }
 
 // -------------------------------------------------------------------

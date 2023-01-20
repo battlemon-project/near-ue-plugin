@@ -1,40 +1,219 @@
 #include"items.h"
+#include "AsyncTask.h"
 
-FUModelCase& operator<<(FUModelCase &UE, const game::battlemon::items::Item::ModelCase& grpc)
+RPC_ItemsService* UItemsService::_RPC_ItemsService = nullptr;
+
+RPC_ItemsService::RPC_ItemsService(const bool& ssl, FString& url, void* _Delegate, void* _out) :gRPC_Stub(ssl, url), Delegate(_Delegate), out(_out) {}
+
+RPC_ItemsService::~RPC_ItemsService() {}
+
+game::battlemon::items::ItemsResponse RPC_ItemsService::GetItems(grpc::ClientContext* context, const game::battlemon::items::ItemsRequest* request)
 {
-	UE = FUModelCase::Default;
-	switch (grpc)
+	game::battlemon::items::ItemsResponse read;
+	CheckError(stub.get()->GetItems(context, *request, &read));
+
+	if (static_cast<FGetItemsDelegate*>(Delegate)->IsBound())
 	{
-	case game::battlemon::items::Item::ModelCase::kLemon:
-		UE = FUModelCase::kLemon;
-		break;
-	case game::battlemon::items::Item::ModelCase::kOutfit:
-		UE = FUModelCase::kOutfit;
-		break;
+		*static_cast<FUItemsResponse*>(out) = read;
+		static_cast<FGetItemsDelegate*>(Delegate)->Broadcast(*static_cast<FUItemsResponse*>(out));
 	}
-	return UE;
+	return read;
+}
+
+game::battlemon::items::GetBundlesResponse RPC_ItemsService::GetBundles(grpc::ClientContext* context, const game::battlemon::items::GetBundlesRequest* request)
+{
+	game::battlemon::items::GetBundlesResponse read;
+	CheckError(stub.get()->GetBundles(context, *request, &read));
+
+	if (static_cast<FGetBundlesDelegate*>(Delegate)->IsBound())
+	{
+		*static_cast<FUGetBundlesResponse*>(out) = read;
+		static_cast<FGetBundlesDelegate*>(Delegate)->Broadcast(*static_cast<FUGetBundlesResponse*>(out));
+	}
+	return read;
+}
+
+game::battlemon::items::WeaponBundle RPC_ItemsService::EditBundle(grpc::ClientContext* context, const game::battlemon::items::EditBundleRequest* request)
+{
+	game::battlemon::items::WeaponBundle read;
+	CheckError(stub.get()->EditBundle(context, *request, &read));
+
+	if (static_cast<FEditBundleDelegate*>(Delegate)->IsBound())
+	{
+		*static_cast<FUWeaponBundle*>(out) = read;
+		static_cast<FEditBundleDelegate*>(Delegate)->Broadcast(*static_cast<FUWeaponBundle*>(out));
+	}
+	return read;
+}
+
+game::battlemon::common::Empty RPC_ItemsService::AttachBundle(grpc::ClientContext* context, const game::battlemon::items::AttachBundleRequest* request)
+{
+	game::battlemon::common::Empty read;
+	CheckError(stub.get()->AttachBundle(context, *request, &read));
+
+	if (static_cast<FAttachBundleDelegate*>(Delegate)->IsBound())
+	{
+		*static_cast<FUEmpty*>(out) = read;
+		static_cast<FAttachBundleDelegate*>(Delegate)->Broadcast(*static_cast<FUEmpty*>(out));
+	}
+	return read;
+}
+
+game::battlemon::common::Empty RPC_ItemsService::DetachBundle(grpc::ClientContext* context, const game::battlemon::items::DetachBundleRequest* request)
+{
+	game::battlemon::common::Empty read;
+	CheckError(stub.get()->DetachBundle(context, *request, &read));
+
+	if (static_cast<FDetachBundleDelegate*>(Delegate)->IsBound())
+	{
+		*static_cast<FUEmpty*>(out) = read;
+		static_cast<FDetachBundleDelegate*>(Delegate)->Broadcast(*static_cast<FUEmpty*>(out));
+	}
+	return read;
+}
+
+void UItemsService::free_RPC_ItemsService()
+{
+	if (_RPC_ItemsService != nullptr)
+	{
+		if (_RPC_ItemsService->Task != nullptr)
+		{
+			switch (rpc)
+			{
+			case ItemsServiceRPC::GetItems:
+				if (!CAST_ASINCTASK(FUItemsResponse, RPC_ItemsService, game::battlemon::items::ItemsRequest, game::battlemon::items::ItemsResponse)(_RPC_ItemsService->Task)->Cancel())
+				{
+					CAST_ASINCTASK(FUItemsResponse, RPC_ItemsService, game::battlemon::items::ItemsRequest, game::battlemon::items::ItemsResponse)(_RPC_ItemsService->Task)->EnsureCompletion();
+				}
+				delete CAST_ASINCTASK(FUItemsResponse, RPC_ItemsService, game::battlemon::items::ItemsRequest, game::battlemon::items::ItemsResponse)(_RPC_ItemsService->Task);
+				break;
+			case ItemsServiceRPC::GetBundles:
+				if (!CAST_ASINCTASK(FUGetBundlesResponse, RPC_ItemsService, game::battlemon::items::GetBundlesRequest, game::battlemon::items::GetBundlesResponse)(_RPC_ItemsService->Task)->Cancel())
+				{
+					CAST_ASINCTASK(FUGetBundlesResponse, RPC_ItemsService, game::battlemon::items::GetBundlesRequest, game::battlemon::items::GetBundlesResponse)(_RPC_ItemsService->Task)->EnsureCompletion();
+				}
+				delete CAST_ASINCTASK(FUGetBundlesResponse, RPC_ItemsService, game::battlemon::items::GetBundlesRequest, game::battlemon::items::GetBundlesResponse)(_RPC_ItemsService->Task);
+				break;
+			case ItemsServiceRPC::EditBundle:
+				if (!CAST_ASINCTASK(FUWeaponBundle, RPC_ItemsService, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(_RPC_ItemsService->Task)->Cancel())
+				{
+					CAST_ASINCTASK(FUWeaponBundle, RPC_ItemsService, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(_RPC_ItemsService->Task)->EnsureCompletion();
+				}
+				delete CAST_ASINCTASK(FUWeaponBundle, RPC_ItemsService, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle)(_RPC_ItemsService->Task);
+				break;
+			case ItemsServiceRPC::AttachBundle:
+				if (!CAST_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::AttachBundleRequest, game::battlemon::common::Empty)(_RPC_ItemsService->Task)->Cancel())
+				{
+					CAST_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::AttachBundleRequest, game::battlemon::common::Empty)(_RPC_ItemsService->Task)->EnsureCompletion();
+				}
+				delete CAST_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::AttachBundleRequest, game::battlemon::common::Empty)(_RPC_ItemsService->Task);
+				break;
+			case ItemsServiceRPC::DetachBundle:
+				if (!CAST_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::DetachBundleRequest, game::battlemon::common::Empty)(_RPC_ItemsService->Task)->Cancel())
+				{
+					CAST_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::DetachBundleRequest, game::battlemon::common::Empty)(_RPC_ItemsService->Task)->EnsureCompletion();
+				}
+				delete CAST_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::DetachBundleRequest, game::battlemon::common::Empty)(_RPC_ItemsService->Task);
+				break;
+			}
+			_RPC_ItemsService->Task = nullptr;
+		}
+		delete _RPC_ItemsService;
+	}
+	_RPC_ItemsService = nullptr;
+}
+
+UItemsService::UItemsService() {}
+
+UItemsService::~UItemsService() 
+{
+	free_RPC_ItemsService();
+}
+
+void UItemsService::GetItems(TMap<FString, FString> context, FUItemsRequest inp, FUItemsResponse &out)
+{
+	free_RPC_ItemsService();
+	rpc = ItemsServiceRPC::GetItems;
+	game::battlemon::items::ItemsRequest g_request;
+	g_request << inp;
+	_RPC_ItemsService = new RPC_ItemsService(ssl, URL, &GetItemsDelegate, &out);
+	CREATE_ASINCTASK(FUItemsResponse, RPC_ItemsService, game::battlemon::items::ItemsRequest, game::battlemon::items::ItemsResponse);
+	_RPC_ItemsService->Task = GET_ASINCTASK;
+	GET_ASINCTASK->GetTask().SetData(_RPC_ItemsService, &out, &g_request, context, &RPC_ItemsService::GetItems);
+	GET_ASINCTASK->StartBackgroundTask();
+}
+
+void UItemsService::GetBundles(TMap<FString, FString> context, FUGetBundlesRequest inp, FUGetBundlesResponse &out)
+{
+	free_RPC_ItemsService();
+	rpc = ItemsServiceRPC::GetBundles;
+	game::battlemon::items::GetBundlesRequest g_request;
+	g_request << inp;
+	_RPC_ItemsService = new RPC_ItemsService(ssl, URL, &GetBundlesDelegate, &out);
+	CREATE_ASINCTASK(FUGetBundlesResponse, RPC_ItemsService, game::battlemon::items::GetBundlesRequest, game::battlemon::items::GetBundlesResponse);
+	_RPC_ItemsService->Task = GET_ASINCTASK;
+	GET_ASINCTASK->GetTask().SetData(_RPC_ItemsService, &out, &g_request, context, &RPC_ItemsService::GetBundles);
+	GET_ASINCTASK->StartBackgroundTask();
+}
+
+void UItemsService::EditBundle(TMap<FString, FString> context, FUEditBundleRequest inp, FUWeaponBundle &out)
+{
+	free_RPC_ItemsService();
+	rpc = ItemsServiceRPC::EditBundle;
+	game::battlemon::items::EditBundleRequest g_request;
+	g_request << inp;
+	_RPC_ItemsService = new RPC_ItemsService(ssl, URL, &EditBundleDelegate, &out);
+	CREATE_ASINCTASK(FUWeaponBundle, RPC_ItemsService, game::battlemon::items::EditBundleRequest, game::battlemon::items::WeaponBundle);
+	_RPC_ItemsService->Task = GET_ASINCTASK;
+	GET_ASINCTASK->GetTask().SetData(_RPC_ItemsService, &out, &g_request, context, &RPC_ItemsService::EditBundle);
+	GET_ASINCTASK->StartBackgroundTask();
+}
+
+void UItemsService::AttachBundle(TMap<FString, FString> context, FUAttachBundleRequest inp, FUEmpty &out)
+{
+	free_RPC_ItemsService();
+	rpc = ItemsServiceRPC::AttachBundle;
+	game::battlemon::items::AttachBundleRequest g_request;
+	g_request << inp;
+	_RPC_ItemsService = new RPC_ItemsService(ssl, URL, &AttachBundleDelegate, &out);
+	CREATE_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::AttachBundleRequest, game::battlemon::common::Empty);
+	_RPC_ItemsService->Task = GET_ASINCTASK;
+	GET_ASINCTASK->GetTask().SetData(_RPC_ItemsService, &out, &g_request, context, &RPC_ItemsService::AttachBundle);
+	GET_ASINCTASK->StartBackgroundTask();
+}
+
+void UItemsService::DetachBundle(TMap<FString, FString> context, FUDetachBundleRequest inp, FUEmpty &out)
+{
+	free_RPC_ItemsService();
+	rpc = ItemsServiceRPC::DetachBundle;
+	game::battlemon::items::DetachBundleRequest g_request;
+	g_request << inp;
+	_RPC_ItemsService = new RPC_ItemsService(ssl, URL, &DetachBundleDelegate, &out);
+	CREATE_ASINCTASK(FUEmpty, RPC_ItemsService, game::battlemon::items::DetachBundleRequest, game::battlemon::common::Empty);
+	_RPC_ItemsService->Task = GET_ASINCTASK;
+	GET_ASINCTASK->GetTask().SetData(_RPC_ItemsService, &out, &g_request, context, &RPC_ItemsService::DetachBundle);
+	GET_ASINCTASK->StartBackgroundTask();
+}
+
+FString UItemsService::GetError()
+{
+	if (_RPC_ItemsService != nullptr)
+		return _RPC_ItemsService->GetError();
+	return FString();
 }
 
 
-FUOutfitKind& operator<<(FUOutfitKind &UE, const game::battlemon::items::OutfitKind& grpc)
+
+FUItemCase& operator<<(FUItemCase &UE, const game::battlemon::items::Item::ItemCase& grpc)
 {
-	UE = FUOutfitKind::Default;
+	UE = FUItemCase::Default;
 	switch (grpc)
 	{
-	case game::battlemon::items::OutfitKind::CAP:
-		UE = FUOutfitKind::CAP;
+	case game::battlemon::items::Item::ItemCase::kNft:
+		UE = FUItemCase::kNft;
 		break;
-	case game::battlemon::items::OutfitKind::CLOTH:
-		UE = FUOutfitKind::CLOTH;
-		break;
-	case game::battlemon::items::OutfitKind::FIRE_ARM:
-		UE = FUOutfitKind::FIRE_ARM;
-		break;
-	case game::battlemon::items::OutfitKind::COLD_ARM:
-		UE = FUOutfitKind::COLD_ARM;
-		break;
-	case game::battlemon::items::OutfitKind::BACK:
-		UE = FUOutfitKind::BACK;
+	case game::battlemon::items::Item::ItemCase::kNonNft:
+		UE = FUItemCase::kNonNft;
 		break;
 	}
 	return UE;
@@ -106,39 +285,15 @@ FUWeaponBundleSlotType& operator<<(FUWeaponBundleSlotType &UE, const game::battl
 }
 
 
-game::battlemon::items::Item::ModelCase& operator<<(game::battlemon::items::Item::ModelCase & grpc, const FUModelCase &UE) 
+game::battlemon::items::Item::ItemCase& operator<<(game::battlemon::items::Item::ItemCase & grpc, const FUItemCase &UE) 
 {
 	switch (UE)
 	{
-	case FUModelCase::kLemon:
-		grpc = game::battlemon::items::Item::ModelCase::kLemon;
+	case FUItemCase::kNft:
+		grpc = game::battlemon::items::Item::ItemCase::kNft;
 		break;
-	case FUModelCase::kOutfit:
-		grpc = game::battlemon::items::Item::ModelCase::kOutfit;
-		break;
-	}
-	return grpc;
-}
-
-
-game::battlemon::items::OutfitKind& operator<<(game::battlemon::items::OutfitKind & grpc, const FUOutfitKind &UE) 
-{
-	switch (UE)
-	{
-	case FUOutfitKind::CAP:
-		grpc = game::battlemon::items::OutfitKind::CAP;
-		break;
-	case FUOutfitKind::CLOTH:
-		grpc = game::battlemon::items::OutfitKind::CLOTH;
-		break;
-	case FUOutfitKind::FIRE_ARM:
-		grpc = game::battlemon::items::OutfitKind::FIRE_ARM;
-		break;
-	case FUOutfitKind::COLD_ARM:
-		grpc = game::battlemon::items::OutfitKind::COLD_ARM;
-		break;
-	case FUOutfitKind::BACK:
-		grpc = game::battlemon::items::OutfitKind::BACK;
+	case FUItemCase::kNonNft:
+		grpc = game::battlemon::items::Item::ItemCase::kNonNft;
 		break;
 	}
 	return grpc;
@@ -208,76 +363,18 @@ game::battlemon::items::WeaponBundleSlotType& operator<<(game::battlemon::items:
 }
 
 
-FUItemsRequest& FUItemsRequest::operator=(const game::battlemon::items::ItemsRequest& grpcItemsRequest)
+FUDetachBundleRequest& FUDetachBundleRequest::operator=(const game::battlemon::items::DetachBundleRequest& grpcDetachBundleRequest)
 {
+	bundle_num = grpcDetachBundleRequest.bundle_num();
+	lemon_id = CONV_CHAR_TO_FSTRING(grpcDetachBundleRequest.lemon_id().c_str());
 	return *this;
 }
 
 
-FUItemsResponse& FUItemsResponse::operator=(const game::battlemon::items::ItemsResponse& grpcItemsResponse)
+FUAttachBundleRequest& FUAttachBundleRequest::operator=(const game::battlemon::items::AttachBundleRequest& grpcAttachBundleRequest)
 {
-	int size = grpcItemsResponse.items().size();
-	items.SetNum(size);
-	ParallelFor(size, [&](int32 Idx)
-		{
-		items[Idx] = grpcItemsResponse.items(Idx);
-		});
-	return *this;
-}
-
-
-FUItem& FUItem::operator=(const game::battlemon::items::Item& grpcItem)
-{
-	token_id = CONV_CHAR_TO_FSTRING(grpcItem.token_id().c_str());
-	media = CONV_CHAR_TO_FSTRING(grpcItem.media().c_str());
-	owner_id = CONV_CHAR_TO_FSTRING(grpcItem.owner_id().c_str());
-	in_fight = grpcItem.in_fight();
-	return *this;
-}
-
-
-FULemonModel& FULemonModel::operator=(const game::battlemon::items::LemonModel& grpcLemonModel)
-{
-	cap = grpcLemonModel.cap();
-	cloth = grpcLemonModel.cloth();
-	exo = CONV_CHAR_TO_FSTRING(grpcLemonModel.exo().c_str());
-	eyes = CONV_CHAR_TO_FSTRING(grpcLemonModel.eyes().c_str());
-	head = CONV_CHAR_TO_FSTRING(grpcLemonModel.head().c_str());
-	teeth = CONV_CHAR_TO_FSTRING(grpcLemonModel.teeth().c_str());
-	face = CONV_CHAR_TO_FSTRING(grpcLemonModel.face().c_str());
-	fire_arm = grpcLemonModel.fire_arm();
-	cold_arm = grpcLemonModel.cold_arm();
-	back = grpcLemonModel.back();
-	int size = grpcLemonModel.attached_bundles().size();
-	attached_bundles.SetNum(size);
-	ParallelFor(size, [&](int32 Idx)
-		{
-		attached_bundles[Idx] = grpcLemonModel.attached_bundles(Idx);
-		});
-	return *this;
-}
-
-
-FUOutfitModel& FUOutfitModel::operator=(const game::battlemon::items::OutfitModel& grpcOutfitModel)
-{
-	flavour = CONV_CHAR_TO_FSTRING(grpcOutfitModel.flavour().c_str());
-	token_id = CONV_CHAR_TO_FSTRING(grpcOutfitModel.token_id().c_str());
-	kind << grpcOutfitModel.kind();
-	return *this;
-}
-
-
-FUWeaponBundle& FUWeaponBundle::operator=(const game::battlemon::items::WeaponBundle& grpcWeaponBundle)
-{
-	bundle_num = grpcWeaponBundle.bundle_num();
-	int size = grpcWeaponBundle.items().size();
-	items.SetNum(size);
-	ParallelFor(size, [&](int32 Idx)
-		{
-		items[Idx] = grpcWeaponBundle.items(Idx);
-		});
-	title = CONV_CHAR_TO_FSTRING(grpcWeaponBundle.title().c_str());
-	level = grpcWeaponBundle.level();
+	bundle_num = grpcAttachBundleRequest.bundle_num();
+	lemon_id = CONV_CHAR_TO_FSTRING(grpcAttachBundleRequest.lemon_id().c_str());
 	return *this;
 }
 
@@ -291,13 +388,43 @@ FUWeaponBundleItem& FUWeaponBundleItem::operator=(const game::battlemon::items::
 }
 
 
-FUGetBundlesRequest& FUGetBundlesRequest::operator=(const game::battlemon::items::GetBundlesRequest& grpcGetBundlesRequest)
+FUEditBundleRequest& FUEditBundleRequest::operator=(const game::battlemon::items::EditBundleRequest& grpcEditBundleRequest)
 {
+	bundle_num = grpcEditBundleRequest.bundle_num();
+{
+	int size = grpcEditBundleRequest.items().size();
+	items.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+		items[Idx] = grpcEditBundleRequest.items(Idx);
+		});
+
+	}
+	title = CONV_CHAR_TO_FSTRING(grpcEditBundleRequest.title().c_str());
+	return *this;
+}
+
+
+FUWeaponBundle& FUWeaponBundle::operator=(const game::battlemon::items::WeaponBundle& grpcWeaponBundle)
+{
+	bundle_num = grpcWeaponBundle.bundle_num();
+{
+	int size = grpcWeaponBundle.items().size();
+	items.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+		items[Idx] = grpcWeaponBundle.items(Idx);
+		});
+
+	}
+	title = CONV_CHAR_TO_FSTRING(grpcWeaponBundle.title().c_str());
+	level = grpcWeaponBundle.level();
 	return *this;
 }
 
 
 FUGetBundlesResponse& FUGetBundlesResponse::operator=(const game::battlemon::items::GetBundlesResponse& grpcGetBundlesResponse)
+{
 {
 	int size = grpcGetBundlesResponse.bundles().size();
 	bundles.SetNum(size);
@@ -305,160 +432,159 @@ FUGetBundlesResponse& FUGetBundlesResponse::operator=(const game::battlemon::ite
 		{
 		bundles[Idx] = grpcGetBundlesResponse.bundles(Idx);
 		});
+
+	}
 	return *this;
 }
 
 
-FUEditBundleRequest& FUEditBundleRequest::operator=(const game::battlemon::items::EditBundleRequest& grpcEditBundleRequest)
+FUGetBundlesRequest& FUGetBundlesRequest::operator=(const game::battlemon::items::GetBundlesRequest& grpcGetBundlesRequest)
 {
-	bundle_num = grpcEditBundleRequest.bundle_num();
-	int size = grpcEditBundleRequest.items().size();
+	return *this;
+}
+
+
+FUNonNftItem& FUNonNftItem::operator=(const game::battlemon::items::NonNftItem& grpcNonNftItem)
+{
+	id = CONV_CHAR_TO_FSTRING(grpcNonNftItem.id().c_str());
+	owner = CONV_CHAR_TO_FSTRING(grpcNonNftItem.owner().c_str());
+	level = grpcNonNftItem.level();
+{
+	int size = grpcNonNftItem.attached_bundles().size();
+	attached_bundles.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+		attached_bundles[Idx] = grpcNonNftItem.attached_bundles(Idx);
+		});
+
+	}
+	return *this;
+}
+
+
+FUItem& FUItem::operator=(const game::battlemon::items::Item& grpcItem)
+{
+	return *this;
+}
+
+
+FUTrait& FUTrait::operator=(const game::battlemon::items::Trait& grpcTrait)
+{
+	name = CONV_CHAR_TO_FSTRING(grpcTrait.name().c_str());
+	flavour = CONV_CHAR_TO_FSTRING(grpcTrait.flavour().c_str());
+	return *this;
+}
+
+
+FUNftItem& FUNftItem::operator=(const game::battlemon::items::NftItem& grpcNftItem)
+{
+	id = CONV_CHAR_TO_FSTRING(grpcNftItem.id().c_str());
+	type = CONV_CHAR_TO_FSTRING(grpcNftItem.type().c_str());
+	owner = CONV_CHAR_TO_FSTRING(grpcNftItem.owner().c_str());
+	url = CONV_CHAR_TO_FSTRING(grpcNftItem.url().c_str());
+{
+	int size = grpcNftItem.traits().size();
+	traits.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+		traits[Idx] = grpcNftItem.traits(Idx);
+		});
+
+	}
+	created_at = grpcNftItem.created_at();
+{
+	int size = grpcNftItem.attached_bundles().size();
+	attached_bundles.SetNum(size);
+	ParallelFor(size, [&](int32 Idx)
+		{
+		attached_bundles[Idx] = grpcNftItem.attached_bundles(Idx);
+		});
+
+	}
+	return *this;
+}
+
+
+FUItemsResponse& FUItemsResponse::operator=(const game::battlemon::items::ItemsResponse& grpcItemsResponse)
+{
+{
+	int size = grpcItemsResponse.items().size();
 	items.SetNum(size);
 	ParallelFor(size, [&](int32 Idx)
 		{
-		items[Idx] = grpcEditBundleRequest.items(Idx);
+		items[Idx] = grpcItemsResponse.items(Idx);
 		});
-	title = CONV_CHAR_TO_FSTRING(grpcEditBundleRequest.title().c_str());
+
+	}
 	return *this;
 }
 
 
-FUAttachBundleRequest& FUAttachBundleRequest::operator=(const game::battlemon::items::AttachBundleRequest& grpcAttachBundleRequest)
+FUItemsRequest& FUItemsRequest::operator=(const game::battlemon::items::ItemsRequest& grpcItemsRequest)
 {
-	bundle_num = grpcAttachBundleRequest.bundle_num();
-	lemon_id = CONV_CHAR_TO_FSTRING(grpcAttachBundleRequest.lemon_id().c_str());
-	return *this;
-}
-
-
-FUDetachBundleRequest& FUDetachBundleRequest::operator=(const game::battlemon::items::DetachBundleRequest& grpcDetachBundleRequest)
-{
-	bundle_num = grpcDetachBundleRequest.bundle_num();
-	lemon_id = CONV_CHAR_TO_FSTRING(grpcDetachBundleRequest.lemon_id().c_str());
 	return *this;
 }
 
 
 
-game::battlemon::items::ItemsRequest &operator<<(game::battlemon::items::ItemsRequest &grpcItemsRequest, const FUItemsRequest &UE)
+game::battlemon::items::DetachBundleRequest &operator<<(game::battlemon::items::DetachBundleRequest &grpcDetachBundleRequest, const FUDetachBundleRequest &UE)
 {
-	return grpcItemsRequest;
+	{
+		grpcDetachBundleRequest.set_bundle_num(UE.bundle_num);
+	}
+	{
+		grpcDetachBundleRequest.set_lemon_id(CONV_FSTRING_TO_CHAR(UE.lemon_id));
+	}
+	return grpcDetachBundleRequest;
 }
 
 
-game::battlemon::items::ItemsResponse &operator<<(game::battlemon::items::ItemsResponse &grpcItemsResponse, const FUItemsResponse &UE)
+game::battlemon::items::AttachBundleRequest &operator<<(game::battlemon::items::AttachBundleRequest &grpcAttachBundleRequest, const FUAttachBundleRequest &UE)
 {
+	{
+		grpcAttachBundleRequest.set_bundle_num(UE.bundle_num);
+	}
+	{
+		grpcAttachBundleRequest.set_lemon_id(CONV_FSTRING_TO_CHAR(UE.lemon_id));
+	}
+	return grpcAttachBundleRequest;
+}
+
+
+game::battlemon::items::WeaponBundleItem &operator<<(game::battlemon::items::WeaponBundleItem &grpcWeaponBundleItem, const FUWeaponBundleItem &UE)
+{
+	{
+		game::battlemon::items::WeaponBundleItemType go;
+		go << UE.item_type;
+		grpcWeaponBundleItem.set_item_type(go);
+	}
+	{
+		grpcWeaponBundleItem.set_skin(CONV_FSTRING_TO_CHAR(UE.skin));
+	}
+	{
+		game::battlemon::items::WeaponBundleSlotType go;
+		go << UE.slot_type;
+		grpcWeaponBundleItem.set_slot_type(go);
+	}
+	return grpcWeaponBundleItem;
+}
+
+
+game::battlemon::items::EditBundleRequest &operator<<(game::battlemon::items::EditBundleRequest &grpcEditBundleRequest, const FUEditBundleRequest &UE)
+{
+	{
+		grpcEditBundleRequest.set_bundle_num(UE.bundle_num);
+	}
 		int size = UE.items.Num(); 
 	for(size_t Idx = 0; Idx < size; Idx++)
 	{
-		game::battlemon::items::Item* ptr =grpcItemsResponse.add_items();
+		game::battlemon::items::WeaponBundleItem* ptr =grpcEditBundleRequest.add_items();
 		(*ptr) << UE.items[Idx];
 	}
-	return grpcItemsResponse;
-}
-
-
-game::battlemon::items::Item &operator<<(game::battlemon::items::Item &grpcItem, const FUItem &UE)
-{
 	{
-		grpcItem.set_token_id(CONV_FSTRING_TO_CHAR(UE.token_id));
+		grpcEditBundleRequest.set_title(CONV_FSTRING_TO_CHAR(UE.title));
 	}
-	{
-		grpcItem.set_media(CONV_FSTRING_TO_CHAR(UE.media));
-	}
-	{
-		grpcItem.set_owner_id(CONV_FSTRING_TO_CHAR(UE.owner_id));
-	}
-	{
-		grpcItem.set_in_fight(UE.in_fight);
-	}
-	switch (UE.model_case)
-	{
-	case FUModelCase::kLemon:
-	{
-		game::battlemon::items::LemonModel* go = new game::battlemon::items::LemonModel();
-		*go << UE.lemon;
-		grpcItem.set_allocated_lemon(go);
-	}
-		break;
-	case FUModelCase::kOutfit:
-	{
-		game::battlemon::items::OutfitModel* go = new game::battlemon::items::OutfitModel();
-		*go << UE.outfit;
-		grpcItem.set_allocated_outfit(go);
-	}
-		break;
-	}
-	return grpcItem;
-}
-
-
-game::battlemon::items::LemonModel &operator<<(game::battlemon::items::LemonModel &grpcLemonModel, const FULemonModel &UE)
-{
-	{
-		game::battlemon::items::OutfitModel* go = new game::battlemon::items::OutfitModel();
-		*go << UE.cap;
-		grpcLemonModel.set_allocated_cap(go);
-	}
-	{
-		game::battlemon::items::OutfitModel* go = new game::battlemon::items::OutfitModel();
-		*go << UE.cloth;
-		grpcLemonModel.set_allocated_cloth(go);
-	}
-	{
-		grpcLemonModel.set_exo(CONV_FSTRING_TO_CHAR(UE.exo));
-	}
-	{
-		grpcLemonModel.set_eyes(CONV_FSTRING_TO_CHAR(UE.eyes));
-	}
-	{
-		grpcLemonModel.set_head(CONV_FSTRING_TO_CHAR(UE.head));
-	}
-	{
-		grpcLemonModel.set_teeth(CONV_FSTRING_TO_CHAR(UE.teeth));
-	}
-	{
-		grpcLemonModel.set_face(CONV_FSTRING_TO_CHAR(UE.face));
-	}
-	{
-		game::battlemon::items::OutfitModel* go = new game::battlemon::items::OutfitModel();
-		*go << UE.fire_arm;
-		grpcLemonModel.set_allocated_fire_arm(go);
-	}
-	{
-		game::battlemon::items::OutfitModel* go = new game::battlemon::items::OutfitModel();
-		*go << UE.cold_arm;
-		grpcLemonModel.set_allocated_cold_arm(go);
-	}
-	{
-		game::battlemon::items::OutfitModel* go = new game::battlemon::items::OutfitModel();
-		*go << UE.back;
-		grpcLemonModel.set_allocated_back(go);
-	}
-		int size = UE.attached_bundles.Num(); 
-	for(size_t Idx = 0; Idx < size; Idx++)
-	{
-		game::battlemon::items::WeaponBundle* ptr =grpcLemonModel.add_attached_bundles();
-		(*ptr) << UE.attached_bundles[Idx];
-	}
-	return grpcLemonModel;
-}
-
-
-game::battlemon::items::OutfitModel &operator<<(game::battlemon::items::OutfitModel &grpcOutfitModel, const FUOutfitModel &UE)
-{
-	{
-		grpcOutfitModel.set_flavour(CONV_FSTRING_TO_CHAR(UE.flavour));
-	}
-	{
-		grpcOutfitModel.set_token_id(CONV_FSTRING_TO_CHAR(UE.token_id));
-	}
-	{
-		game::battlemon::items::OutfitKind go;
-		go << UE.kind;
-		grpcOutfitModel.set_kind(go);
-	}
-	return grpcOutfitModel;
+	return grpcEditBundleRequest;
 }
 
 
@@ -483,31 +609,6 @@ game::battlemon::items::WeaponBundle &operator<<(game::battlemon::items::WeaponB
 }
 
 
-game::battlemon::items::WeaponBundleItem &operator<<(game::battlemon::items::WeaponBundleItem &grpcWeaponBundleItem, const FUWeaponBundleItem &UE)
-{
-	{
-		game::battlemon::items::WeaponBundleItemType go;
-		go << UE.item_type;
-		grpcWeaponBundleItem.set_item_type(go);
-	}
-	{
-		grpcWeaponBundleItem.set_skin(CONV_FSTRING_TO_CHAR(UE.skin));
-	}
-	{
-		game::battlemon::items::WeaponBundleSlotType go;
-		go << UE.slot_type;
-		grpcWeaponBundleItem.set_slot_type(go);
-	}
-	return grpcWeaponBundleItem;
-}
-
-
-game::battlemon::items::GetBundlesRequest &operator<<(game::battlemon::items::GetBundlesRequest &grpcGetBundlesRequest, const FUGetBundlesRequest &UE)
-{
-	return grpcGetBundlesRequest;
-}
-
-
 game::battlemon::items::GetBundlesResponse &operator<<(game::battlemon::items::GetBundlesResponse &grpcGetBundlesResponse, const FUGetBundlesResponse &UE)
 {
 		int size = UE.bundles.Num(); 
@@ -520,44 +621,119 @@ game::battlemon::items::GetBundlesResponse &operator<<(game::battlemon::items::G
 }
 
 
-game::battlemon::items::EditBundleRequest &operator<<(game::battlemon::items::EditBundleRequest &grpcEditBundleRequest, const FUEditBundleRequest &UE)
+game::battlemon::items::GetBundlesRequest &operator<<(game::battlemon::items::GetBundlesRequest &grpcGetBundlesRequest, const FUGetBundlesRequest &UE)
+{
+	return grpcGetBundlesRequest;
+}
+
+
+game::battlemon::items::NonNftItem &operator<<(game::battlemon::items::NonNftItem &grpcNonNftItem, const FUNonNftItem &UE)
 {
 	{
-		grpcEditBundleRequest.set_bundle_num(UE.bundle_num);
+		grpcNonNftItem.set_id(CONV_FSTRING_TO_CHAR(UE.id));
 	}
-		int size = UE.items.Num(); 
+	{
+		grpcNonNftItem.set_owner(CONV_FSTRING_TO_CHAR(UE.owner));
+	}
+	{
+		grpcNonNftItem.set_level(UE.level);
+	}
+		int size = UE.attached_bundles.Num(); 
 	for(size_t Idx = 0; Idx < size; Idx++)
 	{
-		game::battlemon::items::WeaponBundleItem* ptr =grpcEditBundleRequest.add_items();
+		game::battlemon::items::WeaponBundle* ptr =grpcNonNftItem.add_attached_bundles();
+		(*ptr) << UE.attached_bundles[Idx];
+	}
+	return grpcNonNftItem;
+}
+
+
+game::battlemon::items::Item &operator<<(game::battlemon::items::Item &grpcItem, const FUItem &UE)
+{
+	switch (UE.item_case)
+	{
+	case FUItemCase::kNft:
+	{
+		game::battlemon::items::NftItem* go = new game::battlemon::items::NftItem();
+		*go << UE.nft;
+		grpcItem.set_allocated_nft(go);
+	}
+		break;
+	case FUItemCase::kNonNft:
+	{
+		game::battlemon::items::NonNftItem* go = new game::battlemon::items::NonNftItem();
+		*go << UE.non_nft;
+		grpcItem.set_allocated_non_nft(go);
+	}
+		break;
+	}
+	return grpcItem;
+}
+
+
+game::battlemon::items::Trait &operator<<(game::battlemon::items::Trait &grpcTrait, const FUTrait &UE)
+{
+	{
+		grpcTrait.set_name(CONV_FSTRING_TO_CHAR(UE.name));
+	}
+	{
+		grpcTrait.set_flavour(CONV_FSTRING_TO_CHAR(UE.flavour));
+	}
+	return grpcTrait;
+}
+
+
+game::battlemon::items::NftItem& operator<<(game::battlemon::items::NftItem& grpcNftItem, const FUNftItem& UE)
+{
+	{
+		grpcNftItem.set_id(CONV_FSTRING_TO_CHAR(UE.id));
+	}
+	{
+		grpcNftItem.set_type(CONV_FSTRING_TO_CHAR(UE.type));
+	}
+	{
+		grpcNftItem.set_owner(CONV_FSTRING_TO_CHAR(UE.owner));
+	}
+	{
+		grpcNftItem.set_url(CONV_FSTRING_TO_CHAR(UE.url));
+	}
+	{
+	int size = UE.traits.Num();
+	for (size_t Idx = 0; Idx < size; Idx++)
+	{
+		game::battlemon::items::Trait* ptr = grpcNftItem.add_traits();
+		(*ptr) << UE.traits[Idx];
+	}
+	}
+	{
+		grpcNftItem.set_created_at(UE.created_at);
+	}
+	{
+		int size = UE.attached_bundles.Num();
+		for (size_t Idx = 0; Idx < size; Idx++)
+		{
+			game::battlemon::items::WeaponBundle* ptr = grpcNftItem.add_attached_bundles();
+			(*ptr) << UE.attached_bundles[Idx];
+		}
+	}
+	return grpcNftItem;
+}
+
+
+game::battlemon::items::ItemsResponse &operator<<(game::battlemon::items::ItemsResponse &grpcItemsResponse, const FUItemsResponse &UE)
+{
+	int size = UE.items.Num(); 
+	for(size_t Idx = 0; Idx < size; Idx++)
+	{
+		game::battlemon::items::Item* ptr =grpcItemsResponse.add_items();
 		(*ptr) << UE.items[Idx];
 	}
-	{
-		grpcEditBundleRequest.set_title(CONV_FSTRING_TO_CHAR(UE.title));
-	}
-	return grpcEditBundleRequest;
+	return grpcItemsResponse;
 }
 
 
-game::battlemon::items::AttachBundleRequest &operator<<(game::battlemon::items::AttachBundleRequest &grpcAttachBundleRequest, const FUAttachBundleRequest &UE)
+game::battlemon::items::ItemsRequest &operator<<(game::battlemon::items::ItemsRequest &grpcItemsRequest, const FUItemsRequest &UE)
 {
-	{
-		grpcAttachBundleRequest.set_bundle_num(UE.bundle_num);
-	}
-	{
-		grpcAttachBundleRequest.set_lemon_id(CONV_FSTRING_TO_CHAR(UE.lemon_id));
-	}
-	return grpcAttachBundleRequest;
-}
-
-
-game::battlemon::items::DetachBundleRequest &operator<<(game::battlemon::items::DetachBundleRequest &grpcDetachBundleRequest, const FUDetachBundleRequest &UE)
-{
-	{
-		grpcDetachBundleRequest.set_bundle_num(UE.bundle_num);
-	}
-	{
-		grpcDetachBundleRequest.set_lemon_id(CONV_FSTRING_TO_CHAR(UE.lemon_id));
-	}
-	return grpcDetachBundleRequest;
+	return grpcItemsRequest;
 }
 

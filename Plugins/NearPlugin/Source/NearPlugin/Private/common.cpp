@@ -1,4 +1,5 @@
 #include"common.h"
+#include "AsyncTask.h"
 
 FUSortOrder& operator<<(FUSortOrder &UE, const game::battlemon::common::SortOrder& grpc)
 {
@@ -167,8 +168,9 @@ game::battlemon::common::Faction& operator<<(game::battlemon::common::Faction & 
 }
 
 
-FUEmpty& FUEmpty::operator=(const game::battlemon::common::Empty& grpcEmpty)
+FUResultStatus& FUResultStatus::operator=(const game::battlemon::common::ResultStatus& grpcResultStatus)
 {
+	status << grpcResultStatus.status();
 	return *this;
 }
 
@@ -180,17 +182,21 @@ FUResponse& FUResponse::operator=(const game::battlemon::common::Response& grpcR
 }
 
 
-FUResultStatus& FUResultStatus::operator=(const game::battlemon::common::ResultStatus& grpcResultStatus)
+FUEmpty& FUEmpty::operator=(const game::battlemon::common::Empty& grpcEmpty)
 {
-	status << grpcResultStatus.status();
 	return *this;
 }
 
 
 
-game::battlemon::common::Empty &operator<<(game::battlemon::common::Empty &grpcEmpty, const FUEmpty &UE)
+game::battlemon::common::ResultStatus &operator<<(game::battlemon::common::ResultStatus &grpcResultStatus, const FUResultStatus &UE)
 {
-	return grpcEmpty;
+	{
+		game::battlemon::common::Status go;
+		go << UE.status;
+		grpcResultStatus.set_status(go);
+	}
+	return grpcResultStatus;
 }
 
 
@@ -205,13 +211,8 @@ game::battlemon::common::Response &operator<<(game::battlemon::common::Response 
 }
 
 
-game::battlemon::common::ResultStatus &operator<<(game::battlemon::common::ResultStatus &grpcResultStatus, const FUResultStatus &UE)
+game::battlemon::common::Empty &operator<<(game::battlemon::common::Empty &grpcEmpty, const FUEmpty &UE)
 {
-	{
-		game::battlemon::common::Status go;
-		go << UE.status;
-		grpcResultStatus.set_status(go);
-	}
-	return grpcResultStatus;
+	return grpcEmpty;
 }
 

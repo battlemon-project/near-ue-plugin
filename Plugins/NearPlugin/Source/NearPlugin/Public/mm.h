@@ -1,6 +1,5 @@
-
 #pragma once
-#include "gRPC_Base.h"
+ #include "gRPC_Base.h"
 
 #include "GrpcBegin.h"
 
@@ -57,13 +56,50 @@ enum class FUSearchGameResponseStatus : uint8
 
 
 USTRUCT(BlueprintType)
+struct FUCancelSearchRequest 
+{
+	GENERATED_BODY()
+	
+
+	FUCancelSearchRequest& operator=(const game::battlemon::mm::CancelSearchRequest& grpcCancelSearchRequest);
+
+};
+
+
+USTRUCT(BlueprintType)
+struct FUAcceptGameRequest 
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | mmProto")
+	FString lemon_id;
+
+	FUAcceptGameRequest& operator=(const game::battlemon::mm::AcceptGameRequest& grpcAcceptGameRequest);
+
+};
+
+
+USTRUCT(BlueprintType)
+struct FUSearchGameResponse 
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | mmProto")
+	FUSearchGameResponseStatus status;
+
+	FUSearchGameResponse& operator=(const game::battlemon::mm::SearchGameResponse& grpcSearchGameResponse);
+
+};
+
+
+USTRUCT(BlueprintType)
 struct FUGameMode 
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | mmProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | mmProto")
 	FUMatchType match_type;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | mmProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | mmProto")
 	FUMatchMode match_mode;
 
 	FUGameMode& operator=(const game::battlemon::mm::GameMode& grpcGameMode);
@@ -76,9 +112,9 @@ struct FUSearchGameRequest
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | mmProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | mmProto")
 	FUGameMode game_mode;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | mmProto")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Crypto | mmProto")
 	FURegion region;
 
 	FUSearchGameRequest& operator=(const game::battlemon::mm::SearchGameRequest& grpcSearchGameRequest);
@@ -86,41 +122,73 @@ struct FUSearchGameRequest
 };
 
 
-USTRUCT(BlueprintType)
-struct FUSearchGameResponse 
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAcceptGameDelegate, const FUEmpty&, Response); 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCancelSearchDelegate, const FUEmpty&, Response); 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSearchGameDelegate, const FUSearchGameResponse&, Response);
+
+
+
+class RPC_MMService : public gRPC_Stub<game::battlemon::mm::MMService, game::battlemon::mm::MMService::Stub>
 {
-	GENERATED_BODY()
+	void* Delegate;
+	void* out;
+public:
+	RPC_MMService(const bool& ssl, FString& url, void* _Delegate, void* _out);
+	~RPC_MMService();
+
+	game::battlemon::mm::SearchGameResponse SearchGame(grpc::ClientContext* context, const game::battlemon::mm::SearchGameRequest* request);
+	game::battlemon::common::Empty AcceptGame(grpc::ClientContext* context, const game::battlemon::mm::AcceptGameRequest* request);
+	game::battlemon::common::Empty CancelSearch(grpc::ClientContext* context, const game::battlemon::mm::CancelSearchRequest* request);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | mmProto")
-	FUSearchGameResponseStatus status;
-
-	FUSearchGameResponse& operator=(const game::battlemon::mm::SearchGameResponse& grpcSearchGameResponse);
-
 };
 
-
-USTRUCT(BlueprintType)
-struct FUAcceptGameRequest 
+enum class MMServiceRPC
 {
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ".Near | mmProto")
-	FString lemon_id;
-
-	FUAcceptGameRequest& operator=(const game::battlemon::mm::AcceptGameRequest& grpcAcceptGameRequest);
-
+	SearchGame,
+	AcceptGame,
+	CancelSearch,
 };
 
-
-USTRUCT(BlueprintType)
-struct FUCancelSearchRequest 
+UCLASS(Blueprintable)
+class NEARPLUGIN_API UMMService : public UObject
 {
 	GENERATED_BODY()
-	
 
-	FUCancelSearchRequest& operator=(const game::battlemon::mm::CancelSearchRequest& grpcCancelSearchRequest);
+	void free_RPC_MMService();
+	static RPC_MMService* _RPC_MMService;
+	MMServiceRPC rpc;
 
+public:
+	UMMService();
+	~UMMService();
+
+	UPROPERTY(BlueprintReadWrite, Category = ".Crypto | MMService", meta = (ExposeOnSpawn = true))
+	FString URL;
+	UPROPERTY(BlueprintReadWrite, Category = ".Crypto| MMService", meta = (ExposeOnSpawn = true))
+	bool ssl = true;
+
+	UPROPERTY(BlueprintAssignable, Category = ".Crypto | MMService")
+	FAcceptGameDelegate AcceptGameDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Crypto | MMService")
+	FCancelSearchDelegate CancelSearchDelegate;
+	UPROPERTY(BlueprintAssignable, Category = ".Crypto | MMService")
+	FSearchGameDelegate SearchGameDelegate;
+
+	UFUNCTION(BlueprintCallable, Category = ".Crypto | MMService")
+	void SearchGame(TMap<FString, FString> context, FUSearchGameRequest inp, FUSearchGameResponse &out);
+
+	UFUNCTION(BlueprintCallable, Category = ".Crypto | MMService")
+	void AcceptGame(TMap<FString, FString> context, FUAcceptGameRequest inp, FUEmpty &out);
+
+	UFUNCTION(BlueprintCallable, Category = ".Crypto | MMService")
+	void CancelSearch(TMap<FString, FString> context, FUCancelSearchRequest inp, FUEmpty &out);
+
+	UFUNCTION(BlueprintCallable, Category = ".Crypto | MMService")
+	FString GetError();
 };
+
 
 
 FUMatchType& operator<<(FUMatchType &UE, const game::battlemon::mm::MatchType& grpc);
@@ -139,13 +207,13 @@ game::battlemon::mm::Region& operator<<(game::battlemon::mm::Region & grpc, cons
 
 game::battlemon::mm::SearchGameResponseStatus& operator<<(game::battlemon::mm::SearchGameResponseStatus & grpc, const FUSearchGameResponseStatus &UE); 
 
-game::battlemon::mm::GameMode &operator<<(game::battlemon::mm::GameMode &grpcGameMode, const FUGameMode &UE);
-
-game::battlemon::mm::SearchGameRequest &operator<<(game::battlemon::mm::SearchGameRequest &grpcSearchGameRequest, const FUSearchGameRequest &UE);
-
-game::battlemon::mm::SearchGameResponse &operator<<(game::battlemon::mm::SearchGameResponse &grpcSearchGameResponse, const FUSearchGameResponse &UE);
+game::battlemon::mm::CancelSearchRequest &operator<<(game::battlemon::mm::CancelSearchRequest &grpcCancelSearchRequest, const FUCancelSearchRequest &UE);
 
 game::battlemon::mm::AcceptGameRequest &operator<<(game::battlemon::mm::AcceptGameRequest &grpcAcceptGameRequest, const FUAcceptGameRequest &UE);
 
-game::battlemon::mm::CancelSearchRequest &operator<<(game::battlemon::mm::CancelSearchRequest &grpcCancelSearchRequest, const FUCancelSearchRequest &UE);
+game::battlemon::mm::SearchGameResponse &operator<<(game::battlemon::mm::SearchGameResponse &grpcSearchGameResponse, const FUSearchGameResponse &UE);
+
+game::battlemon::mm::GameMode &operator<<(game::battlemon::mm::GameMode &grpcGameMode, const FUGameMode &UE);
+
+game::battlemon::mm::SearchGameRequest &operator<<(game::battlemon::mm::SearchGameRequest &grpcSearchGameRequest, const FUSearchGameRequest &UE);
 

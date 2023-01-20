@@ -55,9 +55,6 @@ extern CarouselRequestsDefaultTypeInternal _CarouselRequests_default_instance_;
 class CarouselResponses;
 struct CarouselResponsesDefaultTypeInternal;
 extern CarouselResponsesDefaultTypeInternal _CarouselResponses_default_instance_;
-class InternalNewPlayer;
-struct InternalNewPlayerDefaultTypeInternal;
-extern InternalNewPlayerDefaultTypeInternal _InternalNewPlayer_default_instance_;
 class InternalPlayer;
 struct InternalPlayerDefaultTypeInternal;
 extern InternalPlayerDefaultTypeInternal _InternalPlayer_default_instance_;
@@ -67,9 +64,6 @@ extern InternalRoomInfoDefaultTypeInternal _InternalRoomInfo_default_instance_;
 class NeedUsersAccept;
 struct NeedUsersAcceptDefaultTypeInternal;
 extern NeedUsersAcceptDefaultTypeInternal _NeedUsersAccept_default_instance_;
-class PlayerInBattle;
-struct PlayerInBattleDefaultTypeInternal;
-extern PlayerInBattleDefaultTypeInternal _PlayerInBattle_default_instance_;
 }  // namespace internal
 }  // namespace carousel
 }  // namespace battlemon
@@ -77,11 +71,9 @@ extern PlayerInBattleDefaultTypeInternal _PlayerInBattle_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::game::battlemon::carousel::internal::CarouselRequests* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::CarouselRequests>(Arena*);
 template<> ::game::battlemon::carousel::internal::CarouselResponses* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::CarouselResponses>(Arena*);
-template<> ::game::battlemon::carousel::internal::InternalNewPlayer* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::InternalNewPlayer>(Arena*);
 template<> ::game::battlemon::carousel::internal::InternalPlayer* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::InternalPlayer>(Arena*);
 template<> ::game::battlemon::carousel::internal::InternalRoomInfo* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::InternalRoomInfo>(Arena*);
 template<> ::game::battlemon::carousel::internal::NeedUsersAccept* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::NeedUsersAccept>(Arena*);
-template<> ::game::battlemon::carousel::internal::PlayerInBattle* Arena::CreateMaybeMessage<::game::battlemon::carousel::internal::PlayerInBattle>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace game {
 namespace battlemon {
@@ -512,23 +504,23 @@ class CarouselResponses final :
       ::game::battlemon::carousel::internal::InternalRoomInfo* room_ready);
   ::game::battlemon::carousel::internal::InternalRoomInfo* unsafe_arena_release_room_ready();
 
-  // .game.battlemon.carousel.internal.InternalNewPlayer new_room_player = 2;
+  // .game.battlemon.carousel.internal.InternalPlayer new_room_player = 2;
   bool has_new_room_player() const;
   private:
   bool _internal_has_new_room_player() const;
   public:
   void clear_new_room_player();
-  const ::game::battlemon::carousel::internal::InternalNewPlayer& new_room_player() const;
-  PROTOBUF_NODISCARD ::game::battlemon::carousel::internal::InternalNewPlayer* release_new_room_player();
-  ::game::battlemon::carousel::internal::InternalNewPlayer* mutable_new_room_player();
-  void set_allocated_new_room_player(::game::battlemon::carousel::internal::InternalNewPlayer* new_room_player);
+  const ::game::battlemon::carousel::internal::InternalPlayer& new_room_player() const;
+  PROTOBUF_NODISCARD ::game::battlemon::carousel::internal::InternalPlayer* release_new_room_player();
+  ::game::battlemon::carousel::internal::InternalPlayer* mutable_new_room_player();
+  void set_allocated_new_room_player(::game::battlemon::carousel::internal::InternalPlayer* new_room_player);
   private:
-  const ::game::battlemon::carousel::internal::InternalNewPlayer& _internal_new_room_player() const;
-  ::game::battlemon::carousel::internal::InternalNewPlayer* _internal_mutable_new_room_player();
+  const ::game::battlemon::carousel::internal::InternalPlayer& _internal_new_room_player() const;
+  ::game::battlemon::carousel::internal::InternalPlayer* _internal_mutable_new_room_player();
   public:
   void unsafe_arena_set_allocated_new_room_player(
-      ::game::battlemon::carousel::internal::InternalNewPlayer* new_room_player);
-  ::game::battlemon::carousel::internal::InternalNewPlayer* unsafe_arena_release_new_room_player();
+      ::game::battlemon::carousel::internal::InternalPlayer* new_room_player);
+  ::game::battlemon::carousel::internal::InternalPlayer* unsafe_arena_release_new_room_player();
 
   // .game.battlemon.carousel.internal.NeedUsersAccept need_users_accept = 3;
   bool has_need_users_accept() const;
@@ -602,23 +594,23 @@ class CarouselResponses final :
       ::game::battlemon::carousel::internal::InternalPlayer* player_in_queue);
   ::game::battlemon::carousel::internal::InternalPlayer* unsafe_arena_release_player_in_queue();
 
-  // .game.battlemon.carousel.internal.PlayerInBattle player_in_battle = 7;
+  // .game.battlemon.carousel.internal.InternalPlayer player_in_battle = 7;
   bool has_player_in_battle() const;
   private:
   bool _internal_has_player_in_battle() const;
   public:
   void clear_player_in_battle();
-  const ::game::battlemon::carousel::internal::PlayerInBattle& player_in_battle() const;
-  PROTOBUF_NODISCARD ::game::battlemon::carousel::internal::PlayerInBattle* release_player_in_battle();
-  ::game::battlemon::carousel::internal::PlayerInBattle* mutable_player_in_battle();
-  void set_allocated_player_in_battle(::game::battlemon::carousel::internal::PlayerInBattle* player_in_battle);
+  const ::game::battlemon::carousel::internal::InternalPlayer& player_in_battle() const;
+  PROTOBUF_NODISCARD ::game::battlemon::carousel::internal::InternalPlayer* release_player_in_battle();
+  ::game::battlemon::carousel::internal::InternalPlayer* mutable_player_in_battle();
+  void set_allocated_player_in_battle(::game::battlemon::carousel::internal::InternalPlayer* player_in_battle);
   private:
-  const ::game::battlemon::carousel::internal::PlayerInBattle& _internal_player_in_battle() const;
-  ::game::battlemon::carousel::internal::PlayerInBattle* _internal_mutable_player_in_battle();
+  const ::game::battlemon::carousel::internal::InternalPlayer& _internal_player_in_battle() const;
+  ::game::battlemon::carousel::internal::InternalPlayer* _internal_mutable_player_in_battle();
   public:
   void unsafe_arena_set_allocated_player_in_battle(
-      ::game::battlemon::carousel::internal::PlayerInBattle* player_in_battle);
-  ::game::battlemon::carousel::internal::PlayerInBattle* unsafe_arena_release_player_in_battle();
+      ::game::battlemon::carousel::internal::InternalPlayer* player_in_battle);
+  ::game::battlemon::carousel::internal::InternalPlayer* unsafe_arena_release_player_in_battle();
 
   // .game.battlemon.carousel.internal.InternalPlayer player_out_of_line = 8;
   bool has_player_out_of_line() const;
@@ -663,12 +655,12 @@ class CarouselResponses final :
       constexpr ResponseUnion() : _constinit_{} {}
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
       ::game::battlemon::carousel::internal::InternalRoomInfo* room_ready_;
-      ::game::battlemon::carousel::internal::InternalNewPlayer* new_room_player_;
+      ::game::battlemon::carousel::internal::InternalPlayer* new_room_player_;
       ::game::battlemon::carousel::internal::NeedUsersAccept* need_users_accept_;
       ::game::battlemon::carousel::internal::InternalPlayer* room_not_found_;
       ::game::battlemon::carousel::internal::InternalRoomInfo* accepting_canceled_;
       ::game::battlemon::carousel::internal::InternalPlayer* player_in_queue_;
-      ::game::battlemon::carousel::internal::PlayerInBattle* player_in_battle_;
+      ::game::battlemon::carousel::internal::InternalPlayer* player_in_battle_;
       ::game::battlemon::carousel::internal::InternalPlayer* player_out_of_line_;
     } response_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -801,32 +793,32 @@ class NeedUsersAccept final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNearIdsFieldNumber = 1,
+    kUserIdsFieldNumber = 1,
     kManualAcceptFieldNumber = 2,
     kTimeToAcceptFieldNumber = 3,
   };
-  // repeated string near_ids = 1;
-  int near_ids_size() const;
+  // repeated string user_ids = 1;
+  int user_ids_size() const;
   private:
-  int _internal_near_ids_size() const;
+  int _internal_user_ids_size() const;
   public:
-  void clear_near_ids();
-  const std::string& near_ids(int index) const;
-  std::string* mutable_near_ids(int index);
-  void set_near_ids(int index, const std::string& value);
-  void set_near_ids(int index, std::string&& value);
-  void set_near_ids(int index, const char* value);
-  void set_near_ids(int index, const char* value, size_t size);
-  std::string* add_near_ids();
-  void add_near_ids(const std::string& value);
-  void add_near_ids(std::string&& value);
-  void add_near_ids(const char* value);
-  void add_near_ids(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& near_ids() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_near_ids();
+  void clear_user_ids();
+  const std::string& user_ids(int index) const;
+  std::string* mutable_user_ids(int index);
+  void set_user_ids(int index, const std::string& value);
+  void set_user_ids(int index, std::string&& value);
+  void set_user_ids(int index, const char* value);
+  void set_user_ids(int index, const char* value, size_t size);
+  std::string* add_user_ids();
+  void add_user_ids(const std::string& value);
+  void add_user_ids(std::string&& value);
+  void add_user_ids(const char* value);
+  void add_user_ids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& user_ids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_user_ids();
   private:
-  const std::string& _internal_near_ids(int index) const;
-  std::string* _internal_add_near_ids();
+  const std::string& _internal_user_ids(int index) const;
+  std::string* _internal_add_user_ids();
   public:
 
   // bool manual_accept = 2;
@@ -855,7 +847,7 @@ class NeedUsersAccept final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> near_ids_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> user_ids_;
     bool manual_accept_;
     int32_t time_to_accept_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -1069,190 +1061,6 @@ class InternalRoomInfo final :
 };
 // -------------------------------------------------------------------
 
-class InternalNewPlayer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.carousel.internal.InternalNewPlayer) */ {
- public:
-  inline InternalNewPlayer() : InternalNewPlayer(nullptr) {}
-  ~InternalNewPlayer() override;
-  explicit PROTOBUF_CONSTEXPR InternalNewPlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  InternalNewPlayer(const InternalNewPlayer& from);
-  InternalNewPlayer(InternalNewPlayer&& from) noexcept
-    : InternalNewPlayer() {
-    *this = ::std::move(from);
-  }
-
-  inline InternalNewPlayer& operator=(const InternalNewPlayer& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline InternalNewPlayer& operator=(InternalNewPlayer&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const InternalNewPlayer& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const InternalNewPlayer* internal_default_instance() {
-    return reinterpret_cast<const InternalNewPlayer*>(
-               &_InternalNewPlayer_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    4;
-
-  friend void swap(InternalNewPlayer& a, InternalNewPlayer& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(InternalNewPlayer* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(InternalNewPlayer* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  InternalNewPlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<InternalNewPlayer>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const InternalNewPlayer& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const InternalNewPlayer& from) {
-    InternalNewPlayer::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(InternalNewPlayer* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.carousel.internal.InternalNewPlayer";
-  }
-  protected:
-  explicit InternalNewPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRoomIdFieldNumber = 1,
-    kPlayerFieldNumber = 2,
-    kRegionFieldNumber = 3,
-  };
-  // string room_id = 1;
-  void clear_room_id();
-  const std::string& room_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_room_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_room_id();
-  PROTOBUF_NODISCARD std::string* release_room_id();
-  void set_allocated_room_id(std::string* room_id);
-  private:
-  const std::string& _internal_room_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_room_id(const std::string& value);
-  std::string* _internal_mutable_room_id();
-  public:
-
-  // .game.battlemon.carousel.internal.InternalPlayer player = 2;
-  bool has_player() const;
-  private:
-  bool _internal_has_player() const;
-  public:
-  void clear_player();
-  const ::game::battlemon::carousel::internal::InternalPlayer& player() const;
-  PROTOBUF_NODISCARD ::game::battlemon::carousel::internal::InternalPlayer* release_player();
-  ::game::battlemon::carousel::internal::InternalPlayer* mutable_player();
-  void set_allocated_player(::game::battlemon::carousel::internal::InternalPlayer* player);
-  private:
-  const ::game::battlemon::carousel::internal::InternalPlayer& _internal_player() const;
-  ::game::battlemon::carousel::internal::InternalPlayer* _internal_mutable_player();
-  public:
-  void unsafe_arena_set_allocated_player(
-      ::game::battlemon::carousel::internal::InternalPlayer* player);
-  ::game::battlemon::carousel::internal::InternalPlayer* unsafe_arena_release_player();
-
-  // .game.battlemon.mm.Region region = 3;
-  void clear_region();
-  ::game::battlemon::mm::Region region() const;
-  void set_region(::game::battlemon::mm::Region value);
-  private:
-  ::game::battlemon::mm::Region _internal_region() const;
-  void _internal_set_region(::game::battlemon::mm::Region value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.carousel.internal.InternalNewPlayer)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
-    ::game::battlemon::carousel::internal::InternalPlayer* player_;
-    int region_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_internalCarousel_2eproto;
-};
-// -------------------------------------------------------------------
-
 class InternalPlayer final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.carousel.internal.InternalPlayer) */ {
  public:
@@ -1301,7 +1109,7 @@ class InternalPlayer final :
                &_InternalPlayer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    4;
 
   friend void swap(InternalPlayer& a, InternalPlayer& b) {
     a.Swap(&b);
@@ -1374,26 +1182,27 @@ class InternalPlayer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNearIdFieldNumber = 1,
-    kLemonIdFieldNumber = 3,
-    kModeFieldNumber = 2,
-    kRegionFieldNumber = 4,
+    kUserIdFieldNumber = 1,
+    kLemonIdFieldNumber = 2,
+    kRoomIdFieldNumber = 3,
+    kModeFieldNumber = 4,
+    kRegionFieldNumber = 10,
   };
-  // string near_id = 1;
-  void clear_near_id();
-  const std::string& near_id() const;
+  // string user_id = 1;
+  void clear_user_id();
+  const std::string& user_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_near_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_near_id();
-  PROTOBUF_NODISCARD std::string* release_near_id();
-  void set_allocated_near_id(std::string* near_id);
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
   private:
-  const std::string& _internal_near_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_near_id(const std::string& value);
-  std::string* _internal_mutable_near_id();
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
   public:
 
-  // string lemon_id = 3;
+  // string lemon_id = 2;
   void clear_lemon_id();
   const std::string& lemon_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -1407,7 +1216,21 @@ class InternalPlayer final :
   std::string* _internal_mutable_lemon_id();
   public:
 
-  // .game.battlemon.mm.GameMode mode = 2;
+  // string room_id = 3;
+  void clear_room_id();
+  const std::string& room_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_room_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_room_id();
+  PROTOBUF_NODISCARD std::string* release_room_id();
+  void set_allocated_room_id(std::string* room_id);
+  private:
+  const std::string& _internal_room_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_room_id(const std::string& value);
+  std::string* _internal_mutable_room_id();
+  public:
+
+  // .game.battlemon.mm.GameMode mode = 4;
   bool has_mode() const;
   private:
   bool _internal_has_mode() const;
@@ -1425,7 +1248,7 @@ class InternalPlayer final :
       ::game::battlemon::mm::GameMode* mode);
   ::game::battlemon::mm::GameMode* unsafe_arena_release_mode();
 
-  // .game.battlemon.mm.Region region = 4;
+  // .game.battlemon.mm.Region region = 10;
   void clear_region();
   ::game::battlemon::mm::Region region() const;
   void set_region(::game::battlemon::mm::Region value);
@@ -1442,179 +1265,11 @@ class InternalPlayer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr lemon_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
     ::game::battlemon::mm::GameMode* mode_;
     int region_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_internalCarousel_2eproto;
-};
-// -------------------------------------------------------------------
-
-class PlayerInBattle final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.carousel.internal.PlayerInBattle) */ {
- public:
-  inline PlayerInBattle() : PlayerInBattle(nullptr) {}
-  ~PlayerInBattle() override;
-  explicit PROTOBUF_CONSTEXPR PlayerInBattle(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PlayerInBattle(const PlayerInBattle& from);
-  PlayerInBattle(PlayerInBattle&& from) noexcept
-    : PlayerInBattle() {
-    *this = ::std::move(from);
-  }
-
-  inline PlayerInBattle& operator=(const PlayerInBattle& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PlayerInBattle& operator=(PlayerInBattle&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PlayerInBattle& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PlayerInBattle* internal_default_instance() {
-    return reinterpret_cast<const PlayerInBattle*>(
-               &_PlayerInBattle_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    6;
-
-  friend void swap(PlayerInBattle& a, PlayerInBattle& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PlayerInBattle* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PlayerInBattle* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  PlayerInBattle* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PlayerInBattle>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PlayerInBattle& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PlayerInBattle& from) {
-    PlayerInBattle::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PlayerInBattle* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.carousel.internal.PlayerInBattle";
-  }
-  protected:
-  explicit PlayerInBattle(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kNearIdFieldNumber = 1,
-    kRoomIdFieldNumber = 2,
-  };
-  // string near_id = 1;
-  void clear_near_id();
-  const std::string& near_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_near_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_near_id();
-  PROTOBUF_NODISCARD std::string* release_near_id();
-  void set_allocated_near_id(std::string* near_id);
-  private:
-  const std::string& _internal_near_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_near_id(const std::string& value);
-  std::string* _internal_mutable_near_id();
-  public:
-
-  // string room_id = 2;
-  void clear_room_id();
-  const std::string& room_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_room_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_room_id();
-  PROTOBUF_NODISCARD std::string* release_room_id();
-  void set_allocated_room_id(std::string* room_id);
-  private:
-  const std::string& _internal_room_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_room_id(const std::string& value);
-  std::string* _internal_mutable_room_id();
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.carousel.internal.PlayerInBattle)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr room_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2088,7 +1743,7 @@ inline ::game::battlemon::carousel::internal::InternalRoomInfo* CarouselResponse
   return _msg;
 }
 
-// .game.battlemon.carousel.internal.InternalNewPlayer new_room_player = 2;
+// .game.battlemon.carousel.internal.InternalPlayer new_room_player = 2;
 inline bool CarouselResponses::_internal_has_new_room_player() const {
   return response_case() == kNewRoomPlayer;
 }
@@ -2106,11 +1761,11 @@ inline void CarouselResponses::clear_new_room_player() {
     clear_has_response();
   }
 }
-inline ::game::battlemon::carousel::internal::InternalNewPlayer* CarouselResponses::release_new_room_player() {
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::release_new_room_player() {
   // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.CarouselResponses.new_room_player)
   if (_internal_has_new_room_player()) {
     clear_has_response();
-    ::game::battlemon::carousel::internal::InternalNewPlayer* temp = _impl_.response_.new_room_player_;
+    ::game::battlemon::carousel::internal::InternalPlayer* temp = _impl_.response_.new_room_player_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
@@ -2120,27 +1775,27 @@ inline ::game::battlemon::carousel::internal::InternalNewPlayer* CarouselRespons
     return nullptr;
   }
 }
-inline const ::game::battlemon::carousel::internal::InternalNewPlayer& CarouselResponses::_internal_new_room_player() const {
+inline const ::game::battlemon::carousel::internal::InternalPlayer& CarouselResponses::_internal_new_room_player() const {
   return _internal_has_new_room_player()
       ? *_impl_.response_.new_room_player_
-      : reinterpret_cast< ::game::battlemon::carousel::internal::InternalNewPlayer&>(::game::battlemon::carousel::internal::_InternalNewPlayer_default_instance_);
+      : reinterpret_cast< ::game::battlemon::carousel::internal::InternalPlayer&>(::game::battlemon::carousel::internal::_InternalPlayer_default_instance_);
 }
-inline const ::game::battlemon::carousel::internal::InternalNewPlayer& CarouselResponses::new_room_player() const {
+inline const ::game::battlemon::carousel::internal::InternalPlayer& CarouselResponses::new_room_player() const {
   // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.CarouselResponses.new_room_player)
   return _internal_new_room_player();
 }
-inline ::game::battlemon::carousel::internal::InternalNewPlayer* CarouselResponses::unsafe_arena_release_new_room_player() {
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::unsafe_arena_release_new_room_player() {
   // @@protoc_insertion_point(field_unsafe_arena_release:game.battlemon.carousel.internal.CarouselResponses.new_room_player)
   if (_internal_has_new_room_player()) {
     clear_has_response();
-    ::game::battlemon::carousel::internal::InternalNewPlayer* temp = _impl_.response_.new_room_player_;
+    ::game::battlemon::carousel::internal::InternalPlayer* temp = _impl_.response_.new_room_player_;
     _impl_.response_.new_room_player_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void CarouselResponses::unsafe_arena_set_allocated_new_room_player(::game::battlemon::carousel::internal::InternalNewPlayer* new_room_player) {
+inline void CarouselResponses::unsafe_arena_set_allocated_new_room_player(::game::battlemon::carousel::internal::InternalPlayer* new_room_player) {
   clear_response();
   if (new_room_player) {
     set_has_new_room_player();
@@ -2148,16 +1803,16 @@ inline void CarouselResponses::unsafe_arena_set_allocated_new_room_player(::game
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.carousel.internal.CarouselResponses.new_room_player)
 }
-inline ::game::battlemon::carousel::internal::InternalNewPlayer* CarouselResponses::_internal_mutable_new_room_player() {
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::_internal_mutable_new_room_player() {
   if (!_internal_has_new_room_player()) {
     clear_response();
     set_has_new_room_player();
-    _impl_.response_.new_room_player_ = CreateMaybeMessage< ::game::battlemon::carousel::internal::InternalNewPlayer >(GetArenaForAllocation());
+    _impl_.response_.new_room_player_ = CreateMaybeMessage< ::game::battlemon::carousel::internal::InternalPlayer >(GetArenaForAllocation());
   }
   return _impl_.response_.new_room_player_;
 }
-inline ::game::battlemon::carousel::internal::InternalNewPlayer* CarouselResponses::mutable_new_room_player() {
-  ::game::battlemon::carousel::internal::InternalNewPlayer* _msg = _internal_mutable_new_room_player();
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::mutable_new_room_player() {
+  ::game::battlemon::carousel::internal::InternalPlayer* _msg = _internal_mutable_new_room_player();
   // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.CarouselResponses.new_room_player)
   return _msg;
 }
@@ -2458,7 +2113,7 @@ inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses:
   return _msg;
 }
 
-// .game.battlemon.carousel.internal.PlayerInBattle player_in_battle = 7;
+// .game.battlemon.carousel.internal.InternalPlayer player_in_battle = 7;
 inline bool CarouselResponses::_internal_has_player_in_battle() const {
   return response_case() == kPlayerInBattle;
 }
@@ -2476,11 +2131,11 @@ inline void CarouselResponses::clear_player_in_battle() {
     clear_has_response();
   }
 }
-inline ::game::battlemon::carousel::internal::PlayerInBattle* CarouselResponses::release_player_in_battle() {
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::release_player_in_battle() {
   // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.CarouselResponses.player_in_battle)
   if (_internal_has_player_in_battle()) {
     clear_has_response();
-    ::game::battlemon::carousel::internal::PlayerInBattle* temp = _impl_.response_.player_in_battle_;
+    ::game::battlemon::carousel::internal::InternalPlayer* temp = _impl_.response_.player_in_battle_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
@@ -2490,27 +2145,27 @@ inline ::game::battlemon::carousel::internal::PlayerInBattle* CarouselResponses:
     return nullptr;
   }
 }
-inline const ::game::battlemon::carousel::internal::PlayerInBattle& CarouselResponses::_internal_player_in_battle() const {
+inline const ::game::battlemon::carousel::internal::InternalPlayer& CarouselResponses::_internal_player_in_battle() const {
   return _internal_has_player_in_battle()
       ? *_impl_.response_.player_in_battle_
-      : reinterpret_cast< ::game::battlemon::carousel::internal::PlayerInBattle&>(::game::battlemon::carousel::internal::_PlayerInBattle_default_instance_);
+      : reinterpret_cast< ::game::battlemon::carousel::internal::InternalPlayer&>(::game::battlemon::carousel::internal::_InternalPlayer_default_instance_);
 }
-inline const ::game::battlemon::carousel::internal::PlayerInBattle& CarouselResponses::player_in_battle() const {
+inline const ::game::battlemon::carousel::internal::InternalPlayer& CarouselResponses::player_in_battle() const {
   // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.CarouselResponses.player_in_battle)
   return _internal_player_in_battle();
 }
-inline ::game::battlemon::carousel::internal::PlayerInBattle* CarouselResponses::unsafe_arena_release_player_in_battle() {
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::unsafe_arena_release_player_in_battle() {
   // @@protoc_insertion_point(field_unsafe_arena_release:game.battlemon.carousel.internal.CarouselResponses.player_in_battle)
   if (_internal_has_player_in_battle()) {
     clear_has_response();
-    ::game::battlemon::carousel::internal::PlayerInBattle* temp = _impl_.response_.player_in_battle_;
+    ::game::battlemon::carousel::internal::InternalPlayer* temp = _impl_.response_.player_in_battle_;
     _impl_.response_.player_in_battle_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void CarouselResponses::unsafe_arena_set_allocated_player_in_battle(::game::battlemon::carousel::internal::PlayerInBattle* player_in_battle) {
+inline void CarouselResponses::unsafe_arena_set_allocated_player_in_battle(::game::battlemon::carousel::internal::InternalPlayer* player_in_battle) {
   clear_response();
   if (player_in_battle) {
     set_has_player_in_battle();
@@ -2518,16 +2173,16 @@ inline void CarouselResponses::unsafe_arena_set_allocated_player_in_battle(::gam
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.carousel.internal.CarouselResponses.player_in_battle)
 }
-inline ::game::battlemon::carousel::internal::PlayerInBattle* CarouselResponses::_internal_mutable_player_in_battle() {
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::_internal_mutable_player_in_battle() {
   if (!_internal_has_player_in_battle()) {
     clear_response();
     set_has_player_in_battle();
-    _impl_.response_.player_in_battle_ = CreateMaybeMessage< ::game::battlemon::carousel::internal::PlayerInBattle >(GetArenaForAllocation());
+    _impl_.response_.player_in_battle_ = CreateMaybeMessage< ::game::battlemon::carousel::internal::InternalPlayer >(GetArenaForAllocation());
   }
   return _impl_.response_.player_in_battle_;
 }
-inline ::game::battlemon::carousel::internal::PlayerInBattle* CarouselResponses::mutable_player_in_battle() {
-  ::game::battlemon::carousel::internal::PlayerInBattle* _msg = _internal_mutable_player_in_battle();
+inline ::game::battlemon::carousel::internal::InternalPlayer* CarouselResponses::mutable_player_in_battle() {
+  ::game::battlemon::carousel::internal::InternalPlayer* _msg = _internal_mutable_player_in_battle();
   // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.CarouselResponses.player_in_battle)
   return _msg;
 }
@@ -2619,79 +2274,79 @@ inline CarouselResponses::ResponseCase CarouselResponses::response_case() const 
 
 // NeedUsersAccept
 
-// repeated string near_ids = 1;
-inline int NeedUsersAccept::_internal_near_ids_size() const {
-  return _impl_.near_ids_.size();
+// repeated string user_ids = 1;
+inline int NeedUsersAccept::_internal_user_ids_size() const {
+  return _impl_.user_ids_.size();
 }
-inline int NeedUsersAccept::near_ids_size() const {
-  return _internal_near_ids_size();
+inline int NeedUsersAccept::user_ids_size() const {
+  return _internal_user_ids_size();
 }
-inline void NeedUsersAccept::clear_near_ids() {
-  _impl_.near_ids_.Clear();
+inline void NeedUsersAccept::clear_user_ids() {
+  _impl_.user_ids_.Clear();
 }
-inline std::string* NeedUsersAccept::add_near_ids() {
-  std::string* _s = _internal_add_near_ids();
-  // @@protoc_insertion_point(field_add_mutable:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+inline std::string* NeedUsersAccept::add_user_ids() {
+  std::string* _s = _internal_add_user_ids();
+  // @@protoc_insertion_point(field_add_mutable:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
   return _s;
 }
-inline const std::string& NeedUsersAccept::_internal_near_ids(int index) const {
-  return _impl_.near_ids_.Get(index);
+inline const std::string& NeedUsersAccept::_internal_user_ids(int index) const {
+  return _impl_.user_ids_.Get(index);
 }
-inline const std::string& NeedUsersAccept::near_ids(int index) const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
-  return _internal_near_ids(index);
+inline const std::string& NeedUsersAccept::user_ids(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
+  return _internal_user_ids(index);
 }
-inline std::string* NeedUsersAccept::mutable_near_ids(int index) {
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
-  return _impl_.near_ids_.Mutable(index);
+inline std::string* NeedUsersAccept::mutable_user_ids(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
+  return _impl_.user_ids_.Mutable(index);
 }
-inline void NeedUsersAccept::set_near_ids(int index, const std::string& value) {
-  _impl_.near_ids_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+inline void NeedUsersAccept::set_user_ids(int index, const std::string& value) {
+  _impl_.user_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline void NeedUsersAccept::set_near_ids(int index, std::string&& value) {
-  _impl_.near_ids_.Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+inline void NeedUsersAccept::set_user_ids(int index, std::string&& value) {
+  _impl_.user_ids_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline void NeedUsersAccept::set_near_ids(int index, const char* value) {
+inline void NeedUsersAccept::set_user_ids(int index, const char* value) {
   GOOGLE_DCHECK(value != nullptr);
-  _impl_.near_ids_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+  _impl_.user_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline void NeedUsersAccept::set_near_ids(int index, const char* value, size_t size) {
-  _impl_.near_ids_.Mutable(index)->assign(
+inline void NeedUsersAccept::set_user_ids(int index, const char* value, size_t size) {
+  _impl_.user_ids_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+  // @@protoc_insertion_point(field_set_pointer:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline std::string* NeedUsersAccept::_internal_add_near_ids() {
-  return _impl_.near_ids_.Add();
+inline std::string* NeedUsersAccept::_internal_add_user_ids() {
+  return _impl_.user_ids_.Add();
 }
-inline void NeedUsersAccept::add_near_ids(const std::string& value) {
-  _impl_.near_ids_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+inline void NeedUsersAccept::add_user_ids(const std::string& value) {
+  _impl_.user_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline void NeedUsersAccept::add_near_ids(std::string&& value) {
-  _impl_.near_ids_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+inline void NeedUsersAccept::add_user_ids(std::string&& value) {
+  _impl_.user_ids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline void NeedUsersAccept::add_near_ids(const char* value) {
+inline void NeedUsersAccept::add_user_ids(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
-  _impl_.near_ids_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+  _impl_.user_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
-inline void NeedUsersAccept::add_near_ids(const char* value, size_t size) {
-  _impl_.near_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
+inline void NeedUsersAccept::add_user_ids(const char* value, size_t size) {
+  _impl_.user_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-NeedUsersAccept::near_ids() const {
-  // @@protoc_insertion_point(field_list:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
-  return _impl_.near_ids_;
+NeedUsersAccept::user_ids() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
+  return _impl_.user_ids_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-NeedUsersAccept::mutable_near_ids() {
-  // @@protoc_insertion_point(field_mutable_list:game.battlemon.carousel.internal.NeedUsersAccept.near_ids)
-  return &_impl_.near_ids_;
+NeedUsersAccept::mutable_user_ids() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.carousel.internal.NeedUsersAccept.user_ids)
+  return &_impl_.user_ids_;
 }
 
 // bool manual_accept = 2;
@@ -2935,44 +2590,144 @@ inline void InternalRoomInfo::set_region(::game::battlemon::mm::Region value) {
 
 // -------------------------------------------------------------------
 
-// InternalNewPlayer
+// InternalPlayer
 
-// string room_id = 1;
-inline void InternalNewPlayer::clear_room_id() {
+// string user_id = 1;
+inline void InternalPlayer::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+}
+inline const std::string& InternalPlayer::user_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalPlayer.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void InternalPlayer::set_user_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.user_id)
+}
+inline std::string* InternalPlayer::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalPlayer.user_id)
+  return _s;
+}
+inline const std::string& InternalPlayer::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void InternalPlayer::_internal_set_user_id(const std::string& value) {
+  
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* InternalPlayer::_internal_mutable_user_id() {
+  
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* InternalPlayer::release_user_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalPlayer.user_id)
+  return _impl_.user_id_.Release();
+}
+inline void InternalPlayer::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.user_id)
+}
+
+// string lemon_id = 2;
+inline void InternalPlayer::clear_lemon_id() {
+  _impl_.lemon_id_.ClearToEmpty();
+}
+inline const std::string& InternalPlayer::lemon_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
+  return _internal_lemon_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void InternalPlayer::set_lemon_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.lemon_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
+}
+inline std::string* InternalPlayer::mutable_lemon_id() {
+  std::string* _s = _internal_mutable_lemon_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
+  return _s;
+}
+inline const std::string& InternalPlayer::_internal_lemon_id() const {
+  return _impl_.lemon_id_.Get();
+}
+inline void InternalPlayer::_internal_set_lemon_id(const std::string& value) {
+  
+  _impl_.lemon_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* InternalPlayer::_internal_mutable_lemon_id() {
+  
+  return _impl_.lemon_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* InternalPlayer::release_lemon_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
+  return _impl_.lemon_id_.Release();
+}
+inline void InternalPlayer::set_allocated_lemon_id(std::string* lemon_id) {
+  if (lemon_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.lemon_id_.SetAllocated(lemon_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.lemon_id_.IsDefault()) {
+    _impl_.lemon_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
+}
+
+// string room_id = 3;
+inline void InternalPlayer::clear_room_id() {
   _impl_.room_id_.ClearToEmpty();
 }
-inline const std::string& InternalNewPlayer::room_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalNewPlayer.room_id)
+inline const std::string& InternalPlayer::room_id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalPlayer.room_id)
   return _internal_room_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void InternalNewPlayer::set_room_id(ArgT0&& arg0, ArgT... args) {
+void InternalPlayer::set_room_id(ArgT0&& arg0, ArgT... args) {
  
  _impl_.room_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalNewPlayer.room_id)
+  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.room_id)
 }
-inline std::string* InternalNewPlayer::mutable_room_id() {
+inline std::string* InternalPlayer::mutable_room_id() {
   std::string* _s = _internal_mutable_room_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalNewPlayer.room_id)
+  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalPlayer.room_id)
   return _s;
 }
-inline const std::string& InternalNewPlayer::_internal_room_id() const {
+inline const std::string& InternalPlayer::_internal_room_id() const {
   return _impl_.room_id_.Get();
 }
-inline void InternalNewPlayer::_internal_set_room_id(const std::string& value) {
+inline void InternalPlayer::_internal_set_room_id(const std::string& value) {
   
   _impl_.room_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* InternalNewPlayer::_internal_mutable_room_id() {
+inline std::string* InternalPlayer::_internal_mutable_room_id() {
   
   return _impl_.room_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* InternalNewPlayer::release_room_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalNewPlayer.room_id)
+inline std::string* InternalPlayer::release_room_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalPlayer.room_id)
   return _impl_.room_id_.Release();
 }
-inline void InternalNewPlayer::set_allocated_room_id(std::string* room_id) {
+inline void InternalPlayer::set_allocated_room_id(std::string* room_id) {
   if (room_id != nullptr) {
     
   } else {
@@ -2984,174 +2739,10 @@ inline void InternalNewPlayer::set_allocated_room_id(std::string* room_id) {
     _impl_.room_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalNewPlayer.room_id)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.room_id)
 }
 
-// .game.battlemon.carousel.internal.InternalPlayer player = 2;
-inline bool InternalNewPlayer::_internal_has_player() const {
-  return this != internal_default_instance() && _impl_.player_ != nullptr;
-}
-inline bool InternalNewPlayer::has_player() const {
-  return _internal_has_player();
-}
-inline void InternalNewPlayer::clear_player() {
-  if (GetArenaForAllocation() == nullptr && _impl_.player_ != nullptr) {
-    delete _impl_.player_;
-  }
-  _impl_.player_ = nullptr;
-}
-inline const ::game::battlemon::carousel::internal::InternalPlayer& InternalNewPlayer::_internal_player() const {
-  const ::game::battlemon::carousel::internal::InternalPlayer* p = _impl_.player_;
-  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::carousel::internal::InternalPlayer&>(
-      ::game::battlemon::carousel::internal::_InternalPlayer_default_instance_);
-}
-inline const ::game::battlemon::carousel::internal::InternalPlayer& InternalNewPlayer::player() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalNewPlayer.player)
-  return _internal_player();
-}
-inline void InternalNewPlayer::unsafe_arena_set_allocated_player(
-    ::game::battlemon::carousel::internal::InternalPlayer* player) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.player_);
-  }
-  _impl_.player_ = player;
-  if (player) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.carousel.internal.InternalNewPlayer.player)
-}
-inline ::game::battlemon::carousel::internal::InternalPlayer* InternalNewPlayer::release_player() {
-  
-  ::game::battlemon::carousel::internal::InternalPlayer* temp = _impl_.player_;
-  _impl_.player_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::game::battlemon::carousel::internal::InternalPlayer* InternalNewPlayer::unsafe_arena_release_player() {
-  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalNewPlayer.player)
-  
-  ::game::battlemon::carousel::internal::InternalPlayer* temp = _impl_.player_;
-  _impl_.player_ = nullptr;
-  return temp;
-}
-inline ::game::battlemon::carousel::internal::InternalPlayer* InternalNewPlayer::_internal_mutable_player() {
-  
-  if (_impl_.player_ == nullptr) {
-    auto* p = CreateMaybeMessage<::game::battlemon::carousel::internal::InternalPlayer>(GetArenaForAllocation());
-    _impl_.player_ = p;
-  }
-  return _impl_.player_;
-}
-inline ::game::battlemon::carousel::internal::InternalPlayer* InternalNewPlayer::mutable_player() {
-  ::game::battlemon::carousel::internal::InternalPlayer* _msg = _internal_mutable_player();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalNewPlayer.player)
-  return _msg;
-}
-inline void InternalNewPlayer::set_allocated_player(::game::battlemon::carousel::internal::InternalPlayer* player) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.player_;
-  }
-  if (player) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(player);
-    if (message_arena != submessage_arena) {
-      player = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, player, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.player_ = player;
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalNewPlayer.player)
-}
-
-// .game.battlemon.mm.Region region = 3;
-inline void InternalNewPlayer::clear_region() {
-  _impl_.region_ = 0;
-}
-inline ::game::battlemon::mm::Region InternalNewPlayer::_internal_region() const {
-  return static_cast< ::game::battlemon::mm::Region >(_impl_.region_);
-}
-inline ::game::battlemon::mm::Region InternalNewPlayer::region() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalNewPlayer.region)
-  return _internal_region();
-}
-inline void InternalNewPlayer::_internal_set_region(::game::battlemon::mm::Region value) {
-  
-  _impl_.region_ = value;
-}
-inline void InternalNewPlayer::set_region(::game::battlemon::mm::Region value) {
-  _internal_set_region(value);
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalNewPlayer.region)
-}
-
-// -------------------------------------------------------------------
-
-// InternalPlayer
-
-// string near_id = 1;
-inline void InternalPlayer::clear_near_id() {
-  _impl_.near_id_.ClearToEmpty();
-}
-inline const std::string& InternalPlayer::near_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalPlayer.near_id)
-  return _internal_near_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void InternalPlayer::set_near_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.near_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.near_id)
-}
-inline std::string* InternalPlayer::mutable_near_id() {
-  std::string* _s = _internal_mutable_near_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalPlayer.near_id)
-  return _s;
-}
-inline const std::string& InternalPlayer::_internal_near_id() const {
-  return _impl_.near_id_.Get();
-}
-inline void InternalPlayer::_internal_set_near_id(const std::string& value) {
-  
-  _impl_.near_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* InternalPlayer::_internal_mutable_near_id() {
-  
-  return _impl_.near_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* InternalPlayer::release_near_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalPlayer.near_id)
-  return _impl_.near_id_.Release();
-}
-inline void InternalPlayer::set_allocated_near_id(std::string* near_id) {
-  if (near_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.near_id_.SetAllocated(near_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.near_id_.IsDefault()) {
-    _impl_.near_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.near_id)
-}
-
-// .game.battlemon.mm.GameMode mode = 2;
+// .game.battlemon.mm.GameMode mode = 4;
 inline bool InternalPlayer::_internal_has_mode() const {
   return this != internal_default_instance() && _impl_.mode_ != nullptr;
 }
@@ -3236,57 +2827,7 @@ inline void InternalPlayer::set_allocated_mode(::game::battlemon::mm::GameMode* 
   // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.mode)
 }
 
-// string lemon_id = 3;
-inline void InternalPlayer::clear_lemon_id() {
-  _impl_.lemon_id_.ClearToEmpty();
-}
-inline const std::string& InternalPlayer::lemon_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
-  return _internal_lemon_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void InternalPlayer::set_lemon_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.lemon_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
-}
-inline std::string* InternalPlayer::mutable_lemon_id() {
-  std::string* _s = _internal_mutable_lemon_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
-  return _s;
-}
-inline const std::string& InternalPlayer::_internal_lemon_id() const {
-  return _impl_.lemon_id_.Get();
-}
-inline void InternalPlayer::_internal_set_lemon_id(const std::string& value) {
-  
-  _impl_.lemon_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* InternalPlayer::_internal_mutable_lemon_id() {
-  
-  return _impl_.lemon_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* InternalPlayer::release_lemon_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
-  return _impl_.lemon_id_.Release();
-}
-inline void InternalPlayer::set_allocated_lemon_id(std::string* lemon_id) {
-  if (lemon_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.lemon_id_.SetAllocated(lemon_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.lemon_id_.IsDefault()) {
-    _impl_.lemon_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.InternalPlayer.lemon_id)
-}
-
-// .game.battlemon.mm.Region region = 4;
+// .game.battlemon.mm.Region region = 10;
 inline void InternalPlayer::clear_region() {
   _impl_.region_ = 0;
 }
@@ -3306,117 +2847,9 @@ inline void InternalPlayer::set_region(::game::battlemon::mm::Region value) {
   // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.InternalPlayer.region)
 }
 
-// -------------------------------------------------------------------
-
-// PlayerInBattle
-
-// string near_id = 1;
-inline void PlayerInBattle::clear_near_id() {
-  _impl_.near_id_.ClearToEmpty();
-}
-inline const std::string& PlayerInBattle::near_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.PlayerInBattle.near_id)
-  return _internal_near_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void PlayerInBattle::set_near_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.near_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.PlayerInBattle.near_id)
-}
-inline std::string* PlayerInBattle::mutable_near_id() {
-  std::string* _s = _internal_mutable_near_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.PlayerInBattle.near_id)
-  return _s;
-}
-inline const std::string& PlayerInBattle::_internal_near_id() const {
-  return _impl_.near_id_.Get();
-}
-inline void PlayerInBattle::_internal_set_near_id(const std::string& value) {
-  
-  _impl_.near_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* PlayerInBattle::_internal_mutable_near_id() {
-  
-  return _impl_.near_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* PlayerInBattle::release_near_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.PlayerInBattle.near_id)
-  return _impl_.near_id_.Release();
-}
-inline void PlayerInBattle::set_allocated_near_id(std::string* near_id) {
-  if (near_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.near_id_.SetAllocated(near_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.near_id_.IsDefault()) {
-    _impl_.near_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.PlayerInBattle.near_id)
-}
-
-// string room_id = 2;
-inline void PlayerInBattle::clear_room_id() {
-  _impl_.room_id_.ClearToEmpty();
-}
-inline const std::string& PlayerInBattle::room_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.carousel.internal.PlayerInBattle.room_id)
-  return _internal_room_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void PlayerInBattle::set_room_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.room_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.carousel.internal.PlayerInBattle.room_id)
-}
-inline std::string* PlayerInBattle::mutable_room_id() {
-  std::string* _s = _internal_mutable_room_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.carousel.internal.PlayerInBattle.room_id)
-  return _s;
-}
-inline const std::string& PlayerInBattle::_internal_room_id() const {
-  return _impl_.room_id_.Get();
-}
-inline void PlayerInBattle::_internal_set_room_id(const std::string& value) {
-  
-  _impl_.room_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* PlayerInBattle::_internal_mutable_room_id() {
-  
-  return _impl_.room_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* PlayerInBattle::release_room_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.carousel.internal.PlayerInBattle.room_id)
-  return _impl_.room_id_.Release();
-}
-inline void PlayerInBattle::set_allocated_room_id(std::string* room_id) {
-  if (room_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.room_id_.SetAllocated(room_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.room_id_.IsDefault()) {
-    _impl_.room_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.carousel.internal.PlayerInBattle.room_id)
-}
-
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -17,14 +17,15 @@ class FMAsyncTask :public FNonAbandonableTask
 {
 	friend class FAsyncTask<FMAsyncTask>;
 
+    grpc::ClientContext* context;
     Service* service;
     StructResult* result;
     grpcRequest* request;
-    grpcResponse(Service::*CallRPC)(grpcRequest* _request);
-    grpcResponse(Service::* CallRPCvoid)();
+    grpcResponse(Service::*CallRPC)(grpc::ClientContext* _context, const grpcRequest* _request);
+    grpcResponse(Service::* CallRPCvoid)(grpc::ClientContext* _context);
 
 public:
-    FMAsyncTask() :result(nullptr), request(new grpcRequest()), CallRPC(nullptr){};
+    FMAsyncTask() :context(new grpc::ClientContext), result(nullptr), request(new grpcRequest()), CallRPC(nullptr){};
     ~FMAsyncTask() 
     {
         if (request != nullptr)
@@ -32,16 +33,31 @@ public:
             delete request;
             request = nullptr;
         }
+        if (context != nullptr)
+        {
+            delete context;
+            context = nullptr;
+        }
     };
-    void SetData(Service* _service, StructResult* _result, grpcResponse(Service::*_CallRPC)())
+    void SetData(Service* _service, StructResult* _result, TMap<FString, FString>& _context, grpcResponse(Service::*_CallRPC)(grpc::ClientContext* _context))
     {
+        if (_context.Num() != 0)
+        {
+            for (auto& Elem : _context)
+                context->AddMetadata(CONV_FSTRING_TO_CHAR(Elem.Key), CONV_FSTRING_TO_CHAR(Elem.Value));
+        }
         service = _service;
         result = _result;
         CallRPCvoid = _CallRPC;
     };
 
-    void SetData(Service* _service, StructResult* _result, grpcRequest* _request, grpcResponse(Service::* _CallRPC)(grpcRequest* _request))
+    void SetData(Service* _service, StructResult* _result, grpcRequest* _request, TMap<FString, FString>& _context, grpcResponse(Service::* _CallRPC)(grpc::ClientContext* _context, const grpcRequest* _request))
     {
+        if (_context.Num() != 0)
+        {
+            for (auto& Elem : _context)
+                context->AddMetadata(CONV_FSTRING_TO_CHAR(Elem.Key), CONV_FSTRING_TO_CHAR(Elem.Value));
+        }
         service = _service;
         result = _result;
         *request = *_request;
@@ -59,9 +75,9 @@ protected:
         if (service != nullptr)
         {
             if(CallRPC != nullptr)
-                *result = (service->*CallRPC)(request);
+                *result = (service->*CallRPC)(context, request);
             else
-                *result = (service->*CallRPCvoid)();
+                *result = (service->*CallRPCvoid)(context);
         }
     }
 

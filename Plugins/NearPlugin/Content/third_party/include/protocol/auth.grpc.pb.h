@@ -37,25 +37,21 @@ class AuthService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    // NOT FOUND - pk not found
-    // FAILED PRECONDITION - pk not found in near or removed
-    virtual ::grpc::Status SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::game::battlemon::auth::SendCodeResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>> AsyncSendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>>(AsyncSendCodeRaw(context, request, cq));
+    virtual ::grpc::Status SuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::game::battlemon::auth::SuiSession* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SuiSession>> AsyncSuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SuiSession>>(AsyncSuiAuthRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>> PrepareAsyncSendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>>(PrepareAsyncSendCodeRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SuiSession>> PrepareAsyncSuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SuiSession>>(PrepareAsyncSuiAuthRaw(context, request, cq));
     }
-    // NOT FOUND - pk not found
-    // PERMISSION DENIED - invalid sign
-    // FAILED PRECONDITION - code expired
-    virtual ::grpc::Status VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::game::battlemon::auth::VerifyCodeResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>> AsyncVerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>>(AsyncVerifyCodeRaw(context, request, cq));
+    virtual ::grpc::Status GuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::game::battlemon::auth::Session* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::Session>> AsyncGuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::Session>>(AsyncGuestAuthRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>> PrepareAsyncVerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>>(PrepareAsyncVerifyCodeRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::Session>> PrepareAsyncGuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::Session>>(PrepareAsyncGuestAuthRaw(context, request, cq));
     }
+    // deprecated
     virtual ::grpc::Status GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::game::battlemon::auth::WalletAddressResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>> AsyncGetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>>(AsyncGetWalletAddressRaw(context, request, cq));
@@ -66,15 +62,11 @@ class AuthService final {
     class async_interface {
      public:
       virtual ~async_interface() {}
-      // NOT FOUND - pk not found
-      // FAILED PRECONDITION - pk not found in near or removed
-      virtual void SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // NOT FOUND - pk not found
-      // PERMISSION DENIED - invalid sign
-      // FAILED PRECONDITION - code expired
-      virtual void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest* request, ::game::battlemon::auth::SuiSession* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest* request, ::game::battlemon::auth::SuiSession* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void GuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest* request, ::game::battlemon::auth::Session* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest* request, ::game::battlemon::auth::Session* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // deprecated
       virtual void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
@@ -82,29 +74,29 @@ class AuthService final {
     virtual class async_interface* async() { return nullptr; }
     class async_interface* experimental_async() { return async(); }
    private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>* AsyncSendCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SendCodeResponse>* PrepareAsyncSendCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>* AsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::VerifyCodeResponse>* PrepareAsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SuiSession>* AsyncSuiAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::SuiSession>* PrepareAsyncSuiAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::Session>* AsyncGuestAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::Session>* PrepareAsyncGuestAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>* AsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::WalletAddressResponse>* PrepareAsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-    ::grpc::Status SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::game::battlemon::auth::SendCodeResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>> AsyncSendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>>(AsyncSendCodeRaw(context, request, cq));
+    ::grpc::Status SuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::game::battlemon::auth::SuiSession* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SuiSession>> AsyncSuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SuiSession>>(AsyncSuiAuthRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>> PrepareAsyncSendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>>(PrepareAsyncSendCodeRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SuiSession>> PrepareAsyncSuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SuiSession>>(PrepareAsyncSuiAuthRaw(context, request, cq));
     }
-    ::grpc::Status VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::game::battlemon::auth::VerifyCodeResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>> AsyncVerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>>(AsyncVerifyCodeRaw(context, request, cq));
+    ::grpc::Status GuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::game::battlemon::auth::Session* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::Session>> AsyncGuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::Session>>(AsyncGuestAuthRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>> PrepareAsyncVerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>>(PrepareAsyncVerifyCodeRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::Session>> PrepareAsyncGuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::Session>>(PrepareAsyncGuestAuthRaw(context, request, cq));
     }
     ::grpc::Status GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::game::battlemon::auth::WalletAddressResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>> AsyncGetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) {
@@ -116,10 +108,10 @@ class AuthService final {
     class async final :
       public StubInterface::async_interface {
      public:
-      void SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response, std::function<void(::grpc::Status)>) override;
-      void SendCode(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, std::function<void(::grpc::Status)>) override;
-      void VerifyCode(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest* request, ::game::battlemon::auth::SuiSession* response, std::function<void(::grpc::Status)>) override;
+      void SuiAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest* request, ::game::battlemon::auth::SuiSession* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest* request, ::game::battlemon::auth::Session* response, std::function<void(::grpc::Status)>) override;
+      void GuestAuth(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest* request, ::game::battlemon::auth::Session* response, ::grpc::ClientUnaryReactor* reactor) override;
       void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, std::function<void(::grpc::Status)>) override;
       void GetWalletAddress(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
@@ -133,14 +125,14 @@ class AuthService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>* AsyncSendCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SendCodeResponse>* PrepareAsyncSendCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SendCodeRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>* AsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::VerifyCodeResponse>* PrepareAsyncVerifyCodeRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::VerifyCodeRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SuiSession>* AsyncSuiAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::SuiSession>* PrepareAsyncSuiAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::SuiAuthRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::Session>* AsyncGuestAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::Session>* PrepareAsyncGuestAuthRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::GuestAuthRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>* AsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::WalletAddressResponse>* PrepareAsyncGetWalletAddressRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::WalletAddressRequest& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_SendCode_;
-    const ::grpc::internal::RpcMethod rpcmethod_VerifyCode_;
+    const ::grpc::internal::RpcMethod rpcmethod_SuiAuth_;
+    const ::grpc::internal::RpcMethod rpcmethod_GuestAuth_;
     const ::grpc::internal::RpcMethod rpcmethod_GetWalletAddress_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
@@ -149,52 +141,48 @@ class AuthService final {
    public:
     Service();
     virtual ~Service();
-    // NOT FOUND - pk not found
-    // FAILED PRECONDITION - pk not found in near or removed
-    virtual ::grpc::Status SendCode(::grpc::ServerContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response);
-    // NOT FOUND - pk not found
-    // PERMISSION DENIED - invalid sign
-    // FAILED PRECONDITION - code expired
-    virtual ::grpc::Status VerifyCode(::grpc::ServerContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response);
+    virtual ::grpc::Status SuiAuth(::grpc::ServerContext* context, const ::game::battlemon::auth::SuiAuthRequest* request, ::game::battlemon::auth::SuiSession* response);
+    virtual ::grpc::Status GuestAuth(::grpc::ServerContext* context, const ::game::battlemon::auth::GuestAuthRequest* request, ::game::battlemon::auth::Session* response);
+    // deprecated
     virtual ::grpc::Status GetWalletAddress(::grpc::ServerContext* context, const ::game::battlemon::auth::WalletAddressRequest* request, ::game::battlemon::auth::WalletAddressResponse* response);
   };
   template <class BaseClass>
-  class WithAsyncMethod_SendCode : public BaseClass {
+  class WithAsyncMethod_SuiAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_SendCode() {
+    WithAsyncMethod_SuiAuth() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_SendCode() override {
+    ~WithAsyncMethod_SuiAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SendCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/) override {
+    ::grpc::Status SuiAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestSendCode(::grpc::ServerContext* context, ::game::battlemon::auth::SendCodeRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::SendCodeResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestSuiAuth(::grpc::ServerContext* context, ::game::battlemon::auth::SuiAuthRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::SuiSession>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_VerifyCode : public BaseClass {
+  class WithAsyncMethod_GuestAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_VerifyCode() {
+    WithAsyncMethod_GuestAuth() {
       ::grpc::Service::MarkMethodAsync(1);
     }
-    ~WithAsyncMethod_VerifyCode() override {
+    ~WithAsyncMethod_GuestAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+    ::grpc::Status GuestAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestVerifyCode(::grpc::ServerContext* context, ::game::battlemon::auth::VerifyCodeRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::VerifyCodeResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestGuestAuth(::grpc::ServerContext* context, ::game::battlemon::auth::GuestAuthRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -218,60 +206,60 @@ class AuthService final {
       ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_SendCode<WithAsyncMethod_VerifyCode<WithAsyncMethod_GetWalletAddress<Service > > > AsyncService;
+  typedef WithAsyncMethod_SuiAuth<WithAsyncMethod_GuestAuth<WithAsyncMethod_GetWalletAddress<Service > > > AsyncService;
   template <class BaseClass>
-  class WithCallbackMethod_SendCode : public BaseClass {
+  class WithCallbackMethod_SuiAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithCallbackMethod_SendCode() {
+    WithCallbackMethod_SuiAuth() {
       ::grpc::Service::MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::SendCodeRequest, ::game::battlemon::auth::SendCodeResponse>(
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::SuiAuthRequest, ::game::battlemon::auth::SuiSession>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::SendCodeRequest* request, ::game::battlemon::auth::SendCodeResponse* response) { return this->SendCode(context, request, response); }));}
-    void SetMessageAllocatorFor_SendCode(
-        ::grpc::MessageAllocator< ::game::battlemon::auth::SendCodeRequest, ::game::battlemon::auth::SendCodeResponse>* allocator) {
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::SuiAuthRequest* request, ::game::battlemon::auth::SuiSession* response) { return this->SuiAuth(context, request, response); }));}
+    void SetMessageAllocatorFor_SuiAuth(
+        ::grpc::MessageAllocator< ::game::battlemon::auth::SuiAuthRequest, ::game::battlemon::auth::SuiSession>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::SendCodeRequest, ::game::battlemon::auth::SendCodeResponse>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::SuiAuthRequest, ::game::battlemon::auth::SuiSession>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~WithCallbackMethod_SendCode() override {
+    ~WithCallbackMethod_SuiAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SendCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/) override {
+    ::grpc::Status SuiAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* SendCode(
-      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/)  { return nullptr; }
+    virtual ::grpc::ServerUnaryReactor* SuiAuth(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithCallbackMethod_VerifyCode : public BaseClass {
+  class WithCallbackMethod_GuestAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithCallbackMethod_VerifyCode() {
+    WithCallbackMethod_GuestAuth() {
       ::grpc::Service::MarkMethodCallback(1,
-          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::VerifyCodeRequest, ::game::battlemon::auth::VerifyCodeResponse>(
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::GuestAuthRequest, ::game::battlemon::auth::Session>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::VerifyCodeRequest* request, ::game::battlemon::auth::VerifyCodeResponse* response) { return this->VerifyCode(context, request, response); }));}
-    void SetMessageAllocatorFor_VerifyCode(
-        ::grpc::MessageAllocator< ::game::battlemon::auth::VerifyCodeRequest, ::game::battlemon::auth::VerifyCodeResponse>* allocator) {
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::GuestAuthRequest* request, ::game::battlemon::auth::Session* response) { return this->GuestAuth(context, request, response); }));}
+    void SetMessageAllocatorFor_GuestAuth(
+        ::grpc::MessageAllocator< ::game::battlemon::auth::GuestAuthRequest, ::game::battlemon::auth::Session>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::VerifyCodeRequest, ::game::battlemon::auth::VerifyCodeResponse>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::GuestAuthRequest, ::game::battlemon::auth::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~WithCallbackMethod_VerifyCode() override {
+    ~WithCallbackMethod_GuestAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+    ::grpc::Status GuestAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* VerifyCode(
-      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/)  { return nullptr; }
+    virtual ::grpc::ServerUnaryReactor* GuestAuth(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithCallbackMethod_GetWalletAddress : public BaseClass {
@@ -300,38 +288,38 @@ class AuthService final {
     virtual ::grpc::ServerUnaryReactor* GetWalletAddress(
       ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::WalletAddressRequest* /*request*/, ::game::battlemon::auth::WalletAddressResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_SendCode<WithCallbackMethod_VerifyCode<WithCallbackMethod_GetWalletAddress<Service > > > CallbackService;
+  typedef WithCallbackMethod_SuiAuth<WithCallbackMethod_GuestAuth<WithCallbackMethod_GetWalletAddress<Service > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_SendCode : public BaseClass {
+  class WithGenericMethod_SuiAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_SendCode() {
+    WithGenericMethod_SuiAuth() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_SendCode() override {
+    ~WithGenericMethod_SuiAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SendCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/) override {
+    ::grpc::Status SuiAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_VerifyCode : public BaseClass {
+  class WithGenericMethod_GuestAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_VerifyCode() {
+    WithGenericMethod_GuestAuth() {
       ::grpc::Service::MarkMethodGeneric(1);
     }
-    ~WithGenericMethod_VerifyCode() override {
+    ~WithGenericMethod_GuestAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+    ::grpc::Status GuestAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -354,42 +342,42 @@ class AuthService final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_SendCode : public BaseClass {
+  class WithRawMethod_SuiAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_SendCode() {
+    WithRawMethod_SuiAuth() {
       ::grpc::Service::MarkMethodRaw(0);
     }
-    ~WithRawMethod_SendCode() override {
+    ~WithRawMethod_SuiAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SendCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/) override {
+    ::grpc::Status SuiAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestSendCode(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestSuiAuth(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithRawMethod_VerifyCode : public BaseClass {
+  class WithRawMethod_GuestAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_VerifyCode() {
+    WithRawMethod_GuestAuth() {
       ::grpc::Service::MarkMethodRaw(1);
     }
-    ~WithRawMethod_VerifyCode() override {
+    ~WithRawMethod_GuestAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+    ::grpc::Status GuestAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestVerifyCode(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestGuestAuth(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -414,47 +402,47 @@ class AuthService final {
     }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_SendCode : public BaseClass {
+  class WithRawCallbackMethod_SuiAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawCallbackMethod_SendCode() {
+    WithRawCallbackMethod_SuiAuth() {
       ::grpc::Service::MarkMethodRawCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SendCode(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SuiAuth(context, request, response); }));
     }
-    ~WithRawCallbackMethod_SendCode() override {
+    ~WithRawCallbackMethod_SuiAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SendCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/) override {
+    ::grpc::Status SuiAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* SendCode(
+    virtual ::grpc::ServerUnaryReactor* SuiAuth(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_VerifyCode : public BaseClass {
+  class WithRawCallbackMethod_GuestAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawCallbackMethod_VerifyCode() {
+    WithRawCallbackMethod_GuestAuth() {
       ::grpc::Service::MarkMethodRawCallback(1,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->VerifyCode(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GuestAuth(context, request, response); }));
     }
-    ~WithRawCallbackMethod_VerifyCode() override {
+    ~WithRawCallbackMethod_GuestAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+    ::grpc::Status GuestAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* VerifyCode(
+    virtual ::grpc::ServerUnaryReactor* GuestAuth(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -480,58 +468,58 @@ class AuthService final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_SendCode : public BaseClass {
+  class WithStreamedUnaryMethod_SuiAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_SendCode() {
+    WithStreamedUnaryMethod_SuiAuth() {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::game::battlemon::auth::SendCodeRequest, ::game::battlemon::auth::SendCodeResponse>(
+          ::game::battlemon::auth::SuiAuthRequest, ::game::battlemon::auth::SuiSession>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::game::battlemon::auth::SendCodeRequest, ::game::battlemon::auth::SendCodeResponse>* streamer) {
-                       return this->StreamedSendCode(context,
+                     ::game::battlemon::auth::SuiAuthRequest, ::game::battlemon::auth::SuiSession>* streamer) {
+                       return this->StreamedSuiAuth(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_SendCode() override {
+    ~WithStreamedUnaryMethod_SuiAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SendCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SendCodeRequest* /*request*/, ::game::battlemon::auth::SendCodeResponse* /*response*/) override {
+    ::grpc::Status SuiAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::SuiAuthRequest* /*request*/, ::game::battlemon::auth::SuiSession* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedSendCode(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::SendCodeRequest,::game::battlemon::auth::SendCodeResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedSuiAuth(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::SuiAuthRequest,::game::battlemon::auth::SuiSession>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_VerifyCode : public BaseClass {
+  class WithStreamedUnaryMethod_GuestAuth : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_VerifyCode() {
+    WithStreamedUnaryMethod_GuestAuth() {
       ::grpc::Service::MarkMethodStreamed(1,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::game::battlemon::auth::VerifyCodeRequest, ::game::battlemon::auth::VerifyCodeResponse>(
+          ::game::battlemon::auth::GuestAuthRequest, ::game::battlemon::auth::Session>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::game::battlemon::auth::VerifyCodeRequest, ::game::battlemon::auth::VerifyCodeResponse>* streamer) {
-                       return this->StreamedVerifyCode(context,
+                     ::game::battlemon::auth::GuestAuthRequest, ::game::battlemon::auth::Session>* streamer) {
+                       return this->StreamedGuestAuth(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_VerifyCode() override {
+    ~WithStreamedUnaryMethod_GuestAuth() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status VerifyCode(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::VerifyCodeRequest* /*request*/, ::game::battlemon::auth::VerifyCodeResponse* /*response*/) override {
+    ::grpc::Status GuestAuth(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::GuestAuthRequest* /*request*/, ::game::battlemon::auth::Session* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedVerifyCode(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::VerifyCodeRequest,::game::battlemon::auth::VerifyCodeResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedGuestAuth(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::GuestAuthRequest,::game::battlemon::auth::Session>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_GetWalletAddress : public BaseClass {
@@ -560,9 +548,9 @@ class AuthService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetWalletAddress(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::WalletAddressRequest,::game::battlemon::auth::WalletAddressResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_SendCode<WithStreamedUnaryMethod_VerifyCode<WithStreamedUnaryMethod_GetWalletAddress<Service > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_SuiAuth<WithStreamedUnaryMethod_GuestAuth<WithStreamedUnaryMethod_GetWalletAddress<Service > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_SendCode<WithStreamedUnaryMethod_VerifyCode<WithStreamedUnaryMethod_GetWalletAddress<Service > > > StreamedService;
+  typedef WithStreamedUnaryMethod_SuiAuth<WithStreamedUnaryMethod_GuestAuth<WithStreamedUnaryMethod_GetWalletAddress<Service > > > StreamedService;
 };
 
 }  // namespace auth

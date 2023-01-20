@@ -38,13 +38,6 @@ class InternalItemsService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status IsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::game::battlemon::items::internal::IsOwnerResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::IsOwnerResponse>> AsyncIsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::IsOwnerResponse>>(AsyncIsOwnerRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::IsOwnerResponse>> PrepareAsyncIsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::IsOwnerResponse>>(PrepareAsyncIsOwnerRaw(context, request, cq));
-    }
     virtual ::grpc::Status InternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::InternalLemonsInfoResponse>> AsyncInternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::InternalLemonsInfoResponse>>(AsyncInternalGetLemonsInfoRaw(context, request, cq));
@@ -52,33 +45,44 @@ class InternalItemsService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::InternalLemonsInfoResponse>> PrepareAsyncInternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::InternalLemonsInfoResponse>>(PrepareAsyncInternalGetLemonsInfoRaw(context, request, cq));
     }
+    virtual ::grpc::Status InternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::game::battlemon::common::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>> AsyncInternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>>(AsyncInternalInitUserItemsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>> PrepareAsyncInternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>>(PrepareAsyncInternalInitUserItemsRaw(context, request, cq));
+    }
+    virtual ::grpc::Status InternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::game::battlemon::common::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>> AsyncInternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>>(AsyncInternalRemoveUserItemsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>> PrepareAsyncInternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>>(PrepareAsyncInternalRemoveUserItemsRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
-      virtual void IsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest* request, ::game::battlemon::items::internal::IsOwnerResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void IsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest* request, ::game::battlemon::items::internal::IsOwnerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void InternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void InternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void InternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::game::battlemon::common::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void InternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::game::battlemon::common::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void InternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::game::battlemon::common::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void InternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::game::battlemon::common::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
     class async_interface* experimental_async() { return async(); }
    private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::IsOwnerResponse>* AsyncIsOwnerRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::IsOwnerResponse>* PrepareAsyncIsOwnerRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::InternalLemonsInfoResponse>* AsyncInternalGetLemonsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::items::internal::InternalLemonsInfoResponse>* PrepareAsyncInternalGetLemonsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>* AsyncInternalInitUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>* PrepareAsyncInternalInitUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>* AsyncInternalRemoveUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::common::Empty>* PrepareAsyncInternalRemoveUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-    ::grpc::Status IsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::game::battlemon::items::internal::IsOwnerResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::IsOwnerResponse>> AsyncIsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::IsOwnerResponse>>(AsyncIsOwnerRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::IsOwnerResponse>> PrepareAsyncIsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::IsOwnerResponse>>(PrepareAsyncIsOwnerRaw(context, request, cq));
-    }
     ::grpc::Status InternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::InternalLemonsInfoResponse>> AsyncInternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::InternalLemonsInfoResponse>>(AsyncInternalGetLemonsInfoRaw(context, request, cq));
@@ -86,13 +90,29 @@ class InternalItemsService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::InternalLemonsInfoResponse>> PrepareAsyncInternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::InternalLemonsInfoResponse>>(PrepareAsyncInternalGetLemonsInfoRaw(context, request, cq));
     }
+    ::grpc::Status InternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::game::battlemon::common::Empty* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>> AsyncInternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>>(AsyncInternalInitUserItemsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>> PrepareAsyncInternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>>(PrepareAsyncInternalInitUserItemsRaw(context, request, cq));
+    }
+    ::grpc::Status InternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::game::battlemon::common::Empty* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>> AsyncInternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>>(AsyncInternalRemoveUserItemsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>> PrepareAsyncInternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>>(PrepareAsyncInternalRemoveUserItemsRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
-      void IsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest* request, ::game::battlemon::items::internal::IsOwnerResponse* response, std::function<void(::grpc::Status)>) override;
-      void IsOwner(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest* request, ::game::battlemon::items::internal::IsOwnerResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void InternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response, std::function<void(::grpc::Status)>) override;
       void InternalGetLemonsInfo(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void InternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::game::battlemon::common::Empty* response, std::function<void(::grpc::Status)>) override;
+      void InternalInitUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::game::battlemon::common::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void InternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::game::battlemon::common::Empty* response, std::function<void(::grpc::Status)>) override;
+      void InternalRemoveUserItems(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::game::battlemon::common::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -104,12 +124,15 @@ class InternalItemsService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::IsOwnerResponse>* AsyncIsOwnerRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::IsOwnerResponse>* PrepareAsyncIsOwnerRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::IsOwnerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::InternalLemonsInfoResponse>* AsyncInternalGetLemonsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::game::battlemon::items::internal::InternalLemonsInfoResponse>* PrepareAsyncInternalGetLemonsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_IsOwner_;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>* AsyncInternalInitUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>* PrepareAsyncInternalInitUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>* AsyncInternalRemoveUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::common::Empty>* PrepareAsyncInternalRemoveUserItemsRaw(::grpc::ClientContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_InternalGetLemonsInfo_;
+    const ::grpc::internal::RpcMethod rpcmethod_InternalInitUserItems_;
+    const ::grpc::internal::RpcMethod rpcmethod_InternalRemoveUserItems_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -117,28 +140,9 @@ class InternalItemsService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status IsOwner(::grpc::ServerContext* context, const ::game::battlemon::items::internal::IsOwnerRequest* request, ::game::battlemon::items::internal::IsOwnerResponse* response);
     virtual ::grpc::Status InternalGetLemonsInfo(::grpc::ServerContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response);
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_IsOwner : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_IsOwner() {
-      ::grpc::Service::MarkMethodAsync(0);
-    }
-    ~WithAsyncMethod_IsOwner() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status IsOwner(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestIsOwner(::grpc::ServerContext* context, ::game::battlemon::items::internal::IsOwnerRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::items::internal::IsOwnerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-    }
+    virtual ::grpc::Status InternalInitUserItems(::grpc::ServerContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::game::battlemon::common::Empty* response);
+    virtual ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::game::battlemon::common::Empty* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_InternalGetLemonsInfo : public BaseClass {
@@ -146,7 +150,7 @@ class InternalItemsService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_InternalGetLemonsInfo() {
-      ::grpc::Service::MarkMethodAsync(1);
+      ::grpc::Service::MarkMethodAsync(0);
     }
     ~WithAsyncMethod_InternalGetLemonsInfo() override {
       BaseClassMustBeDerivedFromService(this);
@@ -157,50 +161,63 @@ class InternalItemsService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestInternalGetLemonsInfo(::grpc::ServerContext* context, ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::items::internal::InternalLemonsInfoResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_IsOwner<WithAsyncMethod_InternalGetLemonsInfo<Service > > AsyncService;
   template <class BaseClass>
-  class WithCallbackMethod_IsOwner : public BaseClass {
+  class WithAsyncMethod_InternalInitUserItems : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithCallbackMethod_IsOwner() {
-      ::grpc::Service::MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::IsOwnerRequest, ::game::battlemon::items::internal::IsOwnerResponse>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::game::battlemon::items::internal::IsOwnerRequest* request, ::game::battlemon::items::internal::IsOwnerResponse* response) { return this->IsOwner(context, request, response); }));}
-    void SetMessageAllocatorFor_IsOwner(
-        ::grpc::MessageAllocator< ::game::battlemon::items::internal::IsOwnerRequest, ::game::battlemon::items::internal::IsOwnerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::IsOwnerRequest, ::game::battlemon::items::internal::IsOwnerResponse>*>(handler)
-              ->SetMessageAllocator(allocator);
+    WithAsyncMethod_InternalInitUserItems() {
+      ::grpc::Service::MarkMethodAsync(1);
     }
-    ~WithCallbackMethod_IsOwner() override {
+    ~WithAsyncMethod_InternalInitUserItems() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status IsOwner(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/) override {
+    ::grpc::Status InternalInitUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* IsOwner(
-      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/)  { return nullptr; }
+    void RequestInternalInitUserItems(::grpc::ServerContext* context, ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::common::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
   };
+  template <class BaseClass>
+  class WithAsyncMethod_InternalRemoveUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_InternalRemoveUserItems() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_InternalRemoveUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInternalRemoveUserItems(::grpc::ServerContext* context, ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::common::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_InternalGetLemonsInfo<WithAsyncMethod_InternalInitUserItems<WithAsyncMethod_InternalRemoveUserItems<Service > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_InternalGetLemonsInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_InternalGetLemonsInfo() {
-      ::grpc::Service::MarkMethodCallback(1,
+      ::grpc::Service::MarkMethodCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::InternalLemonsInfoRequest, ::game::battlemon::items::internal::InternalLemonsInfoResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* request, ::game::battlemon::items::internal::InternalLemonsInfoResponse* response) { return this->InternalGetLemonsInfo(context, request, response); }));}
     void SetMessageAllocatorFor_InternalGetLemonsInfo(
         ::grpc::MessageAllocator< ::game::battlemon::items::internal::InternalLemonsInfoRequest, ::game::battlemon::items::internal::InternalLemonsInfoResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::InternalLemonsInfoRequest, ::game::battlemon::items::internal::InternalLemonsInfoResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -215,32 +232,69 @@ class InternalItemsService final {
     virtual ::grpc::ServerUnaryReactor* InternalGetLemonsInfo(
       ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::items::internal::InternalLemonsInfoRequest* /*request*/, ::game::battlemon::items::internal::InternalLemonsInfoResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_IsOwner<WithCallbackMethod_InternalGetLemonsInfo<Service > > CallbackService;
-  typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_IsOwner : public BaseClass {
+  class WithCallbackMethod_InternalInitUserItems : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_IsOwner() {
-      ::grpc::Service::MarkMethodGeneric(0);
+    WithCallbackMethod_InternalInitUserItems() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::InternalInitUserItemsRequest, ::game::battlemon::common::Empty>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* request, ::game::battlemon::common::Empty* response) { return this->InternalInitUserItems(context, request, response); }));}
+    void SetMessageAllocatorFor_InternalInitUserItems(
+        ::grpc::MessageAllocator< ::game::battlemon::items::internal::InternalInitUserItemsRequest, ::game::battlemon::common::Empty>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::InternalInitUserItemsRequest, ::game::battlemon::common::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
     }
-    ~WithGenericMethod_IsOwner() override {
+    ~WithCallbackMethod_InternalInitUserItems() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status IsOwner(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/) override {
+    ::grpc::Status InternalInitUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
+    virtual ::grpc::ServerUnaryReactor* InternalInitUserItems(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/)  { return nullptr; }
   };
+  template <class BaseClass>
+  class WithCallbackMethod_InternalRemoveUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_InternalRemoveUserItems() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::InternalRemoveUserItemsRequest, ::game::battlemon::common::Empty>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* request, ::game::battlemon::common::Empty* response) { return this->InternalRemoveUserItems(context, request, response); }));}
+    void SetMessageAllocatorFor_InternalRemoveUserItems(
+        ::grpc::MessageAllocator< ::game::battlemon::items::internal::InternalRemoveUserItemsRequest, ::game::battlemon::common::Empty>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::items::internal::InternalRemoveUserItemsRequest, ::game::battlemon::common::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_InternalRemoveUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* InternalRemoveUserItems(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_InternalGetLemonsInfo<WithCallbackMethod_InternalInitUserItems<WithCallbackMethod_InternalRemoveUserItems<Service > > > CallbackService;
+  typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_InternalGetLemonsInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_InternalGetLemonsInfo() {
-      ::grpc::Service::MarkMethodGeneric(1);
+      ::grpc::Service::MarkMethodGeneric(0);
     }
     ~WithGenericMethod_InternalGetLemonsInfo() override {
       BaseClassMustBeDerivedFromService(this);
@@ -252,23 +306,37 @@ class InternalItemsService final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_IsOwner : public BaseClass {
+  class WithGenericMethod_InternalInitUserItems : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_IsOwner() {
-      ::grpc::Service::MarkMethodRaw(0);
+    WithGenericMethod_InternalInitUserItems() {
+      ::grpc::Service::MarkMethodGeneric(1);
     }
-    ~WithRawMethod_IsOwner() override {
+    ~WithGenericMethod_InternalInitUserItems() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status IsOwner(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/) override {
+    ::grpc::Status InternalInitUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestIsOwner(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+  };
+  template <class BaseClass>
+  class WithGenericMethod_InternalRemoveUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_InternalRemoveUserItems() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_InternalRemoveUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
@@ -277,7 +345,7 @@ class InternalItemsService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_InternalGetLemonsInfo() {
-      ::grpc::Service::MarkMethodRaw(1);
+      ::grpc::Service::MarkMethodRaw(0);
     }
     ~WithRawMethod_InternalGetLemonsInfo() override {
       BaseClassMustBeDerivedFromService(this);
@@ -288,30 +356,48 @@ class InternalItemsService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestInternalGetLemonsInfo(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_InternalInitUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_InternalInitUserItems() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_InternalInitUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalInitUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInternalInitUserItems(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_IsOwner : public BaseClass {
+  class WithRawMethod_InternalRemoveUserItems : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawCallbackMethod_IsOwner() {
-      ::grpc::Service::MarkMethodRawCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->IsOwner(context, request, response); }));
+    WithRawMethod_InternalRemoveUserItems() {
+      ::grpc::Service::MarkMethodRaw(2);
     }
-    ~WithRawCallbackMethod_IsOwner() override {
+    ~WithRawMethod_InternalRemoveUserItems() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status IsOwner(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/) override {
+    ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* IsOwner(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+    void RequestInternalRemoveUserItems(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
   };
   template <class BaseClass>
   class WithRawCallbackMethod_InternalGetLemonsInfo : public BaseClass {
@@ -319,7 +405,7 @@ class InternalItemsService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_InternalGetLemonsInfo() {
-      ::grpc::Service::MarkMethodRawCallback(1,
+      ::grpc::Service::MarkMethodRawCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InternalGetLemonsInfo(context, request, response); }));
@@ -336,31 +422,48 @@ class InternalItemsService final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_IsOwner : public BaseClass {
+  class WithRawCallbackMethod_InternalInitUserItems : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_IsOwner() {
-      ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::game::battlemon::items::internal::IsOwnerRequest, ::game::battlemon::items::internal::IsOwnerResponse>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::game::battlemon::items::internal::IsOwnerRequest, ::game::battlemon::items::internal::IsOwnerResponse>* streamer) {
-                       return this->StreamedIsOwner(context,
-                         streamer);
-                  }));
+    WithRawCallbackMethod_InternalInitUserItems() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InternalInitUserItems(context, request, response); }));
     }
-    ~WithStreamedUnaryMethod_IsOwner() override {
+    ~WithRawCallbackMethod_InternalInitUserItems() override {
       BaseClassMustBeDerivedFromService(this);
     }
-    // disable regular version of this method
-    ::grpc::Status IsOwner(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::IsOwnerRequest* /*request*/, ::game::battlemon::items::internal::IsOwnerResponse* /*response*/) override {
+    // disable synchronous version of this method
+    ::grpc::Status InternalInitUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedIsOwner(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::items::internal::IsOwnerRequest,::game::battlemon::items::internal::IsOwnerResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::ServerUnaryReactor* InternalInitUserItems(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_InternalRemoveUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_InternalRemoveUserItems() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InternalRemoveUserItems(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_InternalRemoveUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* InternalRemoveUserItems(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_InternalGetLemonsInfo : public BaseClass {
@@ -368,7 +471,7 @@ class InternalItemsService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_InternalGetLemonsInfo() {
-      ::grpc::Service::MarkMethodStreamed(1,
+      ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
           ::game::battlemon::items::internal::InternalLemonsInfoRequest, ::game::battlemon::items::internal::InternalLemonsInfoResponse>(
             [this](::grpc::ServerContext* context,
@@ -389,9 +492,63 @@ class InternalItemsService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedInternalGetLemonsInfo(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::items::internal::InternalLemonsInfoRequest,::game::battlemon::items::internal::InternalLemonsInfoResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_IsOwner<WithStreamedUnaryMethod_InternalGetLemonsInfo<Service > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_InternalInitUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_InternalInitUserItems() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::game::battlemon::items::internal::InternalInitUserItemsRequest, ::game::battlemon::common::Empty>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::game::battlemon::items::internal::InternalInitUserItemsRequest, ::game::battlemon::common::Empty>* streamer) {
+                       return this->StreamedInternalInitUserItems(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_InternalInitUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status InternalInitUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalInitUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedInternalInitUserItems(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::items::internal::InternalInitUserItemsRequest,::game::battlemon::common::Empty>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_InternalRemoveUserItems : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_InternalRemoveUserItems() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::game::battlemon::items::internal::InternalRemoveUserItemsRequest, ::game::battlemon::common::Empty>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::game::battlemon::items::internal::InternalRemoveUserItemsRequest, ::game::battlemon::common::Empty>* streamer) {
+                       return this->StreamedInternalRemoveUserItems(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_InternalRemoveUserItems() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status InternalRemoveUserItems(::grpc::ServerContext* /*context*/, const ::game::battlemon::items::internal::InternalRemoveUserItemsRequest* /*request*/, ::game::battlemon::common::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedInternalRemoveUserItems(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::items::internal::InternalRemoveUserItemsRequest,::game::battlemon::common::Empty>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_InternalGetLemonsInfo<WithStreamedUnaryMethod_InternalInitUserItems<WithStreamedUnaryMethod_InternalRemoveUserItems<Service > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_IsOwner<WithStreamedUnaryMethod_InternalGetLemonsInfo<Service > > StreamedService;
+  typedef WithStreamedUnaryMethod_InternalGetLemonsInfo<WithStreamedUnaryMethod_InternalInitUserItems<WithStreamedUnaryMethod_InternalRemoveUserItems<Service > > > StreamedService;
 };
 
 }  // namespace internal

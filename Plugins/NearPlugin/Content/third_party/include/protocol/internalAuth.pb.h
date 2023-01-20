@@ -49,73 +49,108 @@ namespace game {
 namespace battlemon {
 namespace auth {
 namespace internal {
-class InternalVerifySignRequest;
-struct InternalVerifySignRequestDefaultTypeInternal;
-extern InternalVerifySignRequestDefaultTypeInternal _InternalVerifySignRequest_default_instance_;
-class InternalVerifySignResponse;
-struct InternalVerifySignResponseDefaultTypeInternal;
-extern InternalVerifySignResponseDefaultTypeInternal _InternalVerifySignResponse_default_instance_;
+class InternalAccountInfo;
+struct InternalAccountInfoDefaultTypeInternal;
+extern InternalAccountInfoDefaultTypeInternal _InternalAccountInfo_default_instance_;
+class InternalAccountsInfoRequest;
+struct InternalAccountsInfoRequestDefaultTypeInternal;
+extern InternalAccountsInfoRequestDefaultTypeInternal _InternalAccountsInfoRequest_default_instance_;
+class InternalAccountsInfoResponse;
+struct InternalAccountsInfoResponseDefaultTypeInternal;
+extern InternalAccountsInfoResponseDefaultTypeInternal _InternalAccountsInfoResponse_default_instance_;
+class InternalVerifyJwtRequest;
+struct InternalVerifyJwtRequestDefaultTypeInternal;
+extern InternalVerifyJwtRequestDefaultTypeInternal _InternalVerifyJwtRequest_default_instance_;
+class InternalVerifyJwtResponse;
+struct InternalVerifyJwtResponseDefaultTypeInternal;
+extern InternalVerifyJwtResponseDefaultTypeInternal _InternalVerifyJwtResponse_default_instance_;
 }  // namespace internal
 }  // namespace auth
 }  // namespace battlemon
 }  // namespace game
 PROTOBUF_NAMESPACE_OPEN
-template<> ::game::battlemon::auth::internal::InternalVerifySignRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalVerifySignRequest>(Arena*);
-template<> ::game::battlemon::auth::internal::InternalVerifySignResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalVerifySignResponse>(Arena*);
+template<> ::game::battlemon::auth::internal::InternalAccountInfo* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalAccountInfo>(Arena*);
+template<> ::game::battlemon::auth::internal::InternalAccountsInfoRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalAccountsInfoRequest>(Arena*);
+template<> ::game::battlemon::auth::internal::InternalAccountsInfoResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalAccountsInfoResponse>(Arena*);
+template<> ::game::battlemon::auth::internal::InternalVerifyJwtRequest* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalVerifyJwtRequest>(Arena*);
+template<> ::game::battlemon::auth::internal::InternalVerifyJwtResponse* Arena::CreateMaybeMessage<::game::battlemon::auth::internal::InternalVerifyJwtResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace game {
 namespace battlemon {
 namespace auth {
 namespace internal {
 
-enum InternalVerifySignStatus : int {
+enum InternalVerifyJwtStatus : int {
   OK = 0,
   EXPIRED = 1,
-  INVALID_SIGN = 2,
-  PK_NOT_FOUND = 3,
-  PK_NOT_VERIFIED = 4,
-  InternalVerifySignStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  InternalVerifySignStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+  INVALID = 2,
+  InternalVerifyJwtStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  InternalVerifyJwtStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
-bool InternalVerifySignStatus_IsValid(int value);
-constexpr InternalVerifySignStatus InternalVerifySignStatus_MIN = OK;
-constexpr InternalVerifySignStatus InternalVerifySignStatus_MAX = PK_NOT_VERIFIED;
-constexpr int InternalVerifySignStatus_ARRAYSIZE = InternalVerifySignStatus_MAX + 1;
+bool InternalVerifyJwtStatus_IsValid(int value);
+constexpr InternalVerifyJwtStatus InternalVerifyJwtStatus_MIN = OK;
+constexpr InternalVerifyJwtStatus InternalVerifyJwtStatus_MAX = INVALID;
+constexpr int InternalVerifyJwtStatus_ARRAYSIZE = InternalVerifyJwtStatus_MAX + 1;
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* InternalVerifySignStatus_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* InternalVerifyJwtStatus_descriptor();
 template<typename T>
-inline const std::string& InternalVerifySignStatus_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, InternalVerifySignStatus>::value ||
+inline const std::string& InternalVerifyJwtStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, InternalVerifyJwtStatus>::value ||
     ::std::is_integral<T>::value,
-    "Incorrect type passed to function InternalVerifySignStatus_Name.");
+    "Incorrect type passed to function InternalVerifyJwtStatus_Name.");
   return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    InternalVerifySignStatus_descriptor(), enum_t_value);
+    InternalVerifyJwtStatus_descriptor(), enum_t_value);
 }
-inline bool InternalVerifySignStatus_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, InternalVerifySignStatus* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<InternalVerifySignStatus>(
-    InternalVerifySignStatus_descriptor(), name, value);
+inline bool InternalVerifyJwtStatus_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, InternalVerifyJwtStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<InternalVerifyJwtStatus>(
+    InternalVerifyJwtStatus_descriptor(), name, value);
+}
+enum InteranalAccountType : int {
+  GUEST = 0,
+  SUI = 1,
+  InteranalAccountType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  InteranalAccountType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool InteranalAccountType_IsValid(int value);
+constexpr InteranalAccountType InteranalAccountType_MIN = GUEST;
+constexpr InteranalAccountType InteranalAccountType_MAX = SUI;
+constexpr int InteranalAccountType_ARRAYSIZE = InteranalAccountType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* InteranalAccountType_descriptor();
+template<typename T>
+inline const std::string& InteranalAccountType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, InteranalAccountType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function InteranalAccountType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    InteranalAccountType_descriptor(), enum_t_value);
+}
+inline bool InteranalAccountType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, InteranalAccountType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<InteranalAccountType>(
+    InteranalAccountType_descriptor(), name, value);
 }
 // ===================================================================
 
-class InternalVerifySignRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalVerifySignRequest) */ {
+class InternalVerifyJwtRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalVerifyJwtRequest) */ {
  public:
-  inline InternalVerifySignRequest() : InternalVerifySignRequest(nullptr) {}
-  ~InternalVerifySignRequest() override;
-  explicit PROTOBUF_CONSTEXPR InternalVerifySignRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline InternalVerifyJwtRequest() : InternalVerifyJwtRequest(nullptr) {}
+  ~InternalVerifyJwtRequest() override;
+  explicit PROTOBUF_CONSTEXPR InternalVerifyJwtRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  InternalVerifySignRequest(const InternalVerifySignRequest& from);
-  InternalVerifySignRequest(InternalVerifySignRequest&& from) noexcept
-    : InternalVerifySignRequest() {
+  InternalVerifyJwtRequest(const InternalVerifyJwtRequest& from);
+  InternalVerifyJwtRequest(InternalVerifyJwtRequest&& from) noexcept
+    : InternalVerifyJwtRequest() {
     *this = ::std::move(from);
   }
 
-  inline InternalVerifySignRequest& operator=(const InternalVerifySignRequest& from) {
+  inline InternalVerifyJwtRequest& operator=(const InternalVerifyJwtRequest& from) {
     CopyFrom(from);
     return *this;
   }
-  inline InternalVerifySignRequest& operator=(InternalVerifySignRequest&& from) noexcept {
+  inline InternalVerifyJwtRequest& operator=(InternalVerifyJwtRequest&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -138,20 +173,20 @@ class InternalVerifySignRequest final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const InternalVerifySignRequest& default_instance() {
+  static const InternalVerifyJwtRequest& default_instance() {
     return *internal_default_instance();
   }
-  static inline const InternalVerifySignRequest* internal_default_instance() {
-    return reinterpret_cast<const InternalVerifySignRequest*>(
-               &_InternalVerifySignRequest_default_instance_);
+  static inline const InternalVerifyJwtRequest* internal_default_instance() {
+    return reinterpret_cast<const InternalVerifyJwtRequest*>(
+               &_InternalVerifyJwtRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(InternalVerifySignRequest& a, InternalVerifySignRequest& b) {
+  friend void swap(InternalVerifyJwtRequest& a, InternalVerifyJwtRequest& b) {
     a.Swap(&b);
   }
-  inline void Swap(InternalVerifySignRequest* other) {
+  inline void Swap(InternalVerifyJwtRequest* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -164,7 +199,7 @@ class InternalVerifySignRequest final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(InternalVerifySignRequest* other) {
+  void UnsafeArenaSwap(InternalVerifyJwtRequest* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -172,14 +207,14 @@ class InternalVerifySignRequest final :
 
   // implements Message ----------------------------------------------
 
-  InternalVerifySignRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<InternalVerifySignRequest>(arena);
+  InternalVerifyJwtRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalVerifyJwtRequest>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const InternalVerifySignRequest& from);
+  void CopyFrom(const InternalVerifyJwtRequest& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const InternalVerifySignRequest& from) {
-    InternalVerifySignRequest::MergeImpl(*this, from);
+  void MergeFrom( const InternalVerifyJwtRequest& from) {
+    InternalVerifyJwtRequest::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -197,15 +232,15 @@ class InternalVerifySignRequest final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(InternalVerifySignRequest* other);
+  void InternalSwap(InternalVerifyJwtRequest* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.auth.internal.InternalVerifySignRequest";
+    return "game.battlemon.auth.internal.InternalVerifyJwtRequest";
   }
   protected:
-  explicit InternalVerifySignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit InternalVerifyJwtRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -219,38 +254,23 @@ class InternalVerifySignRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNearAccountIdFieldNumber = 1,
-    kSignFieldNumber = 2,
+    kJwtFieldNumber = 1,
   };
-  // string near_account_id = 1;
-  void clear_near_account_id();
-  const std::string& near_account_id() const;
+  // string jwt = 1;
+  void clear_jwt();
+  const std::string& jwt() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_near_account_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_near_account_id();
-  PROTOBUF_NODISCARD std::string* release_near_account_id();
-  void set_allocated_near_account_id(std::string* near_account_id);
+  void set_jwt(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_jwt();
+  PROTOBUF_NODISCARD std::string* release_jwt();
+  void set_allocated_jwt(std::string* jwt);
   private:
-  const std::string& _internal_near_account_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_near_account_id(const std::string& value);
-  std::string* _internal_mutable_near_account_id();
+  const std::string& _internal_jwt() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_jwt(const std::string& value);
+  std::string* _internal_mutable_jwt();
   public:
 
-  // string sign = 2;
-  void clear_sign();
-  const std::string& sign() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_sign(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_sign();
-  PROTOBUF_NODISCARD std::string* release_sign();
-  void set_allocated_sign(std::string* sign);
-  private:
-  const std::string& _internal_sign() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sign(const std::string& value);
-  std::string* _internal_mutable_sign();
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalVerifySignRequest)
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalVerifyJwtRequest)
  private:
   class _Internal;
 
@@ -258,8 +278,7 @@ class InternalVerifySignRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr near_account_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sign_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr jwt_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -267,24 +286,24 @@ class InternalVerifySignRequest final :
 };
 // -------------------------------------------------------------------
 
-class InternalVerifySignResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalVerifySignResponse) */ {
+class InternalVerifyJwtResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalVerifyJwtResponse) */ {
  public:
-  inline InternalVerifySignResponse() : InternalVerifySignResponse(nullptr) {}
-  ~InternalVerifySignResponse() override;
-  explicit PROTOBUF_CONSTEXPR InternalVerifySignResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline InternalVerifyJwtResponse() : InternalVerifyJwtResponse(nullptr) {}
+  ~InternalVerifyJwtResponse() override;
+  explicit PROTOBUF_CONSTEXPR InternalVerifyJwtResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  InternalVerifySignResponse(const InternalVerifySignResponse& from);
-  InternalVerifySignResponse(InternalVerifySignResponse&& from) noexcept
-    : InternalVerifySignResponse() {
+  InternalVerifyJwtResponse(const InternalVerifyJwtResponse& from);
+  InternalVerifyJwtResponse(InternalVerifyJwtResponse&& from) noexcept
+    : InternalVerifyJwtResponse() {
     *this = ::std::move(from);
   }
 
-  inline InternalVerifySignResponse& operator=(const InternalVerifySignResponse& from) {
+  inline InternalVerifyJwtResponse& operator=(const InternalVerifyJwtResponse& from) {
     CopyFrom(from);
     return *this;
   }
-  inline InternalVerifySignResponse& operator=(InternalVerifySignResponse&& from) noexcept {
+  inline InternalVerifyJwtResponse& operator=(InternalVerifyJwtResponse&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -307,20 +326,20 @@ class InternalVerifySignResponse final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const InternalVerifySignResponse& default_instance() {
+  static const InternalVerifyJwtResponse& default_instance() {
     return *internal_default_instance();
   }
-  static inline const InternalVerifySignResponse* internal_default_instance() {
-    return reinterpret_cast<const InternalVerifySignResponse*>(
-               &_InternalVerifySignResponse_default_instance_);
+  static inline const InternalVerifyJwtResponse* internal_default_instance() {
+    return reinterpret_cast<const InternalVerifyJwtResponse*>(
+               &_InternalVerifyJwtResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(InternalVerifySignResponse& a, InternalVerifySignResponse& b) {
+  friend void swap(InternalVerifyJwtResponse& a, InternalVerifyJwtResponse& b) {
     a.Swap(&b);
   }
-  inline void Swap(InternalVerifySignResponse* other) {
+  inline void Swap(InternalVerifyJwtResponse* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -333,7 +352,7 @@ class InternalVerifySignResponse final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(InternalVerifySignResponse* other) {
+  void UnsafeArenaSwap(InternalVerifyJwtResponse* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -341,14 +360,14 @@ class InternalVerifySignResponse final :
 
   // implements Message ----------------------------------------------
 
-  InternalVerifySignResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<InternalVerifySignResponse>(arena);
+  InternalVerifyJwtResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalVerifyJwtResponse>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const InternalVerifySignResponse& from);
+  void CopyFrom(const InternalVerifyJwtResponse& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const InternalVerifySignResponse& from) {
-    InternalVerifySignResponse::MergeImpl(*this, from);
+  void MergeFrom( const InternalVerifyJwtResponse& from) {
+    InternalVerifyJwtResponse::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -366,15 +385,15 @@ class InternalVerifySignResponse final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(InternalVerifySignResponse* other);
+  void InternalSwap(InternalVerifyJwtResponse* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.battlemon.auth.internal.InternalVerifySignResponse";
+    return "game.battlemon.auth.internal.InternalVerifyJwtResponse";
   }
   protected:
-  explicit InternalVerifySignResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit InternalVerifyJwtResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -388,18 +407,37 @@ class InternalVerifySignResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kAccountFieldNumber = 2,
     kStatusFieldNumber = 1,
   };
-  // .game.battlemon.auth.internal.InternalVerifySignStatus status = 1;
-  void clear_status();
-  ::game::battlemon::auth::internal::InternalVerifySignStatus status() const;
-  void set_status(::game::battlemon::auth::internal::InternalVerifySignStatus value);
+  // .game.battlemon.auth.internal.InternalAccountInfo account = 2;
+  bool has_account() const;
   private:
-  ::game::battlemon::auth::internal::InternalVerifySignStatus _internal_status() const;
-  void _internal_set_status(::game::battlemon::auth::internal::InternalVerifySignStatus value);
+  bool _internal_has_account() const;
+  public:
+  void clear_account();
+  const ::game::battlemon::auth::internal::InternalAccountInfo& account() const;
+  PROTOBUF_NODISCARD ::game::battlemon::auth::internal::InternalAccountInfo* release_account();
+  ::game::battlemon::auth::internal::InternalAccountInfo* mutable_account();
+  void set_allocated_account(::game::battlemon::auth::internal::InternalAccountInfo* account);
+  private:
+  const ::game::battlemon::auth::internal::InternalAccountInfo& _internal_account() const;
+  ::game::battlemon::auth::internal::InternalAccountInfo* _internal_mutable_account();
+  public:
+  void unsafe_arena_set_allocated_account(
+      ::game::battlemon::auth::internal::InternalAccountInfo* account);
+  ::game::battlemon::auth::internal::InternalAccountInfo* unsafe_arena_release_account();
+
+  // .game.battlemon.auth.internal.InternalVerifyJwtStatus status = 1;
+  void clear_status();
+  ::game::battlemon::auth::internal::InternalVerifyJwtStatus status() const;
+  void set_status(::game::battlemon::auth::internal::InternalVerifyJwtStatus value);
+  private:
+  ::game::battlemon::auth::internal::InternalVerifyJwtStatus _internal_status() const;
+  void _internal_set_status(::game::battlemon::auth::internal::InternalVerifyJwtStatus value);
   public:
 
-  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalVerifySignResponse)
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalVerifyJwtResponse)
  private:
   class _Internal;
 
@@ -407,7 +445,492 @@ class InternalVerifySignResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::game::battlemon::auth::internal::InternalAccountInfo* account_;
     int status_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_internalAuth_2eproto;
+};
+// -------------------------------------------------------------------
+
+class InternalAccountsInfoRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalAccountsInfoRequest) */ {
+ public:
+  inline InternalAccountsInfoRequest() : InternalAccountsInfoRequest(nullptr) {}
+  ~InternalAccountsInfoRequest() override;
+  explicit PROTOBUF_CONSTEXPR InternalAccountsInfoRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  InternalAccountsInfoRequest(const InternalAccountsInfoRequest& from);
+  InternalAccountsInfoRequest(InternalAccountsInfoRequest&& from) noexcept
+    : InternalAccountsInfoRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline InternalAccountsInfoRequest& operator=(const InternalAccountsInfoRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InternalAccountsInfoRequest& operator=(InternalAccountsInfoRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const InternalAccountsInfoRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const InternalAccountsInfoRequest* internal_default_instance() {
+    return reinterpret_cast<const InternalAccountsInfoRequest*>(
+               &_InternalAccountsInfoRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(InternalAccountsInfoRequest& a, InternalAccountsInfoRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InternalAccountsInfoRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InternalAccountsInfoRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  InternalAccountsInfoRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalAccountsInfoRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const InternalAccountsInfoRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const InternalAccountsInfoRequest& from) {
+    InternalAccountsInfoRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InternalAccountsInfoRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.auth.internal.InternalAccountsInfoRequest";
+  }
+  protected:
+  explicit InternalAccountsInfoRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserIdsFieldNumber = 1,
+  };
+  // repeated string user_ids = 1;
+  int user_ids_size() const;
+  private:
+  int _internal_user_ids_size() const;
+  public:
+  void clear_user_ids();
+  const std::string& user_ids(int index) const;
+  std::string* mutable_user_ids(int index);
+  void set_user_ids(int index, const std::string& value);
+  void set_user_ids(int index, std::string&& value);
+  void set_user_ids(int index, const char* value);
+  void set_user_ids(int index, const char* value, size_t size);
+  std::string* add_user_ids();
+  void add_user_ids(const std::string& value);
+  void add_user_ids(std::string&& value);
+  void add_user_ids(const char* value);
+  void add_user_ids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& user_ids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_user_ids();
+  private:
+  const std::string& _internal_user_ids(int index) const;
+  std::string* _internal_add_user_ids();
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalAccountsInfoRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> user_ids_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_internalAuth_2eproto;
+};
+// -------------------------------------------------------------------
+
+class InternalAccountsInfoResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalAccountsInfoResponse) */ {
+ public:
+  inline InternalAccountsInfoResponse() : InternalAccountsInfoResponse(nullptr) {}
+  ~InternalAccountsInfoResponse() override;
+  explicit PROTOBUF_CONSTEXPR InternalAccountsInfoResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  InternalAccountsInfoResponse(const InternalAccountsInfoResponse& from);
+  InternalAccountsInfoResponse(InternalAccountsInfoResponse&& from) noexcept
+    : InternalAccountsInfoResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline InternalAccountsInfoResponse& operator=(const InternalAccountsInfoResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InternalAccountsInfoResponse& operator=(InternalAccountsInfoResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const InternalAccountsInfoResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const InternalAccountsInfoResponse* internal_default_instance() {
+    return reinterpret_cast<const InternalAccountsInfoResponse*>(
+               &_InternalAccountsInfoResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(InternalAccountsInfoResponse& a, InternalAccountsInfoResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InternalAccountsInfoResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InternalAccountsInfoResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  InternalAccountsInfoResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalAccountsInfoResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const InternalAccountsInfoResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const InternalAccountsInfoResponse& from) {
+    InternalAccountsInfoResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InternalAccountsInfoResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.auth.internal.InternalAccountsInfoResponse";
+  }
+  protected:
+  explicit InternalAccountsInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAccountsFieldNumber = 1,
+  };
+  // repeated .game.battlemon.auth.internal.InternalAccountInfo accounts = 1;
+  int accounts_size() const;
+  private:
+  int _internal_accounts_size() const;
+  public:
+  void clear_accounts();
+  ::game::battlemon::auth::internal::InternalAccountInfo* mutable_accounts(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::auth::internal::InternalAccountInfo >*
+      mutable_accounts();
+  private:
+  const ::game::battlemon::auth::internal::InternalAccountInfo& _internal_accounts(int index) const;
+  ::game::battlemon::auth::internal::InternalAccountInfo* _internal_add_accounts();
+  public:
+  const ::game::battlemon::auth::internal::InternalAccountInfo& accounts(int index) const;
+  ::game::battlemon::auth::internal::InternalAccountInfo* add_accounts();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::auth::internal::InternalAccountInfo >&
+      accounts() const;
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalAccountsInfoResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::auth::internal::InternalAccountInfo > accounts_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_internalAuth_2eproto;
+};
+// -------------------------------------------------------------------
+
+class InternalAccountInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.battlemon.auth.internal.InternalAccountInfo) */ {
+ public:
+  inline InternalAccountInfo() : InternalAccountInfo(nullptr) {}
+  ~InternalAccountInfo() override;
+  explicit PROTOBUF_CONSTEXPR InternalAccountInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  InternalAccountInfo(const InternalAccountInfo& from);
+  InternalAccountInfo(InternalAccountInfo&& from) noexcept
+    : InternalAccountInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline InternalAccountInfo& operator=(const InternalAccountInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InternalAccountInfo& operator=(InternalAccountInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const InternalAccountInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const InternalAccountInfo* internal_default_instance() {
+    return reinterpret_cast<const InternalAccountInfo*>(
+               &_InternalAccountInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(InternalAccountInfo& a, InternalAccountInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InternalAccountInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InternalAccountInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  InternalAccountInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InternalAccountInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const InternalAccountInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const InternalAccountInfo& from) {
+    InternalAccountInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InternalAccountInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.battlemon.auth.internal.InternalAccountInfo";
+  }
+  protected:
+  explicit InternalAccountInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kTypeFieldNumber = 2,
+  };
+  // string id = 1;
+  void clear_id();
+  const std::string& id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_id();
+  PROTOBUF_NODISCARD std::string* release_id();
+  void set_allocated_id(std::string* id);
+  private:
+  const std::string& _internal_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(const std::string& value);
+  std::string* _internal_mutable_id();
+  public:
+
+  // .game.battlemon.auth.internal.InteranalAccountType type = 2;
+  void clear_type();
+  ::game::battlemon::auth::internal::InteranalAccountType type() const;
+  void set_type(::game::battlemon::auth::internal::InteranalAccountType value);
+  private:
+  ::game::battlemon::auth::internal::InteranalAccountType _internal_type() const;
+  void _internal_set_type(::game::battlemon::auth::internal::InteranalAccountType value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.battlemon.auth.internal.InternalAccountInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
+    int type_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -422,135 +945,378 @@ class InternalVerifySignResponse final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// InternalVerifySignRequest
+// InternalVerifyJwtRequest
 
-// string near_account_id = 1;
-inline void InternalVerifySignRequest::clear_near_account_id() {
-  _impl_.near_account_id_.ClearToEmpty();
+// string jwt = 1;
+inline void InternalVerifyJwtRequest::clear_jwt() {
+  _impl_.jwt_.ClearToEmpty();
 }
-inline const std::string& InternalVerifySignRequest::near_account_id() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalVerifySignRequest.near_account_id)
-  return _internal_near_account_id();
+inline const std::string& InternalVerifyJwtRequest::jwt() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalVerifyJwtRequest.jwt)
+  return _internal_jwt();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void InternalVerifySignRequest::set_near_account_id(ArgT0&& arg0, ArgT... args) {
+void InternalVerifyJwtRequest::set_jwt(ArgT0&& arg0, ArgT... args) {
  
- _impl_.near_account_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalVerifySignRequest.near_account_id)
+ _impl_.jwt_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalVerifyJwtRequest.jwt)
 }
-inline std::string* InternalVerifySignRequest::mutable_near_account_id() {
-  std::string* _s = _internal_mutable_near_account_id();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalVerifySignRequest.near_account_id)
+inline std::string* InternalVerifyJwtRequest::mutable_jwt() {
+  std::string* _s = _internal_mutable_jwt();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalVerifyJwtRequest.jwt)
   return _s;
 }
-inline const std::string& InternalVerifySignRequest::_internal_near_account_id() const {
-  return _impl_.near_account_id_.Get();
+inline const std::string& InternalVerifyJwtRequest::_internal_jwt() const {
+  return _impl_.jwt_.Get();
 }
-inline void InternalVerifySignRequest::_internal_set_near_account_id(const std::string& value) {
+inline void InternalVerifyJwtRequest::_internal_set_jwt(const std::string& value) {
   
-  _impl_.near_account_id_.Set(value, GetArenaForAllocation());
+  _impl_.jwt_.Set(value, GetArenaForAllocation());
 }
-inline std::string* InternalVerifySignRequest::_internal_mutable_near_account_id() {
+inline std::string* InternalVerifyJwtRequest::_internal_mutable_jwt() {
   
-  return _impl_.near_account_id_.Mutable(GetArenaForAllocation());
+  return _impl_.jwt_.Mutable(GetArenaForAllocation());
 }
-inline std::string* InternalVerifySignRequest::release_near_account_id() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.internal.InternalVerifySignRequest.near_account_id)
-  return _impl_.near_account_id_.Release();
+inline std::string* InternalVerifyJwtRequest::release_jwt() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.internal.InternalVerifyJwtRequest.jwt)
+  return _impl_.jwt_.Release();
 }
-inline void InternalVerifySignRequest::set_allocated_near_account_id(std::string* near_account_id) {
-  if (near_account_id != nullptr) {
+inline void InternalVerifyJwtRequest::set_allocated_jwt(std::string* jwt) {
+  if (jwt != nullptr) {
     
   } else {
     
   }
-  _impl_.near_account_id_.SetAllocated(near_account_id, GetArenaForAllocation());
+  _impl_.jwt_.SetAllocated(jwt, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.near_account_id_.IsDefault()) {
-    _impl_.near_account_id_.Set("", GetArenaForAllocation());
+  if (_impl_.jwt_.IsDefault()) {
+    _impl_.jwt_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.internal.InternalVerifySignRequest.near_account_id)
-}
-
-// string sign = 2;
-inline void InternalVerifySignRequest::clear_sign() {
-  _impl_.sign_.ClearToEmpty();
-}
-inline const std::string& InternalVerifySignRequest::sign() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalVerifySignRequest.sign)
-  return _internal_sign();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void InternalVerifySignRequest::set_sign(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.sign_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalVerifySignRequest.sign)
-}
-inline std::string* InternalVerifySignRequest::mutable_sign() {
-  std::string* _s = _internal_mutable_sign();
-  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalVerifySignRequest.sign)
-  return _s;
-}
-inline const std::string& InternalVerifySignRequest::_internal_sign() const {
-  return _impl_.sign_.Get();
-}
-inline void InternalVerifySignRequest::_internal_set_sign(const std::string& value) {
-  
-  _impl_.sign_.Set(value, GetArenaForAllocation());
-}
-inline std::string* InternalVerifySignRequest::_internal_mutable_sign() {
-  
-  return _impl_.sign_.Mutable(GetArenaForAllocation());
-}
-inline std::string* InternalVerifySignRequest::release_sign() {
-  // @@protoc_insertion_point(field_release:game.battlemon.auth.internal.InternalVerifySignRequest.sign)
-  return _impl_.sign_.Release();
-}
-inline void InternalVerifySignRequest::set_allocated_sign(std::string* sign) {
-  if (sign != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.sign_.SetAllocated(sign, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.sign_.IsDefault()) {
-    _impl_.sign_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.internal.InternalVerifySignRequest.sign)
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.internal.InternalVerifyJwtRequest.jwt)
 }
 
 // -------------------------------------------------------------------
 
-// InternalVerifySignResponse
+// InternalVerifyJwtResponse
 
-// .game.battlemon.auth.internal.InternalVerifySignStatus status = 1;
-inline void InternalVerifySignResponse::clear_status() {
+// .game.battlemon.auth.internal.InternalVerifyJwtStatus status = 1;
+inline void InternalVerifyJwtResponse::clear_status() {
   _impl_.status_ = 0;
 }
-inline ::game::battlemon::auth::internal::InternalVerifySignStatus InternalVerifySignResponse::_internal_status() const {
-  return static_cast< ::game::battlemon::auth::internal::InternalVerifySignStatus >(_impl_.status_);
+inline ::game::battlemon::auth::internal::InternalVerifyJwtStatus InternalVerifyJwtResponse::_internal_status() const {
+  return static_cast< ::game::battlemon::auth::internal::InternalVerifyJwtStatus >(_impl_.status_);
 }
-inline ::game::battlemon::auth::internal::InternalVerifySignStatus InternalVerifySignResponse::status() const {
-  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalVerifySignResponse.status)
+inline ::game::battlemon::auth::internal::InternalVerifyJwtStatus InternalVerifyJwtResponse::status() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalVerifyJwtResponse.status)
   return _internal_status();
 }
-inline void InternalVerifySignResponse::_internal_set_status(::game::battlemon::auth::internal::InternalVerifySignStatus value) {
+inline void InternalVerifyJwtResponse::_internal_set_status(::game::battlemon::auth::internal::InternalVerifyJwtStatus value) {
   
   _impl_.status_ = value;
 }
-inline void InternalVerifySignResponse::set_status(::game::battlemon::auth::internal::InternalVerifySignStatus value) {
+inline void InternalVerifyJwtResponse::set_status(::game::battlemon::auth::internal::InternalVerifyJwtStatus value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalVerifySignResponse.status)
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalVerifyJwtResponse.status)
+}
+
+// .game.battlemon.auth.internal.InternalAccountInfo account = 2;
+inline bool InternalVerifyJwtResponse::_internal_has_account() const {
+  return this != internal_default_instance() && _impl_.account_ != nullptr;
+}
+inline bool InternalVerifyJwtResponse::has_account() const {
+  return _internal_has_account();
+}
+inline void InternalVerifyJwtResponse::clear_account() {
+  if (GetArenaForAllocation() == nullptr && _impl_.account_ != nullptr) {
+    delete _impl_.account_;
+  }
+  _impl_.account_ = nullptr;
+}
+inline const ::game::battlemon::auth::internal::InternalAccountInfo& InternalVerifyJwtResponse::_internal_account() const {
+  const ::game::battlemon::auth::internal::InternalAccountInfo* p = _impl_.account_;
+  return p != nullptr ? *p : reinterpret_cast<const ::game::battlemon::auth::internal::InternalAccountInfo&>(
+      ::game::battlemon::auth::internal::_InternalAccountInfo_default_instance_);
+}
+inline const ::game::battlemon::auth::internal::InternalAccountInfo& InternalVerifyJwtResponse::account() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalVerifyJwtResponse.account)
+  return _internal_account();
+}
+inline void InternalVerifyJwtResponse::unsafe_arena_set_allocated_account(
+    ::game::battlemon::auth::internal::InternalAccountInfo* account) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.account_);
+  }
+  _impl_.account_ = account;
+  if (account) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.battlemon.auth.internal.InternalVerifyJwtResponse.account)
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalVerifyJwtResponse::release_account() {
+  
+  ::game::battlemon::auth::internal::InternalAccountInfo* temp = _impl_.account_;
+  _impl_.account_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalVerifyJwtResponse::unsafe_arena_release_account() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.internal.InternalVerifyJwtResponse.account)
+  
+  ::game::battlemon::auth::internal::InternalAccountInfo* temp = _impl_.account_;
+  _impl_.account_ = nullptr;
+  return temp;
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalVerifyJwtResponse::_internal_mutable_account() {
+  
+  if (_impl_.account_ == nullptr) {
+    auto* p = CreateMaybeMessage<::game::battlemon::auth::internal::InternalAccountInfo>(GetArenaForAllocation());
+    _impl_.account_ = p;
+  }
+  return _impl_.account_;
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalVerifyJwtResponse::mutable_account() {
+  ::game::battlemon::auth::internal::InternalAccountInfo* _msg = _internal_mutable_account();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalVerifyJwtResponse.account)
+  return _msg;
+}
+inline void InternalVerifyJwtResponse::set_allocated_account(::game::battlemon::auth::internal::InternalAccountInfo* account) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.account_;
+  }
+  if (account) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(account);
+    if (message_arena != submessage_arena) {
+      account = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, account, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.account_ = account;
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.internal.InternalVerifyJwtResponse.account)
+}
+
+// -------------------------------------------------------------------
+
+// InternalAccountsInfoRequest
+
+// repeated string user_ids = 1;
+inline int InternalAccountsInfoRequest::_internal_user_ids_size() const {
+  return _impl_.user_ids_.size();
+}
+inline int InternalAccountsInfoRequest::user_ids_size() const {
+  return _internal_user_ids_size();
+}
+inline void InternalAccountsInfoRequest::clear_user_ids() {
+  _impl_.user_ids_.Clear();
+}
+inline std::string* InternalAccountsInfoRequest::add_user_ids() {
+  std::string* _s = _internal_add_user_ids();
+  // @@protoc_insertion_point(field_add_mutable:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+  return _s;
+}
+inline const std::string& InternalAccountsInfoRequest::_internal_user_ids(int index) const {
+  return _impl_.user_ids_.Get(index);
+}
+inline const std::string& InternalAccountsInfoRequest::user_ids(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+  return _internal_user_ids(index);
+}
+inline std::string* InternalAccountsInfoRequest::mutable_user_ids(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+  return _impl_.user_ids_.Mutable(index);
+}
+inline void InternalAccountsInfoRequest::set_user_ids(int index, const std::string& value) {
+  _impl_.user_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline void InternalAccountsInfoRequest::set_user_ids(int index, std::string&& value) {
+  _impl_.user_ids_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline void InternalAccountsInfoRequest::set_user_ids(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.user_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline void InternalAccountsInfoRequest::set_user_ids(int index, const char* value, size_t size) {
+  _impl_.user_ids_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline std::string* InternalAccountsInfoRequest::_internal_add_user_ids() {
+  return _impl_.user_ids_.Add();
+}
+inline void InternalAccountsInfoRequest::add_user_ids(const std::string& value) {
+  _impl_.user_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline void InternalAccountsInfoRequest::add_user_ids(std::string&& value) {
+  _impl_.user_ids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline void InternalAccountsInfoRequest::add_user_ids(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.user_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline void InternalAccountsInfoRequest::add_user_ids(const char* value, size_t size) {
+  _impl_.user_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+InternalAccountsInfoRequest::user_ids() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+  return _impl_.user_ids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+InternalAccountsInfoRequest::mutable_user_ids() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.auth.internal.InternalAccountsInfoRequest.user_ids)
+  return &_impl_.user_ids_;
+}
+
+// -------------------------------------------------------------------
+
+// InternalAccountsInfoResponse
+
+// repeated .game.battlemon.auth.internal.InternalAccountInfo accounts = 1;
+inline int InternalAccountsInfoResponse::_internal_accounts_size() const {
+  return _impl_.accounts_.size();
+}
+inline int InternalAccountsInfoResponse::accounts_size() const {
+  return _internal_accounts_size();
+}
+inline void InternalAccountsInfoResponse::clear_accounts() {
+  _impl_.accounts_.Clear();
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalAccountsInfoResponse::mutable_accounts(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalAccountsInfoResponse.accounts)
+  return _impl_.accounts_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::auth::internal::InternalAccountInfo >*
+InternalAccountsInfoResponse::mutable_accounts() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.auth.internal.InternalAccountsInfoResponse.accounts)
+  return &_impl_.accounts_;
+}
+inline const ::game::battlemon::auth::internal::InternalAccountInfo& InternalAccountsInfoResponse::_internal_accounts(int index) const {
+  return _impl_.accounts_.Get(index);
+}
+inline const ::game::battlemon::auth::internal::InternalAccountInfo& InternalAccountsInfoResponse::accounts(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalAccountsInfoResponse.accounts)
+  return _internal_accounts(index);
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalAccountsInfoResponse::_internal_add_accounts() {
+  return _impl_.accounts_.Add();
+}
+inline ::game::battlemon::auth::internal::InternalAccountInfo* InternalAccountsInfoResponse::add_accounts() {
+  ::game::battlemon::auth::internal::InternalAccountInfo* _add = _internal_add_accounts();
+  // @@protoc_insertion_point(field_add:game.battlemon.auth.internal.InternalAccountsInfoResponse.accounts)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::battlemon::auth::internal::InternalAccountInfo >&
+InternalAccountsInfoResponse::accounts() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.auth.internal.InternalAccountsInfoResponse.accounts)
+  return _impl_.accounts_;
+}
+
+// -------------------------------------------------------------------
+
+// InternalAccountInfo
+
+// string id = 1;
+inline void InternalAccountInfo::clear_id() {
+  _impl_.id_.ClearToEmpty();
+}
+inline const std::string& InternalAccountInfo::id() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalAccountInfo.id)
+  return _internal_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void InternalAccountInfo::set_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalAccountInfo.id)
+}
+inline std::string* InternalAccountInfo::mutable_id() {
+  std::string* _s = _internal_mutable_id();
+  // @@protoc_insertion_point(field_mutable:game.battlemon.auth.internal.InternalAccountInfo.id)
+  return _s;
+}
+inline const std::string& InternalAccountInfo::_internal_id() const {
+  return _impl_.id_.Get();
+}
+inline void InternalAccountInfo::_internal_set_id(const std::string& value) {
+  
+  _impl_.id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* InternalAccountInfo::_internal_mutable_id() {
+  
+  return _impl_.id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* InternalAccountInfo::release_id() {
+  // @@protoc_insertion_point(field_release:game.battlemon.auth.internal.InternalAccountInfo.id)
+  return _impl_.id_.Release();
+}
+inline void InternalAccountInfo::set_allocated_id(std::string* id) {
+  if (id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.id_.SetAllocated(id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.id_.IsDefault()) {
+    _impl_.id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:game.battlemon.auth.internal.InternalAccountInfo.id)
+}
+
+// .game.battlemon.auth.internal.InteranalAccountType type = 2;
+inline void InternalAccountInfo::clear_type() {
+  _impl_.type_ = 0;
+}
+inline ::game::battlemon::auth::internal::InteranalAccountType InternalAccountInfo::_internal_type() const {
+  return static_cast< ::game::battlemon::auth::internal::InteranalAccountType >(_impl_.type_);
+}
+inline ::game::battlemon::auth::internal::InteranalAccountType InternalAccountInfo::type() const {
+  // @@protoc_insertion_point(field_get:game.battlemon.auth.internal.InternalAccountInfo.type)
+  return _internal_type();
+}
+inline void InternalAccountInfo::_internal_set_type(::game::battlemon::auth::internal::InteranalAccountType value) {
+  
+  _impl_.type_ = value;
+}
+inline void InternalAccountInfo::set_type(::game::battlemon::auth::internal::InteranalAccountType value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.auth.internal.InternalAccountInfo.type)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
@@ -563,10 +1329,15 @@ inline void InternalVerifySignResponse::set_status(::game::battlemon::auth::inte
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::game::battlemon::auth::internal::InternalVerifySignStatus> : ::std::true_type {};
+template <> struct is_proto_enum< ::game::battlemon::auth::internal::InternalVerifyJwtStatus> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::auth::internal::InternalVerifySignStatus>() {
-  return ::game::battlemon::auth::internal::InternalVerifySignStatus_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::auth::internal::InternalVerifyJwtStatus>() {
+  return ::game::battlemon::auth::internal::InternalVerifyJwtStatus_descriptor();
+}
+template <> struct is_proto_enum< ::game::battlemon::auth::internal::InteranalAccountType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::game::battlemon::auth::internal::InteranalAccountType>() {
+  return ::game::battlemon::auth::internal::InteranalAccountType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

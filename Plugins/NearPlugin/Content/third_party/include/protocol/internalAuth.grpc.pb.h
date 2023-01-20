@@ -38,41 +38,61 @@ class InternalAuthService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status InternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifySignResponse>> AsyncInternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifySignResponse>>(AsyncInternalVerifySignRaw(context, request, cq));
+    virtual ::grpc::Status InternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>> AsyncInternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>>(AsyncInternalVerifyJwtRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifySignResponse>> PrepareAsyncInternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifySignResponse>>(PrepareAsyncInternalVerifySignRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>> PrepareAsyncInternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>>(PrepareAsyncInternalVerifyJwtRaw(context, request, cq));
+    }
+    virtual ::grpc::Status InternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>> AsyncInternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>>(AsyncInternalGetAccountsInfoRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>> PrepareAsyncInternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>>(PrepareAsyncInternalGetAccountsInfoRaw(context, request, cq));
     }
     class async_interface {
      public:
       virtual ~async_interface() {}
-      virtual void InternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void InternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void InternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void InternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void InternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void InternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
     class async_interface* experimental_async() { return async(); }
    private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifySignResponse>* AsyncInternalVerifySignRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifySignResponse>* PrepareAsyncInternalVerifySignRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* AsyncInternalVerifyJwtRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* PrepareAsyncInternalVerifyJwtRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* AsyncInternalGetAccountsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* PrepareAsyncInternalGetAccountsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-    ::grpc::Status InternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifySignResponse>> AsyncInternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifySignResponse>>(AsyncInternalVerifySignRaw(context, request, cq));
+    ::grpc::Status InternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>> AsyncInternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>>(AsyncInternalVerifyJwtRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifySignResponse>> PrepareAsyncInternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifySignResponse>>(PrepareAsyncInternalVerifySignRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>> PrepareAsyncInternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>>(PrepareAsyncInternalVerifyJwtRaw(context, request, cq));
+    }
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>> AsyncInternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>>(AsyncInternalGetAccountsInfoRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>> PrepareAsyncInternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>>(PrepareAsyncInternalGetAccountsInfoRaw(context, request, cq));
     }
     class async final :
       public StubInterface::async_interface {
      public:
-      void InternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response, std::function<void(::grpc::Status)>) override;
-      void InternalVerifySign(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void InternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response, std::function<void(::grpc::Status)>) override;
+      void InternalVerifyJwt(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void InternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response, std::function<void(::grpc::Status)>) override;
+      void InternalGetAccountsInfo(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -84,9 +104,12 @@ class InternalAuthService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifySignResponse>* AsyncInternalVerifySignRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifySignResponse>* PrepareAsyncInternalVerifySignRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_InternalVerifySign_;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* AsyncInternalVerifyJwtRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* PrepareAsyncInternalVerifyJwtRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* AsyncInternalGetAccountsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* PrepareAsyncInternalGetAccountsInfoRaw(::grpc::ClientContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_InternalVerifyJwt_;
+    const ::grpc::internal::RpcMethod rpcmethod_InternalGetAccountsInfo_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -94,147 +117,281 @@ class InternalAuthService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status InternalVerifySign(::grpc::ServerContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response);
+    virtual ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response);
+    virtual ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response);
   };
   template <class BaseClass>
-  class WithAsyncMethod_InternalVerifySign : public BaseClass {
+  class WithAsyncMethod_InternalVerifyJwt : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithAsyncMethod_InternalVerifySign() {
+    WithAsyncMethod_InternalVerifyJwt() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_InternalVerifySign() override {
+    ~WithAsyncMethod_InternalVerifyJwt() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status InternalVerifySign(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/) override {
+    ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestInternalVerifySign(::grpc::ServerContext* context, ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::internal::InternalVerifySignResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestInternalVerifyJwt(::grpc::ServerContext* context, ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_InternalVerifySign<Service > AsyncService;
   template <class BaseClass>
-  class WithCallbackMethod_InternalVerifySign : public BaseClass {
+  class WithAsyncMethod_InternalGetAccountsInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithCallbackMethod_InternalVerifySign() {
+    WithAsyncMethod_InternalGetAccountsInfo() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_InternalGetAccountsInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInternalGetAccountsInfo(::grpc::ServerContext* context, ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::grpc::ServerAsyncResponseWriter< ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_InternalVerifyJwt<WithAsyncMethod_InternalGetAccountsInfo<Service > > AsyncService;
+  template <class BaseClass>
+  class WithCallbackMethod_InternalVerifyJwt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_InternalVerifyJwt() {
       ::grpc::Service::MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::internal::InternalVerifySignRequest, ::game::battlemon::auth::internal::InternalVerifySignResponse>(
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::internal::InternalVerifyJwtRequest, ::game::battlemon::auth::internal::InternalVerifyJwtResponse>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::internal::InternalVerifySignRequest* request, ::game::battlemon::auth::internal::InternalVerifySignResponse* response) { return this->InternalVerifySign(context, request, response); }));}
-    void SetMessageAllocatorFor_InternalVerifySign(
-        ::grpc::MessageAllocator< ::game::battlemon::auth::internal::InternalVerifySignRequest, ::game::battlemon::auth::internal::InternalVerifySignResponse>* allocator) {
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* request, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* response) { return this->InternalVerifyJwt(context, request, response); }));}
+    void SetMessageAllocatorFor_InternalVerifyJwt(
+        ::grpc::MessageAllocator< ::game::battlemon::auth::internal::InternalVerifyJwtRequest, ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::internal::InternalVerifySignRequest, ::game::battlemon::auth::internal::InternalVerifySignResponse>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::internal::InternalVerifyJwtRequest, ::game::battlemon::auth::internal::InternalVerifyJwtResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
-    ~WithCallbackMethod_InternalVerifySign() override {
+    ~WithCallbackMethod_InternalVerifyJwt() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status InternalVerifySign(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/) override {
+    ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* InternalVerifySign(
-      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/)  { return nullptr; }
+    virtual ::grpc::ServerUnaryReactor* InternalVerifyJwt(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_InternalVerifySign<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_InternalGetAccountsInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_InternalGetAccountsInfo() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::internal::InternalAccountsInfoRequest, ::game::battlemon::auth::internal::InternalAccountsInfoResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* request, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* response) { return this->InternalGetAccountsInfo(context, request, response); }));}
+    void SetMessageAllocatorFor_InternalGetAccountsInfo(
+        ::grpc::MessageAllocator< ::game::battlemon::auth::internal::InternalAccountsInfoRequest, ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::game::battlemon::auth::internal::InternalAccountsInfoRequest, ::game::battlemon::auth::internal::InternalAccountsInfoResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_InternalGetAccountsInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* InternalGetAccountsInfo(
+      ::grpc::CallbackServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_InternalVerifyJwt<WithCallbackMethod_InternalGetAccountsInfo<Service > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_InternalVerifySign : public BaseClass {
+  class WithGenericMethod_InternalVerifyJwt : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithGenericMethod_InternalVerifySign() {
+    WithGenericMethod_InternalVerifyJwt() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_InternalVerifySign() override {
+    ~WithGenericMethod_InternalVerifyJwt() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status InternalVerifySign(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/) override {
+    ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithRawMethod_InternalVerifySign : public BaseClass {
+  class WithGenericMethod_InternalGetAccountsInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_InternalVerifySign() {
-      ::grpc::Service::MarkMethodRaw(0);
+    WithGenericMethod_InternalGetAccountsInfo() {
+      ::grpc::Service::MarkMethodGeneric(1);
     }
-    ~WithRawMethod_InternalVerifySign() override {
+    ~WithGenericMethod_InternalGetAccountsInfo() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status InternalVerifySign(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/) override {
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestInternalVerifySign(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+  };
+  template <class BaseClass>
+  class WithRawMethod_InternalVerifyJwt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_InternalVerifyJwt() {
+      ::grpc::Service::MarkMethodRaw(0);
+    }
+    ~WithRawMethod_InternalVerifyJwt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInternalVerifyJwt(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_InternalVerifySign : public BaseClass {
+  class WithRawMethod_InternalGetAccountsInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawCallbackMethod_InternalVerifySign() {
+    WithRawMethod_InternalGetAccountsInfo() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_InternalGetAccountsInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInternalGetAccountsInfo(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_InternalVerifyJwt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_InternalVerifyJwt() {
       ::grpc::Service::MarkMethodRawCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InternalVerifySign(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InternalVerifyJwt(context, request, response); }));
     }
-    ~WithRawCallbackMethod_InternalVerifySign() override {
+    ~WithRawCallbackMethod_InternalVerifyJwt() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status InternalVerifySign(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/) override {
+    ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* InternalVerifySign(
+    virtual ::grpc::ServerUnaryReactor* InternalVerifyJwt(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_InternalVerifySign : public BaseClass {
+  class WithRawCallbackMethod_InternalGetAccountsInfo : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_InternalVerifySign() {
+    WithRawCallbackMethod_InternalGetAccountsInfo() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InternalGetAccountsInfo(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_InternalGetAccountsInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* InternalGetAccountsInfo(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_InternalVerifyJwt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_InternalVerifyJwt() {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::game::battlemon::auth::internal::InternalVerifySignRequest, ::game::battlemon::auth::internal::InternalVerifySignResponse>(
+          ::game::battlemon::auth::internal::InternalVerifyJwtRequest, ::game::battlemon::auth::internal::InternalVerifyJwtResponse>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::game::battlemon::auth::internal::InternalVerifySignRequest, ::game::battlemon::auth::internal::InternalVerifySignResponse>* streamer) {
-                       return this->StreamedInternalVerifySign(context,
+                     ::game::battlemon::auth::internal::InternalVerifyJwtRequest, ::game::battlemon::auth::internal::InternalVerifyJwtResponse>* streamer) {
+                       return this->StreamedInternalVerifyJwt(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_InternalVerifySign() override {
+    ~WithStreamedUnaryMethod_InternalVerifyJwt() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status InternalVerifySign(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifySignRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifySignResponse* /*response*/) override {
+    ::grpc::Status InternalVerifyJwt(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalVerifyJwtRequest* /*request*/, ::game::battlemon::auth::internal::InternalVerifyJwtResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedInternalVerifySign(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::internal::InternalVerifySignRequest,::game::battlemon::auth::internal::InternalVerifySignResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedInternalVerifyJwt(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::internal::InternalVerifyJwtRequest,::game::battlemon::auth::internal::InternalVerifyJwtResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_InternalVerifySign<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_InternalGetAccountsInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_InternalGetAccountsInfo() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::game::battlemon::auth::internal::InternalAccountsInfoRequest, ::game::battlemon::auth::internal::InternalAccountsInfoResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::game::battlemon::auth::internal::InternalAccountsInfoRequest, ::game::battlemon::auth::internal::InternalAccountsInfoResponse>* streamer) {
+                       return this->StreamedInternalGetAccountsInfo(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_InternalGetAccountsInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status InternalGetAccountsInfo(::grpc::ServerContext* /*context*/, const ::game::battlemon::auth::internal::InternalAccountsInfoRequest* /*request*/, ::game::battlemon::auth::internal::InternalAccountsInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedInternalGetAccountsInfo(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::game::battlemon::auth::internal::InternalAccountsInfoRequest,::game::battlemon::auth::internal::InternalAccountsInfoResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_InternalVerifyJwt<WithStreamedUnaryMethod_InternalGetAccountsInfo<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_InternalVerifySign<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_InternalVerifyJwt<WithStreamedUnaryMethod_InternalGetAccountsInfo<Service > > StreamedService;
 };
 
 }  // namespace internal

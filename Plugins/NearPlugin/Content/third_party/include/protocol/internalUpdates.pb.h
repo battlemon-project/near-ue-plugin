@@ -183,32 +183,32 @@ class InternalUpdate final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNearIdsFieldNumber = 1,
+    kUserIdsFieldNumber = 1,
     kMessageFieldNumber = 2,
     kRemoveOnFailFieldNumber = 3,
   };
-  // repeated string near_ids = 1;
-  int near_ids_size() const;
+  // repeated string user_ids = 1;
+  int user_ids_size() const;
   private:
-  int _internal_near_ids_size() const;
+  int _internal_user_ids_size() const;
   public:
-  void clear_near_ids();
-  const std::string& near_ids(int index) const;
-  std::string* mutable_near_ids(int index);
-  void set_near_ids(int index, const std::string& value);
-  void set_near_ids(int index, std::string&& value);
-  void set_near_ids(int index, const char* value);
-  void set_near_ids(int index, const char* value, size_t size);
-  std::string* add_near_ids();
-  void add_near_ids(const std::string& value);
-  void add_near_ids(std::string&& value);
-  void add_near_ids(const char* value);
-  void add_near_ids(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& near_ids() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_near_ids();
+  void clear_user_ids();
+  const std::string& user_ids(int index) const;
+  std::string* mutable_user_ids(int index);
+  void set_user_ids(int index, const std::string& value);
+  void set_user_ids(int index, std::string&& value);
+  void set_user_ids(int index, const char* value);
+  void set_user_ids(int index, const char* value, size_t size);
+  std::string* add_user_ids();
+  void add_user_ids(const std::string& value);
+  void add_user_ids(std::string&& value);
+  void add_user_ids(const char* value);
+  void add_user_ids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& user_ids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_user_ids();
   private:
-  const std::string& _internal_near_ids(int index) const;
-  std::string* _internal_add_near_ids();
+  const std::string& _internal_user_ids(int index) const;
+  std::string* _internal_add_user_ids();
   public:
 
   // string message = 2;
@@ -242,7 +242,7 @@ class InternalUpdate final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> near_ids_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> user_ids_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
     bool remove_on_fail_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -261,79 +261,79 @@ class InternalUpdate final :
 #endif  // __GNUC__
 // InternalUpdate
 
-// repeated string near_ids = 1;
-inline int InternalUpdate::_internal_near_ids_size() const {
-  return _impl_.near_ids_.size();
+// repeated string user_ids = 1;
+inline int InternalUpdate::_internal_user_ids_size() const {
+  return _impl_.user_ids_.size();
 }
-inline int InternalUpdate::near_ids_size() const {
-  return _internal_near_ids_size();
+inline int InternalUpdate::user_ids_size() const {
+  return _internal_user_ids_size();
 }
-inline void InternalUpdate::clear_near_ids() {
-  _impl_.near_ids_.Clear();
+inline void InternalUpdate::clear_user_ids() {
+  _impl_.user_ids_.Clear();
 }
-inline std::string* InternalUpdate::add_near_ids() {
-  std::string* _s = _internal_add_near_ids();
-  // @@protoc_insertion_point(field_add_mutable:game.battlemon.updates.InternalUpdate.near_ids)
+inline std::string* InternalUpdate::add_user_ids() {
+  std::string* _s = _internal_add_user_ids();
+  // @@protoc_insertion_point(field_add_mutable:game.battlemon.updates.InternalUpdate.user_ids)
   return _s;
 }
-inline const std::string& InternalUpdate::_internal_near_ids(int index) const {
-  return _impl_.near_ids_.Get(index);
+inline const std::string& InternalUpdate::_internal_user_ids(int index) const {
+  return _impl_.user_ids_.Get(index);
 }
-inline const std::string& InternalUpdate::near_ids(int index) const {
-  // @@protoc_insertion_point(field_get:game.battlemon.updates.InternalUpdate.near_ids)
-  return _internal_near_ids(index);
+inline const std::string& InternalUpdate::user_ids(int index) const {
+  // @@protoc_insertion_point(field_get:game.battlemon.updates.InternalUpdate.user_ids)
+  return _internal_user_ids(index);
 }
-inline std::string* InternalUpdate::mutable_near_ids(int index) {
-  // @@protoc_insertion_point(field_mutable:game.battlemon.updates.InternalUpdate.near_ids)
-  return _impl_.near_ids_.Mutable(index);
+inline std::string* InternalUpdate::mutable_user_ids(int index) {
+  // @@protoc_insertion_point(field_mutable:game.battlemon.updates.InternalUpdate.user_ids)
+  return _impl_.user_ids_.Mutable(index);
 }
-inline void InternalUpdate::set_near_ids(int index, const std::string& value) {
-  _impl_.near_ids_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:game.battlemon.updates.InternalUpdate.near_ids)
+inline void InternalUpdate::set_user_ids(int index, const std::string& value) {
+  _impl_.user_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline void InternalUpdate::set_near_ids(int index, std::string&& value) {
-  _impl_.near_ids_.Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:game.battlemon.updates.InternalUpdate.near_ids)
+inline void InternalUpdate::set_user_ids(int index, std::string&& value) {
+  _impl_.user_ids_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline void InternalUpdate::set_near_ids(int index, const char* value) {
+inline void InternalUpdate::set_user_ids(int index, const char* value) {
   GOOGLE_DCHECK(value != nullptr);
-  _impl_.near_ids_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:game.battlemon.updates.InternalUpdate.near_ids)
+  _impl_.user_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline void InternalUpdate::set_near_ids(int index, const char* value, size_t size) {
-  _impl_.near_ids_.Mutable(index)->assign(
+inline void InternalUpdate::set_user_ids(int index, const char* value, size_t size) {
+  _impl_.user_ids_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:game.battlemon.updates.InternalUpdate.near_ids)
+  // @@protoc_insertion_point(field_set_pointer:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline std::string* InternalUpdate::_internal_add_near_ids() {
-  return _impl_.near_ids_.Add();
+inline std::string* InternalUpdate::_internal_add_user_ids() {
+  return _impl_.user_ids_.Add();
 }
-inline void InternalUpdate::add_near_ids(const std::string& value) {
-  _impl_.near_ids_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:game.battlemon.updates.InternalUpdate.near_ids)
+inline void InternalUpdate::add_user_ids(const std::string& value) {
+  _impl_.user_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline void InternalUpdate::add_near_ids(std::string&& value) {
-  _impl_.near_ids_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:game.battlemon.updates.InternalUpdate.near_ids)
+inline void InternalUpdate::add_user_ids(std::string&& value) {
+  _impl_.user_ids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline void InternalUpdate::add_near_ids(const char* value) {
+inline void InternalUpdate::add_user_ids(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
-  _impl_.near_ids_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:game.battlemon.updates.InternalUpdate.near_ids)
+  _impl_.user_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:game.battlemon.updates.InternalUpdate.user_ids)
 }
-inline void InternalUpdate::add_near_ids(const char* value, size_t size) {
-  _impl_.near_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:game.battlemon.updates.InternalUpdate.near_ids)
+inline void InternalUpdate::add_user_ids(const char* value, size_t size) {
+  _impl_.user_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:game.battlemon.updates.InternalUpdate.user_ids)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-InternalUpdate::near_ids() const {
-  // @@protoc_insertion_point(field_list:game.battlemon.updates.InternalUpdate.near_ids)
-  return _impl_.near_ids_;
+InternalUpdate::user_ids() const {
+  // @@protoc_insertion_point(field_list:game.battlemon.updates.InternalUpdate.user_ids)
+  return _impl_.user_ids_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-InternalUpdate::mutable_near_ids() {
-  // @@protoc_insertion_point(field_mutable_list:game.battlemon.updates.InternalUpdate.near_ids)
-  return &_impl_.near_ids_;
+InternalUpdate::mutable_user_ids() {
+  // @@protoc_insertion_point(field_mutable_list:game.battlemon.updates.InternalUpdate.user_ids)
+  return &_impl_.user_ids_;
 }
 
 // string message = 2;
