@@ -37,8 +37,7 @@ void UWebSocket::CreateWebSocet(FString Address)
 		TMap<FString, FString> UHeaders;
 		if (!UCryptoClient::GetWalletAddress().IsEmpty())
 		{
-			UHeaders.Add("wallet_address", UCryptoClient::GetWalletAddress());
-		//	UHeaders.Add("sign", UCryptoClient::GetSing());
+			UHeaders.Add("jwt", UCryptoClient::GetSuiSession().session.jwt);
 		}
 		else
 		{
