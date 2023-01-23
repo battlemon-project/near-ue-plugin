@@ -8,6 +8,10 @@
 #include"auth.h"
 //#include "GrpcEnd.h"
 
+#include "Http.h"
+#include "Engine/World.h"
+#include "Engine/EngineTypes.h"
+
 
 #include "UObject/NoExportTypes.h"
 #include "CryptoClient.generated.h"
@@ -16,7 +20,6 @@ struct DataClient
 {
 	FUSuiSession session;
 	FString accountID;
-	//EdKeys keyPair;
 };
 
 /**
@@ -28,8 +31,12 @@ class NEARPLUGIN_API UCryptoClient : public UObject
 	GENERATED_BODY()
 		
 	static DataClient data;
+	virtual UWorld* GetWorld() const override;
+	void TimerAuth();
+	void ClearTimer();
 
-
+	int counter;
+	FTimerHandle AuthTimer;
 	//void SaveData();
 
 public:

@@ -110,12 +110,59 @@ void UCryptoClient::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 
 void UCryptoClient::SuiAuthorization(FString AccountID)
 {
-	FUSuiAuthRequest inp;
-	data.accountID = inp.client_id = AccountID;
-	AuthService->SuiAuth(TMap<FString, FString>(), inp, data.session);
+	counter = 0;
+	data.accountID = AccountID;
+	UKismetSystemLibrary::LaunchURL(FString("https://promo.battlemon.com/game?client_id=") + data.accountID);
+
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->GetTimerManager().SetTimer(AuthTimer, this, &UCryptoClient::TimerAuth, 1.0f, true, 1.0f);
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
 }
 
 void UCryptoClient::GuestAuthorization()
 {
 	AuthService->GuestAuth(TMap<FString, FString>(), FUGuestAuthRequest(), data.session.session);
+}
+
+void UCryptoClient::TimerAuth()
+{
+	if (!data.session.session.jwt.IsEmpty())
+	{
+		ClearTimer();
+		UE_LOG(LogTemp, Error, TEXT("success SuiAuth()!"));
+		return;
+	}
+	if (counter > 30)
+	{
+		ClearTimer();
+		UE_LOG(LogTemp, Error, TEXT("time is up SuiAuth(). call GuestAuthorization()!"));
+		GuestAuthorization();
+		return;
+	}
+	counter++;
+
+	FUSuiAuthRequest inp;
+	inp.client_id = data.accountID;
+	AuthService->SuiAuth(TMap<FString, FString>(), inp, data.session);
+}
+
+UWorld* UCryptoClient::GetWorld() const
+{
+	if (GetOuter()) return GetOuter()->GetWorld();
+	else return nullptr;
+}
+
+void UCryptoClient::ClearTimer()
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->GetTimerManager().ClearAllTimersForObject(this);
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("Clear timer World not exist!"));
 }
