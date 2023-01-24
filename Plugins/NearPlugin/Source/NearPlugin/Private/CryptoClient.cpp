@@ -117,7 +117,7 @@ void UCryptoClient::SuiAuthorization(FString AccountID)
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		World->GetTimerManager().SetTimer(AuthTimer, this, &UCryptoClient::TimerAuth, 1.0f, true, 1.0f);
+		World->GetTimerManager().SetTimer(AuthTimer, this, &UCryptoClient::TimerAuth, 1.0f, true, 5.0f);
 	}
 	else
 		UE_LOG(LogTemp, Error, TEXT("Set timer World not exist!"));
