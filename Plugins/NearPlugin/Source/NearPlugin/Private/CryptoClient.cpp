@@ -113,6 +113,7 @@ void UCryptoClient::loadAccountId(TArray<FString>& AccountsIds, bool& bIsValid)
 
 void UCryptoClient::SuiAuthorization(FString AccountID)
 {
+	data = DataClient();
 	counter = 0;
 	data.accountID = AccountID;
 	UKismetSystemLibrary::LaunchURL(FString("https://promo.battlemon.com/game?client_id=") + data.accountID);
@@ -128,6 +129,7 @@ void UCryptoClient::SuiAuthorization(FString AccountID)
 
 void UCryptoClient::GuestAuthorization()
 {
+	data = DataClient();
 	AuthService->GuestAuth(TMap<FString, FString>(), FUGuestAuthRequest(), data.session.session);
 }
 
