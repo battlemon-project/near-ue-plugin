@@ -89,9 +89,12 @@ void UCryptoClient::LoadData(FString AccountsId)
 */
 void UCryptoClient::saveAccountId()
 {
-	UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::CreateSaveGameObject(UNearAuthSaveGame::StaticClass()));
-	SaveGameInstance->AccountsIds.Insert(data.accountID, 0);
-	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "UCryptoClient", 0);
+	if (!data.session.wallet_address.IsEmpty())
+	{
+		UNearAuthSaveGame* SaveGameInstance = Cast<UNearAuthSaveGame>(UGameplayStatics::CreateSaveGameObject(UNearAuthSaveGame::StaticClass()));
+		SaveGameInstance->AccountsIds.Insert(data.accountID, 0);
+		UGameplayStatics::SaveGameToSlot(SaveGameInstance, "UCryptoClient", 0);
+	}
 	
 //	SaveData();
 }
@@ -133,13 +136,11 @@ void UCryptoClient::TimerAuth()
 	if (!data.session.session.jwt.IsEmpty())
 	{
 		ClearTimer();
-		UE_LOG(LogTemp, Error, TEXT("success SuiAuth()!"));
 		return;
 	}
 	if (counter > 30)
 	{
 		ClearTimer();
-		UE_LOG(LogTemp, Error, TEXT("time is up SuiAuth(). call GuestAuthorization()!"));
 		GuestAuthorization();
 		return;
 	}
