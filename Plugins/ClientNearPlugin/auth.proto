@@ -1,0 +1,25 @@
+syntax = "proto3";
+package game.battlemon.auth;
+
+option go_package = "services";
+
+service AuthService {
+    rpc SendCode(SendCodeRequest) returns (SendCodeResponse);
+    rpc VerifyCode(VerifyCodeRequest) returns (VerifyCodeResponse);
+}
+
+message SendCodeRequest {
+    string public_key = 1;
+}
+
+message SendCodeResponse {
+    string code = 1;
+}
+
+message VerifyCodeRequest {
+    string public_key = 1;
+    string sign = 2;// base64 encoded bytes
+}
+message VerifyCodeResponse {
+    string near_account_id = 1;
+}
